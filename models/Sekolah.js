@@ -9,11 +9,11 @@ const SekolahSchema = new mongoose.Schema(
       enum: {
         values: [
           'belum mula',
-          'enggan',
-          'tidak hadir',
+          'enggan', // xda pemeriksaan xda rawatan isi ada
+          'tidak hadir', // xda pemeriksaan xda rawatan isi xda
           'belum selesai',
-          'enggan rawatan',
-          'tidak hadir rawatan',
+          'enggan rawatan', // ada pemeriksaan xda rawatan
+          'tidak hadir rawatan', // ada pemeriksaan xda rawatan isi rawatan xda
           'selesai',
         ],
         message:
@@ -67,11 +67,10 @@ const SekolahSchema = new mongoose.Schema(
       type: String,
       default: 'MISSING TAHUN_TINGKATAN',
     },
-    // unreliable, not used
-    // kelasPelajar: {
-    //   type: String,
-    //   default: 'MISSING NAMA KELAS',
-    // },
+    kelasPelajar: {
+      type: String,
+      default: 'MISSING NAMA KELAS',
+    },
     jantina: {
       type: String,
       default: 'MISSING JANTINA',
@@ -94,7 +93,7 @@ const SekolahSchema = new mongoose.Schema(
     },
     warganegara: {
       type: String,
-      default: 'MISSING warganegara',
+      default: 'MISSING warganegara', // 'WARGANEGARA', 'MALAYSIA', 'BUKAN WARGANEGARA', 'PEMASTAUTIN SEMENTARA'
     },
     // pindah marker -----------------------------------------------------
     berpindah: {

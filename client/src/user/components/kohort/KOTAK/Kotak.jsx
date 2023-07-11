@@ -97,7 +97,7 @@ function KohortKotak() {
     }
   };
 
-  const keys = ['nama', 'nomborId', 'tahunTingkatan'];
+  const keys = ['nama', 'tahunTingkatan'];
 
   return (
     <>
@@ -195,8 +195,7 @@ function KohortKotak() {
                     {isPhilterShown && (
                       <div className='absolute top-6 left-2 w-36 text-left z-10 bg-kaunter4 text-kaunterWhite font-normal text-sm px-2 py-1 rounded-md whitespace-pre-wrap'>
                         <p className='text-center'>
-                          Carian Nama / Nombor Kad Pengenalan / Tahun /
-                          Tingkatan
+                          Carian Nama / Tahun / Tingkatan
                         </p>
                       </div>
                     )}
@@ -208,7 +207,7 @@ function KohortKotak() {
                     name='pilihanNama'
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                     id='pilihanNama'
-                    placeholder='CARIAN NAMA / NOMBOR KAD PENGENALAN / TAHUN / TINGKATAN'
+                    placeholder='CARIAN NAMA / TAHUN / TINGKATAN'
                     onChange={(e) => setPhilter(e.target.value.toLowerCase())}
                   />
                 </span>
@@ -313,21 +312,22 @@ function KohortKotak() {
                             className={`${
                               singlePersonKohortKotak.statusKotak ===
                               'selesai sesi 1'
-                                ? 'bg-user10 text-userWhite hover:shadow-none hover:bg-user11'
+                                ? 'bg-user10 text-userWhite hover:bg-user11'
                                 : singlePersonKohortKotak.statusKotak ===
                                   'selesai sesi 2'
-                                ? 'bg-user12 text-userWhite hover:shadow-none hover:bg-user13'
+                                ? 'bg-user12 text-userWhite hover:bg-user13'
                                 : singlePersonKohortKotak.statusKotak ===
                                   'selesai sesi 3'
-                                ? 'bg-user8 text-userWhite hover:bg-user14 hover:shadow-none'
-                                : 'bg-user6 text-userWhite hover:shadow-none hover:bg-user15'
-                            } shadow-md shadow-user3 rounded-md p-1 m-1 transition-all my-2`}
+                                ? 'bg-user8 text-userWhite hover:bg-user14'
+                                : 'bg-user6 text-userWhite hover:bg-user15'
+                            } shadow-sm rounded-md p-1 m-1 transition-all my-2`}
                           >
                             {singlePersonKohortKotak.statusKotak ===
                             'belum mula'
                               ? 'tambah KOTAK'
                               : singlePersonKohortKotak.statusKotak}
                           </Link>
+                          {/* keluar berapa lawatan kotak & lawatan apa */}
                           {singlePersonKohortKotak.createdByNameMdcMdtb.filter(
                             (singleLawatan) => {
                               if (
@@ -514,7 +514,12 @@ function KohortKotak() {
                           )}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                          {singlePersonKohortKotak.statusSelepas6Bulan}
+                          {singlePersonKohortKotak.statusSelepas6Bulan
+                            ? singlePersonKohortKotak.statusSelepas6Bulan ===
+                              'berhenti'
+                              ? 'BERHENTI MEROKOK'
+                              : 'TIDAK BERHENTI MEROKOK'
+                            : null}
                         </td>
                       </tr>
                     );

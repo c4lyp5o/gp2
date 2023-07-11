@@ -172,6 +172,56 @@ function UserSekolahList() {
       });
       console.log(error);
     } finally {
+      setModalMuatTurun(false);
+      setTimeout(() => {
+        setIsDownloading(false);
+      }, 10000);
+    }
+  };
+
+  const handleDownloadSenaraiSekolahRujukan = async (
+    kodSekolah,
+    namaSekolah,
+    sesiTakwimSekolah
+  ) => {
+    const id = toast.loading('Sedang mencetak senarai pelajar rujukan...');
+    try {
+      setIsDownloading(true);
+      const { data } = await axios.get(
+        `/api/v1/sekolah/muatturun/${kodSekolah}?rujukan=true`,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+          responseType: 'blob',
+        }
+      );
+      const currentTakwim = sesiTakwimSekolah.replace('/', '-');
+      const link = document.createElement('a');
+      link.download = `SENARAI PELAJAR RUJUKAN ${namaSekolah} - ${currentTakwim}.xlsx`;
+      link.href = URL.createObjectURL(new Blob([data]));
+      link.addEventListener('click', (e) => {
+        setTimeout(() => URL.revokeObjectURL(link.href), 100);
+      });
+      link.click();
+      toast.update(id, {
+        render: `Berjaya memuat turun senarai pelajar rujukan ${namaSekolah}`,
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } catch (error) {
+      toast.update(id, {
+        render: 'Harap maaf, senarai pelajar rujukan tidak dapat dimuat turun',
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      });
+      console.log(error);
+    } finally {
+      setModalMuatTurun(false);
       setTimeout(() => {
         setIsDownloading(false);
       }, 10000);
@@ -237,7 +287,12 @@ function UserSekolahList() {
       .filter((person) =>
         person.kodSekolah.includes(singleNamaSekolah.kodSekolah)
       )
-      .filter((person) => person.pemeriksaanSekolah).length;
+      .filter(
+        (person) =>
+          person.pemeriksaanSekolah &&
+          person.statusRawatan !== 'enggan' &&
+          person.statusRawatan !== 'tidak hadir'
+      ).length;
   }
 
   function kiraKesSelesai(allPersonSekolahs, singleNamaSekolah) {
@@ -293,6 +348,9 @@ function UserSekolahList() {
                   BIL. KES SELESAI
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
+                  PERATUS LIPUTAN
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
                   PERATUS SELESAI
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
@@ -319,7 +377,10 @@ function UserSekolahList() {
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
@@ -353,7 +414,47 @@ function UserSekolahList() {
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                    {userinfo.role === 'admin' && (
+                      <>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                      </>
+                    )}
+                  </td>
+                </tr>
+                <tr>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
@@ -417,6 +518,18 @@ function UserSekolahList() {
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           <span>
                             {percentageCalc(
+                              kiraKedatanganBaru(
+                                allPersonSekolahs,
+                                singleNamaSekolah
+                              ),
+                              kiraEnrolmen(allPersonSekolahs, singleNamaSekolah)
+                            )}
+                            %
+                          </span>
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                          <span>
+                            {percentageCalc(
                               kiraKesSelesai(
                                 allPersonSekolahs,
                                 singleNamaSekolah
@@ -444,7 +557,7 @@ function UserSekolahList() {
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           <Link to={`sekolah/${singleNamaSekolah.kodSekolah}`}>
-                            <button className='bg-user3 text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all'>
+                            <button className='bg-user10 text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all'>
                               PILIH
                             </button>
                           </Link>
@@ -646,6 +759,9 @@ function UserSekolahList() {
         {modalMuatTurun && (
           <UserModalMuatTurun
             handleDownloadSenaraiSekolah={handleDownloadSenaraiSekolah}
+            handleDownloadSenaraiSekolahRujukan={
+              handleDownloadSenaraiSekolahRujukan
+            }
             sekolahMuatTurun={sekolahMuatTurun}
             setModalMuatTurun={setModalMuatTurun}
             isDownloading={isDownloading}

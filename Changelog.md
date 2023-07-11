@@ -1,5 +1,59 @@
 # Changelog
 
+### Unreleased
+
+- Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
+
+### 6/7/2023 (v2.1.3)
+
+#### Added
+
+- Penambahan fungsi pelajar Tingkatan 1 hanya untuk sekolah Maktab Rendah Sains Mara
+- Sekolah KKI kini boleh ditetapkan di butang kemaskini Sekolah Rendah dan Sekolah Menengah di Modul Pentadbir bagi peringkat Pentadbir Daerah
+- Penambahan pilihan Tadika/Sekolah Menengah/Sekolah Menengah MMI/Semua Sekolah untuk reten PGS201, BEGIN, CPPC1 dan CPPC2
+- Penambahan sub program dalam pengemaskinian program komuniti dia Modul Pentadbir bagi peringkat Pentadbir Klinik
+- Enrolmen bagi taska dan tadika ditambah bagi Murid Berkeperluan Khas, Murid OA/Penan, jumlah Murid Enggan dan jumlah Murid Tidak Hadir ketika mengemaskini taska tadika di Modul Pentadbir bagi peringkat Pentadbir Klinik
+- Boleh mengemaskini jenis tadika/taska kerajaan di modul Pentadbir bagi peringkat Pentadbir Klinik
+- Sekolah MMI kini boleh ditetapkan di butang kemaskini Sekolah Menengah di Modul Pentadbir bagi peringkat Pentadbir Daerah
+- Pelajar sekolah rendah yang berada di sekolah yang telah ditetapkan sebagai sekolah Pendidikan Khas boleh mengisi bilangan SM di borang pemeriksaan sekolah
+
+#### Changed
+
+- Di borang pesakit umum soalan pesakit mempunyai gigi ya atau tidak, bagi pilihan tidak, dikhaskan hanya untuk belum pernah ada gigi atau _congenitally missing_
+- Pegawai media sosial boleh log masuk di peringkat Pentadbir Klinik bagi mengemaskini borang Media Sosial & _Followers_
+
+#### Fixed
+
+- Memperkemas dan membaikpulih reten semua reten-reten yang terdapat di semua peringkat Pentadbir
+- Beban tugas operator di sekolah turut dimasukkan ke dalam reten PG206 & PG207
+- Pembetulan bagi senarai nama pelajar yang dimuat turun di senarai sekolah kepada 'Tiada Maklumat' bagi pelajar yang tiada maklumat warganegara
+- Pengisian SM di borang pemeriksaan sekolah hanya untuk pelajar Darjah 4, 5, 6 dan KHAS sahaja bagi sekolah yang bukan sekolah Pendidikan Khas
+- Boleh mengisi bahagian promosi bagi borang rawatan pelajar sekolah sekiranya pelajar enggan atau tidak hadir
+
+### 12/6/2023 (v2.1.2)
+
+#### Added
+
+- Penambahan fungsi menambah, mengemaskini & menghapus pelajar sekolah
+- Pembukaan submodul kohort KOTAK
+
+#### Changed
+
+- Jumlah tampalan di borang pesakit umum tidak lagi mempunyai had maksima
+- Bilangan SM di borang pemeriksaan sekolah hanya ada untuk pelajar berumur 10 tahun dan keatas
+
+#### Fixed
+
+- Syarat penandaan kes selesai & kes selesai MMI diperbetulkan
+- Memperbetulkan lihat semula reten pemeriksaan sekolah bagi kebersihan mulut, status periodontium & risiko karies
+
+#### Removed
+
+- Pembuangan fungsi mengemaskini sekolah yang mengambil data pelajar terbaru daripada MOEIS
+- Pembuangan ruangan kedatangan taska / tadika di borang pesakit umum
+- Pembuangan kotak penandaan TPR di borang pesakit umum kerana pengiraan TPR dibuat semasa penjanaan reten
+- Pembuangan ruangan jumlah tampalan sementara desidus di borang pesakit umum
+
 ### 31/5/2023 (v2.1.1)
 
 #### Added

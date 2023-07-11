@@ -62,10 +62,10 @@ const ConfirmModal = ({ children, data }) => {
                   <p>
                     Pesakit
                     {data.engganTidakHadirRawatan === 'enggan-rawatan' ? (
-                      <span className='text-user9'>ENGGAN</span>
+                      <span className='text-user9'> ENGGAN </span>
                     ) : null}
                     {data.engganTidakHadirRawatan === 'tidak-hadir-rawatan' ? (
-                      <span className='text-user9'>TIDAK HADIR</span>
+                      <span className='text-user9'> TIDAK HADIR </span>
                     ) : null}
                     untuk rawatan
                   </p>
@@ -308,7 +308,11 @@ const ConfirmModal = ({ children, data }) => {
                           Penskaleran :
                         </p>
                         <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                          {data.penskaleranSekolahRawatan}
+                          {data.penskaleranSekolahRawatan === true ? (
+                            <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                          ) : (
+                            <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                          )}
                         </p>
                       </div>
                     ) : null}
@@ -416,42 +420,46 @@ const ConfirmModal = ({ children, data }) => {
                         </p>
                       </div>
                     ) : null}
-                    {data.rujukSekolahRawatan ? (
+                    {data.rujukRawatanOrtodontikSekolahRawatan ||
+                    data.rujukPakarPatologiSekolahRawatan ||
+                    data.rujukPakarRestoratifSekolahRawatan ||
+                    data.rujukPakarBedahMulutSekolahRawatan ||
+                    data.rujukPakarPediatrikSekolahRawatan ? (
                       <div className='grid grid-cols-[1fr_2fr]'>
                         <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                           Rujukan :
                         </p>
                         <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                          {data.rujukSekolahRawatan ? (
-                            <p>
-                              Rujuk:
-                              {data.rujukSekolahRawatan === true ? (
-                                <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                              ) : (
-                                <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                              )}
-                              untuk{' '}
-                              {data.rujukRawatanOrtodontikSekolahRawatan ===
-                              true
-                                ? 'Rujukan Ke Pakar ortodontik'
-                                : ''}
-                              {data.rujukPakarPatologiSekolahRawatan === true
-                                ? 'Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut'
-                                : ''}
-                              {data.rujukPakarRestoratifSekolahRawatan === true
-                                ? 'Rujukan Ke Pakar Restoratif'
-                                : ''}
-                              {data.rujukPakarBedahMulutSekolahRawatan === true
-                                ? 'Rujukan Ke Pakar Bedah Mulut Dan Maksilofasial'
-                                : ''}
-                              {data.rujukPakarPediatrikSekolahRawatan === true
-                                ? 'Rujukan Ke Pakar Pergigian Pediatrik'
-                                : ''}
-                              {data.rujukKlinikSekolahRawatan === true
-                                ? 'Rujukan Ke Klinik'
-                                : ''}
-                            </p>
-                          ) : null}
+                          <a>
+                            {data.rujukRawatanOrtodontikSekolahRawatan === true
+                              ? 'Rujukan Ke Pakar ortodontik'
+                              : ''}
+                          </a>
+                          <a>
+                            {data.rujukPakarPatologiSekolahRawatan === true
+                              ? 'Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut'
+                              : ''}
+                          </a>
+                          <a>
+                            {data.rujukPakarRestoratifSekolahRawatan === true
+                              ? 'Rujukan Ke Pakar Restoratif'
+                              : ''}
+                          </a>
+                          <a>
+                            {data.rujukPakarBedahMulutSekolahRawatan === true
+                              ? 'Rujukan Ke Pakar Bedah Mulut Dan Maksilofasial'
+                              : ''}
+                          </a>
+                          <a>
+                            {data.rujukPakarPediatrikSekolahRawatan === true
+                              ? 'Rujukan Ke Pakar Pergigian Pediatrik'
+                              : ''}
+                          </a>
+                          <a>
+                            {data.rujukKlinikSekolahRawatan === true
+                              ? 'Rujukan Ke Klinik'
+                              : ''}
+                          </a>
                         </p>
                       </div>
                     ) : null}
@@ -476,64 +484,64 @@ const ConfirmModal = ({ children, data }) => {
                         </p>
                       </div>
                     ) : null}
-                    {data.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan ||
-                    data.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan ||
-                    data.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan ||
-                    data.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan ? (
-                      <div className='grid grid-cols-[1fr_2fr]'>
-                        <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                          menerima aktiviti nasihat pergigian individu :
-                        </p>
-                        <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                          {data.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan ? (
-                            <p>
-                              nasihat berkaitan plak gigi
-                              {data.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan ===
-                              true ? (
-                                <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                              ) : (
-                                <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                              )}
-                            </p>
-                          ) : null}
-                          {data.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan ? (
-                            <p>
-                              nasihat berkaitan diet pemakanan
-                              {data.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan ===
-                              true ? (
-                                <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                              ) : (
-                                <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                              )}
-                            </p>
-                          ) : null}
-                          {data.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan ? (
-                            <p>
-                              nasihat berkaitan penjagaan kesihatan oral
-                              {data.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan ===
-                              true ? (
-                                <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                              ) : (
-                                <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                              )}
-                            </p>
-                          ) : null}
-                          {data.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan ? (
-                            <p>
-                              nasihat berkaitan kanser mulut
-                              {data.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan ===
-                              true ? (
-                                <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                              ) : (
-                                <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                              )}
-                            </p>
-                          ) : null}
-                        </p>
-                      </div>
-                    ) : null}
                   </div>
                 )}
+                {data.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan ||
+                data.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan ||
+                data.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan ||
+                data.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan ? (
+                  <div className='grid grid-cols-[1fr_2fr]'>
+                    <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                      menerima aktiviti nasihat pergigian individu :
+                    </p>
+                    <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                      {data.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan ? (
+                        <p>
+                          nasihat berkaitan plak gigi
+                          {data.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan ===
+                          true ? (
+                            <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                          ) : (
+                            <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                          )}
+                        </p>
+                      ) : null}
+                      {data.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan ? (
+                        <p>
+                          nasihat berkaitan diet pemakanan
+                          {data.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan ===
+                          true ? (
+                            <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                          ) : (
+                            <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                          )}
+                        </p>
+                      ) : null}
+                      {data.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan ? (
+                        <p>
+                          nasihat berkaitan penjagaan kesihatan oral
+                          {data.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan ===
+                          true ? (
+                            <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                          ) : (
+                            <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                          )}
+                        </p>
+                      ) : null}
+                      {data.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan ? (
+                        <p>
+                          nasihat berkaitan kanser mulut
+                          {data.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan ===
+                          true ? (
+                            <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                          ) : (
+                            <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                          )}
+                        </p>
+                      ) : null}
+                    </p>
+                  </div>
+                ) : null}
               </div>
               <div className='sticky grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10 bg-userWhite px-5 py-2'>
                 <button

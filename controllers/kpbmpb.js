@@ -164,16 +164,10 @@ const getAllKPBMPBForNegeriSekolah = async (req, res) => {
   // filter penggunaanKPBMPB mengikut jenisFasiliti pt & kodFasiliti pt
   penggunaanKPBMPBForPtSekolah = penggunaanKPBMPB.filter((pkm) => {
     if (pkm.tempatPenggunaan === 'sekolah-rendah') {
-      return (
-        pkm.SRbertanggungjawab === singlePersonSekolah.namaSekolah &&
-        pkm.kodSekolahBertanggungjawab === singlePersonSekolah.kodSekolah
-      );
+      return pkm.kodSekolahBertanggungjawab === singlePersonSekolah.kodSekolah;
     }
     if (pkm.tempatPenggunaan === 'sekolah-menengah') {
-      return (
-        pkm.SMbertanggungjawab === singlePersonSekolah.namaSekolah &&
-        pkm.kodSekolahBertanggungjawab === singlePersonSekolah.kodSekolah
-      );
+      return pkm.kodSekolahBertanggungjawab === singlePersonSekolah.kodSekolah;
     }
   });
 

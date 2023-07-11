@@ -16,14 +16,8 @@ function UserTambahKemaskiniPelajarSekolah({
   setReloadState,
   dataFromPilihanTahunTingkatan,
 }) {
-  const {
-    userToken,
-    userinfo,
-    reliefUserToken,
-    masterDatePicker,
-    toast,
-    dateToday,
-  } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, masterDatePicker, toast } =
+    useGlobalUserAppContext();
 
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
@@ -77,13 +71,6 @@ function UserTambahKemaskiniPelajarSekolah({
         sesiTakwimPelajar,
         tahunTingkatan,
       } = dataFromPilihanTahunTingkatan;
-
-      if (umur <= 4) {
-        toast.error('Umur pelajar tidak boleh kurang dari 4 tahun', {
-          autoClose: 3000,
-        });
-        return;
-      }
 
       await toast
         .promise(
@@ -147,7 +134,6 @@ function UserTambahKemaskiniPelajarSekolah({
           axios.patch(
             `/api/v1/sekolah/ubah/${kemaskiniPelajarId}`,
             {
-              nomborId,
               nama: nama.toUpperCase(),
               jantina,
               statusOku,
@@ -214,7 +200,9 @@ function UserTambahKemaskiniPelajarSekolah({
           setNomborId(data.singlePersonSekolah.nomborId);
           setStatusOku(data.singlePersonSekolah.statusOku);
           setTarikhLahir(data.singlePersonSekolah.tarikhLahir);
-          setTarikhLahirDP(new Date(data.singlePersonSekolah.tarikhLahir));
+          if (moment(data.singlePersonSekolah.tarikhLahir).isValid()) {
+            setTarikhLahirDP(new Date(data.singlePersonSekolah.tarikhLahir));
+          }
           setJantina(data.singlePersonSekolah.jantina);
           setUmur(data.singlePersonSekolah.umur);
           setKeturunan(data.singlePersonSekolah.keturunan);
@@ -259,18 +247,18 @@ function UserTambahKemaskiniPelajarSekolah({
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                   {singlePersonSekolah.nama}
                 </p>
-                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                {/* <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                   Nombor Kad Pengenalan
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                   {singlePersonSekolah.nomborId}
-                </p>
-                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                </p> */}
+                {/* <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                   Tarikh Lahir
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                   {moment(singlePersonSekolah.tarikhLahir).format('DD/MM/YYYY')}
-                </p>
+                </p> */}
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                   Jantina
                 </p>
@@ -290,10 +278,22 @@ function UserTambahKemaskiniPelajarSekolah({
                   {singlePersonSekolah.tahunTingkatan}
                 </p>
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  warganegara
+                  Keturunan
+                </p>
+                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                  {singlePersonSekolah.keturunan}
+                </p>
+                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                  Warganegara
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                   {singlePersonSekolah.warganegara}
+                </p>
+                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                  Status OKU
+                </p>
+                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                  {singlePersonSekolah.statusOku === ':' ? 'Bukan OKU' : 'OKU'}
                 </p>
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                   Status Rawatan
@@ -379,53 +379,54 @@ function UserTambahKemaskiniPelajarSekolah({
                     }}
                   >
                     <option value=''>Sila Pilih</option>
-                    <option value='MALAYSIA'>MALAYSIA</option>
+                    <option value='WARGANEGARA'>WARGANEGARA</option>
                     <option value='BUKAN WARGANEGARA'>BUKAN WARGANEGARA</option>
-                    {kemaskiniPelajarId && warganegara !== 'MALAYSIA' && (
-                      <option value={warganegara}>{warganegara}</option>
-                    )}
                   </select>
                 </div>
                 <div className='relative'>
-                  <label
-                    htmlFor='nomborId'
-                    className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
-                  >
-                    Nombor Kad Pengenalan
-                    <span className='font-semibold text-user6'>*</span>
-                  </label>
-                  {warganegara === 'MALAYSIA' ? (
-                    <input
-                      disabled={warganegara === '' ? true : false}
-                      type='text'
-                      name='nomborId'
-                      id='nomborId'
-                      placeholder=' '
-                      pattern='[0-9]+'
-                      title='12 numbers MyKad / MyKid'
-                      minLength={12}
-                      maxLength={12}
-                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                      value={nomborId}
-                      onChange={(e) => {
-                        setNomborId(e.target.value);
-                        // handleIc(e.target.value);
-                      }}
-                    />
-                  ) : (
-                    <input
-                      disabled={warganegara === '' ? true : false}
-                      type='text'
-                      name='nomborId'
-                      id='nomborId'
-                      placeholder=' '
-                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                      value={nomborId}
-                      onChange={(e) => {
-                        setNomborId(e.target.value);
-                      }}
-                    />
-                  )}
+                  {!kemaskiniPelajarId ? (
+                    <>
+                      <label
+                        htmlFor='nomborId'
+                        className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                      >
+                        Nombor Pengenalan Diri
+                        <span className='font-semibold text-user6'>*</span>
+                      </label>
+                      {warganegara === 'MALAYSIA' ? (
+                        <input
+                          disabled={warganegara === '' ? true : false}
+                          type='text'
+                          name='nomborId'
+                          id='nomborId'
+                          placeholder=' '
+                          pattern='[0-9]+'
+                          title='12 numbers MyKad / MyKid'
+                          minLength={12}
+                          maxLength={12}
+                          className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          value={nomborId}
+                          onChange={(e) => {
+                            setNomborId(e.target.value);
+                            // handleIc(e.target.value);
+                          }}
+                        />
+                      ) : (
+                        <input
+                          disabled={warganegara === '' ? true : false}
+                          type='text'
+                          name='nomborId'
+                          id='nomborId'
+                          placeholder=' '
+                          className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          value={nomborId}
+                          onChange={(e) => {
+                            setNomborId(e.target.value);
+                          }}
+                        />
+                      )}
+                    </>
+                  ) : null}
                 </div>
                 <div className='relative'>
                   <label
@@ -2311,8 +2312,8 @@ const keturunanList = [
   },
   {
     id: '1544',
-    value: 'TRINIDAD &amp; TOBAGO',
-    label: 'TRINIDAD &amp; TOBAGO',
+    value: 'TRINIDAD & TOBAGO',
+    label: 'TRINIDAD & TOBAGO',
   },
   {
     id: '1545',
@@ -2414,16 +2415,16 @@ const keturunanList = [
     value: 'TURKMENISTAN',
     label: 'TURKMENISTAN',
   },
-  {
-    id: '9999',
-    value: 'MAKLUMAT TIADA',
-    label: 'MAKLUMAT TIADA',
-  },
-  {
-    id: '9998',
-    value: 'MAKLUMAT TIDAK DIPEROLEHI',
-    label: 'MAKLUMAT TIDAK DIPEROLEHI',
-  },
+  // {
+  //   id: '9999',
+  //   value: 'MAKLUMAT TIADA',
+  //   label: 'MAKLUMAT TIADA',
+  // },
+  // {
+  //   id: '9998',
+  //   value: 'MAKLUMAT TIDAK DIPEROLEHI',
+  //   label: 'MAKLUMAT TIDAK DIPEROLEHI',
+  // },
 ];
 
 export default UserTambahKemaskiniPelajarSekolah;

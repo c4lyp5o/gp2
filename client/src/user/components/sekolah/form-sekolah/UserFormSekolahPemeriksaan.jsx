@@ -26,6 +26,7 @@ function UserFormSekolahPemeriksaan() {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
+  const [fasilitiSekolah, setFasilitiSekolah] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   //confirm data
@@ -35,6 +36,9 @@ function UserFormSekolahPemeriksaan() {
   const [allUsedKPBMPB, setAllUsedKPBMPB] = useState([]);
   const [menggunakanKPBMPB, setMenggunakanKPBMPB] = useState('');
   const [penggunaanKPBMPB, setPenggunaanKPBMPB] = useState('');
+
+  //condition bila takde gigi
+  const [condTiadaGigi, setCondTiadaGigi] = useState(false);
 
   const createdByUsername = username;
   const [engganTidakHadirPemeriksaan, setEngganTidakHadirPemeriksaan] =
@@ -46,9 +50,6 @@ function UserFormSekolahPemeriksaan() {
   const [tidakHadirPemeriksaan, setTidakHadirPemeriksaan] = useState('');
   const [padamPemeriksaan, setPadamPemeriksaan] = useState(false);
   const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
-  const [statikBergerak, setStatikBergerak] = useState('');
-  const [kpBergerak, setKpBergerak] = useState(false);
-  const [plateNo, setPlateNo] = useState('');
   const [yaTidakSediaAdaStatusDenture, setYaTidakSediaAdaStatusDenture] =
     useState('');
   const [separaPenuhAtasSediaAdaDenture, setSeparaPenuhAtasSediaAdaDenture] =
@@ -76,6 +77,7 @@ function UserFormSekolahPemeriksaan() {
   const [dAdaGigiDesidus, setDAdaGigiDesidus] = useState(0);
   const [fAdaGigiDesidus, setFAdaGigiDesidus] = useState(0);
   const [xAdaGigiDesidus, setXAdaGigiDesidus] = useState(0);
+  const [smAdaGigiDesidus, setSmAdaGigiDesidus] = useState(0);
   const [sumDMFXDesidus, setSumDMFXDesidus] = useState(0);
   const [adaKekal, setAdaKekal] = useState(false);
   const [dAdaGigiKekal, setDAdaGigiKekal] = useState(0);
@@ -225,10 +227,7 @@ function UserFormSekolahPemeriksaan() {
 
   const TarikhPemeriksaanSemasa = () => {
     let isDisabled = false;
-    if (
-      singlePersonSekolah.statusRawatan === 'selesai' ||
-      singlePersonSekolah.statusRawatan === 'belum selesai'
-    ) {
+    if (singlePersonSekolah.statusRawatan !== 'belum mula') {
       isDisabled = true;
     }
     return masterDatePicker({
@@ -259,6 +258,11 @@ function UserFormSekolahPemeriksaan() {
     ) {
       setPenandaRisikoKaries('tinggi');
     } else if (
+      parseInt(jumlahFaktorRisiko) >= 1 &&
+      (parseInt(xAdaGigiDesidus) >= 1 || parseInt(xAdaGigiKekal) >= 1)
+    ) {
+      setPenandaRisikoKaries('tinggi');
+    } else if (
       parseInt(jumlahFaktorRisiko) <= 2 &&
       parseInt(eAdaGigiKekal) >= 1
     ) {
@@ -271,6 +275,11 @@ function UserFormSekolahPemeriksaan() {
     } else if (
       parseInt(jumlahFaktorRisiko) === 0 &&
       (parseInt(dAdaGigiDesidus) >= 1 || parseInt(dAdaGigiKekal) >= 1)
+    ) {
+      setPenandaRisikoKaries('sederhana');
+    } else if (
+      parseInt(jumlahFaktorRisiko) === 0 &&
+      (parseInt(xAdaGigiDesidus) >= 1 || parseInt(xAdaGigiKekal) >= 1)
     ) {
       setPenandaRisikoKaries('sederhana');
     } else if (
@@ -419,10 +428,6 @@ function UserFormSekolahPemeriksaan() {
 
   //reset value
   useEffect(() => {
-    if (statikBergerak === 'klinik-pergigian-statik' || statikBergerak === '') {
-      setKpBergerak(false);
-      setPlateNo('');
-    }
     if (yaTidakSediaAdaStatusDenture === 'tidak-sedia-ada-status-denture') {
       setSeparaPenuhAtasSediaAdaDenture('');
       setSeparaPenuhBawahSediaAdaDenture('');
@@ -444,20 +449,42 @@ function UserFormSekolahPemeriksaan() {
       setXAdaGigiKekal(0);
     }
   }, [
-    statikBergerak,
     yaTidakSediaAdaStatusDenture,
     yaTidakPerluStatusDenture,
     adaDesidus,
     adaKekal,
   ]);
 
-  useEffect(() => {
-    if (melaksanakanSaringanMerokok === 'tidak-melaksanakan-saringan-merokok') {
-      setStatusM('');
-      setMenerimaNasihatRingkas('');
-      setBersediaDirujuk('');
-    }
-  }, [melaksanakanSaringanMerokok]);
+  //cond bila tidak ada gigi and reset value
+  // useEffect(() => {
+  //   if (yaTidakPesakitMempunyaiGigi === 'tidak-pesakit-mempunyai-gigi') {
+  //     setCondTiadaGigi(true);
+  //     setAdaKekal(false);
+  //     setDAdaGigiKekal(0);
+  //     setClassID(0);
+  //     setClassIID(0);
+  //     setMAdaGigiKekal(0);
+  //     setFAdaGigiKekal(0);
+  //     setClassIF(0);
+  //     setClassIIF(0);
+  //     setXAdaGigiKekal(0);
+  //     setEAdaGigiKekal(0);
+  //     setAdaDesidus(false);
+  //     setDAdaGigiDesidus(0);
+  //     setSmAdaGigiDesidus(0);
+  //     setFAdaGigiDesidus(0);
+  //     setXAdaGigiDesidus(0);
+  //   }
+  //   if (yaTidakPesakitMempunyaiGigi === 'ya-pesakit-mempunyai-gigi') {
+  //     setCondTiadaGigi(false);
+  //     setKebersihanMulutOralHygiene('');
+  //     setStatusPeriodontium('');
+  //     setSkorGisMulutOralHygiene('');
+  //     setSkorBpeOralHygiene('');
+  //     setPerluPenskaleranOralHygiene(false);
+  //     setJumlahFaktorRisiko('');
+  //   }
+  // }, [yaTidakPesakitMempunyaiGigi]);
 
   useEffect(() => {
     if (statusPeriodontium === 'gis-status-periodontium') {
@@ -467,18 +494,7 @@ function UserFormSekolahPemeriksaan() {
     }
   }, [statusPeriodontium]);
 
-  //reset modal
-  useEffect(() => {
-    if (engganTidakHadirPemeriksaan === 'tidak-hadir-pemeriksaan') {
-      setEngganPemeriksaan('');
-      setKebenaranPemeriksaan('');
-    }
-    if (engganTidakHadirPemeriksaan === 'enggan-pemeriksaan') {
-      setTidakHadirPemeriksaan('');
-    }
-  }, [engganTidakHadirPemeriksaan]);
-
-  // pull kpbmpb data for whole negeri that is used for this kp
+  // pull kpbmpb data for whole negeri that is used for this sekolah
   useEffect(() => {
     const getAllKPBMPBForNegeri = async () => {
       try {
@@ -493,12 +509,9 @@ function UserFormSekolahPemeriksaan() {
           }
         );
         setAllUsedKPBMPB(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
-        console.log(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
+        // console.log(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-getallusedkpbmpb'
-        // );
       }
     };
     getAllKPBMPBForNegeri();
@@ -520,6 +533,7 @@ function UserFormSekolahPemeriksaan() {
           }
         );
         setSinglePersonSekolah(data.personSekolahWithPopulate);
+        setFasilitiSekolah(data.fasilitiSekolah);
 
         // map to form if pemeriksaanSekolahId exist
         if (pemeriksaanSekolahId !== 'tambah-pemeriksaan') {
@@ -548,13 +562,6 @@ function UserFormSekolahPemeriksaan() {
           setPenggunaanKPBMPB(
             data.personSekolahWithPopulate.pemeriksaanSekolah.penggunaanKPBMPB
           );
-          setStatikBergerak(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.statikBergerak
-          );
-          setKpBergerak(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.kpBergerak
-          );
-          setPlateNo(data.personSekolahWithPopulate.pemeriksaanSekolah.plateNo);
           setYaTidakSediaAdaStatusDenture(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .yaTidakSediaAdaStatusDenture
@@ -616,6 +623,9 @@ function UserFormSekolahPemeriksaan() {
           );
           setXAdaGigiDesidus(
             data.personSekolahWithPopulate.pemeriksaanSekolah.xAdaGigiDesidus
+          );
+          setSmAdaGigiDesidus(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.smAdaGigiDesidus
           );
           setAdaKekal(
             data.personSekolahWithPopulate.pemeriksaanSekolah.adaKekal
@@ -832,6 +842,146 @@ function UserFormSekolahPemeriksaan() {
     fetchSinglePersonSekolah();
   }, []);
 
+  const checkTPRKesSelesai = async (e) => {
+    try {
+      const dAdaGigiDesidusValue = parseInt(dAdaGigiDesidus);
+      const smAdaGigiDesidusValue = parseInt(smAdaGigiDesidus);
+      const dAdaGigiKekalValue = parseInt(dAdaGigiKekal);
+      const xAdaGigiDesidusValue = parseInt(xAdaGigiDesidus);
+      const xAdaGigiKekalValue = parseInt(xAdaGigiKekal);
+      const skorGisMulutOralHygieneValue = parseInt(skorGisMulutOralHygiene);
+      const skorBpeOralHygieneValue = parseInt(skorBpeOralHygiene);
+
+      if (dAdaGigiDesidusValue !== smAdaGigiDesidusValue) {
+        setKesSelesai('tidak-kes-selesai');
+        // make two showtoast if umur >= 10 and umur < 10
+        if (
+          singlePersonSekolah.tahunTingkatan === 'D4' ||
+          singlePersonSekolah.tahunTingkatan === 'D5' ||
+          singlePersonSekolah.tahunTingkatan === 'D6' ||
+          singlePersonSekolah.tahunTingkatan === 'KHAS' ||
+          (fasilitiSekolah.jenisFasiliti === 'sekolah-rendah' &&
+            fasilitiSekolah.sekolahKki === 'ya-sekolah-kki')
+        ) {
+          await showToast(
+            'Kes tidak selesai kerana d gigi desidus tidak sama sm (space maintainer)'
+          );
+        } else {
+          await showToast('Kes tidak selesai kerana mempunyai d gigi desidus');
+        }
+        return;
+      }
+
+      if (
+        dAdaGigiKekalValue > 0 ||
+        xAdaGigiDesidusValue > 0 ||
+        xAdaGigiKekalValue > 0
+      ) {
+        setKesSelesai('tidak-kes-selesai');
+        await showToast(
+          'Kes tidak selesai kerana ada gigi yang tidak sepatutnya'
+        );
+        return;
+      }
+
+      if (
+        skorGisMulutOralHygieneValue === 1 ||
+        skorGisMulutOralHygieneValue === 3 ||
+        skorBpeOralHygieneValue > 0
+      ) {
+        setKesSelesai('tidak-kes-selesai');
+        await showToast(
+          'Kes tidak selesai kerana skor GIS atau BPE tidak memenuhi syarat'
+        );
+        return;
+      }
+
+      setKesSelesai(e);
+      setConfirmData({
+        ...confirmData,
+        kesSelesai: e.target.value,
+      });
+    } catch (error) {
+      console.error('Error occurred during validation:', error);
+    }
+  };
+
+  const checkTPRKesSelesaiMmi = async (e) => {
+    try {
+      const dAdaGigiDesidusValue = parseInt(dAdaGigiDesidus);
+      const smAdaGigiDesidusValue = parseInt(smAdaGigiDesidus);
+      const dAdaGigiKekalValue = parseInt(dAdaGigiKekal);
+      const xAdaGigiDesidusValue = parseInt(xAdaGigiDesidus);
+      const xAdaGigiKekalValue = parseInt(xAdaGigiKekal);
+      const skorGisMulutOralHygieneValue = parseInt(skorGisMulutOralHygiene);
+      const skorBpeOralHygieneValue = parseInt(skorBpeOralHygiene);
+      const eAdaGigiKekalValue = parseInt(eAdaGigiKekal);
+
+      if (dAdaGigiDesidusValue !== smAdaGigiDesidusValue) {
+        setKesSelesaiIcdas('tidak-kes-selesai-icdas');
+        // make two showtoast if umur >= 10 and umur < 10
+        if (
+          singlePersonSekolah.tahunTingkatan === 'D4' ||
+          singlePersonSekolah.tahunTingkatan === 'D5' ||
+          singlePersonSekolah.tahunTingkatan === 'D6' ||
+          singlePersonSekolah.tahunTingkatan === 'KHAS' ||
+          (fasilitiSekolah.jenisFasiliti === 'sekolah-rendah' &&
+            fasilitiSekolah.sekolahKki === 'ya-sekolah-kki')
+        ) {
+          await showToast(
+            'Kes tidak selesai MMI kerana d gigi desidus tidak sama sm (space maintainer)'
+          );
+        } else {
+          await showToast(
+            'Kes tidak selesai MMI kerana mempunyai d gigi desidus'
+          );
+        }
+        return;
+      }
+
+      if (
+        dAdaGigiKekalValue > 0 ||
+        xAdaGigiDesidusValue > 0 ||
+        xAdaGigiKekalValue > 0 ||
+        eAdaGigiKekalValue > 0
+      ) {
+        setKesSelesaiIcdas('tidak-kes-selesai-icdas');
+        await showToast(
+          'Kes tidak selesai MMI kerana ada gigi yang tidak sepatutnya'
+        );
+        return;
+      }
+
+      if (
+        skorGisMulutOralHygieneValue === 1 ||
+        skorGisMulutOralHygieneValue === 3 ||
+        skorBpeOralHygieneValue > 0
+      ) {
+        setKesSelesaiIcdas('tidak-kes-selesai-icdas');
+        await showToast(
+          'Kes tidak selesai MMI kerana skor GIS atau BPE tidak memenuhi syarat'
+        );
+        return;
+      }
+
+      setKesSelesaiIcdas(e);
+      setConfirmData({
+        ...confirmData,
+        kesSelesaiIcdas: e.target.value,
+      });
+    } catch (error) {
+      console.error('Error occurred during validation:', error);
+    }
+  };
+
+  const showToast = (message) => {
+    return new Promise((resolve) => {
+      toast.info(message, {
+        onHidden: resolve,
+      });
+    });
+  };
+
   let isDisabled = false;
   if (singlePersonSekolah.statusRawatan !== 'belum mula') {
     isDisabled = true;
@@ -897,9 +1047,27 @@ function UserFormSekolahPemeriksaan() {
       );
       return;
     }
-    if (sumGigiKekalE !== eAdaGigiKekal) {
+    if ((dAdaGigiKekal === 0) & (sumGigiKekal > 0)) {
       toast.error(
-        'Jumlah tampalan diperlukan gigi kekal ICDAS tidak sama dengan jumlah E gigi kekal',
+        'Jumlah D gigi kekal tidak boleh 0 jika jumlah tampalan diperlukan gigi kekal pencegahan lebih dari 0',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
+    if (eAdaGigiKekal > sumGigiKekalE) {
+      toast.error(
+        'Jumlah tampalan diperlukan gigi kekal pencegahan kurang dengan jumlah E gigi kekal',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
+    if ((eAdaGigiKekal === 0) & (sumGigiKekalE > 0)) {
+      toast.error(
+        'Jumlah E gigi kekal tidak boleh 0 jika jumlah tampalan diperlukan gigi kekal pencegahan lebih dari 0',
         {
           autoClose: 3000,
         }
@@ -962,9 +1130,6 @@ function UserFormSekolahPemeriksaan() {
               tarikhPemeriksaanSemasa,
               menggunakanKPBMPB,
               penggunaanKPBMPB,
-              statikBergerak,
-              kpBergerak,
-              plateNo,
               yaTidakSediaAdaStatusDenture,
               separaPenuhAtasSediaAdaDenture,
               separaPenuhBawahSediaAdaDenture,
@@ -982,6 +1147,7 @@ function UserFormSekolahPemeriksaan() {
               dAdaGigiDesidus,
               fAdaGigiDesidus,
               xAdaGigiDesidus,
+              smAdaGigiDesidus,
               adaKekal,
               dAdaGigiKekal,
               mAdaGigiKekal,
@@ -1050,10 +1216,18 @@ function UserFormSekolahPemeriksaan() {
           {
             pending: 'Menghantar...',
             success: 'Pemeriksaan pelajar berjaya dihantar',
-            error: 'Pemeriksaan pelajar gagal dihantar',
+            error: {
+              render({ data }) {
+                if (data.response.status === 409) {
+                  return data.response.data.msg;
+                } else {
+                  return 'Pemeriksaan pelajar gagal dihantar';
+                }
+              },
+            },
           },
           {
-            autoClose: 2000,
+            autoClose: 5000,
           }
         )
         .then(() => {
@@ -1065,55 +1239,19 @@ function UserFormSekolahPemeriksaan() {
             window.open('', '_self');
             window.close();
           }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
+            autoClose: 4000,
+          });
+          setTimeout(() => {
+            window.opener = null;
+            window.open('', '_self');
+            window.close();
+          }, 5000);
         });
     }
-
-    //salah reten buat dekat form lain pulak
-    // if (salahReten === 'pemeriksaan-salah') {
-    //   let mdcMdtbNumSalah = '';
-    //   if (!userinfo.mdtbNumber) {
-    //     mdcMdtbNumSalah = userinfo.mdcNumber;
-    //   }
-    //   if (!userinfo.mdcNumber) {
-    //     mdcMdtbNumSalah = userinfo.mdtbNumber;
-    //   }
-    //   await toast
-    //     .promise(
-    //       axios.patch(
-    //         `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
-    //         {
-    //           createdByUsernameSalah: userinfo.nama,
-    //           createdByMdcMdtbSalah: mdcMdtbNumSalah,
-    //           dataRetenSalah,
-    //         },
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${
-    //               reliefUserToken ? reliefUserToken : userToken
-    //             }`,
-    //           },
-    //         }
-    //       ),
-    //       {
-    //         pending: 'Mengemaskini...',
-    //         success: 'Pemeriksaan pelajar berjaya dikemaskini',
-    //         error: 'Pemeriksaan pelajar gagal dikemaskini',
-    //       },
-    //       {
-    //         autoClose: 2000,
-    //       }
-    //     )
-    //     .then(() => {
-    //       toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
-    //         autoClose: 2000,
-    //       });
-    //       setTimeout(() => {
-    //         window.opener = null;
-    //         window.open('', '_self');
-    //         window.close();
-    //       }, 3000);
-    //     });
-    // }
   };
 
   return (
@@ -1138,24 +1276,28 @@ function UserFormSekolahPemeriksaan() {
                         <h2 className='font-semibold'>NAMA :</h2>
                         <p className='ml-1'>{singlePersonSekolah.nama}</p>
                       </div>
-                      <div className='text-xs flex flex-row '>
+                      {/* <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>NO IC :</h2>
                         <p className='ml-1'>{singlePersonSekolah.nomborId}</p>
-                      </div>
+                      </div> */}
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>JANTINA :</h2>
                         <p className='ml-1'>{singlePersonSekolah.jantina}</p>
                       </div>
-                      <div className='text-xs flex flex-row '>
+                      {/* <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>TARIKH LAHIR :</h2>
                         <p className='ml-1'>
                           {singlePersonSekolah.tarikhLahir}
                         </p>
+                      </div> */}
+                      <div className='text-xs flex flex-row '>
+                        <h2 className='font-semibold'>KETURUNAN :</h2>
+                        <p className='ml-1'>{singlePersonSekolah.keturunan}</p>
                       </div>
                       <div className='text-xs flex flex-row '>
-                        <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
+                        <h2 className='font-semibold'>WARGANEGARA :</h2>
                         <p className='ml-1'>
-                          {singlePersonSekolah.kumpulanEtnik}
+                          {singlePersonSekolah.warganegara}
                         </p>
                       </div>
                     </div>
@@ -1163,6 +1305,10 @@ function UserFormSekolahPemeriksaan() {
                   <div className='flex flex-row pl-5'>
                     <h2 className='font-semibold text-xs'>NAMA :</h2>
                     <p className='ml-1 text-xs'>{singlePersonSekolah.nama}</p>
+                  </div>
+                  <div className='flex flex-row pl-5'>
+                    <h2 className='font-semibold text-xs'>UMUR :</h2>
+                    <p className='ml-1 text-xs'>{singlePersonSekolah.umur}</p>
                   </div>
                 </div>
               )}
@@ -1173,6 +1319,14 @@ function UserFormSekolahPemeriksaan() {
                       <h2 className='font-semibold text-xs'>NAMA SEKOLAH :</h2>
                       <p className='ml-1 text-xs'>
                         {singlePersonSekolah.namaSekolah}
+                      </p>
+                    </div>
+                    <div className='flex flex-row pl-5'>
+                      <h2 className='font-semibold text-xs'>STATUS OKU :</h2>
+                      <p className='ml-1 text-xs'>
+                        {singlePersonSekolah.statusOku === ':'
+                          ? 'BUKAN OKU'
+                          : 'OKU'}
                       </p>
                     </div>
                   </div>
@@ -1233,12 +1387,23 @@ function UserFormSekolahPemeriksaan() {
                         >
                           Enggan
                         </label>
+                        <FaInfoCircle
+                          title='Abaikan jika pesakit dapat dibuat pemeriksaan'
+                          className='text-lg m-1'
+                        />
                         {!isDisabled &&
                         engganTidakHadirPemeriksaan === 'enggan-pemeriksaan' ? (
                           <span
                             className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
                             onClick={() => {
                               setPadamPemeriksaan(true);
+                              setEngganPemeriksaan('');
+                              setKebenaranPemeriksaan('');
+                              setConfirmData({
+                                ...confirmData,
+                                engganPemeriksaan: '',
+                                kebenaranPemeriksaan: '',
+                              });
                             }}
                           >
                             X
@@ -1281,6 +1446,13 @@ function UserFormSekolahPemeriksaan() {
                             className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
                             onClick={() => {
                               setPadamPemeriksaan(true);
+                              setTidakHadirPemeriksaan('');
+                              setKebenaranPemeriksaan('');
+                              setConfirmData({
+                                ...confirmData,
+                                tidakHadirPemeriksaan: '',
+                                kebenaranPemeriksaan: '',
+                              });
                             }}
                           >
                             X
@@ -1288,6 +1460,7 @@ function UserFormSekolahPemeriksaan() {
                         ) : null}
                       </div>
                       <div>
+                        {/* modal enggan */}
                         <div
                           className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-7 lg:inset-y-28 bg-userWhite rounded-md pb-5 ${
                             modalEnggan ? 'block' : 'hidden'
@@ -1296,13 +1469,28 @@ function UserFormSekolahPemeriksaan() {
                           <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
                             PERHATIAN
                           </h5>
-                          <h1 className='font-bold text-xl'>ENGGAN</h1>
+                          <span
+                            className='absolute top-0.5 right-2 px-2 py-1 text-userBlack font-bold text-xs rounded-full cursor-pointer hover:bg-user2 hover:text-userWhite'
+                            onClick={() => {
+                              setModalEnggan(false);
+                              setEngganTidakHadirPemeriksaan('');
+                              setEngganPemeriksaan('');
+                              setConfirmData({
+                                ...confirmData,
+                                engganTidakHadirPemeriksaan: '',
+                                engganPemeriksaan: '',
+                              });
+                            }}
+                          >
+                            X
+                          </span>
+                          <h1 className='font-bold text-xl mt-4'>ENGGAN</h1>
                           <p>
                             Murid yang <strong>Enggan</strong> Pemeriksaan
                             sehingga hari terakhir Pasukan Pergigian berada di
                             Sekolah
                           </p>
-                          <div className='flex flex-row justify-center mt-2'>
+                          <div className='grid grid-cols-2 gap-9 justify-center mt-2 px-36'>
                             <div>
                               <input
                                 type='radio'
@@ -1325,41 +1513,32 @@ function UserFormSekolahPemeriksaan() {
                               />
                               <label
                                 htmlFor='ya-enggan-pemeriksaan'
-                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                  engganPemeriksaan === 'ya-enggan-pemeriksaan'
+                                    ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                    : ''
+                                }`}
                               >
                                 Ya
                               </label>
                             </div>
-                            <div>
-                              <input
-                                type='radio'
-                                name='ya-tidak-enggan-pemeriksaan'
-                                id='tidak-enggan-pemeriksaan'
-                                value='tidak-enggan-pemeriksaan'
-                                className='peer hidden'
-                                checked={
-                                  engganPemeriksaan ===
-                                  'tidak-enggan-pemeriksaan'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setEngganPemeriksaan(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    engganPemeriksaan: e.target.value,
-                                  });
+                            {/* <div>
+                              <span
+                                className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 `}
+                                onClick={() => {
                                   setModalEnggan(false);
                                   setEngganTidakHadirPemeriksaan('');
+                                  setEngganPemeriksaan('');
+                                  setConfirmData({
+                                    ...confirmData,
+                                    engganTidakHadirPemeriksaan: '',
+                                    engganPemeriksaan: '',
+                                  });
                                 }}
-                              />
-                              <label
-                                htmlFor='tidak-enggan-pemeriksaan'
-                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
                               >
                                 Tidak
-                              </label>
-                            </div>
+                              </span>
+                            </div> */}
                           </div>
                           {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
                             <p className='mt-2'>
@@ -1368,7 +1547,7 @@ function UserFormSekolahPemeriksaan() {
                             </p>
                           ) : null}
                           {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
-                            <div className='flex flex-row justify-center mt-2'>
+                            <div className='grid grid-cols-2 gap-9 justify-center mt-2 px-36'>
                               <div>
                                 <input
                                   type='radio'
@@ -1393,7 +1572,12 @@ function UserFormSekolahPemeriksaan() {
                                 />
                                 <label
                                   htmlFor='ya-kebenaran-pemeriksaan'
-                                  className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                  className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                    kebenaranPemeriksaan ===
+                                    'ya-kebenaran-pemeriksaan'
+                                      ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                      : ''
+                                  }`}
                                 >
                                   Ya
                                 </label>
@@ -1422,7 +1606,12 @@ function UserFormSekolahPemeriksaan() {
                                 />
                                 <label
                                   htmlFor='tidak-kebenaran-pemeriksaan'
-                                  className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                  className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                    kebenaranPemeriksaan ===
+                                    'tidak-kebenaran-pemeriksaan'
+                                      ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                      : ''
+                                  }`}
                                 >
                                   Tidak
                                 </label>
@@ -1430,6 +1619,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                           ) : null}
                         </div>
+                        {/* modal tidak hadir */}
                         <div
                           className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-28 bg-userWhite rounded-md pb-5 ${
                             modalTidakHadir ? 'block' : 'hidden'
@@ -1438,12 +1628,27 @@ function UserFormSekolahPemeriksaan() {
                           <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
                             PERHATIAN
                           </h5>
+                          <span
+                            className='absolute top-0.5 right-2 px-2 py-1 text-userBlack font-bold text-xs rounded-full cursor-pointer hover:bg-user2 hover:text-userWhite'
+                            onClick={() => {
+                              setModalTidakHadir(false);
+                              setEngganTidakHadirPemeriksaan('');
+                              setTidakHadirPemeriksaan('');
+                              setConfirmData({
+                                ...confirmData,
+                                engganTidakHadirPemeriksaan: '',
+                                tidakHadirPemeriksaan: '',
+                              });
+                            }}
+                          >
+                            X
+                          </span>
                           <h1 className='font-bold text-xl'>TIDAK HADIR</h1>
                           <p>
                             Murid yang TIDAK HADIR Pemeriksaan sehingga hari
                             terakhir Pasukan Pergigian berada di Sekolah
                           </p>
-                          <div className='flex flex-row justify-center mt-2'>
+                          <div className='grid grid-cols-2 gap-9 justify-center mt-2 px-36'>
                             <div>
                               <input
                                 type='radio'
@@ -1463,47 +1668,118 @@ function UserFormSekolahPemeriksaan() {
                                     ...confirmData,
                                     tidakHadirPemeriksaan: e.target.value,
                                   });
-                                  setModalTidakHadir(false);
                                 }}
                               />
                               <label
                                 htmlFor='ya-kehadiran-pemeriksaan'
-                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                  tidakHadirPemeriksaan ===
+                                  'ya-kehadiran-pemeriksaan'
+                                    ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                    : ''
+                                }`}
                               >
                                 Ya
                               </label>
                             </div>
-                            <div>
-                              <input
-                                type='radio'
-                                name='ya-tidak-kehadiran-pemeriksaan'
-                                id='tidak-kehadiran-pemeriksaan'
-                                value='tidak-kehadiran-pemeriksaan'
-                                className='peer hidden'
-                                checked={
-                                  tidakHadirPemeriksaan ===
-                                  'tidak-kehadiran-pemeriksaan'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setTidakHadirPemeriksaan(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    tidakHadirPemeriksaan: e.target.value,
-                                  });
+                            {/* <div>
+                              <span
+                                className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 `}
+                                onClick={() => {
                                   setModalTidakHadir(false);
                                   setEngganTidakHadirPemeriksaan('');
+                                  setTidakHadirPemeriksaan('');
+                                  setConfirmData({
+                                    ...confirmData,
+                                    engganTidakHadirPemeriksaan: '',
+                                    tidakHadirPemeriksaan: '',
+                                  });
                                 }}
-                              />
-                              <label
-                                htmlFor='tidak-kehadiran-pemeriksaan'
-                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
                               >
                                 Tidak
-                              </label>
-                            </div>
+                              </span>
+                            </div> */}
                           </div>
+                          {tidakHadirPemeriksaan ===
+                          'ya-kehadiran-pemeriksaan' ? (
+                            <p className='mt-2'>
+                              Adakah murid <strong>DIBERI</strong> kebenaran
+                              rawatan daripada ibu bapa/penjaga?
+                            </p>
+                          ) : null}
+                          {tidakHadirPemeriksaan ===
+                          'ya-kehadiran-pemeriksaan' ? (
+                            <div className='grid grid-cols-2 gap-9 justify-center mt-2 px-36'>
+                              <div>
+                                <input
+                                  type='radio'
+                                  name='ya-tidak-kebenaran-pemeriksaan'
+                                  id='ya-kebenaran-pemeriksaan'
+                                  value='ya-kebenaran-pemeriksaan'
+                                  className='peer hidden'
+                                  checked={
+                                    kebenaranPemeriksaan ===
+                                    'ya-kebenaran-pemeriksaan'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setKebenaranPemeriksaan(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      kebenaranPemeriksaan: e.target.value,
+                                    });
+                                    setModalTidakHadir(false);
+                                  }}
+                                />
+                                <label
+                                  htmlFor='ya-kebenaran-pemeriksaan'
+                                  className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                    kebenaranPemeriksaan ===
+                                    'ya-kebenaran-pemeriksaan'
+                                      ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                      : ''
+                                  }`}
+                                >
+                                  Ya
+                                </label>
+                              </div>
+                              <div>
+                                <input
+                                  type='radio'
+                                  name='ya-tidak-kebenaran-pemeriksaan'
+                                  id='tidak-kebenaran-pemeriksaan'
+                                  value='tidak-kebenaran-pemeriksaan'
+                                  className='peer hidden'
+                                  checked={
+                                    kebenaranPemeriksaan ===
+                                    'tidak-kebenaran-pemeriksaan'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setKebenaranPemeriksaan(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      kebenaranPemeriksaan: e.target.value,
+                                    });
+                                    setModalTidakHadir(false);
+                                  }}
+                                />
+                                <label
+                                  htmlFor='tidak-kebenaran-pemeriksaan'
+                                  className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                    kebenaranPemeriksaan ===
+                                    'tidak-kebenaran-pemeriksaan'
+                                      ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                      : ''
+                                  }`}
+                                >
+                                  Tidak
+                                </label>
+                              </div>
+                            </div>
+                          ) : null}
                         </div>
                         <div
                           className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
@@ -1525,28 +1801,45 @@ function UserFormSekolahPemeriksaan() {
                             <p className='normal-case'>
                               {kebenaranPemeriksaan ===
                               'ya-kebenaran-pemeriksaan' ? (
-                                <p>
+                                <span>
                                   Enggan pemeriksaan
                                   <span className='text-user7 font-bold mx-1'>
                                     DENGAN
                                   </span>
                                   kebenaran rawatan daripada ibu bapa/penjaga
-                                </p>
+                                </span>
                               ) : (
-                                <p>
+                                <span>
                                   Enggan pemeriksaan
                                   <span className='text-user6 font-bold mx-1'>
                                     TANPA
                                   </span>
                                   kebenaran rawatan daripada ibu bapa/penjaga
-                                </p>
+                                </span>
                               )}
                             </p>
                           ) : null}
                           {tidakHadirPemeriksaan ===
                           'ya-kehadiran-pemeriksaan' ? (
-                            <p>
-                              Murid <strong>TIDAK HADIR</strong> Pemeriksaan
+                            <p className='normal-case'>
+                              {kebenaranPemeriksaan ===
+                              'ya-kebenaran-pemeriksaan' ? (
+                                <span>
+                                  Murid <strong>TIDAK HADIR</strong> pemeriksaan
+                                  <span className='text-user7 font-bold mx-1'>
+                                    DENGAN
+                                  </span>
+                                  kebenaran rawatan daripada ibu bapa/penjaga
+                                </span>
+                              ) : (
+                                <span>
+                                  Murid <strong>TIDAK HADIR</strong> pemeriksaan
+                                  <span className='text-user6 font-bold mx-1'>
+                                    TANPA
+                                  </span>
+                                  kebenaran rawatan daripada ibu bapa/penjaga
+                                </span>
+                              )}
                             </p>
                           ) : null}
                         </p>
@@ -1560,91 +1853,97 @@ function UserFormSekolahPemeriksaan() {
                         <TarikhPemeriksaanSemasa />
                       </div>
                     )}
-                    {allUsedKPBMPB.length > 0 && (
-                      <div className='flex flex-col'>
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='flex flex-row items-center font-bold whitespace-nowrap mr-2'>
-                            Menggunakan KPB / MPB
-                            <span className='font-semibold text-user6'>*</span>
-                          </p>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='menggunakan-kpb-mpb'
-                            id='ya-menggunakan-kpb-mpb'
-                            value='ya-menggunakan-kpb-mpb'
-                            checked={
-                              menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMenggunakanKPBMPB(e.target.value);
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='ya-menggunakan-kpb-mpb'
-                            className='m-2 text-sm font-m'
-                          >
-                            Ya
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='menggunakan-kpb-mpb'
-                            id='tidak-menggunakan-kpb-mpb'
-                            value='tidak-menggunakan-kpb-mpb'
-                            checked={
-                              menggunakanKPBMPB === 'tidak-menggunakan-kpb-mpb'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMenggunakanKPBMPB(e.target.value);
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='tidak-menggunakan-kpb-mpb'
-                            className='m-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
-                        </div>
-                        {menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' ? (
-                          <div className='flex flex-row items-center'>
-                            <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
-                              Penggunaan KPB / MPB :
-                            </p>
-                            <select
-                              disabled={isDisabled}
-                              name='penggunaan-kpb-mpb'
-                              id='penggunaan-kpb-mpb'
-                              value={penggunaanKPBMPB}
-                              onChange={(e) => {
-                                setPenggunaanKPBMPB(e.target.value);
-                              }}
-                              className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
-                            >
-                              <option value=''>Pilih Jika Berkenaan</option>
-                              {allUsedKPBMPB.map((kpbmpb) => (
-                                <option value={kpbmpb.nama}>
-                                  {
-                                    dictionaryJenisFasiliti[
-                                      kpbmpb.jenisFasiliti
-                                    ]
-                                  }{' '}
-                                  | {kpbmpb.nama}
-                                </option>
-                              ))}
-                            </select>
+                    {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
+                    engganPemeriksaan === 'ya-enggan-pemeriksaan'
+                      ? null
+                      : allUsedKPBMPB.length > 0 && (
+                          <div className='flex flex-col'>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='flex flex-row items-center font-bold whitespace-nowrap mr-2'>
+                                Menggunakan KPB / MPB
+                                <span className='font-semibold text-user6'>
+                                  *
+                                </span>
+                              </p>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                type='radio'
+                                name='menggunakan-kpb-mpb'
+                                id='ya-menggunakan-kpb-mpb'
+                                value='ya-menggunakan-kpb-mpb'
+                                checked={
+                                  menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setMenggunakanKPBMPB(e.target.value);
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='ya-menggunakan-kpb-mpb'
+                                className='m-2 text-sm font-m'
+                              >
+                                Ya
+                              </label>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                type='radio'
+                                name='menggunakan-kpb-mpb'
+                                id='tidak-menggunakan-kpb-mpb'
+                                value='tidak-menggunakan-kpb-mpb'
+                                checked={
+                                  menggunakanKPBMPB ===
+                                  'tidak-menggunakan-kpb-mpb'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setMenggunakanKPBMPB(e.target.value);
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='tidak-menggunakan-kpb-mpb'
+                                className='m-2 text-sm font-m'
+                              >
+                                Tidak
+                              </label>
+                            </div>
+                            {menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' ? (
+                              <div className='flex flex-row items-center'>
+                                <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
+                                  Penggunaan KPB / MPB :
+                                </p>
+                                <select
+                                  disabled={isDisabled}
+                                  name='penggunaan-kpb-mpb'
+                                  id='penggunaan-kpb-mpb'
+                                  value={penggunaanKPBMPB}
+                                  onChange={(e) => {
+                                    setPenggunaanKPBMPB(e.target.value);
+                                  }}
+                                  className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                                >
+                                  <option value=''>Pilih Jika Berkenaan</option>
+                                  {allUsedKPBMPB.map((kpbmpb) => (
+                                    <option value={kpbmpb.nama}>
+                                      {
+                                        dictionaryJenisFasiliti[
+                                          kpbmpb.jenisFasiliti
+                                        ]
+                                      }{' '}
+                                      | {kpbmpb.nama}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            ) : null}
                           </div>
-                        ) : null}
-                      </div>
-                    )}
+                        )}
                     {/* <div
                       className={`${
                         engganKedatanganPendaftaran ||
@@ -1782,85 +2081,6 @@ function UserFormSekolahPemeriksaan() {
                       </div>
                     </article>
                   )}
-                  {/* <article className='grid grid-cols-2 gap-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                      Penyampaian Perkhidmatan Sekolah
-                    </h4>
-                    <div className='flex flex-row items-center pl-5 col-span-2'>
-                      <select
-                        disabled={isDisabled}
-                        required
-                        name='statik-bergerak'
-                        id='statik-bergerak'
-                        value={statikBergerak}
-                        onChange={(e) => {
-                          setStatikBergerak(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            statikBergerak: e.target.value,
-                          });
-                        }}
-                        className='appearance-none w-60 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      >
-                        <option value=''>Sila Pilih</option>
-                        <option value='klinik-pergigian-statik'>
-                          Klinik Pergigian Statik
-                        </option>
-                        <option value='pasukan-pergigian-bergerak'>
-                          Pasukan / Klinik Pergigian Bergerak
-                        </option>
-                      </select>
-                      <span className='text-user6'>*</span>
-                    </div>
-                    <div className='flex flex-row items-center pl-5'>
-                      <input
-                        disabled={isDisabled}
-                        type='checkbox'
-                        name='kp-bergerak'
-                        id='kp-bergerak'
-                        checked={kpBergerak}
-                        onChange={() => {
-                          setKpBergerak(!kpBergerak);
-                          setConfirmData({
-                            ...confirmData,
-                            kpBergerak: !kpBergerak,
-                          });
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                      />
-                      <label
-                        htmlFor='kp-bergerak'
-                        className='ml-2 text-sm font-m'
-                      >
-                        KP Bergerak
-                      </label>
-                    </div>
-                    <div
-                      className={`${
-                        !kpBergerak && 'hidden'
-                      } flex flex-row items-center pl-5`}
-                    >
-                      <select
-                        disabled={isDisabled}
-                        required={kpBergerak && true}
-                        name='plate-no'
-                        id='plate-no'
-                        value={plateNo}
-                        onChange={(e) => {
-                          setPlateNo(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            plateNo: e.target.value,
-                          });
-                        }}
-                        className='appearance-none w-28 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      >
-                        <option value=''>Plate No</option>
-                        <option value='1'>1</option>
-                      </select>
-                      {kpBergerak && <span className='text-user6'>*</span>}
-                    </div>
-                  </article> */}
                 </section>
                 {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
                 engganPemeriksaan === 'ya-enggan-pemeriksaan' ? null : (
@@ -2304,292 +2524,6 @@ function UserFormSekolahPemeriksaan() {
                         </article>
                       </div>
                     </article>
-                    <div className='grid grid-cols-2 gap-x-2'>
-                      <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          Kebersihan Mulut
-                        </h4>
-                        <div className='flex items-center '>
-                          <p className='flex flex-row pl-5 text-sm font-m'>
-                            Skor Plak<span className='text-user6'>*</span>
-                          </p>
-                          <select
-                            disabled={isDisabled}
-                            required
-                            name='kebersihan-mulut'
-                            id='kebersihan-mulut'
-                            value={kebersihanMulutOralHygiene}
-                            onChange={(e) => {
-                              setKebersihanMulutOralHygiene(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kebersihanMulutOralHygiene: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          >
-                            <option value=''></option>
-                            <option value='tiada'>- (Tidak Disaring)</option>
-                            <option value='A'>A</option>
-                            <option value='C'>C</option>
-                            <option value='E'>E</option>
-                          </select>
-                        </div>
-                        {/* <div
-                        className={`${
-                          singlePersonSekolah.umur < 15 && 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
-                        <label
-                          htmlFor='saringan-kanser-mulut'
-                          className='text-sm font-m'
-                        >
-                          Saringan Kanser Mulut
-                        </label>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='saringan-kanser-mulut'
-                          id='saringan-kanser-mulut'
-                          checked={saringanKanserMulutOralHygiene}
-                          onChange={() => {
-                            setSaringanKanserMulutOralHygiene(
-                              !saringanKanserMulutOralHygiene
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              saringanKanserMulutOralHygiene:
-                                !saringanKanserMulutOralHygiene,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
-                        />
-                      </div> */}
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='perlu-penskaleran'
-                            id='perlu-penskaleran'
-                            checked={perluPenskaleranOralHygiene}
-                            onChange={() => {
-                              setPerluPenskaleranOralHygiene(
-                                !perluPenskaleranOralHygiene
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                perluPenskaleranOralHygiene:
-                                  !perluPenskaleranOralHygiene,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='perlu-penskaleran'
-                            className='m-2 text-sm font-m'
-                          >
-                            Perlu Penskaleran
-                          </label>
-                        </div>
-                      </article>
-                      <article className='border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 auto-rows-min'>
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          Status Periodontium
-                        </h4>
-                        {singlePersonSekolah.umur >= 15 && (
-                          <div className='flex items-center ml-2'>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='status-periodontium'
-                              id='gis-status-periodontium'
-                              value='gis-status-periodontium'
-                              checked={
-                                statusPeriodontium === 'gis-status-periodontium'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setStatusPeriodontium(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  statusPeriodontium: e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
-                            />
-                            <label
-                              htmlFor='gis-status-periodontium'
-                              className='m-2 text-sm font-m'
-                            >
-                              Skor GIS
-                            </label>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='status-periodontium'
-                              id='bpe-status-periodontium'
-                              value='bpe-status-periodontium'
-                              checked={
-                                statusPeriodontium === 'bpe-status-periodontium'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setStatusPeriodontium(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  statusPeriodontium: e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
-                            />
-                            <label
-                              htmlFor='bpe-status-periodontium'
-                              className='m-2 text-sm font-m'
-                            >
-                              Skor BPE
-                            </label>
-                          </div>
-                        )}
-                        {singlePersonSekolah.umur >= 15 &&
-                        statusPeriodontium === 'gis-status-periodontium' ? (
-                          <div className='flex items-center flex-row pl-5'>
-                            <p className='flex text-sm font-m'>
-                              Skor GIS
-                              {skorGisMulutOralHygiene ||
-                              skorBpeOralHygiene === '1' ||
-                              skorBpeOralHygiene === '2' ||
-                              skorBpeOralHygiene === '3' ||
-                              skorBpeOralHygiene === '4' ? null : (
-                                <span className='text-user6'>*</span>
-                              )}
-                            </p>
-                            <select
-                              disabled={isDisabled}
-                              required={
-                                skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4'
-                                  ? false
-                                  : true
-                              }
-                              name='skor-gis'
-                              id='skor-gis'
-                              value={skorGisMulutOralHygiene}
-                              onChange={(e) => {
-                                setSkorGisMulutOralHygiene(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  skorGisMulutOralHygiene: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            >
-                              <option value=''></option>
-                              <option value='tiada'>- (Tidak Disaring)</option>
-                              <option value='0'>0</option>
-                              <option value='1'>1</option>
-                              <option value='2'>2</option>
-                              <option value='3'>3</option>
-                            </select>
-                          </div>
-                        ) : singlePersonSekolah.umur < 15 ? (
-                          <div className='flex items-center flex-row pl-5'>
-                            <p className='flex text-sm font-m'>
-                              Skor GIS
-                              {skorGisMulutOralHygiene ||
-                              skorBpeOralHygiene === '1' ||
-                              skorBpeOralHygiene === '2' ||
-                              skorBpeOralHygiene === '3' ||
-                              skorBpeOralHygiene === '4' ? null : (
-                                <span className='text-user6'>*</span>
-                              )}
-                            </p>
-                            <select
-                              disabled={isDisabled}
-                              required={
-                                skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4'
-                                  ? false
-                                  : true
-                              }
-                              name='skor-gis'
-                              id='skor-gis'
-                              value={skorGisMulutOralHygiene}
-                              onChange={(e) => {
-                                setSkorGisMulutOralHygiene(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  skorGisMulutOralHygiene: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            >
-                              <option value=''></option>
-                              <option value='tiada'>- (Tidak Disaring)</option>
-                              <option value='0'>0</option>
-                              <option value='1'>1</option>
-                              <option value='2'>2</option>
-                              <option value='3'>3</option>
-                            </select>
-                          </div>
-                        ) : null}
-                        {singlePersonSekolah.umur >= 15 &&
-                          statusPeriodontium === 'bpe-status-periodontium' && (
-                            <div className=' flex items-center flex-row pl-5'>
-                              <p className='text-sm font-m'>
-                                Skor BPE
-                                {skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4' ? null : (
-                                  <span className='text-user6'>*</span>
-                                )}
-                              </p>
-                              <select
-                                disabled={isDisabled}
-                                required={
-                                  skorGisMulutOralHygiene ||
-                                  skorBpeOralHygiene === '1' ||
-                                  skorBpeOralHygiene === '2' ||
-                                  skorBpeOralHygiene === '3' ||
-                                  skorBpeOralHygiene === '4'
-                                    ? false
-                                    : true
-                                }
-                                name='skor-bpe'
-                                id='skor-bpe'
-                                value={skorBpeOralHygiene}
-                                onChange={(e) => {
-                                  setSkorBpeOralHygiene(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    skorBpeOralHygiene: e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                              >
-                                <option value=''></option>
-                                <option value='tiada'>
-                                  - (Tidak Disaring)
-                                </option>
-                                <option value='0'>0</option>
-                                <option value='1'>1</option>
-                                <option value='2'>2</option>
-                                <option value='3'>3</option>
-                                <option value='4'>4</option>
-                              </select>
-                            </div>
-                          )}
-                      </article>
-                    </div>
                     <article className=' border border-userBlack pl-3 p-2 rounded-md grid grid-cols-2 gap-2 auto-rows-min'>
                       <div className='flex flex-row items-center pl-5 col-span-2'>
                         <h4 className='font-bold'>
@@ -2612,6 +2546,13 @@ function UserFormSekolahPemeriksaan() {
                             }
                             onChange={(e) => {
                               setYaTidakPesakitMempunyaiGigi(e.target.value);
+                              setCondTiadaGigi(false);
+                              setKebersihanMulutOralHygiene('');
+                              setStatusPeriodontium('');
+                              setSkorGisMulutOralHygiene('');
+                              setSkorBpeOralHygiene('');
+                              setPerluPenskaleranOralHygiene(false);
+                              setJumlahFaktorRisiko('');
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -2636,6 +2577,22 @@ function UserFormSekolahPemeriksaan() {
                             }
                             onChange={(e) => {
                               setYaTidakPesakitMempunyaiGigi(e.target.value);
+                              setCondTiadaGigi(true);
+                              setAdaKekal(false);
+                              setDAdaGigiKekal(0);
+                              setClassID(0);
+                              setClassIID(0);
+                              setMAdaGigiKekal(0);
+                              setFAdaGigiKekal(0);
+                              setClassIF(0);
+                              setClassIIF(0);
+                              setXAdaGigiKekal(0);
+                              setEAdaGigiKekal(0);
+                              setAdaDesidus(false);
+                              setDAdaGigiDesidus(0);
+                              setSmAdaGigiDesidus(0);
+                              setFAdaGigiDesidus(0);
+                              setXAdaGigiDesidus(0);
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -2688,9 +2645,27 @@ function UserFormSekolahPemeriksaan() {
                             <div
                               className={`${
                                 !adaDesidus && 'hidden'
-                              } grid grid-cols-1`}
+                              } grid grid-cols-1 px-2`}
                             >
-                              <div className='flex flex-row items-center pl-5'>
+                              <div
+                                className={`${
+                                  (singlePersonSekolah.tahunTingkatan ===
+                                    'D4' ||
+                                    singlePersonSekolah.tahunTingkatan ===
+                                      'D5' ||
+                                    singlePersonSekolah.tahunTingkatan ===
+                                      'D6' ||
+                                    singlePersonSekolah.tahunTingkatan ===
+                                      'KHAS' ||
+                                    (fasilitiSekolah.jenisFasiliti ===
+                                      'sekolah-rendah' &&
+                                      fasilitiSekolah.sekolahKki ===
+                                        'ya-sekolah-kki')) &&
+                                  dAdaGigiDesidus > 0
+                                    ? 'outline-dashed'
+                                    : ''
+                                } flex flex-row items-center pl-5`}
+                              >
                                 <p className='text-sm font-m lowercase'>d: </p>
                                 <span className='text-user6'>*</span>
                                 <input
@@ -2708,9 +2683,53 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       dAdaGigiDesidus: e.target.value,
                                     });
+                                    setSmAdaGigiDesidus(0);
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                {(singlePersonSekolah.tahunTingkatan === 'D4' ||
+                                  singlePersonSekolah.tahunTingkatan === 'D5' ||
+                                  singlePersonSekolah.tahunTingkatan === 'D6' ||
+                                  singlePersonSekolah.tahunTingkatan ===
+                                    'KHAS' ||
+                                  (fasilitiSekolah.jenisFasiliti ===
+                                    'sekolah-rendah' &&
+                                    fasilitiSekolah.sekolahKki ===
+                                      'ya-sekolah-kki')) &&
+                                  dAdaGigiDesidus > 0 && (
+                                    <div className='flex flex-row items-center pl-5'>
+                                      <p className='text-sm font-m lowercase'>
+                                        SM:{' '}
+                                      </p>
+                                      <span className='text-user6'>*</span>
+                                      <input
+                                        disabled={isDisabled}
+                                        required
+                                        min='0'
+                                        max={dAdaGigiDesidus}
+                                        type='number'
+                                        name='sm-ada-status-gigi-desidus'
+                                        id='sm-ada-status-gigi-desidus'
+                                        value={smAdaGigiDesidus}
+                                        onChange={(e) => {
+                                          setSmAdaGigiDesidus(e.target.value);
+                                          setConfirmData({
+                                            ...confirmData,
+                                            smAdaGigiDesidus: e.target.value,
+                                          });
+                                          setKesSelesai('');
+                                          setKesSelesaiIcdas('');
+                                        }}
+                                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                      />
+                                      <FaInfoCircle
+                                        title='space maintaner tidak berkaitan dengan dfx'
+                                        className='m-2 inline-flex'
+                                      />
+                                    </div>
+                                  )}
                               </div>
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m lowercase'>f: </p>
@@ -2752,6 +2771,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       xAdaGigiDesidus: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
@@ -2834,6 +2855,8 @@ function UserFormSekolahPemeriksaan() {
                                         ...confirmData,
                                         dAdaGigiKekal: e.target.value,
                                       });
+                                      setKesSelesai('');
+                                      setKesSelesaiIcdas('');
                                     }}
                                     className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                   />
@@ -3013,6 +3036,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       xAdaGigiKekal: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
@@ -3035,6 +3060,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       eAdaGigiKekal: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
@@ -3049,76 +3076,381 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                       )}
                     </article>
-                    <article className='border border-userBlack pl-3 p-2 rounded-md'>
-                      <div className='grid grid-cols-1'>
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          Risiko Karies{' '}
-                          <span className='text-user6 text-xl'>*</span>
-                        </h4>
-                        <div className='flex flex-row items-center'>
-                          <p className='flex items-center flex-row pl-5'>
-                            Jumlah Faktor Risiko:
-                          </p>
-                          <select
-                            disabled={
-                              yaTidakPesakitMempunyaiGigi === ''
-                                ? true
-                                : isDisabled
-                            }
-                            required
-                            name='jumlah-faktor-risiko'
-                            id='jumlah-faktor-risiko'
-                            value={jumlahFaktorRisiko}
-                            onChange={(e) => {
-                              setJumlahFaktorRisiko(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                jumlahFaktorRisiko: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 mx-3 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          >
-                            <option value=''></option>
-                            <option value='0'>0</option>
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                            <option value='4'>4</option>
-                            <option value='5'>5</option>
-                            <option value='6'>6</option>
-                            <option value='7'>7</option>
-                            <option value='8'>8</option>
-                          </select>
-                          <input
-                            disabled
-                            type='text'
-                            name='penanda-risiko-karies'
-                            id='penanda-risiko-karies'
-                            value={
-                              penandaRisikoKaries
-                                ? penandaRisikoKaries
-                                : 'Sila Isi Jumlah Faktor Risiko'
-                            }
-                            onChange={(e) => {
-                              setPenandaRisikoKaries(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                penandaRisikoKaries: e.target.value,
-                              });
-                            }}
-                            className={`appearance-none capitalize h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
-                              penandaRisikoKaries === 'rendah'
-                                ? 'bg-user7 w-24 px-2 '
-                                : penandaRisikoKaries === 'sederhana'
-                                ? 'bg-user8 w-24 px-2 '
-                                : penandaRisikoKaries === 'tinggi'
-                                ? 'bg-user9 w-24 px-2 '
-                                : 'w-40 text-xs px-1'
-                            }`}
-                          />
-                        </div>
+                    {condTiadaGigi === true ? null : (
+                      <div className='grid grid-cols-2 gap-x-2'>
+                        <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                          <h4 className='font-bold flex flex-row pl-5'>
+                            Kebersihan Mulut
+                          </h4>
+                          <div className='flex items-center '>
+                            <p className='flex flex-row pl-5 text-sm font-m'>
+                              Skor Plak<span className='text-user6'>*</span>
+                            </p>
+                            <select
+                              disabled={isDisabled}
+                              required
+                              name='kebersihan-mulut'
+                              id='kebersihan-mulut'
+                              value={kebersihanMulutOralHygiene}
+                              onChange={(e) => {
+                                setKebersihanMulutOralHygiene(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  kebersihanMulutOralHygiene: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            >
+                              <option value=''></option>
+                              <option value='tiada'>- (Tidak Disaring)</option>
+                              <option value='A'>A</option>
+                              <option value='C'>C</option>
+                              <option value='E'>E</option>
+                            </select>
+                          </div>
+                          {/* <div
+                        className={`${
+                          singlePersonSekolah.umur < 15 && 'hidden'
+                        } flex items-center flex-row pl-5`}
+                      >
+                        <label
+                          htmlFor='saringan-kanser-mulut'
+                          className='text-sm font-m'
+                        >
+                          Saringan Kanser Mulut
+                        </label>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='saringan-kanser-mulut'
+                          id='saringan-kanser-mulut'
+                          checked={saringanKanserMulutOralHygiene}
+                          onChange={() => {
+                            setSaringanKanserMulutOralHygiene(
+                              !saringanKanserMulutOralHygiene
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              saringanKanserMulutOralHygiene:
+                                !saringanKanserMulutOralHygiene,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
+                        />
+                      </div> */}
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='perlu-penskaleran'
+                              id='perlu-penskaleran'
+                              checked={perluPenskaleranOralHygiene}
+                              onChange={() => {
+                                setPerluPenskaleranOralHygiene(
+                                  !perluPenskaleranOralHygiene
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  perluPenskaleranOralHygiene:
+                                    !perluPenskaleranOralHygiene,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='perlu-penskaleran'
+                              className='m-2 text-sm font-m'
+                            >
+                              Perlu Penskaleran
+                            </label>
+                          </div>
+                        </article>
+                        <article className='border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 auto-rows-min'>
+                          <h4 className='font-bold flex flex-row pl-5'>
+                            Status Periodontium
+                          </h4>
+                          {singlePersonSekolah.umur >= 15 && (
+                            <div className='flex items-center ml-2'>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='status-periodontium'
+                                id='gis-status-periodontium'
+                                value='gis-status-periodontium'
+                                checked={
+                                  statusPeriodontium ===
+                                  'gis-status-periodontium'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setStatusPeriodontium(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    statusPeriodontium: e.target.value,
+                                  });
+                                  setSkorBpeOralHygiene('');
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
+                              />
+                              <label
+                                htmlFor='gis-status-periodontium'
+                                className='m-2 text-sm font-m'
+                              >
+                                Skor GIS
+                              </label>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='status-periodontium'
+                                id='bpe-status-periodontium'
+                                value='bpe-status-periodontium'
+                                checked={
+                                  statusPeriodontium ===
+                                  'bpe-status-periodontium'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setStatusPeriodontium(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    statusPeriodontium: e.target.value,
+                                  });
+                                  setSkorGisMulutOralHygiene('');
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
+                              />
+                              <label
+                                htmlFor='bpe-status-periodontium'
+                                className='m-2 text-sm font-m'
+                              >
+                                Skor BPE
+                              </label>
+                            </div>
+                          )}
+                          {singlePersonSekolah.umur >= 15 &&
+                          statusPeriodontium === 'gis-status-periodontium' ? (
+                            <div className='flex items-center flex-row pl-5'>
+                              <p className='flex text-sm font-m'>
+                                Skor GIS
+                                {skorGisMulutOralHygiene ||
+                                skorBpeOralHygiene === '1' ||
+                                skorBpeOralHygiene === '2' ||
+                                skorBpeOralHygiene === '3' ||
+                                skorBpeOralHygiene === '4' ? null : (
+                                  <span className='text-user6'>*</span>
+                                )}
+                              </p>
+                              <select
+                                disabled={isDisabled}
+                                required={
+                                  skorGisMulutOralHygiene ||
+                                  skorBpeOralHygiene === '1' ||
+                                  skorBpeOralHygiene === '2' ||
+                                  skorBpeOralHygiene === '3' ||
+                                  skorBpeOralHygiene === '4'
+                                    ? false
+                                    : true
+                                }
+                                name='skor-gis'
+                                id='skor-gis'
+                                value={skorGisMulutOralHygiene}
+                                onChange={(e) => {
+                                  setSkorGisMulutOralHygiene(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    skorGisMulutOralHygiene: e.target.value,
+                                  });
+                                  setKesSelesai('');
+                                  setKesSelesaiIcdas('');
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                <option value=''></option>
+                                <option value='tiada'>
+                                  - (Tidak Disaring)
+                                </option>
+                                <option value='0'>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                              </select>
+                            </div>
+                          ) : singlePersonSekolah.umur <= 14 ? (
+                            <div className='flex items-center flex-row pl-5'>
+                              <p className='flex text-sm font-m'>
+                                Skor GIS
+                                {skorGisMulutOralHygiene ||
+                                skorBpeOralHygiene === '1' ||
+                                skorBpeOralHygiene === '2' ||
+                                skorBpeOralHygiene === '3' ||
+                                skorBpeOralHygiene === '4' ? null : (
+                                  <span className='text-user6'>*</span>
+                                )}
+                              </p>
+                              <select
+                                disabled={isDisabled}
+                                required={
+                                  skorGisMulutOralHygiene ||
+                                  skorBpeOralHygiene === '1' ||
+                                  skorBpeOralHygiene === '2' ||
+                                  skorBpeOralHygiene === '3' ||
+                                  skorBpeOralHygiene === '4'
+                                    ? false
+                                    : true
+                                }
+                                name='skor-gis'
+                                id='skor-gis'
+                                value={skorGisMulutOralHygiene}
+                                onChange={(e) => {
+                                  setSkorGisMulutOralHygiene(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    skorGisMulutOralHygiene: e.target.value,
+                                  });
+                                  setKesSelesai('');
+                                  setKesSelesaiIcdas('');
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                <option value=''></option>
+                                <option value='tiada'>
+                                  - (Tidak Disaring)
+                                </option>
+                                <option value='0'>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                              </select>
+                            </div>
+                          ) : null}
+                          {singlePersonSekolah.umur >= 15 &&
+                            statusPeriodontium ===
+                              'bpe-status-periodontium' && (
+                              <div className=' flex items-center flex-row pl-5'>
+                                <p className='text-sm font-m'>
+                                  Skor BPE
+                                  {skorGisMulutOralHygiene ||
+                                  skorBpeOralHygiene === '1' ||
+                                  skorBpeOralHygiene === '2' ||
+                                  skorBpeOralHygiene === '3' ||
+                                  skorBpeOralHygiene === '4' ? null : (
+                                    <span className='text-user6'>*</span>
+                                  )}
+                                </p>
+                                <select
+                                  disabled={isDisabled}
+                                  required={
+                                    skorGisMulutOralHygiene ||
+                                    skorBpeOralHygiene === '1' ||
+                                    skorBpeOralHygiene === '2' ||
+                                    skorBpeOralHygiene === '3' ||
+                                    skorBpeOralHygiene === '4'
+                                      ? false
+                                      : true
+                                  }
+                                  name='skor-bpe'
+                                  id='skor-bpe'
+                                  value={skorBpeOralHygiene}
+                                  onChange={(e) => {
+                                    setSkorBpeOralHygiene(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      skorBpeOralHygiene: e.target.value,
+                                    });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                >
+                                  <option value=''></option>
+                                  <option value='tiada'>
+                                    - (Tidak Disaring)
+                                  </option>
+                                  <option value='0'>0</option>
+                                  <option value='1'>1</option>
+                                  <option value='2'>2</option>
+                                  <option value='3'>3</option>
+                                  <option value='4'>4</option>
+                                </select>
+                              </div>
+                            )}
+                        </article>
                       </div>
-                    </article>
+                    )}
+                    {condTiadaGigi === true ? null : (
+                      <article className='border border-userBlack pl-3 p-2 rounded-md'>
+                        <div className='grid grid-cols-1'>
+                          <h4 className='font-bold flex flex-row pl-5'>
+                            Risiko Karies{' '}
+                            <span className='text-user6 text-xl'>*</span>
+                          </h4>
+                          <div className='flex flex-row items-center'>
+                            <p className='flex items-center flex-row pl-5'>
+                              Jumlah Faktor Risiko:
+                            </p>
+                            <select
+                              disabled={
+                                yaTidakPesakitMempunyaiGigi === ''
+                                  ? true
+                                  : isDisabled
+                              }
+                              required
+                              name='jumlah-faktor-risiko'
+                              id='jumlah-faktor-risiko'
+                              value={jumlahFaktorRisiko}
+                              onChange={(e) => {
+                                setJumlahFaktorRisiko(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  jumlahFaktorRisiko: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 mx-3 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            >
+                              <option value=''></option>
+                              <option value='0'>0</option>
+                              <option value='1'>1</option>
+                              <option value='2'>2</option>
+                              <option value='3'>3</option>
+                              <option value='4'>4</option>
+                              <option value='5'>5</option>
+                              <option value='6'>6</option>
+                              <option value='7'>7</option>
+                              <option value='8'>8</option>
+                            </select>
+                            <input
+                              disabled
+                              type='text'
+                              name='penanda-risiko-karies'
+                              id='penanda-risiko-karies'
+                              value={
+                                penandaRisikoKaries
+                                  ? penandaRisikoKaries
+                                  : 'Sila Isi Jumlah Faktor Risiko'
+                              }
+                              onChange={(e) => {
+                                setPenandaRisikoKaries(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  penandaRisikoKaries: e.target.value,
+                                });
+                              }}
+                              className={`appearance-none capitalize h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
+                                penandaRisikoKaries === 'rendah'
+                                  ? 'bg-user7 w-24 px-2 '
+                                  : penandaRisikoKaries === 'sederhana'
+                                  ? 'bg-user8 w-24 px-2 '
+                                  : penandaRisikoKaries === 'tinggi'
+                                  ? 'bg-user9 w-24 px-2 '
+                                  : 'w-40 text-xs px-1'
+                              }`}
+                            />
+                          </div>
+                        </div>
+                      </article>
+                    )}
                     <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
                       <div className='grid grid-cols-1 lg:grid-cols-2'>
@@ -3436,13 +3768,15 @@ function UserFormSekolahPemeriksaan() {
                           </h4>
                           <span
                             className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 ${
-                              sumGigiKekalE !== eAdaGigiKekal
-                                ? 'bg-user9'
-                                : 'bg-user7'
+                              eAdaGigiKekal <= sumGigiKekalE
+                                ? eAdaGigiKekal === 0 && sumGigiKekalE > 0
+                                  ? 'bg-user9'
+                                  : 'bg-user7'
+                                : 'bg-user9'
                             } `}
                           >
                             E : {eAdaGigiKekal}{' '}
-                            {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                            {eAdaGigiKekal <= sumGigiKekalE ? '≤' : '>'}{' '}
                             {sumGigiKekalE}
                           </span>
                         </div>
@@ -3511,13 +3845,15 @@ function UserFormSekolahPemeriksaan() {
                           />
                           <span
                             className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 ${
-                              sumGigiKekalE !== eAdaGigiKekal
-                                ? 'bg-user9'
-                                : 'bg-user7'
+                              eAdaGigiKekal <= sumGigiKekalE
+                                ? eAdaGigiKekal === 0 && sumGigiKekalE > 0
+                                  ? 'bg-user9'
+                                  : 'bg-user7'
+                                : 'bg-user9'
                             } `}
                           >
                             E : {eAdaGigiKekal}{' '}
-                            {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                            {eAdaGigiKekal <= sumGigiKekalE ? '≤' : '>'}{' '}
                             {sumGigiKekalE}
                           </span>
                         </h4>
@@ -3583,14 +3919,16 @@ function UserFormSekolahPemeriksaan() {
                             Resin Pencegahan Jenis 1 (PRR Type I) (E12)
                           </h4>
                           <span
-                            className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 whitespace-nowrap ${
-                              sumGigiKekalE !== eAdaGigiKekal
-                                ? 'bg-user9'
-                                : 'bg-user7'
+                            className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 ${
+                              eAdaGigiKekal <= sumGigiKekalE
+                                ? eAdaGigiKekal === 0 && sumGigiKekalE > 0
+                                  ? 'bg-user9'
+                                  : 'bg-user7'
+                                : 'bg-user9'
                             } `}
                           >
                             E : {eAdaGigiKekal}{' '}
-                            {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                            {eAdaGigiKekal <= sumGigiKekalE ? '≤' : '>'}{' '}
                             {sumGigiKekalE}
                           </span>
                         </div>
@@ -4194,6 +4532,9 @@ function UserFormSekolahPemeriksaan() {
                                 ...confirmData,
                                 melaksanakanSaringanMerokok: e.target.value,
                               });
+                              setStatusM('');
+                              setMenerimaNasihatRingkas('');
+                              setBersediaDirujuk('');
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -4222,6 +4563,9 @@ function UserFormSekolahPemeriksaan() {
                                 ...confirmData,
                                 melaksanakanSaringanMerokok: e.target.value,
                               });
+                              setStatusM('');
+                              setMenerimaNasihatRingkas('');
+                              setBersediaDirujuk('');
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -4254,6 +4598,7 @@ function UserFormSekolahPemeriksaan() {
                                 ...confirmData,
                                 statusM: e.target.value,
                               });
+                              setBersediaDirujuk('');
                             }}
                             className='appearance-none w-36 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none drop-shadow-lg'
                           >
@@ -4264,9 +4609,9 @@ function UserFormSekolahPemeriksaan() {
                             <option value='bekas-perokok'>Bekas Perokok</option>
                             <option value='perokok-pasif'>Perokok Pasif</option>
                             <option value='bukan-perokok'>Bukan Perokok</option>
-                            <option value='dalam-intervensi'>
+                            {/* <option value='dalam-intervensi'>
                               Dalam Intervensi
-                            </option>
+                            </option> */}
                           </select>
                         </div>
                       )}
@@ -4401,40 +4746,8 @@ function UserFormSekolahPemeriksaan() {
                           </div>
                         </div>
                       )}
-                      {/* {bersediaDirujuk === 'ya-bersedia-dirujuk' && (
-                        <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
-                          <p className='flex items-center text-sm'>
-                            nombor telefon yang boleh dihubungi
-                            <span className='text-user6'>*</span>
-                          </p>
-                          <div className='flex items-center'>
-                            <input
-                              disabled={isDisabled}
-                              required
-                              type='text'
-                              pattern='[0-9]+'
-                              title='Nombor telefon'
-                              name='no-tel-murid-kotak'
-                              id='no-tel-murid-kotak'
-                              value={noTelMuridKotak}
-                              onChange={(e) => {
-                                setNoTelMuridKotak(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  noTelMuridKotak: e.target.value,
-                                });
-                              }}
-                              className='w-40 h-10 border border-userBlack rounded-md pl-2'
-                              placeholder='0123456678'
-                            />
-                          </div>
-                        </div>
-                      )} */}
                     </article>
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      {/* <h4 className='font-bold col-span-2 flex pl-5'>
-                        Kes Selesai
-                      </h4> */}
                       <div className='pl-5 col-span-2 grid grid-cols-2 lg:grid-cols-[1fr_3fr]'>
                         <p className='font-bold text-lg mr-2 flex items-center'>
                           Kes Selesai
@@ -4452,11 +4765,12 @@ function UserFormSekolahPemeriksaan() {
                               kesSelesai === 'ya-kes-selesai' ? true : false
                             }
                             onChange={(e) => {
-                              setKesSelesai(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesai: e.target.value,
-                              });
+                              // setKesSelesai(e.target.value);
+                              checkTPRKesSelesai(e.target.value);
+                              // setConfirmData({
+                              //   ...confirmData,
+                              //   kesSelesai: e.target.value,
+                              // });
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -4477,11 +4791,12 @@ function UserFormSekolahPemeriksaan() {
                               kesSelesai === 'tidak-kes-selesai' ? true : false
                             }
                             onChange={(e) => {
-                              setKesSelesai(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesai: e.target.value,
-                              });
+                              // setKesSelesai(e.target.value);
+                              checkTPRKesSelesai(e.target.value);
+                              // setConfirmData({
+                              //   ...confirmData,
+                              //   kesSelesai: e.target.value,
+                              // });
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -4512,11 +4827,12 @@ function UserFormSekolahPemeriksaan() {
                                 : false
                             }
                             onChange={(e) => {
-                              setKesSelesaiIcdas(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesaiIcdas: e.target.value,
-                              });
+                              // setKesSelesaiIcdas(e.target.value);
+                              // setConfirmData({
+                              //   ...confirmData,
+                              //   kesSelesaiIcdas: e.target.value,
+                              // });
+                              checkTPRKesSelesaiMmi(e.target.value);
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -4539,11 +4855,12 @@ function UserFormSekolahPemeriksaan() {
                                 : false
                             }
                             onChange={(e) => {
-                              setKesSelesaiIcdas(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesaiIcdas: e.target.value,
-                              });
+                              // setKesSelesaiIcdas(e.target.value);
+                              // setConfirmData({
+                              //   ...confirmData,
+                              //   kesSelesaiIcdas: e.target.value,
+                              // });
+                              checkTPRKesSelesaiMmi(e.target.value);
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />

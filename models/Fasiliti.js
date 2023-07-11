@@ -61,6 +61,26 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  enrolmenMuridBerkeperluanKhas: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  enrolmenMuridOaPenan: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jumlahEngganTasTad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jumlahTidakHadirTasTad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jenisTadikaKerajaan: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   // sekolah-rendah, sekolah-menengah ----------------------------------------------
   idInstitusi: {
     type: String,
@@ -78,20 +98,18 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  sekolahSelesaiReten: {
-    type: Boolean,
-    default: false,
-  },
-  tarikhMulaSekolah: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  // sr sm => PERSiS
   risikoSekolahPersis: {
     type: String,
     default: 'NOT APPLICABLE',
   },
-  // sr sm => KOHORT FMR
+  sekolahMmi: {
+    type: String,
+    default: 'tidak-sekolah-mmi', // sekolah-rendah akan sentiasa ya-sekolah-mmi
+  },
+  sekolahKki: {
+    type: String,
+    default: 'tidak-sekolah-kki',
+  },
   statusFMRSekolah: {
     type: String,
     default: 'tidak',
@@ -100,10 +118,13 @@ const fasilitiSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  // sr sm => BEGIN
-  melaksanakanBegin: {
+  sekolahSelesaiReten: {
     type: Boolean,
     default: false,
+  },
+  tarikhSekolahSelesaiReten: {
+    type: String,
+    default: '',
   },
   // kp-bergerak makmal-pergigian ------------------------------------------------
   subJenisKPBMPB: {
@@ -115,6 +136,16 @@ const fasilitiSchema = new Schema({
     default: [],
   },
   // tak pakai pun ni, recheck betul2 nnti boleh comment out
+  // sr sm ------------------------------------------------------------------------
+  // tarikhMulaSekolah: {
+  //   type: String,
+  //   default: 'NOT APPLICABLE',
+  // },
+  // // sr sm => BEGIN
+  // melaksanakanBegin: {
+  //   type: Boolean,
+  //   default: false,
+  // },
   // klinik -----------------------------------------------------------------------
   // dah ada dalam User model
   statusRoleKlinik: {

@@ -109,7 +109,7 @@ export default function DaftarMuridKohortBuatKumuranFMR() {
       muridKumuran: filteredMurid,
       startKumuran,
     };
-    // import.meta.process.env.VITE_ENV === 'dev' && console.log(data);
+    // import.meta.process.env.VITE_ENV === 'DEV' && console.log(data);
     try {
       const res = await axios.patch(
         '/api/v1/kohort/fmr/daftar-kumuran-kohort',

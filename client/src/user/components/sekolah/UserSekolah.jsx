@@ -11,9 +11,12 @@ import {
   FaTooth,
   FaMinus,
   FaPlus,
+  FaInfoCircle,
 } from 'react-icons/fa';
 
 import UserTambahKemaskiniPelajarSekolah from './UserTambahKemaskiniPelajarSekolah';
+
+import UserTambahT1Sekolah from './UserTambahT1Sekolah';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -36,11 +39,7 @@ function UserSekolah() {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
-  // const [dahFilterSekolahs, setDahFilterSekolahs] = useState([]);
-  // const [dahFilterTahun, setDahFilterTahun] = useState([]);
-  const [sekMenRen, setSekMenRen] = useState('');
-  // const [isFiltering, setIsFiltering] = useState(false);
-  const [namaSekolahs, setNamaSekolahs] = useState([]);
+  const [namaSekolahs, setNamaSekolahs] = useState([]); // ganti dah dengan pilihanSekolah terus
   const [tahunTingkatan, setTahunTingkatan] = useState([]);
   // const [kelasPelajar, setKelasPelajar] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
@@ -48,7 +47,6 @@ function UserSekolah() {
   // const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
   const [filterNama, setFilterNama] = useState('');
 
-  // const [pilihanBegin, setPilihanBegin] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
   const [muridBeginCurrentId, setMuridBeginCurrentId] = useState('');
   const [tarikhMelaksanakanBegin, setTarikhMelaksanakanBegin] = useState('');
@@ -58,6 +56,7 @@ function UserSekolah() {
 
   const [modalTambahKemaskiniPelajar, setModalTambahKemaskiniPelajar] =
     useState(false);
+  const [modalTambahT1Sekolah, setModalTambahT1Sekolah] = useState(false);
   const [kemaskiniPelajarId, setKemaskiniPelajarId] = useState('');
   const [submittingTambahPelajar, setSubmittingTambahPelajar] = useState(false);
   const [dataFromPilihanTahunTingkatan, setDataFromPilihanTahunTingkatan] =
@@ -67,15 +66,17 @@ function UserSekolah() {
   const [pilihanHapusNama, setPilihanHapusNama] = useState('');
   const [modalHapus, setModalHapus] = useState(false);
 
-  // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
-  const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState({});
+  const [fasilitiSekolah, setFasilitiSekolah] = useState({});
 
-  //accordian
+  // accordian rawatan
   const [accordian, setAccordian] = useState([]);
 
-  const [reloadState, setReloadState] = useState(false);
+  //multiple select
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  // const [showOptions, setShowOptions] = useState(false);
+  // let statusRawatanRef = useRef();
 
-  const init = useRef(false);
+  const [reloadState, setReloadState] = useState(false);
 
   const TarikhBegin = () => {
     return masterDatePicker({
@@ -94,6 +95,29 @@ function UserSekolah() {
     });
   };
 
+  // useEffect(() => {
+  //   let tutupStatusRawatan = (e) => {
+  //     if (!statusRawatanRef.current.contains(e.target)) {
+  //       setShowOptions(false);
+  //     }
+  //   };
+  //   document.addEventListener('mousedown', tutupStatusRawatan);
+  //   return () => {
+  //     document.removeEventListener('mousedown', tutupStatusRawatan);
+  //   };
+  // });
+
+  // Options Multi Select
+  const optionsFiltered = [
+    { value: 'belum mula', label: 'Belum mula' },
+    { value: 'enggan', label: 'Enggan' },
+    { value: 'tidak hadir', label: 'Tidak hadir' },
+    { value: 'belum selesai', label: 'Belum selesai' },
+    { value: 'enggan rawatan', label: 'Enggan rawatan' },
+    { value: 'tidak hadir rawatan', label: 'Tidak hadir rawatan' },
+    { value: 'selesai', label: 'Selesai' },
+  ];
+
   // init fetch allPersonSekolahs
   useEffect(() => {
     const fetchAllPersonSekolahs = async () => {
@@ -109,34 +133,31 @@ function UserSekolah() {
             },
           }
         );
-        // console.log(data);
-        // const allPersonSekolahs = data.allPersonSekolahs;
-        // const namaSekolahs = allPersonSekolahs.reduce(
-        //   (arrNamaSekolahs, singlePersonSekolah) => {
-        //     if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
-        //       arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
-        //     }
-        //     return arrNamaSekolahs.filter((valid) => valid);
-        //   },
-        //   ['']
-        // );
-        setPilihanSekolah(data.fasilitiSekolahs.nama);
-        // setPilihanBegin(data.fasilitiSekolahs[0].jenisFasiliti);
+
+        // reduce
+        const tahunTingkatan = data.allPersonSekolahs.reduce(
+          (arrTahunTingkatan, singlePersonSekolah) => {
+            if (
+              !arrTahunTingkatan.includes(singlePersonSekolah.tahunTingkatan)
+            ) {
+              arrTahunTingkatan.push(singlePersonSekolah.tahunTingkatan);
+            }
+            return arrTahunTingkatan.filter((valid) => valid);
+          },
+          ['']
+        );
+        setTahunTingkatan(tahunTingkatan);
+
         setAllPersonSekolahs(data.allPersonSekolahs);
-        setNamaSekolahs(data.fasilitiSekolahs.nama);
-        // setFasilitiSekolah(data.fasilitiSekolahs);
-        setFilteredFasilitiSekolah(data.fasilitiSekolahs);
+        setPilihanSekolah(data.fasilitiSekolah.nama);
+        setFasilitiSekolah(data.fasilitiSekolah);
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
-    init.current = false;
-    if (!init.current) {
-      init.current = true;
-      fetchAllPersonSekolahs();
-    }
+    fetchAllPersonSekolahs();
   }, [reloadState]);
 
   const handleSubmitBegin = async (e) => {
@@ -218,7 +239,7 @@ function UserSekolah() {
     }
   };
 
-  //reset value tarikhMelaksanakanBegin & tarikhMelaksanakanBeginDP when modalBegin false
+  // reset value tarikhMelaksanakanBegin & tarikhMelaksanakanBeginDP when modalBegin false
   useEffect(() => {
     if (!modalBegin) {
       setTarikhMelaksanakanBegin('');
@@ -226,7 +247,7 @@ function UserSekolah() {
     }
   }, [modalBegin]);
 
-  //find first person of pilihanTahunTingkatan and setDataFromPilihanTahunTingkatan
+  // find first person of pilihanTahunTingkatan and setDataFromPilihanTahunTingkatan
   useEffect(() => {
     if (pilihanTahunTingkatan) {
       const firstPerson = allPersonSekolahs.find(
@@ -236,111 +257,102 @@ function UserSekolah() {
     }
   }, [pilihanTahunTingkatan]);
 
-  useEffect(() => {
-    // const filteredSekolahs = allPersonSekolahs.filter((person) =>
-    //   person.namaSekolah.includes(pilihanSekolah)
-    // );
-    const tahunTingkatan = allPersonSekolahs.reduce(
-      (arrTahunTingkatan, singlePersonSekolah) => {
-        if (!arrTahunTingkatan.includes(singlePersonSekolah.tahunTingkatan)) {
-          arrTahunTingkatan.push(singlePersonSekolah.tahunTingkatan);
-        }
-        return arrTahunTingkatan.filter((valid) => valid);
-      },
-      ['']
-    );
+  // reduce
+  // useEffect(() => {
+  //   const tahunTingkatan = allPersonSekolahs.reduce(
+  //     (arrTahunTingkatan, singlePersonSekolah) => {
+  //       if (!arrTahunTingkatan.includes(singlePersonSekolah.tahunTingkatan)) {
+  //         arrTahunTingkatan.push(singlePersonSekolah.tahunTingkatan);
+  //       }
+  //       return arrTahunTingkatan.filter((valid) => valid);
+  //     },
+  //     ['']
+  //   );
 
-    const order = [
-      'PRASEKOLAH',
-      'DAFTAR KE TAHUN SATU',
-      'PRA UNIVERSITI SEM 2',
-      'PRA UNIVERSITI SEM 3',
-      'PRA UNIVERSITI SEM 4',
-      'INTERNATIONAL BACCALAUREATE SEM 1',
-      'INTERNATIONAL BACCALAUREATE SEM 2',
-      'INTERNATIONAL BACCALAUREATE SEM 3',
-      'INTERNATIONAL BACCALAUREATE SEM 4',
-      'RENDAH ASAS',
-      'RENDAH PERDANA',
-      'MENENGAH ASAS',
-      'MENENGAH PERDANA',
-      'TAHUN SATU',
-      'TAHUN DUA',
-      'TAHUN TIGA',
-      'TAHUN EMPAT',
-      'TAHUN LIMA',
-      'TAHUN ENAM',
-      'KELAS KHAS RENDAH',
-      'PERALIHAN',
-      'TINGKATAN SATU',
-      'TINGKATAN DUA',
-      'TINGKATAN TIGA',
-      'TINGKATAN EMPAT',
-      'TINGKATAN LIMA',
-      // 'TINGKATAN ENAM SEM 1',
-      // 'TINGKATAN ENAM SEM 2',
-      'BELUM / TIDAK BERSEKOLAH',
-      'KOLEJ / UNIVERSITI',
-      'TAMAT PERSEKOLAHAN / PENGAJIAN',
-      'TIADA MAKLUMAT',
-      'KELAS KHAS MENENGAH',
-      'SEM 1 SIJIL VOKASIONAL MALAYSIA',
-      'SEM 2 SIJIL VOKASIONAL MALAYSIA',
-      'SEM 3 SIJIL VOKASIONAL MALAYSIA',
-      'SEM 4  SIJIL VOKASIONAL MALAYSIA',
-      // 'STAM',
-      'PRA UNIVERSITI SEM 1',
-      'PPPC ASAS 1',
-      'PPPC ASAS 2',
-      'PPPC ASAS 3',
-      'PPPC TAHAP 1',
-      'PPPC TAHAP 2',
-      'TINGKATAN LIMA RENDAH',
-      'TINGKATAN LIMA ATAS',
-      // 'TINGKATAN ENAM SEM 3',
-      'SEM 1 DIPLOMA VOKASIONAL MALAYSIA',
-      'SEM 2 DIPLOMA VOKASIONAL MALAYSIA',
-      'SEM 3 DIPLOMA VOKASIONAL MALAYSIA',
-      'SEM 4 DIPLOMA VOKASIONAL MALAYSIA',
-      'SEM 5 DIPLOMA VOKASIONAL MALAYSIA',
-    ];
+  //   const order = [
+  //     'PRASEKOLAH',
+  //     'DAFTAR KE TAHUN SATU',
+  //     'PRA UNIVERSITI SEM 2',
+  //     'PRA UNIVERSITI SEM 3',
+  //     'PRA UNIVERSITI SEM 4',
+  //     'INTERNATIONAL BACCALAUREATE SEM 1',
+  //     'INTERNATIONAL BACCALAUREATE SEM 2',
+  //     'INTERNATIONAL BACCALAUREATE SEM 3',
+  //     'INTERNATIONAL BACCALAUREATE SEM 4',
+  //     'RENDAH ASAS',
+  //     'RENDAH PERDANA',
+  //     'MENENGAH ASAS',
+  //     'MENENGAH PERDANA',
+  //     'TAHUN SATU',
+  //     'TAHUN DUA',
+  //     'TAHUN TIGA',
+  //     'TAHUN EMPAT',
+  //     'TAHUN LIMA',
+  //     'TAHUN ENAM',
+  //     'KELAS KHAS RENDAH',
+  //     'PERALIHAN',
+  //     'TINGKATAN SATU',
+  //     'TINGKATAN DUA',
+  //     'TINGKATAN TIGA',
+  //     'TINGKATAN EMPAT',
+  //     'TINGKATAN LIMA',
+  //     // 'TINGKATAN ENAM SEM 1',
+  //     // 'TINGKATAN ENAM SEM 2',
+  //     'BELUM / TIDAK BERSEKOLAH',
+  //     'KOLEJ / UNIVERSITI',
+  //     'TAMAT PERSEKOLAHAN / PENGAJIAN',
+  //     'TIADA MAKLUMAT',
+  //     'KELAS KHAS MENENGAH',
+  //     'SEM 1 SIJIL VOKASIONAL MALAYSIA',
+  //     'SEM 2 SIJIL VOKASIONAL MALAYSIA',
+  //     'SEM 3 SIJIL VOKASIONAL MALAYSIA',
+  //     'SEM 4  SIJIL VOKASIONAL MALAYSIA',
+  //     // 'STAM',
+  //     'PRA UNIVERSITI SEM 1',
+  //     'PPPC ASAS 1',
+  //     'PPPC ASAS 2',
+  //     'PPPC ASAS 3',
+  //     'PPPC TAHAP 1',
+  //     'PPPC TAHAP 2',
+  //     'TINGKATAN LIMA RENDAH',
+  //     'TINGKATAN LIMA ATAS',
+  //     // 'TINGKATAN ENAM SEM 3',
+  //     'SEM 1 DIPLOMA VOKASIONAL MALAYSIA',
+  //     'SEM 2 DIPLOMA VOKASIONAL MALAYSIA',
+  //     'SEM 3 DIPLOMA VOKASIONAL MALAYSIA',
+  //     'SEM 4 DIPLOMA VOKASIONAL MALAYSIA',
+  //     'SEM 5 DIPLOMA VOKASIONAL MALAYSIA',
+  //   ];
 
-    let tahunTingkatanInOrder = [];
+  //   let tahunTingkatanInOrder = [];
 
-    for (var i = 0; i < order.length; i++) {
-      if (tahunTingkatan.indexOf(order[i]) > -1) {
-        tahunTingkatanInOrder.push(order[i]);
-      }
-    }
+  //   for (var i = 0; i < order.length; i++) {
+  //     if (tahunTingkatan.indexOf(order[i]) > -1) {
+  //       tahunTingkatanInOrder.push(order[i]);
+  //     }
+  //   }
 
-    setTahunTingkatan(tahunTingkatanInOrder);
-    // setDahFilterSekolahs(filteredSekolahs);
-  }, [pilihanSekolah]);
+  //   setTahunTingkatan(tahunTingkatan);
+  // }, []);
 
-  useEffect(() => {
-    const filteredTahun = allPersonSekolahs.filter((person) =>
-      person.tahunTingkatan.includes(pilihanTahunTingkatan)
-    );
-    // const kelasPelajar = filteredTahun.reduce(
-    //   (arrKelasPelajar, singlePersonSekolah) => {
-    //     if (!arrKelasPelajar.includes(singlePersonSekolah.kelasPelajar)) {
-    //       arrKelasPelajar.push(singlePersonSekolah.kelasPelajar);
-    //     }
-    //     return arrKelasPelajar.filter((valid) => valid);
-    //   },
-    //   ['']
-    // );
-    // setKelasPelajar(kelasPelajar);
-    // setDahFilterTahun(filteredTahun);
-  }, [pilihanTahunTingkatan]);
+  // useEffect(() => {
+  //   const filteredTahun = allPersonSekolahs.filter((person) =>
+  //     person.tahunTingkatan.includes(pilihanTahunTingkatan)
+  //   );
+  //   const kelasPelajar = filteredTahun.reduce(
+  //     (arrKelasPelajar, singlePersonSekolah) => {
+  //       if (!arrKelasPelajar.includes(singlePersonSekolah.kelasPelajar)) {
+  //         arrKelasPelajar.push(singlePersonSekolah.kelasPelajar);
+  //       }
+  //       return arrKelasPelajar.filter((valid) => valid);
+  //     },
+  //     ['']
+  //   );
+  //   setKelasPelajar(kelasPelajar);
+  //   setDahFilterTahun(filteredTahun);
+  // }, [pilihanTahunTingkatan]);
 
   // reset value
-  useEffect(() => {
-    setPilihanTahunTingkatan('');
-    // setPilihanKelasPelajar('');
-    setFilterNama('');
-  }, [pilihanSekolah]);
-
   useEffect(() => {
     // setPilihanKelasPelajar('');
     setFilterNama('');
@@ -349,44 +361,6 @@ function UserSekolah() {
   // useEffect(() => {
   //   setFilterNama('');
   // }, [pilihanKelasPelajar]);
-
-  // fetch fasiliti sekolah to determine selesai reten
-  // useEffect(() => {
-  //   const fetchFasilitiSekolahs = async () => {
-  //     try {
-  //       const { data } = await axios.get(
-  //         `/api/v1/sekolah/faceted/${kodSekolah}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${
-  //               reliefUserToken ? reliefUserToken : userToken
-  //             }`,
-  //           },
-  //         }
-  //       );
-  //       setFasilitiSekolah(data.fasilitiSekolahs);
-  //       setFilteredFasilitiSekolah(data.fasilitiSekolahs);
-  //     } catch (error) {
-  //       console.log(error);
-  //       // toast.error(
-  //       //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchFasilitiSekolahs'
-  //       // );
-  //     }
-  //   };
-  //   fetchFasilitiSekolahs();
-  // }, []);
-
-  // useEffect(() => {
-  //   setFilteredFasilitiSekolah(
-  //     fasilitiSekolah.filter((f) => f.nama.includes(pilihanSekolah))
-  //   );
-  // }, [pilihanSekolah]);
-
-  // useEffect(() => {
-  //   setSekMenRen(
-  //     fasilitiSekolah.filter((f) => f.kodSekolah.includes(namaSekolahs[0]))
-  //   );
-  // }, [fasilitiSekolah]);
 
   // on tab focus reload data
   useEffect(() => {
@@ -400,7 +374,7 @@ function UserSekolah() {
   // specific refreshTimer for this UserSekolah special case
   useEffect(() => {
     setRefreshTimer(!refreshTimer);
-  }, [pilihanSekolah, pilihanTahunTingkatan, filterNama]);
+  }, [pilihanTahunTingkatan, /*pilihanKelasPelajar,*/ filterNama]);
 
   const handleAccordian = (e) => {
     if (accordian.includes(e)) {
@@ -410,24 +384,17 @@ function UserSekolah() {
     }
   };
 
-  // useEffect(() => {
-  //   if (modalHapus === false) {
-  //     setPilih('');
-  //     setResultPilih([]);
-  //   }
-  // });
-
   return (
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
-        <div className='relative shadow-md drop-shadow-sm mb-2'>
+        <div className='relative mb-2'>
           <div className=''>
             <div className='flex justify-between'>
               <h2 className='text-sm lg:text-xl font-semibold flex flex-row pl-2 lg:pl-12 pt-2'>
                 CARIAN MURID
               </h2>
               <div className='flex justify-end items-center text-right mt-2'>
-                {filteredFasilitiSekolah.sekolahSelesaiReten == true ? null : (
+                {fasilitiSekolah.sekolahSelesaiReten == true ? null : (
                   <div>
                     {pilihanTahunTingkatan && (
                       <span className=' uppercase text-xs lg:text-sm w-full'>
@@ -444,6 +411,25 @@ function UserSekolah() {
                   </div>
                 )}
                 <div>
+                  {pilihanTahunTingkatan === '' &&
+                    pilihanTahunTingkatan !== 'T1' &&
+                    !tahunTingkatan.includes('T1') &&
+                    pilihanSekolah.includes('MAKTAB RENDAH SAINS MARA') && (
+                      <button
+                        onClick={() => {
+                          setModalTambahT1Sekolah(true);
+                        }}
+                        className='flex bg-user14 text-xs text-userWhite rounded-md shadow-xl p-1 my-3 mb-3 mr-2 hover:bg-user1 transition-all'
+                      >
+                        Tambah Pelajar Tingkatan 1
+                        <FaInfoCircle
+                          title='Penambahan ini adalah buat murid pertama Tingkatan 1 sahaja. Penambahan seterusnya boleh dibuat selepas memilih Tahun/Tingkatan >> T1'
+                          className='m-1 mx-2 text-md'
+                        />
+                      </button>
+                    )}
+                </div>
+                <div>
                   <button
                     onClick={() => {
                       navigate(-1);
@@ -455,7 +441,7 @@ function UserSekolah() {
                 </div>
               </div>
             </div>
-            <div className='grid grid-cols-2'>
+            <div className='grid grid-cols-1 lg:grid-cols-2'>
               <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Sekolah:
@@ -473,7 +459,7 @@ function UserSekolah() {
               </div>
               <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tahun/Tingkatan:
+                  Tahun / Tingkatan:
                 </span>
                 <span className='uppercase text-xs lg:text-sm w-full'>
                   <select
@@ -529,43 +515,6 @@ function UserSekolah() {
                   </select>
                 </span>
               </p> */}
-              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tarikh Mula:
-                </span>
-                {pilihanSekolah ? (
-                  <span className='uppercase text-xs lg:text-sm w-full'>
-                    {pilihanSekolah &&
-                    filteredFasilitiSekolah[0].tarikhMulaSekolah ? (
-                      <input
-                        type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value={filteredFasilitiSekolah[0].tarikhMulaSekolah}
-                        readOnly
-                      />
-                    ) : (
-                      <input
-                        type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='BELUM MULA'
-                        readOnly
-                      />
-                    )}
-                  </span>
-                ) : (
-                  <input
-                    type='text'
-                    className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
-                    value='SILA PILIH SEKOLAH'
-                    readOnly
-                  />
-                )}
-              </p> */}
-              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tarikh Tamat:
-                </span>
-              </p> */}
               <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Nama Pelajar:
@@ -574,11 +523,69 @@ function UserSekolah() {
                   <input
                     type='text'
                     value={filterNama}
+                    placeholder='SILA MASUKKAN NAMA PELAJAR'
                     onChange={(e) => {
                       setFilterNama(e.target.value.toUpperCase());
                     }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   />
+                </span>
+              </div>
+              <div
+                className='grid grid-cols-[1fr_3fr] pb-1 row-span-2'
+                // ref={statusRawatanRef}
+              >
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end  mr-2'>
+                  Status Murid:
+                </span>
+                <span className='text-xs lg:text-sm w-full relative'>
+                  {/* {pilihanTahunTingkatan ? (
+                    <input
+                      type='text'
+                      className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-user1 uppercase border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent cursor-pointer'
+                      value={selectedOptions.join(', ')}
+                      placeholder='SILA PILIH STATUS'
+                      readOnly
+                      onClick={() => setShowOptions(!showOptions)}
+                    />
+                  ) : (
+                    <input
+                      type='text'
+                      className='appearance-none text-xs text-user1 lg:text-sm w-full px-2 py-1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent cursor-not-allowed'
+                      value='SILA PILIH TAHUN/TINGKATAN'
+                      readOnly
+                    />
+                  )} */}
+                  <span className='grid grid-cols-3 justify-start text-left bg-userWhite'>
+                    {optionsFiltered.map((option) => (
+                      <label
+                        key={option.value}
+                        className='flex items-center space-x-2'
+                      >
+                        <input
+                          type='checkbox'
+                          value={option.value}
+                          checked={selectedOptions.includes(option.value)}
+                          onChange={(event) => {
+                            const { value, checked } = event.target;
+                            if (checked) {
+                              setSelectedOptions((prevSelectedOptions) => [
+                                ...prevSelectedOptions,
+                                value,
+                              ]);
+                            } else {
+                              setSelectedOptions((prevSelectedOptions) =>
+                                prevSelectedOptions.filter(
+                                  (valueOption) => valueOption !== value
+                                )
+                              );
+                            }
+                          }}
+                        />
+                        <span className='uppercase'>{option.label}</span>
+                      </label>
+                    ))}
+                  </span>
                 </span>
               </div>
               <div className='grid grid-cols-[1fr_3fr] pb-1'>
@@ -588,7 +595,7 @@ function UserSekolah() {
                 {pilihanSekolah ? (
                   <span className='uppercase text-xs lg:text-sm w-full'>
                     {pilihanSekolah &&
-                    filteredFasilitiSekolah.sekolahSelesaiReten === true ? (
+                    fasilitiSekolah.sekolahSelesaiReten === true ? (
                       <input
                         type='text'
                         className='appearance-none w-full px-2 py-1 text-user7 font-semibold border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -666,10 +673,16 @@ function UserSekolah() {
               allPersonSekolahs
                 .filter(
                   (person) =>
-                    person.namaSekolah.includes(pilihanSekolah) &&
+                    // person.namaSekolah.includes(pilihanSekolah) &&
                     person.tahunTingkatan.includes(pilihanTahunTingkatan) &&
                     person.nama.includes(filterNama)
                 )
+                .filter((person) => {
+                  if (selectedOptions.length === 0) {
+                    return true;
+                  }
+                  return selectedOptions.includes(person.statusRawatan);
+                })
                 .map((singlePersonSekolah, index) => {
                   return (
                     <>
@@ -682,26 +695,52 @@ function UserSekolah() {
                             {singlePersonSekolah.nama}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
-                            {/* <div className='md:flex'> */}
                             <div className='text-justify'>
-                              <p className='whitespace-nowrap'>
+                              {/* <p className='whitespace-nowrap'>
                                 NOMBOR PENGENALAN :{' '}
                                 {singlePersonSekolah.nomborId}
+                              </p> */}
+                              <p className='whitespace-nowrap'>
+                                JANTINA : {singlePersonSekolah.jantina}
                               </p>
-                              <p>JANTINA : {singlePersonSekolah.jantina}</p>
-                              <p>
+                              {/* <p className='whitespace-nowrap'>
                                 TARIKH LAHIR :{' '}
                                 {moment(singlePersonSekolah.tarikhLahir).format(
                                   'DD/MM/YYYY'
                                 )}
+                              </p> */}
+                              <p className='whitespace-nowrap'>
+                                UMUR : {singlePersonSekolah.umur}
                               </p>
-                              <p>UMUR :{singlePersonSekolah.umur}</p>
-                              <p>KETURUNAN : {singlePersonSekolah.keturunan}</p>
-                              <p>
-                                WARGANEGARA : {singlePersonSekolah.warganegara}
+                              <p className='whitespace-nowrap'>
+                                KETURUNAN :{' '}
+                                {singlePersonSekolah.keturunan ===
+                                'TIADA MAKLUMAT' ? (
+                                  <span className='font-semibold text-user9'>
+                                    {singlePersonSekolah.keturunan}
+                                  </span>
+                                ) : (
+                                  <span>{singlePersonSekolah.keturunan}</span>
+                                )}
+                              </p>
+                              <p className='whitespace-nowrap'>
+                                WARGANEGARA :{' '}
+                                {singlePersonSekolah.warganegara ? (
+                                  singlePersonSekolah.warganegara
+                                ) : (
+                                  <span className='font-semibold text-user9'>
+                                    TIADA MAKLUMAT
+                                  </span>
+                                )}
+                              </p>
+                              <p className='whitespace-nowrap'>
+                                STATUS OKU :{' '}
+                                {singlePersonSekolah.statusOku === ':'
+                                  ? 'BUKAN OKU'
+                                  : 'OKU'}
                               </p>
                               <span>
-                                {filteredFasilitiSekolah.sekolahSelesaiReten ===
+                                {fasilitiSekolah.sekolahSelesaiReten ===
                                 true ? null : (
                                   <span className='md:flex md:shrink-0 text-center sm:text-left py-2'>
                                     {singlePersonSekolah.pemeriksaanSekolah ? null : (
@@ -720,7 +759,6 @@ function UserSekolah() {
                                   </span>
                                 )}
                               </span>
-                              {/* </div> */}
                             </div>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
@@ -772,8 +810,7 @@ function UserSekolah() {
                                   ? 'pointer-events-none text-userBlack shadow-none'
                                   : singlePersonSekolah.pemeriksaanSekolah
                                   ? 'bg-user7 text-userWhite shadow-md'
-                                  : filteredFasilitiSekolah.sekolahSelesaiReten ===
-                                    true
+                                  : fasilitiSekolah.sekolahSelesaiReten === true
                                   ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
                                   : 'bg-user6 text-userWhite shadow-md'
                               } hover:bg-user8 rounded-sm p-1 m-1 transition-all`}
@@ -785,15 +822,13 @@ function UserSekolah() {
                                 ? 'Tidak Hadir'
                                 : singlePersonSekolah.pemeriksaanSekolah
                                 ? 'lihat pemeriksaan'
-                                : filteredFasilitiSekolah.sekolahSelesaiReten ===
-                                  true
+                                : fasilitiSekolah.sekolahSelesaiReten === true
                                 ? 'Pemeriksaan Ditutup'
                                 : 'Tambah Pemeriksaan'}
                             </Link>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
-                            {filteredFasilitiSekolah.sekolahSelesaiReten ===
-                            false ? (
+                            {fasilitiSekolah.sekolahSelesaiReten === false ? (
                               <Link
                                 target='_blank'
                                 rel='noreferrer'
@@ -916,7 +951,7 @@ function UserSekolah() {
                                               }
                                               className='text-sm text-start font-semibold bg-user1 bg-opacity-5 flex flex-row items-center rounded-md p-1 m-1 cursor-pointer'
                                             >
-                                              {accordian === index ? (
+                                              {accordian.includes(index) ? (
                                                 <FaMinus className='m-1' />
                                               ) : (
                                                 <FaPlus className='m-1' />
@@ -1139,12 +1174,18 @@ function UserSekolah() {
                                       [singlePersonSekolah._id]: true,
                                     });
                                   }}
-                                  className='hover:cursor-pointer hover:bg-user6 text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                                  className={`hover:cursor-pointer hover:bg-user6 text-xs font-medium rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap
+                                  ${
+                                    singlePersonSekolah.tarikhMelaksanakanBegin
+                                      ? 'bg-user7'
+                                      : 'bg-user8'
+                                  }
+                                  `}
                                 >
                                   {singlePersonSekolah.tarikhMelaksanakanBegin ? (
-                                    <span className='text-xs text-userBlack text-center flex items-center'>
+                                    <span className='text-xs text-userWhite text-center flex items-center'>
                                       Selesai
-                                      <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                      <FaCheckCircle className='text-userWhite inline-flex text-center ml-1' />
                                     </span>
                                   ) : (
                                     <span className='text-xs text-userBlack text-center flex items-center'>
@@ -1262,8 +1303,7 @@ function UserSekolah() {
                             className='
                                px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'
                           >
-                            {filteredFasilitiSekolah.sekolahSelesaiReten ==
-                              true ||
+                            {fasilitiSekolah.sekolahSelesaiReten == true ||
                             singlePersonSekolah.pemeriksaanSekolah ? null : (
                               <button
                                 className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
@@ -1437,6 +1477,20 @@ function UserSekolah() {
             reloadState={reloadState}
             setReloadState={setReloadState}
             dataFromPilihanTahunTingkatan={dataFromPilihanTahunTingkatan}
+          />
+        )}
+        {modalTambahT1Sekolah && (
+          <UserTambahT1Sekolah
+            modalTambahT1Sekolah={modalTambahT1Sekolah}
+            setModalTambahT1Sekolah={setModalTambahT1Sekolah}
+            kemaskiniPelajarId={kemaskiniPelajarId}
+            setKemaskiniPelajarId={setKemaskiniPelajarId}
+            submittingTambahPelajar={submittingTambahPelajar}
+            setSubmittingTambahPelajar={setSubmittingTambahPelajar}
+            reloadState={reloadState}
+            setReloadState={setReloadState}
+            dataFromPilihanTahunTingkatan={dataFromPilihanTahunTingkatan}
+            fasilitiSekolah={fasilitiSekolah}
           />
         )}
         {modalHapus && (

@@ -75,9 +75,7 @@ const bulanReturner = (bulan) => {
 const initialDataNegeri = async () => {
   const all = await Superadmin.find({
     accountType: 'negeriSuperadmin',
-  })
-    .select('negeri')
-    .lean();
+  }).select('negeri');
   const negeri = all.map((item) => item.negeri);
   return negeri;
 };
@@ -90,9 +88,7 @@ const initialDataDaerah = async (allNegeri) => {
       Superadmin.find({
         negeri,
         accountType: 'daerahSuperadmin',
-      })
-        .select('negeri daerah')
-        .lean()
+      }).select('negeri daerah')
     );
   }
   const allResults = await Promise.all(promises);
@@ -117,9 +113,7 @@ const initialDataKlinik = async (allDaerah) => {
         negeri,
         daerah,
         accountType: 'kpUser',
-      })
-        .select('negeri daerah kodFasiliti kp')
-        .lean()
+      }).select('negeri daerah kodFasiliti kp')
     );
   }
   const allResults = await Promise.all(promises);
@@ -141,7 +135,6 @@ const initialDataIndividual = async (allKlinik) => {
         .select(
           'createdByNegeri createdByDaerah kodFasiliti nama mdcNumber mdtbNumber'
         )
-        .lean()
         .then((results) => {
           return results.map(
             ({

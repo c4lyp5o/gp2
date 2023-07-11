@@ -19,6 +19,8 @@ const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
 const GenerateToken = require('../models/GenerateToken');
 const MaklumatAsasDaerah = require('../models/MaklumatAsasDaerah');
+const AgensiLuar = require('../models/AgensiLuar');
+const PemeriksaanagensiLuar = require('../models/AgensiLuarForm');
 const emailGen = require('../lib/emailgen');
 const sesiTakwimSekolah = require('./helpers/sesiTakwimSekolah');
 const insertToSekolah = require('./helpers/insertToSekolah');
@@ -30,6 +32,7 @@ const Helper = require('./countHelperRegular');
 const Dictionary = {
   kp: 'klinik',
   kpallnegeri: 'klinik-all-negeri',
+  rtc: 'rtc',
   kkiakd: 'kkiakd',
   kkiakdspesifik: 'kkiakd-spesifik',
   kkiakdallnegeri: 'kkiakd-all-negeri',
@@ -62,8 +65,17 @@ const Dictionary = {
   programspesifik: 'program-spesifik',
   // maklumat asas daerah
   mad: 'maklumat-asas-daerah',
+  //agensi luar
+  gtod: 'program-gtod',
+  wargaemas: 'program-wargaemas',
+  pemeriksaanGtod: 'gtod-pemeriksaan',
+  pemeriksaanWE: 'wargaemas-pemeriksaan',
   // token
   tokenbal: 'token-balance',
+  // carian jana
+  janatadika: 'jana-tadika',
+  janasekolahrendah: 'jana-sekolah-rendah',
+  janasekolahmenengah: 'jana-sekolah-menengah',
   // negeri
   negerijohor: 'Johor',
   negerikedah: 'Kedah',
@@ -174,12 +186,24 @@ const initialDataKlinik = async (req, res) => {
 
 const initialDataAdmins = async (req, res) => {
   const { kodFasiliti } = req.query;
-  const all = await Operator.find({
+
+  const allRoleAdmin = await Operator.find({
     kodFasiliti: kodFasiliti,
     role: 'admin',
     activationStatus: true,
   }).select('nama email mdcNumber mdtbNumber');
+
+  const allRoleMediaSosialKlinik = await Operator.find({
+    kodFasiliti: kodFasiliti,
+    role: 'umum',
+    roleMediaSosialKlinik: true,
+    activationStatus: true,
+  }).select('nama email mdcNumber mdtbNumber');
+
+  const all = allRoleAdmin.concat(allRoleMediaSosialKlinik);
+
   let admins = [];
+
   all.forEach((item) => {
     let regNum = {};
     let adminDetails = {};
@@ -193,6 +217,7 @@ const initialDataAdmins = async (req, res) => {
     };
     admins.push(adminDetails);
   });
+
   if (admins.length === 0) {
     res.status(404).json({ message: 'No operators found' });
   } else {
@@ -347,7 +372,7 @@ const loginUser = async (req, res) => {
 const getDataRoute = async (req, res) => {
   // 1st phase
   const authKey = req.headers.authorization;
-  const { negeri, daerah, user_name } = await Superadmin.findById(
+  const { negeri, daerah, user_name, accountType } = await Superadmin.findById(
     jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
   const { FType, kp } = req.query;
@@ -355,7 +380,7 @@ const getDataRoute = async (req, res) => {
   logger.info(`[adminAPI/getDataRoute] ${user_name} requested ${type} data`);
 
   // 2nd phase
-  let data, countedData, owner;
+  let data, countedData, owner, query;
 
   switch (type) {
     case 'klinik':
@@ -381,29 +406,41 @@ const getDataRoute = async (req, res) => {
         }
       }
       break;
+    case 'rtc':
+      query = {
+        ...(accountType === 'negeriSuperadmin' && { negeri }),
+        ...(accountType === 'daerahSuperadmin' && {
+          negeri,
+          daerah,
+        }),
+        kp: { $regex: /rtc/i },
+        accountType: 'kpUser',
+      };
+      data = await User.find(query).select('kp negeri kodFasiliti');
+      break;
     case 'kkiakd-spesifik':
       data = await Fasiliti.find({
         kodFasilitiHandler: kp,
         jenisFasiliti: 'kkiakd',
-      })
-        .select('nama kodKkiaKd')
-        .lean();
+      }).select('nama kodKkiaKd');
       break;
     case 'kpbmpb-spesifik':
-      data = await Fasiliti.find({
-        kodFasilitiHandler: kp,
+      query = {
+        ...(accountType === 'negeriSuperadmin' && { createdByNegeri: negeri }),
+        ...(accountType === 'daerahSuperadmin' && {
+          createdByNegeri: negeri,
+          createdByDaerah: daerah,
+        }),
+        ...(kp !== '-' && { kodFasilitiHandler: kp }),
         jenisFasiliti: ['kp-bergerak', 'makmal-pergigian'],
-      })
-        .select('nama proposedName')
-        .lean();
+      };
+      data = await Fasiliti.find(query).select('nama proposedName');
       break;
     case 'pegawai-all':
       data = await Operator.find({
         statusPegawai: 'pp',
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      });
       break;
     case 'pegawai':
       data = await Operator.find({
@@ -411,35 +448,26 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      });
       break;
     case 'pegawai-spesifik':
       data = await Operator.find({
         kodFasiliti: kp,
         activationStatus: true,
-      })
-        .select('nama mdcNumber mdtbNumber statusPegawai')
-        .lean();
+      }).select('nama mdcNumber mdtbNumber statusPegawai');
       break;
     case 'pegawai-spesifik-negeri':
       data = await Operator.find({
         createdByNegeri: negeri,
         statusPegawai: 'pp',
         activationStatus: true,
-      })
-        .select('-summary')
-        .sort({ nama: 1 })
-        .lean();
+      }).sort({ nama: 1 });
       break;
     case 'jp-all':
       data = await Operator.find({
         statusPegawai: 'jp',
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      });
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -447,9 +475,7 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      });
       break;
     case 'jp-spesifik-negeri':
       data = await Operator.find({
@@ -457,10 +483,7 @@ const getDataRoute = async (req, res) => {
         statusPegawai: 'jp',
         nama: { $regex: /^((?!jp).)*$/i },
         activationStatus: true,
-      })
-        .select('-summary')
-        .sort({ nama: 1 })
-        .lean();
+      }).sort({ nama: 1 });
       break;
     case 'sekolah-rendah':
       data = await Fasiliti.find({
@@ -489,14 +512,12 @@ const getDataRoute = async (req, res) => {
         createdByNegeri: negeri,
         assignedByDaerah: true,
         tahunDibuat: new Date().getFullYear(),
-      }).lean();
+      });
       break;
     case 'program-spesifik':
       data = await Event.find({
         createdByKodFasiliti: kp,
-      })
-        .select('nama jenisEvent tarikhStart tarikhEnd')
-        .lean();
+      }).select('nama jenisEvent tarikhStart tarikhEnd');
       break;
     case 'sosmed':
       countedData = [];
@@ -509,7 +530,7 @@ const getDataRoute = async (req, res) => {
       }
       sosMeddata = await Sosmed.find({
         belongsTo: owner,
-      }).lean();
+      });
       countedData = sosmedDataCompactor(sosMeddata);
       data = countedData;
       break;
@@ -523,7 +544,7 @@ const getDataRoute = async (req, res) => {
       }
       data = await Sosmed.find({
         belongsTo: owner,
-      }).lean();
+      });
       break;
     case 'followers':
       owner = '';
@@ -535,27 +556,78 @@ const getDataRoute = async (req, res) => {
       }
       data = await Followers.find({
         belongsTo: owner,
-      }).lean();
+      });
       break;
     case 'token-balance':
       data = await GenerateToken.find({
         belongsTo: user_name,
-      })
-        .select('jumlahToken jenisReten')
-        .lean();
+      }).select('jumlahToken jenisReten');
       break;
     case 'maklumat-asas-daerah':
       data = await MaklumatAsasDaerah.find({
         createdByNegeri: negeri,
         createdByDaerah: daerah,
-      }).lean();
+      });
+      break;
+    case 'jana-tadika':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'tadika',
+        ...(accountType === 'hqSuperadmin'
+          ? null
+          : accountType === 'negeriSuperadmin'
+          ? { createdByNegeri: negeri }
+          : { createdByNegeri: negeri, createdByDaerah: daerah }),
+      }).select('nama kodFasilitiHandler handler kodTastad');
+      break;
+    case 'jana-sekolah-rendah':
+      console.log('masuk sini');
+      data = await Fasiliti.find({
+        jenisFasiliti: 'sekolah-rendah',
+        sekolahSelesaiReten: true,
+        ...(accountType === 'hqSuperadmin'
+          ? null
+          : accountType === 'negeriSuperadmin'
+          ? { createdByNegeri: negeri }
+          : { createdByNegeri: negeri, createdByDaerah: daerah }),
+      }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
+      break;
+    case 'jana-sekolah-menengah':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'sekolah-menengah',
+        sekolahSelesaiReten: true,
+        ...(accountType === 'hqSuperadmin'
+          ? null
+          : accountType === 'negeriSuperadmin'
+          ? { createdByNegeri: negeri }
+          : { createdByNegeri: negeri, createdByDaerah: daerah }),
+      }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
+      break;
+    case 'program-gtod':
+      console.log('masuk gtod', type);
+      data = await AgensiLuar.find({
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
+        tahunSemasa: new Date().getFullYear(),
+      }).populate('pemeriksaanAgensiLuar1 pemeriksaanAgensiLuar2');
+      break;
+    case 'program-wargaemas':
+      data = await AgensiLuar.find({
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
+        tahunSemasa: new Date().getFullYear(),
+      });
+      break;
+    case 'gtod-pemeriksaan':
+      data = await PemeriksaanagensiLuar.find({
+        _id: singleFormId,
+      });
       break;
     default:
       data = await Fasiliti.find({
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
-      }).lean();
+      });
       break;
   }
   // 3rd phase
@@ -607,7 +679,7 @@ const getDataKpRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         tahunDibuat: new Date().getFullYear(),
-      }).lean();
+      });
       break;
     case 'sosmed':
       countedData = [];
@@ -623,25 +695,25 @@ const getDataKpRoute = async (req, res) => {
     case 'sosmedByKodProgram':
       data = await Sosmed.find({
         belongsTo: kp,
-      }).lean();
+      });
       break;
     case 'followers':
       data = await Followers.find({
         belongsTo: kp,
-      }).lean();
+      });
       break;
     case 'kkiakd':
       data = await Fasiliti.find({
         jenisFasiliti: 'kkiakd',
         createdByNegeri: negeri,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
     case 'kkiakd-all-negeri':
       data = await Fasiliti.find({
         jenisFasiliti: 'kkiakd',
         createdByNegeri: negeri,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       break;
     case 'tastad':
       data = await Fasiliti.find({
@@ -649,7 +721,7 @@ const getDataKpRoute = async (req, res) => {
         handler: kp,
         kodFasilitiHandler: kodFasiliti,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       data.sort((a, b) => {
         return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
       });
@@ -659,7 +731,7 @@ const getDataKpRoute = async (req, res) => {
         jenisFasiliti: ['taska', 'tadika'],
         createdByNegeri: negeri,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       data.sort((a, b) => {
         return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
       });
@@ -670,9 +742,7 @@ const getDataKpRoute = async (req, res) => {
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      }).select('-summary');
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -680,9 +750,7 @@ const getDataKpRoute = async (req, res) => {
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      }).select('-summary');
       break;
     case 'institusi':
       data = await Fasiliti.find({
@@ -696,77 +764,93 @@ const getDataKpRoute = async (req, res) => {
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       break;
     case 'kp-bergerak-all':
       data = await Fasiliti.find({
         jenisFasiliti: 'kp-bergerak',
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       break;
     case 'makmal-pergigian':
       data = await Fasiliti.find({
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       break;
     case 'makmal-pergigian-all':
       data = await Fasiliti.find({
         jenisFasiliti: 'makmal-pergigian',
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       break;
     case 'kkiakd-spesifik':
       data = await Fasiliti.find({
         kodFasilitiHandler: kodFasiliti,
         jenisFasiliti: 'kkiakd',
-      })
-        .select('nama kodKkiaKd')
-        .lean();
+      }).select('nama kodKkiaKd');
       break;
     case 'kpbmpb-spesifik':
       data = await Fasiliti.find({
         kodFasilitiHandler: kodFasiliti,
         jenisFasiliti: { $in: ['kp-bergerak', 'makmal-pergigian'] },
-      })
-        .select('nama proposedName')
-        .lean();
+      }).select('nama proposedName');
       break;
     case 'program-spesifik':
       data = await Event.find({
         createdByKodFasiliti: kodFasiliti,
-      })
-        .select('nama jenisEvent tarikhStart tarikhEnd')
-        .lean();
+      }).select('nama jenisEvent tarikhStart tarikhEnd');
       break;
     case 'pegawai-spesifik':
       data = await Operator.find({
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      })
-        .select('nama mdcNumber mdtbNumber statusPegawai')
-        .lean();
+      }).select('nama mdcNumber mdtbNumber statusPegawai');
       break;
     case 'sekolah-rendah':
       data = await Fasiliti.find({
         createdByNegeri: negeri,
         jenisFasiliti: 'sekolah-rendah',
-      }).lean();
+      });
       break;
     case 'sekolah-menengah':
       data = await Fasiliti.find({
         createdByNegeri: negeri,
         jenisFasiliti: 'sekolah-menengah',
-      }).lean();
+      });
+      break;
+    case 'jana-tadika':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'tadika',
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
+        kodFasilitiHandler: kodFasiliti,
+      }).select('nama kodFasilitiHandler handler kodTastad');
+      break;
+    case 'jana-sekolah-rendah':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'sekolah-rendah',
+        sekolahSelesaiReten: true,
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
+        kodFasilitiHandler: kodFasiliti,
+      }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
+      break;
+    case 'jana-sekolah-menengah':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'sekolah-menengah',
+        sekolahSelesaiReten: true,
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
+        kodFasilitiHandler: kodFasiliti,
+      }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
       break;
     case 'token-balance':
       data = await GenerateToken.find({
         belongsTo: username,
-      })
-        .select('jumlahToken jenisReten')
-        .lean();
+      }).select('jumlahToken jenisReten');
       break;
     default:
       console.log('default');
@@ -802,16 +886,27 @@ const getOneDataRoute = async (req, res) => {
   switch (type) {
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById(Id).select('-summary').lean();
+      data = await Operator.findById(Id).select('-summary');
       break;
     case 'klinik':
-      data = await User.findById(Id).lean();
+      data = await User.findById(Id);
       break;
     case 'program':
-      data = await Event.findById(Id).lean();
+      data = await Event.findById(Id);
+      break;
+    case 'program-gtod':
+      console.log('masuk gtod', type);
+      data = await AgensiLuar.findById(Id);
+      console.log(data);
+      break;
+    case 'program-wargaemas':
+      data = await AgensiLuar.findById(Id);
+      break;
+    case 'gtod-pemeriksaan':
+      data = await PemeriksaanagensiLuar.findById(Id);
       break;
     default:
-      data = await Fasiliti.findById(Id).lean();
+      data = await Fasiliti.findById(Id);
       break;
   }
   // 3rd phase
@@ -841,14 +936,14 @@ const getOneDataKpRoute = async (req, res) => {
 
   switch (type) {
     case 'program':
-      data = await Event.findById(Id).lean();
+      data = await Event.findById(Id);
       break;
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById(Id).select('-summary').lean();
+      data = await Operator.findById(Id).select('-summary');
       break;
     default:
-      data = await Fasiliti.findById(Id).lean();
+      data = await Fasiliti.findById(Id);
       break;
   }
   // 3rd phase
@@ -1110,6 +1205,19 @@ const postRoute = async (req, res) => {
         `[adminAPI/DataCenter] ${user_name} created ${type} for ${Data.createdByDaerah}`
       );
       break;
+    case 'program-gtod':
+      console.log(Data);
+      data = await AgensiLuar.create(Data);
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.createdByDaerah}`
+      );
+      break;
+    case 'program-wargaemas':
+      data = await AgensiLuar.create(Data);
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.createdByDaerah}`
+      );
+      break;
     default:
       console.log('default');
       break;
@@ -1234,6 +1342,20 @@ const patchRoute = async (req, res) => {
       );
       logger.info(`[adminAPI/DataCenter] ${user_name} updated ${type}`);
       break;
+    case 'program-gtod':
+      data = await AgensiLuar.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(`[adminAPI/DataCenter] ${user_name} updated ${type}`);
+      break;
+    case 'program-wargaemas':
+      data = await AgensiLuar.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
     default:
       data = await User.findByIdAndUpdate(
         { _id: Id },
@@ -1536,7 +1658,11 @@ const getData = async (req, res) => {
             theType !== 'makmal-pergigian' &&
             theType !== 'sosmed' &&
             theType !== 'followers' &&
-            theType !== 'maklumat-asas-daerah'
+            theType !== 'maklumat-asas-daerah' &&
+            theType !== 'program-gtod' &&
+            theType !== 'program-wargaemas' &&
+            theType !== 'gtod-pemeriksaan' &&
+            theType !== 'wargaemas-pemeriksaan'
           ) {
             Data = {
               ...Data,
@@ -1696,6 +1822,9 @@ const getData = async (req, res) => {
             }
           }
           if (theType === 'sekolah-rendah' || theType === 'sekolah-menengah') {
+            if (theType === 'sekolah-rendah') {
+              Data.sekolahMmi = 'ya-sekolah-mmi';
+            }
             Data = {
               ...Data,
               jenisFasiliti: theType,
@@ -1820,6 +1949,54 @@ const getData = async (req, res) => {
             );
             res.status(200).json(createMAD);
           }
+          if (theType === 'program-gtod' || theType === 'program-wargaemas') {
+            const createProgramAgensiLuar = await AgensiLuar.create(Data);
+            logger.info(
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.createdByDaerah}`
+            );
+            res.status(200).json(createProgramAgensiLuar);
+          }
+          if (
+            theType === 'gtod-pemeriksaan' ||
+            theType === 'wargaemas-pemeriksaan'
+          ) {
+            const createPemeriksaanAgensiLuar =
+              await PemeriksaanagensiLuar.create(Data);
+
+            const singleAgensiLuar = await AgensiLuar.findOne({
+              _id: Data.Id,
+            });
+            console.log(singleAgensiLuar);
+
+            const updatePemeriksaanAgensiLuar =
+              await AgensiLuar.findByIdAndUpdate(
+                { _id: singleAgensiLuar._id },
+                {
+                  $set: {
+                    ...(singleAgensiLuar.visitNumber === 0
+                      ? {
+                          pemeriksaanAgensiLuar1:
+                            createPemeriksaanAgensiLuar._id,
+                          visitNumber: 1,
+                        }
+                      : {}),
+                    ...(singleAgensiLuar.visitNumber === 1
+                      ? {
+                          pemeriksaanAgensiLuar2:
+                            createPemeriksaanAgensiLuar._id,
+                          visitNumber: 2,
+                        }
+                      : {}),
+                  },
+                },
+                { new: true }
+              );
+
+            logger.info(
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.createdByDaerah}`
+            );
+            res.status(200).json(updatePemeriksaanAgensiLuar);
+          }
           break;
         case 'update':
           logger.info(
@@ -1830,7 +2007,9 @@ const getData = async (req, res) => {
             theType !== 'juruterapi pergigian' &&
             theType !== 'klinik' &&
             theType !== 'program' &&
-            theType !== 'maklumat-asas-daerah'
+            theType !== 'maklumat-asas-daerah' &&
+            theType !== 'program-gtod' &&
+            theType !== 'program-wargaemas'
           ) {
             const data = await Fasiliti.findByIdAndUpdate(
               { _id: Id },
@@ -1883,6 +2062,14 @@ const getData = async (req, res) => {
             );
             return res.status(200).json(data);
           }
+          if (theType === 'program-gtod' || theType === 'program-wargaemas') {
+            const data = await AgensiLuar.findByIdAndUpdate(
+              { _id: Id },
+              { $set: Data },
+              { new: true }
+            );
+            return res.status(200).json(data);
+          }
           break;
         case 'delete':
           logger.info(
@@ -1896,7 +2083,9 @@ const getData = async (req, res) => {
             theType !== 'sosmed' &&
             theType !== 'followers' &&
             theType !== 'sekolah-rendah' &&
-            theType !== 'sekolah-menengah'
+            theType !== 'sekolah-menengah' &&
+            theType !== 'program-gtod' &&
+            theType !== 'program-wargaemas'
           ) {
             const data = await Fasiliti.findByIdAndDelete({
               _id: Id,
@@ -2008,7 +2197,6 @@ const getData = async (req, res) => {
             return res.status(200).json(data);
             // we are here
           }
-
           if (theType === 'program') {
             const program = await Event.findOne({ _id: Id });
             const exists = await Umum.find({
@@ -2060,6 +2248,18 @@ const getData = async (req, res) => {
               );
               res.status(200).json(deletedSosmed);
             }
+          }
+          if (theType === 'program-gtod' || theType === 'program-wargaemas') {
+            const data = await AgensiLuar.findByIdAndDelete({
+              _id: Id,
+            });
+            if (!data) {
+              return res.status(404).json({ msg: 'Data not found' });
+            }
+            logger.info(
+              `[adminAPI/DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.nama}`
+            );
+            return res.status(200).json(data);
           }
           break;
         default:
@@ -2623,9 +2823,9 @@ const getData = async (req, res) => {
           logger.info(
             `[adminAPI/HqCenter] readOne for ${id || idd || idn} accessed`
           );
-          const ptData = await Umum.find(queryObj)
-            .lean()
-            .select('kedatangan tarikhKedatangan');
+          const ptData = await Umum.find(queryObj).select(
+            'kedatangan tarikhKedatangan'
+          );
           const countPtByDate = (daysAgo) => {
             const date = moment()
               .subtract(daysAgo, 'days')
@@ -2690,9 +2890,7 @@ const getData = async (req, res) => {
             kedatanganPt,
           };
           if (id) {
-            const { kp } = await User.findOne({ kodFasiliti: id })
-              .select('kp')
-              .lean();
+            const { kp } = await User.findOne({ kodFasiliti: id }).select('kp');
             result.nama = kp;
           }
           if (idn && !idd) {
@@ -2942,18 +3140,14 @@ const getStatisticsData = async (req, res) => {
     data = await Umum.find({
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-    })
-      .select(
-        'kedatangan jantina kumpulanEtnik umur tarikhKedatangan createdByKodFasiliti'
-      )
-      .lean();
+    }).select(
+      'kedatangan jantina kumpulanEtnik umur tarikhKedatangan createdByKodFasiliti'
+    );
   } else if (negeri && !daerah) {
     // data = await User.find({ negeri: negeri }).distinct('daerah');
-    data = await Umum.find({ createdByNegeri: negeri })
-      .select(
-        'kedatangan jantina kumpulanEtnik umur tarikhKedatangan createdByKodFasiliti'
-      )
-      .lean();
+    data = await Umum.find({ createdByNegeri: negeri }).select(
+      'kedatangan jantina kumpulanEtnik umur tarikhKedatangan createdByKodFasiliti'
+    );
   }
   // 3rd phase
   res.status(200).json(data);

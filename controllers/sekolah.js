@@ -1,9 +1,9 @@
 const https = require('https');
 const axios = require('axios');
 const fs = require('fs');
-const async = require('async');
 const path = require('path');
 const Excel = require('exceljs');
+const moment = require('moment');
 const Sekolah = require('../models/Sekolah');
 const Runningnumber = require('../models/Runningnumber');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
@@ -75,6 +75,8 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const { kp, kodFasiliti } = req.user;
+
   const sesiTakwim = sesiTakwimSekolah();
 
   const personSekolahWithPopulate = await Sekolah.findOne({
@@ -86,13 +88,23 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     .populate('rawatanSekolah');
   // .populate('kotakSekolah');
 
+  const fasilitiSekolah = await Fasiliti.findOne({
+    handler: kp,
+    kodFasilitiHandler: kodFasiliti,
+    kodSekolah: personSekolahWithPopulate.kodSekolah,
+    sesiTakwimSekolah: sesiTakwim,
+  });
+
   if (!personSekolahWithPopulate) {
     return res
       .status(404)
       .json({ msg: `No person with id ${req.params.personSekolahId}` });
   }
 
-  res.status(201).json({ personSekolahWithPopulate });
+  res.status(201).json({
+    personSekolahWithPopulate,
+    fasilitiSekolah,
+  });
 };
 
 // GET /populate-satu-sekolah/:kodSekolah
@@ -105,14 +117,14 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
 
   const sesiTakwim = sesiTakwimSekolah();
 
-  const fasilitiSekolahs = await Fasiliti.findOne({
+  const fasilitiSekolah = await Fasiliti.findOne({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
     kodSekolah: req.params.kodSekolah,
     sesiTakwimSekolah: sesiTakwim,
   });
 
-  // const namaSekolahs = fasilitiSekolahs.reduce(
+  // const namaSekolahs = fasilitiSekolah.reduce(
   //   (arrNamaSekolahs, singleFasilitiSekolah) => {
   //     if (!arrNamaSekolahs.includes(singleFasilitiSekolah.nama)) {
   //       arrNamaSekolahs.push(singleFasilitiSekolah.nama);
@@ -122,7 +134,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
   //   ['']
   // );
 
-  // const kodSekolahs = fasilitiSekolahs.reduce(
+  // const kodSekolahs = fasilitiSekolah.reduce(
   //   (arrKodSekolahs, singleFasilitiSekolah) => {
   //     if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
   //       arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
@@ -142,7 +154,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     .sort({ nama: 1 });
   // .populate('kotakSekolah');
 
-  res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
+  res.status(200).json({ allPersonSekolahs, fasilitiSekolah });
 };
 
 // not used
@@ -335,6 +347,160 @@ const muatturunSenaraiPelajar = async (req, res) => {
 
   const { kodSekolah } = req.params;
 
+  const { rujukan } = req.query;
+
+  // download murid rujukan
+  if (rujukan === 'true') {
+    const makeFile = () => {
+      return path.join(
+        __dirname,
+        '..',
+        'public',
+        'exports',
+        `${generateRandomString(20)}.xlsx`
+      );
+    };
+
+    let match_stage = {
+      $match: {
+        kodSekolah: kodSekolah,
+        deleted: false,
+      },
+    };
+
+    let project_stage = {
+      $project: {
+        nama: 1,
+        namaSekolah: 1,
+        tahunTingkatan: 1,
+        kelasPelajar: 1,
+        jantina: 1,
+        umur: 1,
+        keturunan: 1,
+        warganegara: 1,
+      },
+    };
+
+    const semuaPelajarSatuSekolah = await Sekolah.aggregate([
+      match_stage,
+      project_stage,
+    ]);
+    const semuaTahun = new Set(
+      semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
+    );
+
+    let blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(blank);
+
+    workbook.removeWorksheet('Sheet1');
+
+    for (const tahun of semuaTahun) {
+      const worksheet = workbook.addWorksheet(tahun);
+
+      const studentsInClass = semuaPelajarSatuSekolah.filter(
+        (student) => student.tahunTingkatan === tahun
+      );
+
+      studentsInClass.sort((a, b) => {
+        if (a.kelasPelajar < b.kelasPelajar) {
+          return -1;
+        }
+        if (a.kelasPelajar > b.kelasPelajar) {
+          return 1;
+        }
+        if (a.nama < b.nama) {
+          return -1;
+        }
+        if (a.nama > b.nama) {
+          return 1;
+        }
+        return 0;
+      });
+
+      worksheet.columns = [
+        { header: 'BIL', key: 'bil', width: 5, height: 26 },
+        { header: 'NAMA', key: 'nama', width: 60, height: 26 },
+        {
+          header: 'TAHUN/TINGKATAN',
+          key: 'tahunTingkatan',
+          width: 35,
+          height: 26,
+        },
+        { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 26 },
+        { header: 'JANTINA', key: 'jantina', width: 15, height: 26 },
+        { header: 'UMUR', key: 'umur', width: 10, height: 26 },
+        { header: 'KETURUNAN', key: 'keturunan', width: 15, height: 26 },
+        {
+          header: 'WARGANEGARA',
+          key: 'warganegara',
+          width: 40,
+          height: 26,
+        },
+      ];
+
+      worksheet.addRows(studentsInClass);
+
+      worksheet.getColumn('bil').eachCell((cell, number) => {
+        if (number !== 1) {
+          cell.value = number - 1;
+        }
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+
+      worksheet.getColumn('nama').eachCell((cell, number) => {
+        if (number !== 1) {
+          cell.alignment = { vertical: 'middle', horizontal: 'left' };
+        }
+      });
+
+      worksheet.getColumn('warganegara').eachCell((cell) => {
+        cell.value = cell.value || 'TIADA MAKLUMAT';
+      });
+
+      worksheet.columns.forEach((column) => {
+        column.eachCell((cell) => {
+          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        });
+      });
+
+      worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
+
+      worksheet.getRow(1).alignment = {
+        vertical: 'middle',
+        horizontal: 'center',
+      };
+
+      worksheet.eachRow((row) => {
+        row.height = 15;
+        row.eachCell((cell) => {
+          cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' },
+          };
+        });
+      });
+    }
+
+    const listPelajar = makeFile();
+
+    await workbook.xlsx.writeFile(listPelajar);
+
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    const fileStream = fs.createReadStream(listPelajar);
+    fileStream.pipe(res);
+    fileStream.on('close', () => {
+      return fs.unlinkSync(listPelajar);
+    });
+    return;
+  }
+
+  // download murid biasa
   const makeFile = () => {
     return path.join(
       __dirname,
@@ -348,21 +514,20 @@ const muatturunSenaraiPelajar = async (req, res) => {
   let match_stage = {
     $match: {
       kodSekolah: kodSekolah,
+      deleted: false,
     },
   };
 
   let project_stage = {
     $project: {
       nama: 1,
-      // nomborId: 1,
-      tahunTingkatan: 1,
       namaSekolah: 1,
+      tahunTingkatan: 1,
       kelasPelajar: 1,
-      // tarikhLahir: 1,
-      // umur: 1,
       jantina: 1,
+      umur: 1,
+      keturunan: 1,
       warganegara: 1,
-      sesiTakwimPelajar: 1,
     },
   };
 
@@ -406,7 +571,6 @@ const muatturunSenaraiPelajar = async (req, res) => {
     worksheet.columns = [
       { header: 'BIL', key: 'bil', width: 5, height: 26 },
       { header: 'NAMA', key: 'nama', width: 60, height: 26 },
-      // { header: 'NOMBOR IC', key: 'nomborId', width: 20 },
       {
         header: 'TAHUN/TINGKATAN',
         key: 'tahunTingkatan',
@@ -414,21 +578,15 @@ const muatturunSenaraiPelajar = async (req, res) => {
         height: 26,
       },
       { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 26 },
-      // { header: 'TARIKH LAHIR', key: 'tarikhLahir', width: 25 },
-      // { header: 'UMUR', key: 'umur', width: 10, height: 26 },
       { header: 'JANTINA', key: 'jantina', width: 15, height: 26 },
+      { header: 'UMUR', key: 'umur', width: 10, height: 26 },
+      { header: 'KETURUNAN', key: 'keturunan', width: 15, height: 26 },
       {
         header: 'WARGANEGARA',
         key: 'warganegara',
         width: 40,
         height: 26,
       },
-      // {
-      //   header: 'SESI TAKWIM',
-      //   key: 'sesiTakwimPelajar',
-      //   width: 18,
-      //   height: 26,
-      // },
     ];
 
     worksheet.addRows(studentsInClass);
@@ -440,8 +598,14 @@ const muatturunSenaraiPelajar = async (req, res) => {
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
     });
 
+    worksheet.getColumn('nama').eachCell((cell, number) => {
+      if (number !== 1) {
+        cell.alignment = { vertical: 'middle', horizontal: 'left' };
+      }
+    });
+
     worksheet.getColumn('warganegara').eachCell((cell) => {
-      cell.value = cell.value || 'BUKAN WARGANEGARA';
+      cell.value = cell.value || 'TIADA MAKLUMAT';
     });
 
     worksheet.columns.forEach((column) => {
@@ -450,13 +614,8 @@ const muatturunSenaraiPelajar = async (req, res) => {
       });
     });
 
-    worksheet.getColumn('nama').eachCell((cell, number) => {
-      if (number !== 1) {
-        cell.alignment = { vertical: 'middle', horizontal: 'left' };
-      }
-    });
-
     worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
+
     worksheet.getRow(1).alignment = {
       vertical: 'middle',
       horizontal: 'center',
@@ -488,6 +647,7 @@ const muatturunSenaraiPelajar = async (req, res) => {
   fileStream.on('close', () => {
     return fs.unlinkSync(listPelajar);
   });
+  return;
 };
 
 // POST /
@@ -496,22 +656,42 @@ const createPersonSekolah = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const sesiTakwim = sesiTakwimSekolah();
+  // const sesiTakwim = sesiTakwimSekolah();
 
-  const personSekolahExist = await Sekolah.findOne({
-    nomborId: req.body.nomborId,
-    sesiTakwimPelajar: sesiTakwim,
-    berpindah: false,
-    deleted: false,
-  });
+  // const personSekolahExist = await Sekolah.findOne({
+  //   nomborId: req.body.nomborId,
+  //   sesiTakwimPelajar: sesiTakwim,
+  //   berpindah: false,
+  //   deleted: false,
+  // });
 
-  if (personSekolahExist) {
+  // if (personSekolahExist) {
+  //   return res.status(409).json({
+  //     msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+  //   });
+  // }
+
+  if (req.body.umur <= 3) {
     return res.status(409).json({
-      msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+      msg: 'Umur pelajar tidak boleh kurang daripada 3 tahun',
     });
   }
 
-  const personSekolah = await Sekolah.create(req.body);
+  const personSekolah = await Sekolah.create({
+    idInstitusi: req.body.idInstitusi,
+    kodSekolah: req.body.kodSekolah,
+    namaSekolah: req.body.namaSekolah,
+    nomborId: req.body.nomborId,
+    nama: req.body.nama,
+    sesiTakwimPelajar: req.body.sesiTakwimPelajar,
+    tahunTingkatan: req.body.tahunTingkatan,
+    jantina: req.body.jantina,
+    statusOku: req.body.statusOku,
+    tarikhLahir: req.body.tarikhLahir,
+    umur: req.body.umur,
+    keturunan: req.body.keturunan,
+    warganegara: req.body.warganegara,
+  });
 
   res.status(201).json({ personSekolah });
 };
@@ -524,6 +704,29 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
   }
 
   const sesiTakwim = sesiTakwimSekolah();
+
+  const singlePersonSekolah = await Sekolah.findOne({
+    _id: req.params.personSekolahId,
+    sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
+  });
+
+  // check xleh submit pemeriksaan kalau singlePersonSekolah tak lengkap
+  if (singlePersonSekolah.umur <= 3 || singlePersonSekolah.umur === 7777777) {
+    return res.status(409).json({
+      msg: `Tidak boleh mengisi reten pelajar ini kerana pelajar ${singlePersonSekolah.nama} berumur ${singlePersonSekolah.umur}`,
+    });
+  }
+  if (singlePersonSekolah.keturunan === 'TIADA MAKLUMAT') {
+    return res.status(409).json({
+      msg: `Tidak boleh mengisi reten pelajar ini kerana pelajar ${singlePersonSekolah.nama} tidak mempunyai keturunan`,
+    });
+  }
+  if (singlePersonSekolah.warganegara === '') {
+    return res.status(409).json({
+      msg: `Tidak boleh mengisi reten pelajar ini kerana pelajar ${singlePersonSekolah.nama} tidak mempunyai warganegara`,
+    });
+  }
 
   // associate negeri, daerah, kp to each person sekolah when creating pemeriksaan
   req.body.createdByNegeri = req.user.negeri;
@@ -663,21 +866,21 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     { new: true }
   );
 
-  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest // TODO recheck working is intended or not?
-  if (req.body.tarikhPemeriksaanSemasa > 0) {
-    await Fasiliti.findOneAndUpdate(
-      {
-        nama: personSekolah.namaSekolah,
-        kodSekolah: personSekolah.kodSekolah,
-      },
-      {
-        $set: {
-          tarikhMulaSekolah: req.body.tarikhPemeriksaanSemasa,
-        },
-      },
-      { new: true }
-    );
-  }
+  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest // TODO recheck working as intended or not?
+  // if (req.body.tarikhPemeriksaanSemasa > 0) {
+  //   await Fasiliti.findOneAndUpdate(
+  //     {
+  //       nama: personSekolah.namaSekolah,
+  //       kodSekolah: personSekolah.kodSekolah,
+  //     },
+  //     {
+  //       $set: {
+  //         tarikhMulaSekolah: req.body.tarikhPemeriksaanSemasa,
+  //       },
+  //     },
+  //     { new: true }
+  //   );
+  // }
 
   // if bersediaDirujuk, masukkan dalam kohort kotak
   if (req.body.bersediaDirujuk === 'ya-bersedia-dirujuk') {
@@ -686,8 +889,6 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       createdByDaerah: req.user.daerah,
       createdByKp: req.user.kp,
       createdByKodFasiliti: req.user.kodFasiliti,
-      // createdByUsername: req.body.createdByUsername,
-      // createdByMdcMdtb: req.body.createdByMdcMdtb,
       // copied MOEIS data
       idInstitusi: personSekolah.idInstitusi,
       kodSekolah: personSekolah.kodSekolah,
@@ -697,15 +898,13 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       nama: personSekolah.nama,
       sesiTakwimPelajar: personSekolah.sesiTakwimPelajar,
       tahunTingkatan: personSekolah.tahunTingkatan,
-      // kelasPelajar: personSekolah.kelasPelajar,
+      kelasPelajar: personSekolah.kelasPelajar,
       jantina: personSekolah.jantina,
       statusOku: personSekolah.statusOku,
       tarikhLahir: personSekolah.tarikhLahir,
       umur: personSekolah.umur,
       keturunan: personSekolah.keturunan,
       warganegara: personSekolah.warganegara,
-      // noTelefon: req.body.noTelMuridKotak,
-      // dalamPemantauanKohort: 'JAN - JUN 2023', // default
     });
   }
 
@@ -860,19 +1059,19 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
   );
 
   // set fasilitiSekolah's begin to true // TODO macam dah tak pakai je begin dalam Fasiliti
-  if (
-    req.body.yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
-    'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-  ) {
-    await Fasiliti.findOneAndUpdate(
-      {
-        nama: personSekolah.namaSekolah,
-        kodSekolah: personSekolah.kodSekolah,
-      },
-      { $set: { melaksanakanBegin: true } },
-      { new: true }
-    );
-  }
+  // if (
+  //   req.body.yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
+  //   'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+  // ) {
+  //   await Fasiliti.findOneAndUpdate(
+  //     {
+  //       nama: personSekolah.namaSekolah,
+  //       kodSekolah: personSekolah.kodSekolah,
+  //     },
+  //     { $set: { melaksanakanBegin: true } },
+  //     { new: true }
+  //   );
+  // }
 
   res.status(201).json({ personSekolah });
 };
@@ -932,30 +1131,36 @@ const updateFasiliti = async (req, res) => {
     deleted: false,
   });
 
+  // check xleh tutup sekolah kalau singlePersonSekolah tak lengkap
   for (let i = 0; i < allPersonSekolahs.length; i++) {
-    if (allPersonSekolahs[i].warganegara === '') {
-      return res.status(409).json({
-        msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} tidak mempunyai warganegara`,
-      });
-    }
-    if (allPersonSekolahs[i].umur <= 4) {
+    if (
+      allPersonSekolahs[i].umur <= 3 ||
+      allPersonSekolahs[i].umur === 7777777
+    ) {
       return res.status(409).json({
         msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} berumur ${allPersonSekolahs[i].umur}`,
       });
     }
-    if (
-      fasilitiSekolah.jenisFasiliti === 'sekolah-rendah' &&
-      allPersonSekolahs[i].tahunTingkatan.includes('TINGKATAN')
-    ) {
+    if (allPersonSekolahs[i].keturunan === 'TIADA MAKLUMAT') {
       return res.status(409).json({
-        msg: `Tidak boleh menutup reten sekolah rendah ini kerana terdapat pelajar ${allPersonSekolahs[i].tahunTingkatan}`,
+        msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} tidak mempunyai keturunan`,
+      });
+    }
+    if (allPersonSekolahs[i].warganegara === '') {
+      return res.status(409).json({
+        msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} tidak mempunyai warganegara`,
       });
     }
   }
 
   const updatedFasiliti = await Fasiliti.findOneAndUpdate(
     { _id: req.params.fasilitiId },
-    { $set: { sekolahSelesaiReten: req.body.sekolahSelesaiReten } },
+    {
+      $set: {
+        sekolahSelesaiReten: req.body.sekolahSelesaiReten,
+        tarikhSekolahSelesaiReten: moment().format('YYYY-MM-DD'),
+      },
+    },
     { new: true }
   );
 
@@ -1023,23 +1228,29 @@ const updatePersonSekolah = async (req, res) => {
     return res.status(200).json({ updatedPersonSekolahBegin });
   }
 
-  const personSekolahExist = await Sekolah.findOne({
-    nomborId: req.body.nomborId,
-    sesiTakwimPelajar: sesiTakwim,
-    berpindah: false,
-    deleted: false,
-  });
+  // const personSekolahExist = await Sekolah.findOne({
+  //   nomborId: req.body.nomborId,
+  //   sesiTakwimPelajar: sesiTakwim,
+  //   berpindah: false,
+  //   deleted: false,
+  // });
 
-  if (
-    personSekolahExist &&
-    personSekolahExist.nomborId !== singlePersonSekolah.nomborId
-  ) {
+  // if (
+  //   personSekolahExist &&
+  //   personSekolahExist.nomborId !== singlePersonSekolah.nomborId
+  // ) {
+  //   return res.status(409).json({
+  //     msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+  //   });
+  // }
+
+  // kemaskini pelajar PATCH
+  if (req.body.umur <= 3) {
     return res.status(409).json({
-      msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+      msg: 'Umur pelajar tidak boleh kurang daripada 3 tahun',
     });
   }
 
-  // kemaskini pelajar PATCH
   const updatedPersonSekolah = await Sekolah.findOneAndUpdate(
     {
       _id: req.params.personSekolahId,
@@ -1105,6 +1316,33 @@ const softDeletePersonSekolah = async (req, res) => {
   );
 
   res.status(200).json({ singlePersonSekolahToDelete });
+};
+
+// PATCH /delete--filled/:personSekolahId
+const softDeletePersonSekolahAfterFilled = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const sesiTakwim = sesiTakwimSekolah();
+
+  const { deleteReason } = req.body;
+
+  const singlePersonSekolahToDeleteAfterFilled = await Sekolah.findOneAndUpdate(
+    {
+      _id: req.params.personSekolahId,
+      sesiTakwimPelajar: sesiTakwim,
+      deleted: false,
+    },
+    {
+      deleted: true,
+      deleteReason,
+      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this pelajar`,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({ singlePersonSekolahToDeleteAfterFilled });
 };
 
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId
@@ -1258,6 +1496,7 @@ module.exports = {
   updateFasiliti,
   updatePersonSekolah,
   softDeletePersonSekolah,
+  softDeletePersonSekolahAfterFilled,
   updatePemeriksaanSekolah,
   updateRawatanSekolah,
   updateKotakSekolah,

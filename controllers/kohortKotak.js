@@ -26,9 +26,6 @@ const getSinglePersonKohortKotak = async (req, res) => {
   res.status(201).json({ singlePersonKohortKotak });
 };
 
-// POST /
-// proposed createPersonKohort
-
 // PATCH /:personKohortKotakId
 const updatePersonKohortKotak = async (req, res) => {
   logger.info(
@@ -37,8 +34,6 @@ const updatePersonKohortKotak = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
-
-  const { personKohortKotakId } = req.params;
 
   const createdByNameMdcMdtb = {
     createdByUsername: req.body.createdByUsername,
@@ -64,7 +59,7 @@ const updatePersonKohortKotak = async (req, res) => {
   if (!updatedSinglePersonKohortKotak) {
     return res
       .status(404)
-      .json({ msg: `No person with id ${personKohortKotakId}` });
+      .json({ msg: `No person with id ${req.params.personKohortKotakId}` });
   }
 
   res.status(200).json({ updatedSinglePersonKohortKotak });
