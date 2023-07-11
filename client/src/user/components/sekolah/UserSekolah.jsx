@@ -5,6 +5,7 @@ import moment from 'moment';
 import {
   FaCheckCircle,
   FaTimes,
+  FaTimesCircle,
   FaCircle,
   FaAdjust,
   FaRegCircle,
@@ -895,61 +896,24 @@ function UserSekolah() {
                                   <div
                                     className={`${
                                       isShown[singlePersonSekolah._id]
-                                        ? 'block p-2 px-5 overflow-y-auto'
+                                        ? 'block overflow-y-auto'
                                         : 'hidden '
-                                    } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-10 lg:inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
+                                    } absolute inset-x-0 inset-y-0 lg:inset-x-1/3 lg:inset-y-6 text-sm bg-userWhite z-20 overflow-y-auto rounded-md shadow-sm shadow-user1`}
                                   >
-                                    <div className='flex justify-between'>
+                                    <div className='flex p-4'>
                                       <h1 className='text-lg font-medium'>
                                         Rawatan
                                       </h1>
                                     </div>
                                     {singlePersonSekolah.rawatanSekolah.map(
                                       (rawatan, index) => {
-                                        // sum rawatan
-                                        const semuaGD = [
-                                          rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat,
-                                          rawatan.gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
-                                          rawatan.gdBaruPosteriorSewarnaJumlahTampalanDibuat,
-                                          rawatan.gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
-                                          rawatan.gdBaruPosteriorAmalgamJumlahTampalanDibuat,
-                                          rawatan.gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
-                                        ];
-                                        const semuaGK = [
-                                          rawatan.gkBaruAnteriorSewarnaJumlahTampalanDibuat,
-                                          rawatan.gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
-                                          rawatan.gkBaruPosteriorSewarnaJumlahTampalanDibuat,
-                                          rawatan.gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
-                                          rawatan.gkBaruPosteriorAmalgamJumlahTampalanDibuat,
-                                          rawatan.gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
-                                        ];
-                                        const semuaICDAS = [
-                                          rawatan.baruJumlahGigiKekalDibuatFs,
-                                          rawatan.baruJumlahGigiKekalDiberiFv,
-                                          rawatan.baruJumlahGigiKekalDiberiPrrJenis1,
-                                        ];
-                                        let sumGigiDesidus = 0;
-                                        semuaGD.forEach((rawatan) => {
-                                          sumGigiDesidus += rawatan;
-                                        });
-                                        let sumGigiKekal = 0;
-                                        semuaGK.forEach((rawatan) => {
-                                          sumGigiKekal += rawatan;
-                                        });
-                                        let sumICDAS = 0;
-                                        semuaICDAS.forEach((rawatan) => {
-                                          sumICDAS += rawatan;
-                                        });
                                         return (
-                                          <div
-                                            key={rawatan._id}
-                                            className='flex flex-col'
-                                          >
+                                          <div key={rawatan._id}>
                                             <h1
                                               onClick={() =>
                                                 handleAccordian(index)
                                               }
-                                              className='text-sm text-start font-semibold bg-user1 bg-opacity-5 flex flex-row items-center rounded-md p-1 m-1 cursor-pointer'
+                                              className='text-sm text-start font-semibold bg-user1 bg-opacity-50 text-userWhite flex flex-row items-center rounded-md p-1 m-1 cursor-pointer shadow-sm shadow-user1'
                                             >
                                               {accordian.includes(index) ? (
                                                 <FaMinus className='m-1' />
@@ -962,126 +926,585 @@ function UserSekolah() {
                                               ).format('DD/MM/YYYY')}
                                             </h1>
                                             {accordian.includes(index) && (
-                                              <div className='flex flex-col mx-1 px-1'>
-                                                <span className='text-xs font-semibold text-start flex flex-row items-center'>
-                                                  <FaTooth className='mr-1' />{' '}
-                                                  {rawatan.createdByUsername}
-                                                </span>
-                                                {rawatan.cabutDesidusSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    cabut desidus :
-                                                    {
-                                                      rawatan.cabutDesidusSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {rawatan.cabutKekalSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    cabut desidus :
-                                                    {
-                                                      rawatan.cabutKekalSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {sumGigiDesidus >= 1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    tampalan gigi desidus :{' '}
-                                                    {sumGigiDesidus}
-                                                  </span>
-                                                )}
-                                                {sumGigiKekal >= 1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    tampalan gigi kekal :{' '}
-                                                    {sumGigiKekal}
-                                                  </span>
-                                                )}
-                                                {sumICDAS >= 1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    MMI : {sumICDAS}
-                                                  </span>
-                                                )}
-                                                {rawatan.jumlahTampalanSementaraSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    tampalan sementara :{' '}
-                                                    {
-                                                      rawatan.jumlahTampalanSementaraSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {rawatan.absesSekolahRawatan ===
-                                                  true && (
-                                                  <span className='font-medium text-left flex flex-row items-center'>
-                                                    abses :{' '}
-                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                  </span>
-                                                )}
-                                                {rawatan.penskaleranSekolahRawatan ===
-                                                  true && (
-                                                  <span className='font-medium text-left flex flex-row items-center'>
-                                                    penskaleran :{' '}
-                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                  </span>
-                                                )}
-                                                {rawatan.rujukKlinikSekolahRawatan ===
-                                                  true && (
-                                                  <span className='font-medium text-left flex flex-row items-center'>
-                                                    rujuk klinik :{' '}
-                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                  </span>
-                                                )}
-                                                {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
-                                                  true && (
-                                                  <span className='font-medium text-left flex flex-row items-center'>
-                                                    rujuk ortodontik :{' '}
-                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                  </span>
-                                                )}
-                                                {rawatan.rujukPakarPatologiSekolahRawatan ===
-                                                  true && (
-                                                  <span className='font-medium text-left flex flex-row items-center'>
-                                                    rujuk pakar patologi :{' '}
-                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                  </span>
-                                                )}
-                                                {rawatan.rujukPakarRestoratifSekolahRawatan ===
-                                                  true && (
-                                                  <span className='font-medium text-left flex flex-row items-center'>
-                                                    rujuk pakar restoratif :{' '}
-                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                  </span>
-                                                )}
-                                                {rawatan.rujukPakarBedahMulutSekolahRawatan ===
-                                                  true && (
-                                                  <span className='font-medium text-left flex flex-row items-center'>
-                                                    rujuk pakar bedah mulut :{' '}
-                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                  </span>
-                                                )}
-                                                {rawatan.rujukPakarPediatrikSekolahRawatan ===
-                                                  true && (
-                                                  <span className='font-medium text-left flex flex-row items-center'>
-                                                    rujuk pakar pediatrik :{' '}
-                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                  </span>
-                                                )}
-                                                {rawatan.kesSelesaiSekolahRawatan ===
-                                                  'ya-kes-selesai-penyata-akhir-2' && (
-                                                  <span className='text-xs font-medium text-start flex items-center'>
-                                                    kes selesai{' '}
-                                                    <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                                  </span>
-                                                )}
-                                                {rawatan.kesSelesaiIcdasSekolahRawatan ===
-                                                  'ya-kes-selesai-icdas-penyata-akhir-2' && (
-                                                  <span className='text-xs font-medium text-start flex items-center'>
-                                                    kes selesai MMI{' '}
-                                                    <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                                  </span>
-                                                )}
-                                              </div>
+                                              <>
+                                                <div className='text-xs overflow-y-auto rounded-md m-1 shadow-sm shadow-user3'>
+                                                  <div className='grid grid-cols-[1fr_2fr]'>
+                                                    <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                      Operator
+                                                    </p>
+                                                    <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                      {
+                                                        rawatan.createdByUsername
+                                                      }
+                                                    </p>
+                                                  </div>
+                                                  {rawatan.baruJumlahGigiKekalDibuatFs ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Pengapan Fisur (FS)
+                                                        (E10):
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {rawatan.baruJumlahGigiKekalDibuatFs >
+                                                        0 ? (
+                                                          <p>
+                                                            Pesakit Dibuat:
+                                                            {rawatan.baruJumlahGigiKekalDibuatFs >
+                                                            0 ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.baruJumlahGigiKekalDibuatFs ? (
+                                                          <p>
+                                                            Jumlah Gigi Kekal
+                                                            Dibuat:
+                                                            {
+                                                              rawatan.baruJumlahGigiKekalDibuatFs
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.penggunaanKPBMPB ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Penggunaan KPB/MPB
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {
+                                                          rawatan.penggunaanKPBMPB
+                                                        }
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.muridDiberiFv ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Sapuan Florida (FV)
+                                                        (E13):
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {rawatan.muridDiberiFv ? (
+                                                          <p>
+                                                            Pesakit Diberi
+                                                            Sapuan Florida (FV)
+                                                            (E13):
+                                                            {rawatan.muridDiberiFv ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.baruJumlahGigiKekalDiberiPrrJenis1 ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Resin Pencegahan Jenis 1
+                                                        (PRR Type I) (E12):
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {rawatan.baruJumlahGigiKekalDiberiPrrJenis1 >
+                                                        0 ? (
+                                                          <p>
+                                                            Pesakit Diberi:
+                                                            {rawatan.baruJumlahGigiKekalDiberiPrrJenis1 >
+                                                            0 ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.baruJumlahGigiKekalDiberiPrrJenis1 ? (
+                                                          <p>
+                                                            Jumlah Gigi Kekal
+                                                            Diberi:
+                                                            {
+                                                              rawatan.baruJumlahGigiKekalDiberiPrrJenis1
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat ||
+                                                  rawatan.gdSemulaAnteriorSewarnaJumlahTampalanDibuat ||
+                                                  rawatan.gkBaruAnteriorSewarnaJumlahTampalanDibuat ||
+                                                  rawatan.gkSemulaAnteriorSewarnaJumlahTampalanDibuat ||
+                                                  rawatan.gdBaruPosteriorSewarnaJumlahTampalanDibuat ||
+                                                  rawatan.gdSemulaPosteriorSewarnaJumlahTampalanDibuat ||
+                                                  rawatan.gkBaruPosteriorSewarnaJumlahTampalanDibuat ||
+                                                  rawatan.gkSemulaPosteriorSewarnaJumlahTampalanDibuat ||
+                                                  rawatan.gdBaruPosteriorAmalgamJumlahTampalanDibuat ||
+                                                  rawatan.gdSemulaPosteriorAmalgamJumlahTampalanDibuat ||
+                                                  rawatan.gkBaruPosteriorAmalgamJumlahTampalanDibuat ||
+                                                  rawatan.gkSemulaPosteriorAmalgamJumlahTampalanDibuat ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Jumlah Tampalan Dibuat:
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GD Baru Anterior
+                                                            Sewarna:{' '}
+                                                            {
+                                                              rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gdSemulaAnteriorSewarnaJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GD Semula Anterior
+                                                            Sewarna:{' '}
+                                                            {
+                                                              rawatan.gdSemulaAnteriorSewarnaJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gkBaruAnteriorSewarnaJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GK Baru Anterior
+                                                            Sewarna:{' '}
+                                                            {
+                                                              rawatan.gkBaruAnteriorSewarnaJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gkSemulaAnteriorSewarnaJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GK Semula Anterior
+                                                            Sewarna:{' '}
+                                                            {
+                                                              rawatan.gkSemulaAnteriorSewarnaJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gdBaruPosteriorSewarnaJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GD Baru Posterior
+                                                            Sewarna:{' '}
+                                                            {
+                                                              rawatan.gdBaruPosteriorSewarnaJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gdSemulaPosteriorSewarnaJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GD Semula Posterior
+                                                            Sewarna:{' '}
+                                                            {
+                                                              rawatan.gdSemulaPosteriorSewarnaJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gkBaruPosteriorSewarnaJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GK Baru Posterior
+                                                            Sewarna:{' '}
+                                                            {
+                                                              rawatan.gkBaruPosteriorSewarnaJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gkSemulaPosteriorSewarnaJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GK Semula Posterior
+                                                            Sewarna:{' '}
+                                                            {
+                                                              rawatan.gkSemulaPosteriorSewarnaJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gdBaruPosteriorAmalgamJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GD Baru Posterior
+                                                            Amalgam:{' '}
+                                                            {
+                                                              rawatan.gdBaruPosteriorAmalgamJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gdSemulaPosteriorAmalgamJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GD Semula Posterior
+                                                            Amalgam:{' '}
+                                                            {
+                                                              rawatan.gdSemulaPosteriorAmalgamJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gkBaruPosteriorAmalgamJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GK Baru Posterior
+                                                            Amalgam:{' '}
+                                                            {
+                                                              rawatan.gkBaruPosteriorAmalgamJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.gkSemulaPosteriorAmalgamJumlahTampalanDibuat ? (
+                                                          <p>
+                                                            GK Semula Posterior
+                                                            Amalgam:{' '}
+                                                            {
+                                                              rawatan.gkSemulaPosteriorAmalgamJumlahTampalanDibuat
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.cabutDesidusSekolahRawatan ||
+                                                  rawatan.cabutKekalSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Cabutan :
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {rawatan.cabutDesidusSekolahRawatan ? (
+                                                          <p>
+                                                            Desidus:{' '}
+                                                            {
+                                                              rawatan.cabutDesidusSekolahRawatan
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.cabutKekalSekolahRawatan ? (
+                                                          <p>
+                                                            Kekal:{' '}
+                                                            {
+                                                              rawatan.cabutKekalSekolahRawatan
+                                                            }
+                                                          </p>
+                                                        ) : null}
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.jumlahTampalanSementaraSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Tampalan Sementara
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {
+                                                          rawatan.jumlahTampalanSementaraSekolahRawatan
+                                                        }
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.pulpotomiSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Pulpotomi :
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {
+                                                          rawatan.pulpotomiSekolahRawatan
+                                                        }
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.endodontikSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Endodontik :
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {
+                                                          rawatan.endodontikSekolahRawatan
+                                                        }
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.absesSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Abses :
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {
+                                                          rawatan.absesSekolahRawatan
+                                                        }
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.penskaleranSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Penskaleran :
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {rawatan.penskaleranSekolahRawatan ===
+                                                        true ? (
+                                                          <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                        ) : (
+                                                          <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                        )}
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.rujukKlinikSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Rujukan Ke Klinik
+                                                        Pergigian
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {rawatan.rujukKlinikRawatanEndo ? (
+                                                          <p>
+                                                            Pesakit Dirujuk
+                                                            Rawatan Endo:
+                                                            {rawatan.rujukKlinikRawatanEndo ===
+                                                            true ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.rujukKlinikCabutanGigiKekal ? (
+                                                          <p>
+                                                            Pesakit Dirujuk
+                                                            Cabutan Gigi Kekal:
+                                                            {rawatan.rujukKlinikCabutanGigiKekal ===
+                                                            true ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.rujukKesTrauma ? (
+                                                          <p>
+                                                            Pesakit Dirujuk Kes
+                                                            Trauma:
+                                                            {rawatan.rujukKesTrauma ===
+                                                            true ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.rujukMasalahKesihatan ? (
+                                                          <p>
+                                                            Pesakit Dirujuk
+                                                            Masalah Kesihatan:
+                                                            {rawatan.rujukMasalahKesihatan ===
+                                                            true ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.rujukBukanWarganegara ? (
+                                                          <p>
+                                                            Pesakit Dirujuk
+                                                            Kerana Bukan
+                                                            Warganegara:
+                                                            {rawatan.rujukBukanWarganegara ===
+                                                            true ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.rujukLainLain ? (
+                                                          <p>
+                                                            Pesakit Dirujuk
+                                                            Lain-lain:
+                                                            <p>
+                                                              {rawatan.rujukLainLain &&
+                                                                rawatan.rujukLainLanjutan}
+                                                              {rawatan.rujukLainLanjutan && (
+                                                                <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                              )}
+                                                            </p>
+                                                          </p>
+                                                        ) : null}
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.kesSelesaiSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Status Rawatan :
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {rawatan.kesSelesaiSekolahRawatan ? (
+                                                          <p>
+                                                            Kes Selesai
+                                                            {rawatan.kesSelesaiSekolahRawatan ===
+                                                            'ya-kes-selesai-penyata-akhir-2' ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.kesSelesaiIcdasSekolahRawatan ? (
+                                                          <p>
+                                                            Kes Selesai ICDAS:
+                                                            {rawatan.kesSelesaiIcdasSekolahRawatan ===
+                                                            'ya-kes-selesai-icdas-penyata-akhir-2' ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.rujukRawatanOrtodontikSekolahRawatan ||
+                                                  rawatan.rujukPakarPatologiSekolahRawatan ||
+                                                  rawatan.rujukPakarRestoratifSekolahRawatan ||
+                                                  rawatan.rujukPakarBedahMulutSekolahRawatan ||
+                                                  rawatan.rujukPakarPediatrikSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Rujukan :
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        <a>
+                                                          {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
+                                                          true
+                                                            ? 'Rujukan Ke Pakar ortodontik'
+                                                            : ''}
+                                                        </a>
+                                                        <a>
+                                                          {rawatan.rujukPakarPatologiSekolahRawatan ===
+                                                          true
+                                                            ? 'Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut'
+                                                            : ''}
+                                                        </a>
+                                                        <a>
+                                                          {rawatan.rujukPakarRestoratifSekolahRawatan ===
+                                                          true
+                                                            ? 'Rujukan Ke Pakar Restoratif'
+                                                            : ''}
+                                                        </a>
+                                                        <a>
+                                                          {rawatan.rujukPakarBedahMulutSekolahRawatan ===
+                                                          true
+                                                            ? 'Rujukan Ke Pakar Bedah Mulut Dan Maksilofasial'
+                                                            : ''}
+                                                        </a>
+                                                        <a>
+                                                          {rawatan.rujukPakarPediatrikSekolahRawatan ===
+                                                          true
+                                                            ? 'Rujukan Ke Pakar Pergigian Pediatrik'
+                                                            : ''}
+                                                        </a>
+                                                        <a>
+                                                          {rawatan.rujukKlinikSekolahRawatan ===
+                                                          true
+                                                            ? 'Rujukan Ke Klinik'
+                                                            : ''}
+                                                        </a>
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        Aktiviti Begin :
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {rawatan.yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
+                                                        'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2' ? (
+                                                          <p>
+                                                            Ya, Melaksanakan
+                                                            Aktiviti Begin
+                                                            Promosi
+                                                            <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                          </p>
+                                                        ) : (
+                                                          <p>
+                                                            Tidak, Melaksanakan
+                                                            Aktiviti Begin
+                                                            Promosi
+                                                            <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                          </p>
+                                                        )}
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                  {rawatan.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan ||
+                                                  rawatan.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan ||
+                                                  rawatan.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan ||
+                                                  rawatan.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan ? (
+                                                    <div className='grid grid-cols-[1fr_2fr]'>
+                                                      <p className='p-1 flex whitespace-pre-wrap justify-end text-right bg-user1 bg-opacity-5'>
+                                                        menerima aktiviti
+                                                        nasihat pergigian
+                                                        individu :
+                                                      </p>
+                                                      <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                                                        {rawatan.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan ? (
+                                                          <p>
+                                                            nasihat berkaitan
+                                                            plak gigi
+                                                            {rawatan.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan ===
+                                                            true ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan ? (
+                                                          <p>
+                                                            nasihat berkaitan
+                                                            diet pemakanan
+                                                            {rawatan.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan ===
+                                                            true ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan ? (
+                                                          <p>
+                                                            nasihat berkaitan
+                                                            penjagaan kesihatan
+                                                            oral
+                                                            {rawatan.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan ===
+                                                            true ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                        {rawatan.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan ? (
+                                                          <p>
+                                                            nasihat berkaitan
+                                                            kanser mulut
+                                                            {rawatan.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan ===
+                                                            true ? (
+                                                              <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                                            ) : (
+                                                              <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                                            )}
+                                                          </p>
+                                                        ) : null}
+                                                      </p>
+                                                    </div>
+                                                  ) : null}
+                                                </div>
+                                              </>
                                             )}
                                           </div>
                                         );
@@ -1463,7 +1886,10 @@ function UserSekolah() {
             className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
               isShown ? 'block' : 'hidden'
             }`}
-            onClick={() => setIsShown(false)}
+            onClick={() => {
+              setIsShown(false);
+              setAccordian([]);
+            }}
           />
         </div>
         {modalTambahKemaskiniPelajar && (
