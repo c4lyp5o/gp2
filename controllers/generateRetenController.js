@@ -3607,9 +3607,7 @@ const makePGS201 = async (payload) => {
     const rowsToIncrement = [2, 10, 19];
 
     for (let i = 0; i < 3; i++) {
-      console.log(`array ${i}. row ${rowNumber}`);
       if (data[i][0]) {
-        console.log(`we have data`);
         jumlahReten += data[i][0].jumlahReten;
         jumlahRetenSalah += data[i][0].jumlahRetenSalah;
 
@@ -3795,9 +3793,9 @@ const makePGS201 = async (payload) => {
           data[i][0].jumlahKesSelesaiBiasa; //Column CH (86)
       }
       rowNumber += rowsToIncrement.includes(i) ? 2 : 1;
-      console.log(`row number now is ${rowNumber}`);
     }
 
+    // sekolah
     for (const item of data[4][0].dataBiasa) {
       switch (item._id) {
         case 'prasek-5tahun':
@@ -3960,7 +3958,6 @@ const makePGS201 = async (payload) => {
       row.getCell(85).value += item.kesSelesaiMMI; //Column CG (85)
       row.getCell(86).value += item.kesSelesai; //Column CH (86)
     }
-
     for (const item of data[4][0].dataKhasKham) {
       switch (item._id) {
         case 'prasek-oku':
@@ -4084,24 +4081,19 @@ const makePGS201 = async (payload) => {
       row.getCell(85).value += item.kesSelesaiMMI; //Column CG (85)
       row.getCell(86).value += item.kesSelesai; //Column CH (86)
     }
-
     for (const item of data[4][0].dataOAP) {
       switch (item._id) {
         case 'prasek-oap':
           rowNumber = 22;
-          console.log('presek oap');
           break;
         case 'darjah1-oap':
           rowNumber = 31;
-          console.log('darjah 1 oap');
           break;
         case 'darjah6-oap':
           rowNumber = 32;
-          console.log('darjah 6 oap');
           break;
         case 'tingkatan4-oap':
           rowNumber = 41;
-          console.log('T4 OAP');
           break;
         default:
           continue;
@@ -4215,7 +4207,6 @@ const makePGS201 = async (payload) => {
       row.getCell(85).value += item.kesSelesaiMMI; //Column CG (85)
       row.getCell(86).value += item.kesSelesai; //Column CH (86)
     }
-
     for (const item of data[4][0].dataAllOAP) {
       switch (item._id) {
         case 'all-oap':
@@ -4333,7 +4324,6 @@ const makePGS201 = async (payload) => {
       row.getCell(85).value += item.kesSelesaiMMI; //Column CG (85)
       row.getCell(86).value += item.kesSelesai; //Column CH (86)
     }
-
     for (const item of data[4][0].dataAllOKU) {
       switch (item._id) {
         case 'all-oku':
@@ -4452,126 +4442,126 @@ const makePGS201 = async (payload) => {
       row.getCell(86).value += item.kesSelesai; //Column CH (86)
     }
 
-    for (let i = 0; i < data[5].length; i++) {
-      const dataEnrolmenSekolah = data[5][i] || [];
-
-      if (dataEnrolmenSekolah) {
-        switch (dataEnrolmenSekolah._id) {
-          case 'prasek-5tahun':
-            rowNumber = 18;
-            break;
-          case 'prasek-6tahun':
-            rowNumber = 19;
-            break;
-          case 'darjah1':
-            rowNumber = 23;
-            break;
-          case 'darjah2':
-            rowNumber = 24;
-            break;
-          case 'darjah3':
-            rowNumber = 25;
-            break;
-          case 'darjah4':
-            rowNumber = 26;
-            break;
-          case 'darjah5':
-            rowNumber = 27;
-            break;
-          case 'darjah6':
-            rowNumber = 28;
-            break;
-          case 'darjah-khas':
-            rowNumber = 29;
-            break;
-          case 'tingkatanPeralihan':
-            rowNumber = 33;
-            break;
-          case 'tingkatan1':
-            rowNumber = 34;
-            break;
-          case 'tingkatan2':
-            rowNumber = 35;
-            break;
-          case 'tingkatan3':
-            rowNumber = 36;
-            break;
-          case 'tingkatan4':
-            rowNumber = 37;
-            break;
-          case 'tingkatan5':
-            rowNumber = 38;
-            break;
-          case 'tingkatan-khas':
-            rowNumber = 39;
-            break;
-          default:
-            continue;
-        }
-
-        const row = worksheet.getRow(rowNumber);
-        row.getCell(3).value = dataEnrolmenSekolah.jumlah;
+    // enrolmen
+    for (const item of data[5][0].enrolmenKelas) {
+      switch (item._id) {
+        case 'prasek-5tahun':
+          rowNumber = 18;
+          break;
+        case 'prasek-6tahun':
+          rowNumber = 19;
+          break;
+        case 'darjah1':
+          rowNumber = 23;
+          break;
+        case 'darjah2':
+          rowNumber = 24;
+          break;
+        case 'darjah3':
+          rowNumber = 25;
+          break;
+        case 'darjah4':
+          rowNumber = 26;
+          break;
+        case 'darjah5':
+          rowNumber = 27;
+          break;
+        case 'darjah6':
+          rowNumber = 28;
+          break;
+        case 'darjah-khas':
+          rowNumber = 29;
+          break;
+        case 'tingkatanPeralihan':
+          rowNumber = 33;
+          break;
+        case 'tingkatan1':
+          rowNumber = 34;
+          break;
+        case 'tingkatan2':
+          rowNumber = 35;
+          break;
+        case 'tingkatan3':
+          rowNumber = 36;
+          break;
+        case 'tingkatan4':
+          rowNumber = 37;
+          break;
+        case 'tingkatan5':
+          rowNumber = 38;
+          break;
+        case 'tingkatan-khas':
+          rowNumber = 39;
+          break;
+        default:
+          continue;
       }
+
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlah;
     }
-
-    for (let i = 0; i < data[6].length; i++) {
-      const dataEnrolmenOAP = data[6][i] || [];
-
-      if (dataEnrolmenOAP) {
-        switch (dataEnrolmenOAP._id) {
-          case 'pra-oap':
-            rowNumber = 22;
-            break;
-          case 'darjah1-oap':
-            rowNumber = 31;
-            break;
-          case 'darjah6-oap':
-            rowNumber = 32;
-            break;
-          case 'tingkatan4-oap':
-            rowNumber = 41;
-            break;
-          default:
-            continue;
-        }
-
-        const row = worksheet.getRow(rowNumber);
-        row.getCell(3).value = dataEnrolmenOAP.jumlah;
+    for (const item of data[5][0].enrolmenKhasKham) {
+      switch (item._id) {
+        case 'prasek-oku':
+          rowNumber = 20;
+          break;
+        case 'darjah-khas':
+          rowNumber = 29;
+          break;
+        case 'tingkatan-khas':
+          rowNumber = 39;
+          break;
+        default:
+          continue;
       }
+
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlah;
     }
-
-    for (let i = 0; i < data[7].length; i++) {
-      const dataEnrolmenAllOAP = data[7][i] || [];
-
-      if (dataEnrolmenAllOAP) {
-        switch (dataEnrolmenAllOAP._id) {
-          case 'all-oap':
-            rowNumber = 43;
-            break;
-          default:
-            continue;
-        }
-
-        const row = worksheet.getRow(rowNumber);
-        row.getCell(3).value = dataEnrolmenAllOAP.jumlah;
+    for (const item of data[5][0].enrolmenOAP) {
+      switch (item._id) {
+        case 'prasek-oap':
+          rowNumber = 22;
+          break;
+        case 'darjah1-oap':
+          rowNumber = 31;
+          break;
+        case 'darjah6-oap':
+          rowNumber = 32;
+          break;
+        case 'tingkatan4-oap':
+          rowNumber = 41;
+          break;
+        default:
+          continue;
       }
+
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlah;
     }
-
-    for (let i = 0; i < data[8].length; i++) {
-      const dataEnrolmenAllOKU = data[8][i] || [];
-
-      if (dataEnrolmenAllOKU) {
-        switch (dataEnrolmenAllOKU._id) {
-          case 'all-oku':
-            rowNumber = 44;
-            break;
-          default:
-            continue;
-        }
-
-        const row = worksheet.getRow(rowNumber);
-        row.getCell(3).value = dataEnrolmenAllOKU.jumlah;
+    for (const item of data[5][0].enrolmenAllOAP) {
+      switch (item._id) {
+        case 'all-oap':
+          rowNumber = 43;
+          break;
+        default:
+          continue;
       }
+
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlah;
+    }
+    for (const item of data[5][0].enrolmenAllOKU) {
+      switch (item._id) {
+        case 'all-oku':
+          rowNumber = 44;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlah;
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
@@ -4706,11 +4696,9 @@ const makePGS203 = async (payload) => {
 
     rowNumber = 16;
     for (let i = 0; i < data[0].length; i++) {
-      console.log(`array ${i}. row ${rowNumber}`);
       const [pemeriksaan] = data[0][i].queryPemeriksaanPGS203 || [];
 
       if (pemeriksaan) {
-        console.log(`we got data in this array`);
         jumlahReten += pemeriksaan.jumlahReten;
         jumlahRetenSalah += pemeriksaan.jumlahRetenSalah;
         switch (i) {
@@ -4795,16 +4783,13 @@ const makePGS203 = async (payload) => {
         }
       }
       rowNumber += rowsToIncrement.includes(i) ? 2 : 1;
-      console.log(`row number now is ${rowNumber}`);
     }
 
     rowNumber = 16;
     for (let i = 0; i < data[1].length; i++) {
-      console.log(`array ${i}. row ${rowNumber}`);
       const [rawatan] = data[1][i].queryRawatanPGS203 || [];
 
       if (rawatan) {
-        console.log(`we got data in this array`);
         worksheet.getRow(rowNumber).getCell(39).value =
           rawatan.telahSapuanFluorida; //Column AM (39)
         worksheet.getRow(rowNumber).getCell(40).value =
@@ -4849,7 +4834,6 @@ const makePGS203 = async (payload) => {
         worksheet.getRow(rowNumber).getCell(62).value = rawatan.kesSelesai; //Column BJ (62)
       }
       rowNumber += rowsToIncrement.includes(i) ? 2 : 1;
-      console.log(`row number now is ${rowNumber}`);
     }
 
     // sekolah
@@ -4914,11 +4898,13 @@ const makePGS203 = async (payload) => {
       row.getCell(26).value = item.skorGIS2; //Column AD (30)
       row.getCell(27).value = item.skorGIS3; //Column AE (31)
 
-      row.getCell(28).value = item.skorBPE0; //Column AF (32)
-      row.getCell(29).value = item.skorBPE1; //Column AG (33)
-      row.getCell(30).value = item.skorBPE2; //Column AH (34)
-      row.getCell(31).value = item.skorBPE3; //Column AI (35)
-      row.getCell(32).value = item.skorBPE4; //Column AJ (36)
+      if (rowNumber > 37) {
+        row.getCell(28).value = item.skorBPE0; //Column AF (32)
+        row.getCell(29).value = item.skorBPE1; //Column AG (33)
+        row.getCell(30).value = item.skorBPE2; //Column AH (34)
+        row.getCell(31).value = item.skorBPE3; //Column AI (35)
+        row.getCell(32).value = item.skorBPE4; //Column AJ (36)
+      }
 
       row.getCell(33).value = item.jumlahTPRbiasa; //Column AL (38)
 
@@ -5008,11 +4994,13 @@ const makePGS203 = async (payload) => {
       row.getCell(26).value = item.skorGIS2; //Column AD (30)
       row.getCell(27).value = item.skorGIS3; //Column AE (31)
 
-      row.getCell(28).value = item.skorBPE0; //Column AF (32)
-      row.getCell(29).value = item.skorBPE1; //Column AG (33)
-      row.getCell(30).value = item.skorBPE2; //Column AH (34)
-      row.getCell(31).value = item.skorBPE3; //Column AI (35)
-      row.getCell(32).value = item.skorBPE4; //Column AJ (36)
+      if (rowNumber > 37) {
+        row.getCell(28).value = item.skorBPE0; //Column AF (32)
+        row.getCell(29).value = item.skorBPE1; //Column AG (33)
+        row.getCell(30).value = item.skorBPE2; //Column AH (34)
+        row.getCell(31).value = item.skorBPE3; //Column AI (35)
+        row.getCell(32).value = item.skorBPE4; //Column AJ (36)
+      }
 
       row.getCell(33).value = item.jumlahTPRbiasa; //Column AL (38)
 
@@ -5099,11 +5087,13 @@ const makePGS203 = async (payload) => {
       row.getCell(26).value = item.skorGIS2; //Column AD (30)
       row.getCell(27).value = item.skorGIS3; //Column AE (31)
 
-      row.getCell(28).value = item.skorBPE0; //Column AF (32)
-      row.getCell(29).value = item.skorBPE1; //Column AG (33)
-      row.getCell(30).value = item.skorBPE2; //Column AH (34)
-      row.getCell(31).value = item.skorBPE3; //Column AI (35)
-      row.getCell(32).value = item.skorBPE4; //Column AJ (36)
+      if (rowNumber > 37) {
+        row.getCell(28).value = item.skorBPE0; //Column AF (32)
+        row.getCell(29).value = item.skorBPE1; //Column AG (33)
+        row.getCell(30).value = item.skorBPE2; //Column AH (34)
+        row.getCell(31).value = item.skorBPE3; //Column AI (35)
+        row.getCell(32).value = item.skorBPE4; //Column AJ (36)
+      }
 
       row.getCell(33).value = item.jumlahTPRbiasa; //Column AL (38)
 
@@ -5184,11 +5174,13 @@ const makePGS203 = async (payload) => {
       row.getCell(26).value = item.skorGIS2; //Column AD (30)
       row.getCell(27).value = item.skorGIS3; //Column AE (31)
 
-      row.getCell(28).value = item.skorBPE0; //Column AF (32)
-      row.getCell(29).value = item.skorBPE1; //Column AG (33)
-      row.getCell(30).value = item.skorBPE2; //Column AH (34)
-      row.getCell(31).value = item.skorBPE3; //Column AI (35)
-      row.getCell(32).value = item.skorBPE4; //Column AJ (36)
+      if (rowNumber > 37) {
+        row.getCell(28).value = item.skorBPE0; //Column AF (32)
+        row.getCell(29).value = item.skorBPE1; //Column AG (33)
+        row.getCell(30).value = item.skorBPE2; //Column AH (34)
+        row.getCell(31).value = item.skorBPE3; //Column AI (35)
+        row.getCell(32).value = item.skorBPE4; //Column AJ (36)
+      }
 
       row.getCell(33).value = item.jumlahTPRbiasa; //Column AL (38)
 
@@ -5263,11 +5255,13 @@ const makePGS203 = async (payload) => {
       row.getCell(26).value = item.skorGIS2; //Column AD (30)
       row.getCell(27).value = item.skorGIS3; //Column AE (31)
 
-      row.getCell(28).value = item.skorBPE0; //Column AF (32)
-      row.getCell(29).value = item.skorBPE1; //Column AG (33)
-      row.getCell(30).value = item.skorBPE2; //Column AH (34)
-      row.getCell(31).value = item.skorBPE3; //Column AI (35)
-      row.getCell(32).value = item.skorBPE4; //Column AJ (36)
+      if (rowNumber > 37) {
+        row.getCell(28).value = item.skorBPE0; //Column AF (32)
+        row.getCell(29).value = item.skorBPE1; //Column AG (33)
+        row.getCell(30).value = item.skorBPE2; //Column AH (34)
+        row.getCell(31).value = item.skorBPE3; //Column AI (35)
+        row.getCell(32).value = item.skorBPE4; //Column AJ (36)
+      }
 
       row.getCell(33).value = item.jumlahTPRbiasa; //Column AL (38)
 
@@ -5397,157 +5391,196 @@ const makePGS203 = async (payload) => {
     }
 
     // enrolmen
-    for (let i = 0; i < data[3].length; i++) {
-      const dataEnrolmenSekolah = data[3][i] || [];
+    for (const item of data[3][0].enrolmenKPSKPB) {
+      switch (item._id) {
+        case 'prasekolah':
+          rowNumber = 16;
+          break;
+        case 'darjah-khas':
+          rowNumber = 36;
+          break;
+        case 'tingkatan-khas':
+          rowNumber = 49;
+          break;
+        case 'darjah1-kps':
+          rowNumber = 21;
+          break;
+        case 'darjah1-kpb':
+          rowNumber = 22;
+          break;
+        case 'darjah6-kps':
+          rowNumber = 25;
+          break;
+        case 'darjah6-kpb':
+          rowNumber = 26;
+          break;
+        case 'tingkatan4-kps':
+          rowNumber = 38;
+          break;
+        case 'tingkatan4-kpb':
+          rowNumber = 39;
+          break;
+        default:
+          continue;
+      }
 
-      if (dataEnrolmenSekolah) {
-        switch (dataEnrolmenSekolah._id) {
-          case 'darjah-khas-all':
-            rowNumber = 36;
-            break;
-          case 'tingkatan-khas-all':
-            rowNumber = 49;
-            break;
-          //
-          case 'prasekolah':
-            rowNumber = 16;
-            console.log('darjah 1');
-            break;
-          case 'darjah1-kps':
-            rowNumber = 21;
-            console.log('darjah 1');
-            break;
-          case 'darjah1-kpb':
-            rowNumber = 22;
-            console.log('darjah 1');
-            break;
-          case 'darjah6-kps':
-            rowNumber = 25;
-            console.log('darjah 6');
-            break;
-          case 'darjah6-kpb':
-            rowNumber = 26;
-            console.log('darjah 6');
-            break;
-          case 'tingkatan4-kps':
-            rowNumber = 38;
-            break;
-          case 'tingkatan4-kpb':
-            rowNumber = 39;
-            break;
-          case 'darjah-kki-all-kps':
-            rowNumber = 29;
-            break;
-          case 'darjah-kki-all-kpb':
-            rowNumber = 30;
-            break;
-          case 'tingkatan-kki-all-kps':
-            rowNumber = 42;
-            break;
-          case 'tingkatan-kki-all-kpb':
-            rowNumber = 43;
-            break;
-          case 'darjah1-oap':
-            rowNumber = 24;
-            break;
-          case 'darjah6-oap':
-            rowNumber = 28;
-            break;
-          case 'tingkatan4-oap':
-            rowNumber = 41;
-            break;
-          case 'darjah-kki-oap':
-            // rowNumber = 41;
-            break;
-          case 'tingkatan-kki-oap':
-            // rowNumber = 41;
-            break;
-          case 'darjah-all-oap':
-            rowNumber = 37;
-            break;
-          case 'tingkatan-all-oap':
-            rowNumber = 50;
-            break;
-          default:
-            continue;
-        }
-
-        const row = worksheet.getRow(rowNumber);
-
-        //Kedatangan
-        row.getCell(3).value += dataEnrolmenSekolah.jumlah;
-        if ([42, 43].includes(rowNumber)) {
-          worksheet.getRow(49).getCell(3).value += dataEnrolmenSekolah.jumlah;
-        }
-        if ([29, 30].includes(rowNumber)) {
-          worksheet.getRow(36).getCell(3).value += dataEnrolmenSekolah.jumlah;
-        }
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlah;
+      if ([42, 43].includes(rowNumber)) {
+        worksheet.getRow(49).getCell(3).value += item.jumlah;
+      }
+      if ([29, 30].includes(rowNumber)) {
+        worksheet.getRow(36).getCell(3).value += item.jumlah;
       }
     }
-    for (let i = 0; i < data[4].length; i++) {
-      const dataEnrolmenAllSekolah = data[4][i] || [];
+    for (const item of data[3][0].enrolmenKKI) {
+      switch (item._id) {
+        case 'prasek-oku':
+          rowNumber = 19;
+          break;
+        case 'darjah-kki-all-kps':
+          rowNumber = 29;
+          break;
+        case 'darjah-kki-all-kpb':
+          rowNumber = 30;
+          break;
+        case 'tingkatan-kki-all-kps':
+          rowNumber = 42;
+          break;
+        case 'tingkatan-kki-all-kpb':
+          rowNumber = 43;
+          break;
+        case 'darjah-kki-oap':
+          rowNumber = 32;
+          break;
+        case 'tingkatan-kki-oap':
+          rowNumber = 45;
+          break;
+        default:
+          continue;
+      }
 
-      if (dataEnrolmenAllSekolah) {
-        switch (dataEnrolmenAllSekolah._id) {
-          case 'darjah-all-kps':
-            rowNumber = 33;
-            break;
-          case 'darjah-all-kpb':
-            rowNumber = 34;
-            break;
-          case 'tingkatan-all-kps':
-            rowNumber = 46;
-            break;
-          case 'tingkatan-all-kpb':
-            rowNumber = 47;
-            break;
-          default:
-            continue;
-        }
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlah;
+      if ([42, 43].includes(rowNumber)) {
+        worksheet.getRow(49).getCell(3).value += item.jumlah;
+      }
+      if ([29, 30].includes(rowNumber)) {
+        worksheet.getRow(36).getCell(3).value += item.jumlah;
+      }
+    }
+    for (const item of data[3][0].enrolmenOAP) {
+      switch (item._id) {
+        case 'prasek-oap':
+          rowNumber = 20;
+          break;
+        case 'darjah1-oap':
+          rowNumber = 24;
+          break;
+        case 'darjah6-oap':
+          rowNumber = 28;
+          break;
+        case 'tingkatan4-oap':
+          rowNumber = 41;
+          break;
+        case 'darjah-kki-oap':
+          rowNumber = 32;
+          break;
+        case 'tingkatan-kki-oap':
+          rowNumber = 45;
+          break;
+        default:
+          continue;
+      }
 
-        const row = worksheet.getRow(rowNumber);
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlah;
+      if ([42, 43].includes(rowNumber)) {
+        worksheet.getRow(49).getCell(3).value += item.jumlah;
+      }
+      if ([29, 30].includes(rowNumber)) {
+        worksheet.getRow(36).getCell(3).value += item.jumlah;
+      }
+    }
+    for (const item of data[3][0].enrolmenAllKPSKPB) {
+      switch (item._id) {
+        case 'darjah-all-kps':
+          rowNumber = 33;
+          break;
+        case 'darjah-all-kpb':
+          rowNumber = 34;
+          break;
+        case 'tingkatan-all-kps':
+          rowNumber = 46;
+          break;
+        case 'tingkatan-all-kpb':
+          rowNumber = 47;
+          break;
+        default:
+          continue;
+      }
 
-        //Kedatangan
-        row.getCell(3).value += dataEnrolmenAllSekolah.jumlah;
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlah;
+      if ([42, 43].includes(rowNumber)) {
+        worksheet.getRow(49).getCell(3).value += item.jumlah;
+      }
+      if ([29, 30].includes(rowNumber)) {
+        worksheet.getRow(36).getCell(3).value += item.jumlah;
+      }
+    }
+    for (const item of data[3][0].enrolmenAllOAP) {
+      switch (item._id) {
+        case 'darjah-all-oap':
+          rowNumber = 37;
+          break;
+        case 'tingkatan-all-oap':
+          rowNumber = 50;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlah;
+      if ([42, 43].includes(rowNumber)) {
+        worksheet.getRow(49).getCell(3).value += item.jumlah;
+      }
+      if ([29, 30].includes(rowNumber)) {
+        worksheet.getRow(36).getCell(3).value += item.jumlah;
       }
     }
 
     // tutup sekolah
-    for (let i = 0; i < data[5].length; i++) {
-      const dataTutupSekolah = data[5][i] || [];
-
-      if (dataTutupSekolah) {
-        worksheet.getCell('BL29').value += dataTutupSekolah.semuaSRKKIKPS;
-        worksheet.getCell('BM29').value +=
-          dataTutupSekolah.semuaSRKKIKPSSelesai;
-        worksheet.getCell('BN29').value += dataTutupSekolah.liputanSRKKIKPS;
-        worksheet.getCell('BL30').value += dataTutupSekolah.semuaSRKKIKPB;
-        worksheet.getCell('BM30').value +=
-          dataTutupSekolah.semuaSRKKIKPBSelesai;
-        worksheet.getCell('BN30').value += dataTutupSekolah.liputanSRKKIKPB;
+    for (const item of data[4]) {
+      if (item) {
+        worksheet.getCell('BL29').value += item.semuaSRKKIKPS;
+        worksheet.getCell('BM29').value += item.semuaSRKKIKPSSelesai;
+        worksheet.getCell('BN29').value += item.liputanSRKKIKPS;
+        worksheet.getCell('BL30').value += item.semuaSRKKIKPB;
+        worksheet.getCell('BM30').value += item.semuaSRKKIKPBSelesai;
+        worksheet.getCell('BN30').value += item.liputanSRKKIKPB;
         //
-        worksheet.getCell('BL33').value += dataTutupSekolah.semuaSRKPS;
-        worksheet.getCell('BM33').value += dataTutupSekolah.semuaSRKPSSelesai;
-        worksheet.getCell('BN33').value += dataTutupSekolah.liputanSRKPS;
-        worksheet.getCell('BL34').value += dataTutupSekolah.semuaSRKPB;
-        worksheet.getCell('BM34').value += dataTutupSekolah.semuaSRKPBSelesai;
-        worksheet.getCell('BN34').value += dataTutupSekolah.liputanSRKPB;
+        worksheet.getCell('BL33').value += item.semuaSRKPS;
+        worksheet.getCell('BM33').value += item.semuaSRKPSSelesai;
+        worksheet.getCell('BN33').value += item.liputanSRKPS;
+        worksheet.getCell('BL34').value += item.semuaSRKPB;
+        worksheet.getCell('BM34').value += item.semuaSRKPBSelesai;
+        worksheet.getCell('BN34').value += item.liputanSRKPB;
         //
-        worksheet.getCell('BL42').value += dataTutupSekolah.semuaSMKKIKPS;
-        worksheet.getCell('BM42').value +=
-          dataTutupSekolah.semuaSMKKIKPSSelesai;
-        worksheet.getCell('BN42').value += dataTutupSekolah.liputanSMKKIKPS;
-        worksheet.getCell('BL43').value += dataTutupSekolah.semuaSMKKIKPB;
-        worksheet.getCell('BM43').value +=
-          dataTutupSekolah.semuaSMKKIKPBSelesai;
-        worksheet.getCell('BN43').value += dataTutupSekolah.liputanSMKKIKPB;
+        worksheet.getCell('BL42').value += item.semuaSMKKIKPS;
+        worksheet.getCell('BM42').value += item.semuaSMKKIKPSSelesai;
+        worksheet.getCell('BN42').value += item.liputanSMKKIKPS;
+        worksheet.getCell('BL43').value += item.semuaSMKKIKPB;
+        worksheet.getCell('BM43').value += item.semuaSMKKIKPBSelesai;
+        worksheet.getCell('BN43').value += item.liputanSMKKIKPB;
         //
-        worksheet.getCell('BL46').value += dataTutupSekolah.semuaSMKPS;
-        worksheet.getCell('BM46').value += dataTutupSekolah.semuaSMKPSSelesai;
-        worksheet.getCell('BN46').value += dataTutupSekolah.liputanSMKPS;
-        worksheet.getCell('BL47').value += dataTutupSekolah.semuaSMKPB;
-        worksheet.getCell('BM47').value += dataTutupSekolah.semuaSMKPBSelesai;
-        worksheet.getCell('BN47').value += dataTutupSekolah.liputanSMKPB;
+        worksheet.getCell('BL46').value += item.semuaSMKPS;
+        worksheet.getCell('BM46').value += item.semuaSMKPSSelesai;
+        worksheet.getCell('BN46').value += item.liputanSMKPS;
+        worksheet.getCell('BL47').value += item.semuaSMKPB;
+        worksheet.getCell('BM47').value += item.semuaSMKPBSelesai;
+        worksheet.getCell('BN47').value += item.liputanSMKPB;
       }
     }
 
@@ -6951,6 +6984,123 @@ const makeTOD = async (payload) => {
   } catch (error) {
     penjanaanRetenLogger.error(
       `[generateRetenController/TOD] Excel making error. Reason: ${error}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makeFS = async (payload) => {
+  logger.info('[generateRetenController/makeLiputanOAP] makeFS');
+  let {
+    tarikhMula,
+    tarikhAkhir,
+    negeri,
+    daerah,
+    klinik,
+    pilihansekolah,
+    bulan,
+    fromEtl,
+    username,
+    jenisReten,
+  } = payload;
+  try {
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countFS(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'KPI FS.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('KPI FS');
+    //
+    worksheet.getCell('C5').value =
+      negeri !== 'all' ? `${negeri.toUpperCase()}` : 'Malaysia';
+    worksheet.getCell('B6').value =
+      daerah !== 'all'
+        ? `Sekolah / Daerah : ${daerah.toUpperCase()}`
+        : 'Sekolah / Daerah : SEMUA';
+    worksheet.getCell('B7').value =
+      new Date().getMonth() + 1 < 7
+        ? `JAN - JUN ${new Date().getFullYear()}`
+        : `JAN - DIS ${new Date().getFullYear()}`;
+    //
+    // let jumlahReten = 0;
+    // let jumlahRetenSalah = 0;
+    // let peratusRetenSalah = 0;
+
+    for (const item of data) {
+      worksheet.getCell('D15').value = item.bilGigiFs3TakJadiDMFX;
+      worksheet.getCell('D16').value = item.bilGigiFs3TahunLps;
+    }
+
+    const setCellValue = (cell, value, alignment) => {
+      cell.value = value;
+      cell.alignment = {
+        wrapText: false,
+        shrinkToFit: false,
+        horizontal: 'right',
+        ...alignment,
+      };
+    };
+
+    setCellValue(
+      worksheet.getCell('D19'),
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
+    );
+    setCellValue(
+      worksheet.getCell('D20'),
+      `Maklumat dari ${
+        bulan
+          ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+              bulan
+            )
+              .endOf('month')
+              .format('DD-MM-YYYY')}`
+          : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+              tarikhAkhir
+            ).format('DD-MM-YYYY')}`
+      }`
+    );
+    setCellValue(worksheet.getCell('D21'), 'Peratus reten salah: 0.00%');
+    setCellValue(
+      worksheet.getCell('D22'),
+      `Dijana oleh: ${username} (${moment(new Date()).format(
+        'DD-MM-YYYY'
+      )} - ${moment(new Date()).format('HH:mm:ss')})`
+    );
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(`[generateRetenController/makeFS] writing file ${newfile}`);
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController/makeFS] deleting file ${newfile}`);
+    }, 1000);
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+
+    return file;
+  } catch (error) {
+    console.log(error);
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeFS] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -8920,10 +9070,10 @@ const makeOAP = async (payload) => {
   }
 };
 const makeLiputanOA = async (payload) => {
+  let { tarikhMula, tarikhAkhir, bulan, fromEtl, username, jenisReten } =
+    payload;
   logger.info('[generateRetenController/makeLiputanOAP] makeLiputanOAP');
   try {
-    let { tarikhMula, tarikhAkhir, bulan, fromEtl, username, jenisReten } =
-      payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -9072,9 +9222,9 @@ const makeLiputanOA = async (payload) => {
 };
 const makeLiputanPenan = async (payload) => {
   logger.info('[generateRetenController/makeLiputanOAP] makeLiputanPenan');
+  let { tarikhMula, tarikhAkhir, bulan, fromEtl, username, jenisReten } =
+    payload;
   try {
-    let { tarikhMula, tarikhAkhir, bulan, fromEtl, username, jenisReten } =
-      payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -11140,6 +11290,7 @@ const mapsOfSeveralRetens = new Map([
   ['PGPRO01Combined', makePgPro01Combined],
   ['PGS201', makePGS201],
   ['PGS203P2', makePGS203],
+  ['KPIFS', makeFS],
   ['TODP1', makeTOD],
   ['MASA', makeMasa],
   ['BP', makeBp],

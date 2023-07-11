@@ -20,6 +20,7 @@ const ondemandSchema = new Schema(
     PGPRO01Combined: { type: Boolean, required: true, default: false },
     PGS201: { type: Boolean, required: true, default: false },
     PGS203P2: { type: Boolean, required: true, default: false },
+    KPIFS: { type: Boolean, required: true, default: false },
     TODP1: { type: Boolean, required: true, default: false },
     MASA: { type: Boolean, required: true, default: false },
     BP: { type: Boolean, required: true, default: false },
