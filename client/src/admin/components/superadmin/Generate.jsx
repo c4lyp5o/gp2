@@ -154,7 +154,9 @@ const ModalGenerateAdHoc = (props) => {
       // makan ubat
       switch (loginInfo.accountType) {
         case 'hqSuperadmin':
-          negeri = Dictionary[props.pilihanNegeri];
+          negeri = pilihanRetenTasTadSekolah
+            ? 'all'
+            : Dictionary[props.pilihanNegeri];
           daerah = pilihanRetenTasTadSekolah
             ? props.jenisFasiliti === 'semua'
               ? 'all'
