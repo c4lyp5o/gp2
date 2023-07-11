@@ -54,13 +54,13 @@ export default function UserModalMuatTurun({
               )}
             </button>
             <button
-              onClick={() =>
-                handleDownloadSenaraiSekolahRujukan(
-                  sekolahMuatTurun.kodSekolah,
-                  sekolahMuatTurun.nama,
-                  sekolahMuatTurun.sesiTakwimSekolah
-                )
-              }
+              // onClick={() =>
+              //   handleDownloadSenaraiSekolahRujukan(
+              //     sekolahMuatTurun.kodSekolah,
+              //     sekolahMuatTurun.nama,
+              //     sekolahMuatTurun.sesiTakwimSekolah
+              //   )
+              // }
               className={`${
                 isDownloading ? 'pointer-events-none opacity-50' : ''
               } capitalize text-userWhite rounded-md py-2 hover:cursor-not-allowed transition-all bg-user2 hover:bg-user3`}
