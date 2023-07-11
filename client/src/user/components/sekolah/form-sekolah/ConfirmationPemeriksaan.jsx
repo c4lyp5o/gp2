@@ -641,13 +641,6 @@ const ConfirmModal = ({ children, data }) => {
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
                               </p>
                             ) : null}
-                            {data.melaksanakanSaringanMerokok ===
-                            'ya-melaksanakan-saringan-merokok' ? (
-                              <p className='flex flex-row items-center'>
-                                Melaksanakan Saringan Merokok :{' '}
-                                <FaCheckCircle className='text-user7 text-center mx-1' />
-                              </p>
-                            ) : null}
                             {data.bersediaDirujuk === 'ya-bersedia-dirujuk' ? (
                               <p className='flex flex-row items-center'>
                                 Bersedia Dirujuk menjalani intervensi:{' '}
