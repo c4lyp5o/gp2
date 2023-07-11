@@ -899,7 +899,7 @@ function UserFormSekolahPemeriksaan() {
       setKesSelesai(e);
       setConfirmData({
         ...confirmData,
-        kesSelesai: e.target.value,
+        kesSelesai: e,
       });
     } catch (error) {
       console.error('Error occurred during validation:', error);
@@ -967,7 +967,7 @@ function UserFormSekolahPemeriksaan() {
       setKesSelesaiIcdas(e);
       setConfirmData({
         ...confirmData,
-        kesSelesaiIcdas: e.target.value,
+        kesSelesaiIcdas: e,
       });
     } catch (error) {
       console.error('Error occurred during validation:', error);
