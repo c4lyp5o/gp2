@@ -963,7 +963,6 @@ const countBEGIN = async (payload) => {
     },
   ];
   const pra_tad = [
-    //ada masalah nak tahu patient tu tahun semasa / darjah mana
     {
       $match: {
         ...getParamsPGS201(payload),

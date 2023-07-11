@@ -823,6 +823,12 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan Kesihatan Pergigian Dan Status Rawatan Murid Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
     },
     {
+      kod: 'KPI FS',
+      kodRingkas: 'KPIFS',
+      deskripsi:
+        'Peratus Keberhasilan Aplikasi Fissure Sealant Pada Gigi Yang Dikenal Pasti',
+    },
+    {
       kod: 'TOD 02 Pin. 1/2022',
       kodRingkas: 'TODP1',
       deskripsi:

@@ -10022,6 +10022,64 @@ const countPGS203 = async (payload) => {
     throw new Error(error);
   }
 };
+const countFS = async (payload) => {
+  try {
+    const dataFS = await Fasiliti.aggregate([
+      ...pipelineSekolah(payload),
+      {
+        $group: {
+          _id: null,
+          // jumlah: { $sum: 1 },
+          // jumlahRetenSalah: {
+          //   $sum: {
+          //     $cond: [
+          //       {
+          //         $eq: ['$statusReten', 'reten salah'],
+          //       },
+          //       1,
+          //       0,
+          //     ],
+          //   },
+          // },
+          bilGigiFs3TahunLps: {
+            $sum: {
+              $add: [
+                '$merged.gicBilanganFsDibuat3TahunLepas',
+                '$merged.resinBilanganFsDibuat3TahunLepas',
+                '$merged.lainLainBilanganFsDibuat3TahunLepas',
+              ],
+            },
+          },
+          bilGigiFs3TahunLpsJdDMFX: {
+            $sum: {
+              $add: [
+                '$merged.dBilanganFsDibuat3TahunLepasTerjadi',
+                '$merged.mBilanganFsDibuat3TahunLepasTerjadi',
+                '$merged.fBilanganFsDibuat3TahunLepasTerjadi',
+                '$merged.xBilanganFsDibuat3TahunLepasTerjadi',
+              ],
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          bilGigiFs3TakJadiDMFX: {
+            $subtract: ['$bilGigiFs3TahunLps', '$bilGigiFs3TahunLpsJdDMFX'],
+          },
+          bilGigiFs3TahunLps: 1,
+        },
+      },
+    ]);
+
+    return dataFS;
+  } catch (error) {
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
+    );
+    throw new Error(error);
+  }
+};
 
 // Reten Promosi
 const countPGPro01 = async (payload) => {
@@ -13813,6 +13871,7 @@ module.exports = {
   // new
   countKEPP,
   countTOD,
+  countFS,
   // adhoc
   countAdHocQuery,
 };
