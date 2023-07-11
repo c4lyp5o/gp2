@@ -152,7 +152,697 @@ const pipelineSekolah = (payload) => {
   ];
 };
 
-// id data 201
+const pipelineEnrolmenSekolah = (payload) => {
+  return [
+    {
+      $match: {
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
+        ...(payload.klinik !== 'all' && {
+          kodFasilitiHandler: payload.klinik,
+        }),
+        ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
+        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        sekolahSelesaiReten: true,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        jenisFasiliti: 1,
+        jenisPerkhidmatanSekolah: 1,
+        kodSekolah: 1,
+        sesiTakwimSekolah: 1,
+        sekolahMmi: 1,
+        sekolahKki: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'sekolahs',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+        pipeline: [
+          {
+            $match: {
+              deleted: false,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: {
+        path: '$result',
+      },
+    },
+    {
+      $addFields: {
+        umur: '$result.umur',
+        keturunan: '$result.keturunan',
+        statusOku: '$result.statusOku',
+        tahunTingkatan: '$result.tahunTingkatan',
+      },
+    },
+    {
+      $project: {
+        result: 0,
+      },
+    },
+  ];
+};
+
+const pipelineTutupSekolah = (payload) => {
+  return [
+    {
+      $match: {
+        jenisFasiliti: {
+          $in: ['sekolah-rendah', 'sekolah-menengah'],
+        },
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
+        ...(payload.klinik !== 'all' && {
+          kodFasilitiHandler: payload.klinik,
+        }),
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        jenisFasiliti: 1,
+        jenisPerkhidmatanSekolah: 1,
+        kodSekolah: 1,
+        sesiTakwimSekolah: 1,
+        sekolahSelesaiReten: 1,
+        sekolahKki: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'sekolahs',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+        pipeline: [
+          {
+            $match: {
+              deleted: false,
+              pemeriksaanSekolah: {
+                $exists: true,
+                $ne: null,
+              },
+            },
+          },
+          {
+            $limit: 1,
+          },
+        ],
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        semuaSekolah: {
+          $sum: 1,
+        },
+        semuaSekolahTutupReten: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$sekolahSelesaiReten', true],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        liputanSRKKIKPS: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $gt: [{ $size: '$result' }, 0],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSRKKIKPS: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSRKKIKPSSelesai: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $eq: ['$sekolahSelesaiReten', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        liputanSRKKIKPB: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $gt: [{ $size: '$result' }, 0],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSRKKIKPB: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSRKKIKPBSelesai: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $eq: ['$sekolahSelesaiReten', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        liputanSRKPS: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $gt: [{ $size: '$result' }, 0],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSRKPS: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSRKPSSelesai: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $eq: ['$sekolahSelesaiReten', true],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        liputanSRKPB: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $gt: [{ $size: '$result' }, 0],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSRKPB: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSRKPBSelesai: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $eq: ['$sekolahSelesaiReten', true],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        liputanSMKKIKPS: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $gt: [{ $size: '$result' }, 0],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSMKKIKPS: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSMKKIKPSSelesai: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$sekolahSelesaiReten', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        liputanSMKKIKPB: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $gt: [{ $size: '$result' }, 0],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSMKKIKPB: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSMKKIKPBSelesai: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$sekolahSelesaiReten', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        liputanSMKPS: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $gt: [{ $size: '$result' }, 0],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSMKPS: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSMKPSSelesai: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$sekolahSelesaiReten', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        liputanSMKPB: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $gt: [{ $size: '$result' }, 0],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSMKPB: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        semuaSMKPBSelesai: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                  },
+                  {
+                    $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+                  },
+                  {
+                    $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+                  },
+                  {
+                    $eq: ['$sekolahSelesaiReten', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+  ];
+};
+
+// id data dan enrolmen 201
 const id201Biasa = {
   _id: {
     $switch: {
@@ -234,19 +924,6 @@ const id201Biasa = {
         },
         {
           case: {
-            $and: [
-              {
-                $eq: ['$tahunTingkatan', 'KHAS'],
-              },
-              {
-                $eq: ['$jenisFasiliti', 'sekolah-rendah'],
-              },
-            ],
-          },
-          then: 'darjah-khas',
-        },
-        {
-          case: {
             $eq: ['$tahunTingkatan', 'P'],
           },
           then: 'tingkatanPeralihan',
@@ -280,19 +957,6 @@ const id201Biasa = {
             $eq: ['$tahunTingkatan', 'T5'],
           },
           then: 'tingkatan5',
-        },
-        {
-          case: {
-            $and: [
-              {
-                $eq: ['$tahunTingkatan', 'KHAM'],
-              },
-              {
-                $eq: ['$jenisFasiliti', 'sekolah-menengah'],
-              },
-            ],
-          },
-          then: 'tingkatan-khas',
         },
       ],
       default: 'Unknown',
@@ -587,7 +1251,7 @@ const id201AllOKU = {
   },
 };
 
-// id data 203
+// id data dan enrolmen 203
 const id203KPSKPB = {
   _id: {
     $switch: {
@@ -4487,67 +5151,6 @@ const groupKedatanganSekolahAllOKU = [
   },
 ];
 
-const pipelineEnrolmenSekolah = (payload) => {
-  return [
-    {
-      $match: {
-        sekolahSelesaiReten: true,
-        ...(!['all', '-'].includes(payload.negeri) && {
-          createdByNegeri: payload.negeri,
-        }),
-        ...(!['all', '-'].includes(payload.daerah) && {
-          createdByDaerah: payload.daerah,
-        }),
-        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
-        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        jenisFasiliti: 1,
-        kodSekolah: 1,
-        sesiTakwimSekolah: 1,
-        sekolahMmi: 1,
-        sekolahKki: 1,
-      },
-    },
-    {
-      $lookup: {
-        from: 'sekolahs',
-        localField: 'kodSekolah',
-        foreignField: 'kodSekolah',
-        as: 'result',
-        pipeline: [
-          {
-            $match: {
-              deleted: false,
-            },
-          },
-        ],
-      },
-    },
-    {
-      $unwind: {
-        path: '$result',
-      },
-    },
-    {
-      $addFields: {
-        keturunan: '$result.keturunan',
-        statusOku: '$result.statusOku',
-        tahunTingkatan: '$result.tahunTingkatan',
-      },
-    },
-    {
-      $project: {
-        result: 0,
-      },
-    },
-  ];
-};
-
 const pipelineCPPC1 = (payload) => {
   return [
     {
@@ -5215,6 +5818,8 @@ module.exports = {
   id203AllOAP,
   // pipeline
   pipelineSekolah,
+  pipelineEnrolmenSekolah,
+  pipelineTutupSekolah,
   groupSekolah,
   groupSekolahPemeriksaan,
   groupSekolahRawatan,
@@ -5225,7 +5830,6 @@ module.exports = {
   groupKedatanganSekolah,
   groupKedatanganSekolahAllOAP,
   groupKedatanganSekolahAllOKU,
-  pipelineEnrolmenSekolah,
   pipelineCPPC1Biasa,
   pipelineCPPC1PraSekolah,
   pipelineCPPC2Biasa,
