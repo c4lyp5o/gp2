@@ -460,7 +460,7 @@ const getParamsPGS201 = (payload) => {
   const params = {
     createdByMdcMdtb: pilihanIndividu,
     createdByKodFasiliti: klinik,
-    ...(negeri !== 'undefined' && { createdByNegeri: negeri }),
+    createdByNegeri: negeri,
     createdByDaerah: daerah,
     statusKehadiran: false,
     deleted: false,
@@ -469,6 +469,10 @@ const getParamsPGS201 = (payload) => {
 
   if (!pilihanIndividu) {
     delete params.createdByMdcMdtb;
+  }
+
+  if (negeri === 'all' || negeri === '-') {
+    delete params.createdByNegeri;
   }
 
   if (daerah === 'all' || daerah === '-') {
