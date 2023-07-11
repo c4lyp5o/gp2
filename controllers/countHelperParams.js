@@ -471,6 +471,10 @@ const getParamsPGS201 = (payload) => {
     delete params.createdByMdcMdtb;
   }
 
+  if (negeri === 'all' || negeri === '-') {
+    delete params.createdByNegeri;
+  }
+
   if (daerah === 'all' || daerah === '-') {
     delete params.createdByDaerah;
   }
