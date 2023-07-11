@@ -6988,6 +6988,123 @@ const makeTOD = async (payload) => {
     excelMakerError(jenisReten);
   }
 };
+const makeFS = async (payload) => {
+  logger.info('[generateRetenController/makeLiputanOAP] makeFS');
+  let {
+    tarikhMula,
+    tarikhAkhir,
+    negeri,
+    daerah,
+    klinik,
+    pilihansekolah,
+    bulan,
+    fromEtl,
+    username,
+    jenisReten,
+  } = payload;
+  try {
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countFS(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'KPI FS.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('KPI FS');
+    //
+    worksheet.getCell('C5').value =
+      negeri !== 'all' ? `${negeri.toUpperCase()}` : 'Malaysia';
+    worksheet.getCell('B6').value =
+      daerah !== 'all'
+        ? `Sekolah / Daerah : ${daerah.toUpperCase()}`
+        : 'Sekolah / Daerah : SEMUA';
+    worksheet.getCell('B7').value =
+      new Date().getMonth() + 1 < 7
+        ? `JAN - JUN ${new Date().getFullYear()}`
+        : `JAN - DIS ${new Date().getFullYear()}`;
+    //
+    // let jumlahReten = 0;
+    // let jumlahRetenSalah = 0;
+    // let peratusRetenSalah = 0;
+
+    for (const item of data) {
+      worksheet.getCell('D15').value = item.bilGigiFs3TakJadiDMFX;
+      worksheet.getCell('D16').value = item.bilGigiFs3TahunLps;
+    }
+
+    const setCellValue = (cell, value, alignment) => {
+      cell.value = value;
+      cell.alignment = {
+        wrapText: false,
+        shrinkToFit: false,
+        horizontal: 'right',
+        ...alignment,
+      };
+    };
+
+    setCellValue(
+      worksheet.getCell('D19'),
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
+    );
+    setCellValue(
+      worksheet.getCell('D20'),
+      `Maklumat dari ${
+        bulan
+          ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+              bulan
+            )
+              .endOf('month')
+              .format('DD-MM-YYYY')}`
+          : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+              tarikhAkhir
+            ).format('DD-MM-YYYY')}`
+      }`
+    );
+    setCellValue(worksheet.getCell('D21'), 'Peratus reten salah: 0.00%');
+    setCellValue(
+      worksheet.getCell('D22'),
+      `Dijana oleh: ${username} (${moment(new Date()).format(
+        'DD-MM-YYYY'
+      )} - ${moment(new Date()).format('HH:mm:ss')})`
+    );
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(`[generateRetenController/makeFS] writing file ${newfile}`);
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController/makeFS] deleting file ${newfile}`);
+    }, 1000);
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+
+    return file;
+  } catch (error) {
+    console.log(error);
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeFS] Excel making error. Reason: ${error}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
 const makeBEGIN = async (payload) => {
   logger.info('[generateRetenController/makeBEGIN] makeBEGIN');
   let {
@@ -8953,10 +9070,10 @@ const makeOAP = async (payload) => {
   }
 };
 const makeLiputanOA = async (payload) => {
+  let { tarikhMula, tarikhAkhir, bulan, fromEtl, username, jenisReten } =
+    payload;
   logger.info('[generateRetenController/makeLiputanOAP] makeLiputanOAP');
   try {
-    let { tarikhMula, tarikhAkhir, bulan, fromEtl, username, jenisReten } =
-      payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -9105,9 +9222,9 @@ const makeLiputanOA = async (payload) => {
 };
 const makeLiputanPenan = async (payload) => {
   logger.info('[generateRetenController/makeLiputanOAP] makeLiputanPenan');
+  let { tarikhMula, tarikhAkhir, bulan, fromEtl, username, jenisReten } =
+    payload;
   try {
-    let { tarikhMula, tarikhAkhir, bulan, fromEtl, username, jenisReten } =
-      payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -11173,6 +11290,7 @@ const mapsOfSeveralRetens = new Map([
   ['PGPRO01Combined', makePgPro01Combined],
   ['PGS201', makePGS201],
   ['PGS203P2', makePGS203],
+  ['KPIFS', makeFS],
   ['TODP1', makeTOD],
   ['MASA', makeMasa],
   ['BP', makeBp],
