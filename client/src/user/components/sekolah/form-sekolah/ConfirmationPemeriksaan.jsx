@@ -91,7 +91,7 @@ const ConfirmModal = ({ children, data }) => {
                       <span className='font-semibold'>Pemeriksaan</span>
                     </span>
                     <div className='text-xs overflow-hidden transition-all duration-500'>
-                      {/* {data.yaTidakSediaAdaStatusDenture ? (
+                      {data.yaTidakSediaAdaStatusDenture ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Status Dentur:
@@ -178,7 +178,7 @@ const ConfirmModal = ({ children, data }) => {
                             ) : null}
                           </p>
                         </div>
-                      ) : null} */}
+                      ) : null}
                       {data.kebersihanMulutOralHygiene ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
@@ -240,9 +240,11 @@ const ConfirmModal = ({ children, data }) => {
                             <p className='lowercase'>
                               dfx: {data.sumDMFXDesidus}
                             </p>
-                            <p className='lowercase'>
-                              sm: {data.smAdaGigiDesidus}
-                            </p>
+                            {data.smAdaGigiDesidus && (
+                              <p className='lowercase'>
+                                sm: {data.smAdaGigiDesidus}
+                              </p>
+                            )}
                           </p>
                         </div>
                       ) : null}
@@ -265,6 +267,18 @@ const ConfirmModal = ({ children, data }) => {
                               <p className='uppercase'>
                                 E: {data.eAdaGigiKekal}
                               </p>
+                            ) : null}
+                            {data.classID ? (
+                              <p>Class I D: {data.classID}</p>
+                            ) : null}
+                            {data.classIID ? (
+                              <p>Class II D: {data.classIID}</p>
+                            ) : null}
+                            {data.classIF ? (
+                              <p>Class I F: {data.classIF}</p>
+                            ) : null}
+                            {data.classIIF ? (
+                              <p>Class II F: {data.classIIF}</p>
                             ) : null}
                           </p>
                         </div>
@@ -395,30 +409,6 @@ const ConfirmModal = ({ children, data }) => {
                               <p>
                                 E: {data.eBilanganFsDibuat3TahunLepasTerjadi}
                               </p>
-                            ) : null}
-                          </p>
-                        </div>
-                      ) : null}
-                      {data.classID ||
-                      data.classIID ||
-                      data.classIF ||
-                      data.classIIF ? (
-                        <div className='grid grid-cols-[1fr_2fr]'>
-                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            MMI:
-                          </p>
-                          <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                            {data.classID ? (
-                              <p>Class I D: {data.classID}</p>
-                            ) : null}
-                            {data.classIID ? (
-                              <p>Class II D: {data.classIID}</p>
-                            ) : null}
-                            {data.classIF ? (
-                              <p>Class I F: {data.classIF}</p>
-                            ) : null}
-                            {data.classIIF ? (
-                              <p>Class II F: {data.classIIF}</p>
                             ) : null}
                           </p>
                         </div>
@@ -626,6 +616,17 @@ const ConfirmModal = ({ children, data }) => {
                             KOTAK
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.melaksanakanSaringanMerokok ? (
+                              <p className='flex flex-row items-center'>
+                                Melaksanakan Saringan Merokok :{' '}
+                                {data.melaksanakanSaringanMerokok ===
+                                'ya-melaksanakan-saringan-merokok' ? (
+                                  <FaCheckCircle className='text-user7 text-center mx-1' />
+                                ) : (
+                                  <FaTimesCircle className='text-user9 text-center mx-1' />
+                                )}
+                              </p>
+                            ) : null}
                             {data.statusM ? (
                               <p className='flex flex-row items-center'>
                                 Status M :{' '}
@@ -637,13 +638,6 @@ const ConfirmModal = ({ children, data }) => {
                             'ya-menerima-nasihat-ringkas' ? (
                               <p className='flex flex-row items-center'>
                                 Menerima Nasihat Ringkas :{' '}
-                                <FaCheckCircle className='text-user7 text-center mx-1' />
-                              </p>
-                            ) : null}
-                            {data.melaksanakanSaringanMerokok ===
-                            'ya-melaksanakan-saringan-merokok' ? (
-                              <p className='flex flex-row items-center'>
-                                Melaksanakan Saringan Merokok :{' '}
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
                               </p>
                             ) : null}
