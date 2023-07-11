@@ -121,8 +121,10 @@ const percentageCalc = (numerator, denominator) => {
   if (numerator === 0 && denominator === 0) {
     return 0;
   }
-  // one decimal place
-  return Math.round((numerator / denominator) * 1000) / 10;
+  // two decimal place
+  const numberLong = (numerator / denominator) * 100;
+  const twoDecimalPlace = numberLong.toFixed(2);
+  return twoDecimalPlace;
 };
 
 // wip ----------
