@@ -6,7 +6,7 @@ const {
   countPG214,
   countPG206,
   countPG207,
-  countPGPR201Baru,
+  countPGPR201,
   countPGS201,
   countPGS203,
   countFS,
@@ -41,7 +41,7 @@ const {
   countPKAP2,
 } = require('./countHelperKomuniti');
 
-const reten_engine_version = '1.6.6';
+const reten_engine_version = '1.6.8';
 
 module.exports = {
   // version
@@ -54,7 +54,7 @@ module.exports = {
   countPG214,
   countPG206,
   countPG207,
-  countPGPR201Baru,
+  countPGPR201,
   countPGS201,
   countPGS203,
   countFS,
