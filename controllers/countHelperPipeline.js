@@ -1,5 +1,7 @@
+const { getParamsTOD } = require('./countHelperParams');
+
 // the mother of all pipeline sekolah
-const pipelineSekolah = (payload) => {
+const pipelineSekolahPemeriksaan = (payload) => {
   return [
     {
       $match: {
@@ -130,8 +132,166 @@ const pipelineSekolah = (payload) => {
         operatorPemeriksaan: 1,
         tarikhRawatan: '$lastRawatan.tarikhRawatanSemasa',
         operatorRawatan: '$lastRawatan.createdByMdcMdtb',
+        kesSelesaiPemeriksaan: '$pemeriksaanSekolah.kesSelesai',
+        kesSelesaiIcdasPemeriksaan: '$pemeriksaanSekolah.kesSelesaiIcdas',
+        kesSelesaiRawatan: '$rawatanSekolah.kesSelesaiSekolahRawatan',
+        kesSelesaiIcdasRawatan: '$rawatanSekolah.kesSelesaiIcdasSekolahRawatan',
         merged: {
-          $mergeObjects: ['$pemeriksaanSekolah', '$rawatanSekolah'],
+          $mergeObjects: ['$pemeriksaanSekolah'],
+        },
+      },
+    },
+    {
+      $match: {
+        ...(payload.menengahMmi === 'jana-menengah-mmi' && {
+          $or: [
+            {
+              $and: [
+                { jenisFasiliti: 'sekolah-menengah' },
+                { sekolahMmi: 'ya-sekolah-mmi' },
+              ],
+            },
+          ],
+        }),
+      },
+    },
+  ];
+};
+
+const pipelineSekolahRawatan = (payload) => {
+  return [
+    {
+      $match: {
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
+        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
+        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        sekolahSelesaiReten: true,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        jenisFasiliti: 1,
+        jenisPerkhidmatanSekolah: 1,
+        kodSekolah: 1,
+        sesiTakwimSekolah: 1,
+        sekolahMmi: 1,
+        sekolahKki: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'sekolahs',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+        pipeline: [
+          {
+            $match: {
+              deleted: false,
+              rawatanSekolah: {
+                $exists: true,
+                $ne: [],
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: {
+        path: '$result',
+      },
+    },
+    {
+      $addFields: {
+        umur: '$result.umur',
+        keturunan: '$result.keturunan',
+        warganegara: '$result.warganegara',
+        statusOku: '$result.statusOku',
+        statusRawatan: '$result.statusRawatan',
+        tahunTingkatan: '$result.tahunTingkatan',
+        warganegara: '$result.warganegara',
+        kelasPelajar: '$result.kelasPelajar',
+        jantina: '$result.jantina',
+        // pemeriksaanSekolah: '$result.pemeriksaanSekolah',
+        rawatanSekolah: '$result.rawatanSekolah',
+      },
+    },
+    // {
+    //   $lookup: {
+    //     from: 'pemeriksaansekolahs',
+    //     localField: 'pemeriksaanSekolah',
+    //     foreignField: '_id',
+    //     as: 'pemeriksaanSekolah',
+    //   },
+    // },
+    // {
+    //   $unwind: {
+    //     path: '$pemeriksaanSekolah',
+    //     preserveNullAndEmptyArrays: false,
+    //   },
+    // },
+    {
+      $lookup: {
+        from: 'rawatansekolahs',
+        localField: 'rawatanSekolah',
+        foreignField: '_id',
+        as: 'rawatanSekolah',
+      },
+    },
+    // {
+    //   $addFields: {
+    //     tarikhPemeriksaan: '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+    //     operatorPemeriksaan: '$pemeriksaanSekolah.createdByMdcMdtb',
+    //     lastRawatan: {
+    //       $arrayElemAt: [
+    //         '$rawatanSekolah',
+    //         {
+    //           $subtract: [
+    //             {
+    //               $size: '$rawatanSekolah',
+    //             },
+    //             1,
+    //           ],
+    //         },
+    //       ],
+    //     },
+    //   },
+    // },
+    {
+      $unwind: {
+        path: '$rawatanSekolah',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $project: {
+        statusRawatan: 1,
+        kodSekolah: 1,
+        sekolahMmi: 1,
+        sekolahKki: 1,
+        jenisFasiliti: 1,
+        jenisPerkhidmatanSekolah: 1,
+        jantina: 1,
+        umur: 1,
+        keturunan: 1,
+        warganegara: 1,
+        statusOku: 1,
+        tahunTingkatan: 1,
+        kelasPelajar: 1,
+        // tarikhPemeriksaan: 1,
+        // operatorPemeriksaan: 1,
+        // tarikhRawatan: '$lastRawatan.tarikhRawatanSemasa',
+        // operatorRawatan: '$lastRawatan.createdByMdcMdtb',
+        merged: {
+          $mergeObjects: ['$rawatanSekolah'],
         },
       },
     },
@@ -837,6 +997,7193 @@ const pipelineTutupSekolah = (payload) => {
             ],
           },
         },
+      },
+    },
+  ];
+};
+
+// pipeline tod
+const pipelineTod = (payload) => {
+  return [
+    {
+      $match: {
+        ...getParamsTOD(payload),
+        $expr: {
+          $gt: [
+            '$updatedAt',
+            {
+              $dateFromParts: {
+                year: { $year: '$createdAt' },
+                month: {
+                  $add: [{ $month: '$createdAt' }, 1],
+                },
+                day: { $add: [1, 6] },
+              },
+            },
+          ],
+        },
+        $expr: {
+          $lte: [
+            {
+              $subtract: [
+                new Date().getFullYear(),
+                {
+                  $toInt: {
+                    $substr: ['$tarikhLahir', 0, 4],
+                  },
+                },
+              ],
+            },
+            4,
+          ],
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodFasilitiTaskaTadika',
+        foreignField: 'kodTastad',
+        as: 'fasiliti_data',
+      },
+    },
+    {
+      $unwind: '$fasiliti_data',
+    },
+    {
+      $addFields: {
+        kodTastad: '$fasiliti_data.kodTastad',
+        statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
+      },
+    },
+    {
+      $project: {
+        fasiliti_data: 0,
+      },
+    },
+    {
+      $facet: {
+        baru_taska: [
+          {
+            $match: {
+              kedatangan: 'baru-kedatangan',
+              jenisFasiliti: 'taska-tadika',
+              statusPerkhidmatan: 'active',
+              kodTastad: {
+                $regex: /tas/i,
+              },
+            },
+          },
+          {
+            $group: {
+              _id: '$jenisFasiliti',
+              // stats
+              jumlahReten: {
+                $sum: 1,
+              },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              // pemeriksaan
+              kedatanganTahunSemasaBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              // perlu rawatan
+              jumlahd: {
+                $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahf: {
+                $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahx: {
+                $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahdfx: {
+                $sum: {
+                  $add: [
+                    '$dAdaGigiDesidusPemeriksaanUmum',
+                    '$fAdaGigiDesidusPemeriksaanUmum',
+                    '$xAdaGigiDesidusPemeriksaanUmum',
+                  ],
+                },
+              },
+              dfxEqualToZero: {
+                //dfx=0
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakA: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'A',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakC: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'C',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakE: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'E',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              TPR: {
+                //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+                // umurTahunLahir
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        // baby punya kira
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: [
+                                '$yaTidakPesakitMempunyaiGigi',
+                                'tidak-pesakit-mempunyai-gigi',
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                          ],
+                        },
+                        // 1 tahun
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 5],
+                            },
+                            {
+                              $lte: ['$umurTahunLahir', 14],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 15],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorBpeOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuLembut: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanTisuLembutUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuKeras: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              perluSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$fvPerluSapuanPemeriksaanUmum',
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              sudahSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$pesakitDibuatFluorideVarnish', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahTampalanAnteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                  ],
+                },
+              },
+              jumlahTampalanPosteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior sewarna
+                    '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior amalgam
+                  ],
+                },
+              },
+
+              craRendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $lte: [
+                            {
+                              $toInt: '$jumlahFaktorRisiko',
+                            },
+                            2,
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$adaDesidusPemeriksaanUmum', true],
+                        },
+                        {
+                          $eq: ['$adaKekalPemeriksaanUmum', false],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craSederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $eq: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                0,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craTinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $and: [
+                                {
+                                  $gte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    1,
+                                  ],
+                                },
+                                {
+                                  $lte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    2,
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+        baru_tadika: [
+          {
+            $match: {
+              kedatangan: 'baru-kedatangan',
+              jenisFasiliti: 'taska-tadika',
+              statusPerkhidmatan: 'active',
+              kodTastad: {
+                $regex: /tad/i,
+              },
+            },
+          },
+          {
+            $group: {
+              _id: '$jenisFasiliti',
+              // stats
+              jumlahReten: {
+                $sum: 1,
+              },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              // pemeriksaan
+              kedatanganTahunSemasaBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              // perlu rawatan
+              jumlahd: {
+                $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahf: {
+                $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahx: {
+                $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahdfx: {
+                $sum: {
+                  $add: [
+                    '$dAdaGigiDesidusPemeriksaanUmum',
+                    '$fAdaGigiDesidusPemeriksaanUmum',
+                    '$xAdaGigiDesidusPemeriksaanUmum',
+                  ],
+                },
+              },
+              dfxEqualToZero: {
+                //dfx=0
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakA: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'A',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakC: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'C',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakE: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'E',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              TPR: {
+                //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+                // umurTahunLahir
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        // baby punya kira
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: [
+                                '$yaTidakPesakitMempunyaiGigi',
+                                'tidak-pesakit-mempunyai-gigi',
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                          ],
+                        },
+                        // 1 tahun
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 5],
+                            },
+                            {
+                              $lte: ['$umurTahunLahir', 14],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 15],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorBpeOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuLembut: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanTisuLembutUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuKeras: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              perluSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$fvPerluSapuanPemeriksaanUmum',
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              sudahSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$pesakitDibuatFluorideVarnish', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahTampalanAnteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                  ],
+                },
+              },
+              jumlahTampalanPosteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior sewarna
+                    '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior amalgam
+                  ],
+                },
+              },
+
+              craRendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $lte: [
+                            {
+                              $toInt: '$jumlahFaktorRisiko',
+                            },
+                            2,
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$adaDesidusPemeriksaanUmum', true],
+                        },
+                        {
+                          $eq: ['$adaKekalPemeriksaanUmum', false],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craSederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $eq: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                0,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craTinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $and: [
+                                {
+                                  $gte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    1,
+                                  ],
+                                },
+                                {
+                                  $lte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    2,
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+        baru_kkia: [
+          {
+            $match: {
+              kedatangan: 'baru-kedatangan',
+              jenisFasiliti: 'kk-kd',
+            },
+          },
+          {
+            $group: {
+              _id: '$jenisFasiliti',
+              // stats
+              jumlahReten: {
+                $sum: 1,
+              },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              // pemeriksaan
+              kedatanganTahunSemasaBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              // perlu rawatan
+              jumlahd: {
+                $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahf: {
+                $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahx: {
+                $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahdfx: {
+                $sum: {
+                  $add: [
+                    '$dAdaGigiDesidusPemeriksaanUmum',
+                    '$fAdaGigiDesidusPemeriksaanUmum',
+                    '$xAdaGigiDesidusPemeriksaanUmum',
+                  ],
+                },
+              },
+              dfxEqualToZero: {
+                //dfx=0
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakA: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'A',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakC: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'C',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakE: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'E',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              TPR: {
+                //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+                // umurTahunLahir
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        // baby punya kira
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: [
+                                '$yaTidakPesakitMempunyaiGigi',
+                                'tidak-pesakit-mempunyai-gigi',
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                          ],
+                        },
+                        // 1 tahun
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 5],
+                            },
+                            {
+                              $lte: ['$umurTahunLahir', 14],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 15],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorBpeOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuLembut: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanTisuLembutUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuKeras: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              perluSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$fvPerluSapuanPemeriksaanUmum',
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              sudahSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$pesakitDibuatFluorideVarnish', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahTampalanAnteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                  ],
+                },
+              },
+              jumlahTampalanPosteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior sewarna
+                    '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior amalgam
+                  ],
+                },
+              },
+
+              craRendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $lte: [
+                            {
+                              $toInt: '$jumlahFaktorRisiko',
+                            },
+                            2,
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$adaDesidusPemeriksaanUmum', true],
+                        },
+                        {
+                          $eq: ['$adaKekalPemeriksaanUmum', false],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craSederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $eq: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                0,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craTinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $and: [
+                                {
+                                  $gte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    1,
+                                  ],
+                                },
+                                {
+                                  $lte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    2,
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+        baru_op: [
+          {
+            $match: {
+              kedatangan: 'baru-kedatangan',
+              jenisFasiliti: 'kp',
+            },
+          },
+          {
+            $group: {
+              _id: '$jenisFasiliti',
+              // stats
+              jumlahReten: {
+                $sum: 1,
+              },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              // pemeriksaan
+              kedatanganTahunSemasaBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              // perlu rawatan
+              jumlahd: {
+                $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahf: {
+                $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahx: {
+                $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahdfx: {
+                $sum: {
+                  $add: [
+                    '$dAdaGigiDesidusPemeriksaanUmum',
+                    '$fAdaGigiDesidusPemeriksaanUmum',
+                    '$xAdaGigiDesidusPemeriksaanUmum',
+                  ],
+                },
+              },
+              dfxEqualToZero: {
+                //dfx=0
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakA: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'A',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakC: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'C',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakE: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'E',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              TPR: {
+                //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+                // umurTahunLahir
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        // baby punya kira
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: [
+                                '$yaTidakPesakitMempunyaiGigi',
+                                'tidak-pesakit-mempunyai-gigi',
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                          ],
+                        },
+                        // 1 tahun
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 5],
+                            },
+                            {
+                              $lte: ['$umurTahunLahir', 14],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 15],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorBpeOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuLembut: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanTisuLembutUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuKeras: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              perluSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$fvPerluSapuanPemeriksaanUmum',
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              sudahSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$pesakitDibuatFluorideVarnish', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahTampalanAnteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                  ],
+                },
+              },
+              jumlahTampalanPosteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior sewarna
+                    '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior amalgam
+                  ],
+                },
+              },
+
+              craRendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $lte: [
+                            {
+                              $toInt: '$jumlahFaktorRisiko',
+                            },
+                            2,
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$adaDesidusPemeriksaanUmum', true],
+                        },
+                        {
+                          $eq: ['$adaKekalPemeriksaanUmum', false],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craSederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $eq: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                0,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craTinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $and: [
+                                {
+                                  $gte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    1,
+                                  ],
+                                },
+                                {
+                                  $lte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    2,
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+        baru_outreach: [
+          {
+            $match: {
+              kedatangan: 'baru-kedatangan',
+              jenisFasiliti: 'projek-komuniti-lain',
+            },
+          },
+          {
+            $group: {
+              _id: '$jenisFasiliti',
+              // stats
+              jumlahReten: {
+                $sum: 1,
+              },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              // pemeriksaan
+              kedatanganTahunSemasaBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              // perlu rawatan
+              jumlahd: {
+                $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahf: {
+                $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahx: {
+                $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahdfx: {
+                $sum: {
+                  $add: [
+                    '$dAdaGigiDesidusPemeriksaanUmum',
+                    '$fAdaGigiDesidusPemeriksaanUmum',
+                    '$xAdaGigiDesidusPemeriksaanUmum',
+                  ],
+                },
+              },
+              dfxEqualToZero: {
+                //dfx=0
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakA: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'A',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakC: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'C',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakE: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'E',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              TPR: {
+                //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+                // umurTahunLahir
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        // baby punya kira
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: [
+                                '$yaTidakPesakitMempunyaiGigi',
+                                'tidak-pesakit-mempunyai-gigi',
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                          ],
+                        },
+                        // 1 tahun
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 5],
+                            },
+                            {
+                              $lte: ['$umurTahunLahir', 14],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 15],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorBpeOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuLembut: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanTisuLembutUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuKeras: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              perluSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$fvPerluSapuanPemeriksaanUmum',
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              sudahSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$pesakitDibuatFluorideVarnish', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahTampalanAnteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                  ],
+                },
+              },
+              jumlahTampalanPosteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior sewarna
+                    '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior amalgam
+                  ],
+                },
+              },
+
+              craRendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $lte: [
+                            {
+                              $toInt: '$jumlahFaktorRisiko',
+                            },
+                            2,
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$adaDesidusPemeriksaanUmum', true],
+                        },
+                        {
+                          $eq: ['$adaKekalPemeriksaanUmum', false],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craSederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $eq: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                0,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craTinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $and: [
+                                {
+                                  $gte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    1,
+                                  ],
+                                },
+                                {
+                                  $lte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    2,
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+        baruUlangan_taska: [
+          {
+            $match: {
+              kedatangan: 'ulangan-kedatangan',
+              jenisFasiliti: 'taska-tadika',
+              statusPerkhidmatan: 'active',
+              kodTastad: {
+                $regex: /tas/i,
+              },
+            },
+          },
+          {
+            $group: {
+              _id: '$jenisFasiliti',
+              // stats
+              jumlahReten: {
+                $sum: 1,
+              },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              // pemeriksaan
+              kedatanganTahunSemasaBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              // perlu rawatan
+              jumlahd: {
+                $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahf: {
+                $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahx: {
+                $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahdfx: {
+                $sum: {
+                  $add: [
+                    '$dAdaGigiDesidusPemeriksaanUmum',
+                    '$fAdaGigiDesidusPemeriksaanUmum',
+                    '$xAdaGigiDesidusPemeriksaanUmum',
+                  ],
+                },
+              },
+              dfxEqualToZero: {
+                //dfx=0
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakA: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'A',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakC: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'C',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakE: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'E',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              TPR: {
+                //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+                // umurTahunLahir
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        // baby punya kira
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: [
+                                '$yaTidakPesakitMempunyaiGigi',
+                                'tidak-pesakit-mempunyai-gigi',
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                          ],
+                        },
+                        // 1 tahun
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 5],
+                            },
+                            {
+                              $lte: ['$umurTahunLahir', 14],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 15],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorBpeOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuLembut: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanTisuLembutUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuKeras: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              perluSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$fvPerluSapuanPemeriksaanUmum',
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              sudahSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$pesakitDibuatFluorideVarnish', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahTampalanAnteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                  ],
+                },
+              },
+              jumlahTampalanPosteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior sewarna
+                    '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior amalgam
+                  ],
+                },
+              },
+
+              craRendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $lte: [
+                            {
+                              $toInt: '$jumlahFaktorRisiko',
+                            },
+                            2,
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$adaDesidusPemeriksaanUmum', true],
+                        },
+                        {
+                          $eq: ['$adaKekalPemeriksaanUmum', false],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craSederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $eq: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                0,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craTinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $and: [
+                                {
+                                  $gte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    1,
+                                  ],
+                                },
+                                {
+                                  $lte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    2,
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+        baruUlangan_tadika: [
+          {
+            $match: {
+              kedatangan: 'ulangan-kedatangan',
+              jenisFasiliti: 'taska-tadika',
+              statusPerkhidmatan: 'active',
+              kodTastad: {
+                $regex: /tad/i,
+              },
+            },
+          },
+          {
+            $group: {
+              _id: '$jenisFasiliti',
+              // stats
+              jumlahReten: {
+                $sum: 1,
+              },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              // pemeriksaan
+              kedatanganTahunSemasaBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              // perlu rawatan
+              jumlahd: {
+                $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahf: {
+                $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahx: {
+                $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahdfx: {
+                $sum: {
+                  $add: [
+                    '$dAdaGigiDesidusPemeriksaanUmum',
+                    '$fAdaGigiDesidusPemeriksaanUmum',
+                    '$xAdaGigiDesidusPemeriksaanUmum',
+                  ],
+                },
+              },
+              dfxEqualToZero: {
+                //dfx=0
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakA: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'A',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakC: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'C',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakE: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'E',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              TPR: {
+                //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+                // umurTahunLahir
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        // baby punya kira
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: [
+                                '$yaTidakPesakitMempunyaiGigi',
+                                'tidak-pesakit-mempunyai-gigi',
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                          ],
+                        },
+                        // 1 tahun
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 5],
+                            },
+                            {
+                              $lte: ['$umurTahunLahir', 14],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 15],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorBpeOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuLembut: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanTisuLembutUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuKeras: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              perluSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$fvPerluSapuanPemeriksaanUmum',
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              sudahSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$pesakitDibuatFluorideVarnish', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahTampalanAnteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                  ],
+                },
+              },
+              jumlahTampalanPosteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior sewarna
+                    '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior amalgam
+                  ],
+                },
+              },
+
+              craRendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $lte: [
+                            {
+                              $toInt: '$jumlahFaktorRisiko',
+                            },
+                            2,
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$adaDesidusPemeriksaanUmum', true],
+                        },
+                        {
+                          $eq: ['$adaKekalPemeriksaanUmum', false],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craSederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $eq: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                0,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craTinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $and: [
+                                {
+                                  $gte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    1,
+                                  ],
+                                },
+                                {
+                                  $lte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    2,
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+        baruUlangan_kkia: [
+          {
+            $match: {
+              kedatangan: 'ulangan-kedatangan',
+              jenisFasiliti: 'kk-kd',
+            },
+          },
+          {
+            $group: {
+              _id: '$jenisFasiliti',
+              // stats
+              jumlahReten: {
+                $sum: 1,
+              },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              // pemeriksaan
+              kedatanganTahunSemasaBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              // perlu rawatan
+              jumlahd: {
+                $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahf: {
+                $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahx: {
+                $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahdfx: {
+                $sum: {
+                  $add: [
+                    '$dAdaGigiDesidusPemeriksaanUmum',
+                    '$fAdaGigiDesidusPemeriksaanUmum',
+                    '$xAdaGigiDesidusPemeriksaanUmum',
+                  ],
+                },
+              },
+              dfxEqualToZero: {
+                //dfx=0
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakA: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'A',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakC: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'C',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakE: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'E',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              TPR: {
+                //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+                // umurTahunLahir
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        // baby punya kira
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: [
+                                '$yaTidakPesakitMempunyaiGigi',
+                                'tidak-pesakit-mempunyai-gigi',
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                          ],
+                        },
+                        // 1 tahun
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 5],
+                            },
+                            {
+                              $lte: ['$umurTahunLahir', 14],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 15],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorBpeOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuLembut: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanTisuLembutUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuKeras: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              perluSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$fvPerluSapuanPemeriksaanUmum',
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              sudahSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$pesakitDibuatFluorideVarnish', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahTampalanAnteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                  ],
+                },
+              },
+              jumlahTampalanPosteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior sewarna
+                    '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior amalgam
+                  ],
+                },
+              },
+
+              craRendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $lte: [
+                            {
+                              $toInt: '$jumlahFaktorRisiko',
+                            },
+                            2,
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$adaDesidusPemeriksaanUmum', true],
+                        },
+                        {
+                          $eq: ['$adaKekalPemeriksaanUmum', false],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craSederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $eq: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                0,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craTinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $and: [
+                                {
+                                  $gte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    1,
+                                  ],
+                                },
+                                {
+                                  $lte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    2,
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+        baruUlangan_op: [
+          {
+            $match: {
+              kedatangan: 'ulangan-kedatangan',
+              jenisFasiliti: 'kp',
+            },
+          },
+          {
+            $group: {
+              _id: '$jenisFasiliti',
+              // stats
+              jumlahReten: {
+                $sum: 1,
+              },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              // pemeriksaan
+              kedatanganTahunSemasaBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              // perlu rawatan
+              jumlahd: {
+                $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahf: {
+                $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahx: {
+                $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahdfx: {
+                $sum: {
+                  $add: [
+                    '$dAdaGigiDesidusPemeriksaanUmum',
+                    '$fAdaGigiDesidusPemeriksaanUmum',
+                    '$xAdaGigiDesidusPemeriksaanUmum',
+                  ],
+                },
+              },
+              dfxEqualToZero: {
+                //dfx=0
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakA: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'A',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakC: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'C',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakE: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'E',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              TPR: {
+                //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+                // umurTahunLahir
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        // baby punya kira
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: [
+                                '$yaTidakPesakitMempunyaiGigi',
+                                'tidak-pesakit-mempunyai-gigi',
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                          ],
+                        },
+                        // 1 tahun
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 5],
+                            },
+                            {
+                              $lte: ['$umurTahunLahir', 14],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 15],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorBpeOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuLembut: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanTisuLembutUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuKeras: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              perluSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$fvPerluSapuanPemeriksaanUmum',
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              sudahSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$pesakitDibuatFluorideVarnish', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahTampalanAnteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                  ],
+                },
+              },
+              jumlahTampalanPosteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior sewarna
+                    '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior amalgam
+                  ],
+                },
+              },
+
+              craRendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $lte: [
+                            {
+                              $toInt: '$jumlahFaktorRisiko',
+                            },
+                            2,
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$adaDesidusPemeriksaanUmum', true],
+                        },
+                        {
+                          $eq: ['$adaKekalPemeriksaanUmum', false],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craSederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $eq: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                0,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craTinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $and: [
+                                {
+                                  $gte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    1,
+                                  ],
+                                },
+                                {
+                                  $lte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    2,
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+        baruUlangan_outreach: [
+          {
+            $match: {
+              kedatangan: 'ulangan-kedatangan',
+              jenisFasiliti: 'projek-komuniti-lain',
+            },
+          },
+          {
+            $group: {
+              _id: '$jenisFasiliti',
+              // stats
+              jumlahReten: {
+                $sum: 1,
+              },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              // pemeriksaan
+              kedatanganTahunSemasaBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              // perlu rawatan
+              jumlahd: {
+                $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahf: {
+                $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahx: {
+                $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+              },
+              jumlahdfx: {
+                $sum: {
+                  $add: [
+                    '$dAdaGigiDesidusPemeriksaanUmum',
+                    '$fAdaGigiDesidusPemeriksaanUmum',
+                    '$xAdaGigiDesidusPemeriksaanUmum',
+                  ],
+                },
+              },
+              dfxEqualToZero: {
+                //dfx=0
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakA: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'A',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakC: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'C',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              skorPlakE: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: [
+                            '$kebersihanMulutOralHygienePemeriksaanUmum',
+                            'E',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              TPR: {
+                //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+                // umurTahunLahir
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        // baby punya kira
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: [
+                                '$yaTidakPesakitMempunyaiGigi',
+                                'tidak-pesakit-mempunyai-gigi',
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $lt: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                          ],
+                        },
+                        // 1 tahun
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', true],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 5],
+                            },
+                            {
+                              $lte: ['$umurTahunLahir', 14],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 15],
+                            },
+                            {
+                              $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                            },
+                            {
+                              $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorGisMulutOralHygienePemeriksaanUmum',
+                                    '2',
+                                  ],
+                                },
+                                {
+                                  $eq: [
+                                    '$skorBpeOralHygienePemeriksaanUmum',
+                                    '0',
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $gte: ['$umurTahunLahir', 1],
+                            },
+                            {
+                              $eq: ['$adaDesidusPemeriksaanUmum', false],
+                            },
+                            {
+                              $eq: ['$adaKekalPemeriksaanUmum', false],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuLembut: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanTisuLembutUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKecederaanTisuKeras: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              perluSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$fvPerluSapuanPemeriksaanUmum',
+                        'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              sudahSapuanFluorida: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$pesakitDibuatFluorideVarnish', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahTampalanAnteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                  ],
+                },
+              },
+              jumlahTampalanPosteriorBaru: {
+                $sum: {
+                  $add: [
+                    '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior sewarna
+                    '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                    // nnti tambah semula posterior amalgam
+                  ],
+                },
+              },
+
+              craRendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $lte: [
+                            {
+                              $toInt: '$jumlahFaktorRisiko',
+                            },
+                            2,
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$yaTidakPesakitMempunyaiGigi',
+                            'ya-pesakit-mempunyai-gigi',
+                          ],
+                        },
+                        {
+                          $eq: ['$adaDesidusPemeriksaanUmum', true],
+                        },
+                        {
+                          $eq: ['$adaKekalPemeriksaanUmum', false],
+                        },
+                        {
+                          $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                        {
+                          $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craSederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $eq: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                0,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              craTinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $or: [
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $and: [
+                                {
+                                  $gte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    1,
+                                  ],
+                                },
+                                {
+                                  $lte: [
+                                    {
+                                      $toInt: '$jumlahFaktorRisiko',
+                                    },
+                                    2,
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          $and: [
+                            {
+                              $and: [
+                                {
+                                  $eq: [
+                                    '$yaTidakPesakitMempunyaiGigi',
+                                    'ya-pesakit-mempunyai-gigi',
+                                  ],
+                                },
+                                {
+                                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                                },
+                                {
+                                  $eq: ['$adaKekalPemeriksaanUmum', false],
+                                },
+                              ],
+                            },
+                            {
+                              $or: [
+                                {
+                                  $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                                {
+                                  $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                                },
+                              ],
+                            },
+                            {
+                              $gte: [
+                                {
+                                  $toInt: '$jumlahFaktorRisiko',
+                                },
+                                3,
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
+    },
+  ];
+};
+
+// pipeline begin
+const pipelineBegin = (payload) => {
+  return [
+    {
+      $match: {
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
+        ...(payload.klinik !== 'all' && {
+          kodFasilitiHandler: payload.klinik,
+        }),
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        jenisFasiliti: 1,
+        jenisPerkhidmatanSekolah: 1,
+        kodSekolah: 1,
+        sesiTakwimSekolah: 1,
+        sekolahMmi: 1,
+        sekolahKki: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'sekolahs',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+        pipeline: [
+          {
+            $match: {
+              deleted: false,
+              umur: {
+                $lte: 12,
+              },
+              pemeriksaanSekolah: {
+                $ne: null,
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: {
+        path: '$result',
+      },
+    },
+    {
+      $addFields: {
+        tahunTingkatan: '$result.tahunTingkatan',
+        pemeriksaanSekolah: '$result.pemeriksaanSekolah',
+        tarikhMelaksanakanBegin: '$result.tarikhMelaksanakanBegin',
+        namaPelaksanaBegin: '$result.namaPelaksanaBegin',
+      },
+    },
+    {
+      $lookup: {
+        from: 'pemeriksaansekolahs',
+        localField: 'pemeriksaanSekolah',
+        foreignField: '_id',
+        as: 'result_pem',
+      },
+    },
+    {
+      $unwind: '$result_pem',
+    },
+    {
+      $addFields: {
+        tahapFaktorRisikoKaries: '$result_pem.penandaRisikoKaries',
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        result: 0,
+        result_pem: 0,
+        pemeriksaanSekolah: 0,
+      },
+    },
+    {
+      $facet: {
+        prasekolah: [
+          {
+            $match: {
+              tahunTingkatan: 'PRASEKOLAH',
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              jumlah: {
+                $sum: 1,
+              },
+              jumlahMB: {
+                $sum: {
+                  $cond: [
+                    {
+                      $ne: ['$tarikhMelaksanakanBegin', ''],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              jumlahFasilitiMB: {
+                $addToSet: '$kodSekolah',
+              },
+              jumlahCRARendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$tahapFaktorRisikoKaries', 'rendah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahCRASederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$tahapFaktorRisikoKaries', 'sederhana'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahCRATinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$tahapFaktorRisikoKaries', 'tinggi'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              jumlah: 1,
+              jumlahMB: 1,
+              jumlahFasilitiMB: {
+                $size: '$jumlahFasilitiMB',
+              },
+              jumlahCRARendah: 1,
+              jumlahCRASederhana: 1,
+              jumlahCRATinggi: 1,
+            },
+          },
+        ],
+        darjah1: [
+          {
+            $match: {
+              tahunTingkatan: 'D1',
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              jumlah: {
+                $sum: 1,
+              },
+              jumlahMB: {
+                $sum: {
+                  $cond: [
+                    {
+                      $ne: ['$tarikhMelaksanakanBegin', ''],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              jumlahFasilitiMB: {
+                $addToSet: '$kodSekolah',
+              },
+              jumlahCRARendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$tahapFaktorRisikoKaries', 'rendah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahCRASederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$tahapFaktorRisikoKaries', 'sederhana'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahCRATinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$tahapFaktorRisikoKaries', 'tinggi'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              jumlah: 1,
+              jumlahMB: 1,
+              jumlahFasilitiMB: {
+                $size: '$jumlahFasilitiMB',
+              },
+              jumlahCRARendah: 1,
+              jumlahCRASederhana: 1,
+              jumlahCRATinggi: 1,
+            },
+          },
+        ],
+        lebihDarjah1: [
+          {
+            $match: {
+              tahunTingkatan: {
+                $nin: ['PRASEKOLAH', 'D1'],
+              },
+              sekolahKki: 'tidak-sekolah-kki',
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              jumlah: {
+                $sum: 1,
+              },
+              jumlahMB: {
+                $sum: {
+                  $cond: [
+                    {
+                      $ne: ['$tarikhMelaksanakanBegin', ''],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              jumlahFasilitiMB: {
+                $addToSet: '$kodSekolah',
+              },
+              jumlahCRARendah: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$tahapFaktorRisikoKaries', 'rendah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahCRASederhana: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$tahapFaktorRisikoKaries', 'sederhana'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahCRATinggi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$tahapFaktorRisikoKaries', 'tinggi'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              //
+              jumlahCRATinggiBuatBegin: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$tahapFaktorRisikoKaries', 'tinggi'],
+                        },
+                        {
+                          $ne: ['$tarikhMelaksanakanBegin', ''],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              jumlah: 1,
+              jumlahMB: 1,
+              jumlahFasilitiMB: {
+                $size: '$jumlahFasilitiMB',
+              },
+              jumlahCRARendah: 1,
+              jumlahCRASederhana: 1,
+              jumlahCRATinggi: 1,
+              jumlahCRATinggiBuatBegin: 1,
+            },
+          },
+        ],
       },
     },
   ];
@@ -3275,11 +10622,11 @@ const groupSekolah = {
         {
           $or: [
             {
-              $eq: ['$merged.kesSelesaiIcdas', 'ya-kes-selesai-icdas'],
+              $eq: ['$kesSelesaiIcdasPemeriksaan', 'ya-kes-selesai-icdas'],
             },
             {
               $eq: [
-                '$merged.kesSelesaiIcdasSekolahRawatan',
+                '$kesSelesaiIcdasRawatan',
                 'ya-kes-selesai-icdas-penyata-akhir-2',
               ],
             },
@@ -3296,13 +10643,10 @@ const groupSekolah = {
         {
           $or: [
             {
-              $eq: ['$merged.kesSelesai', 'ya-kes-selesai'],
+              $eq: ['$kesSelesaiPemeriksaan', 'ya-kes-selesai'],
             },
             {
-              $eq: [
-                '$merged.kesSelesaiSekolahRawatan',
-                'ya-kes-selesai-penyata-akhir-2',
-              ],
+              $eq: ['$kesSelesaiRawatan', 'ya-kes-selesai-penyata-akhir-2'],
             },
           ],
         },
@@ -4004,6 +11348,771 @@ const groupSekolahRawatan = {
         1,
         0,
       ],
+    },
+  },
+};
+
+// ni untuk tod
+const groupToddlerBaru = {
+  $group: {
+    _id: '$jenisFasiliti',
+    // stats
+    jumlahReten: {
+      $sum: 1,
+    },
+    statusReten: {
+      $sum: {
+        $cond: [
+          {
+            $eq: ['$statusReten', 'reten salah'],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    //
+    // pemeriksaan
+    kedatanganTahunSemasaBaru: {
+      $sum: {
+        $cond: [
+          {
+            $eq: ['$kedatangan', 'baru-kedatangan'],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    // perlu rawatan
+    jumlahd: {
+      $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+    },
+    jumlahf: {
+      $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+    },
+    jumlahx: {
+      $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+    },
+    jumlahdfx: {
+      $sum: {
+        $add: [
+          '$dAdaGigiDesidusPemeriksaanUmum',
+          '$fAdaGigiDesidusPemeriksaanUmum',
+          '$xAdaGigiDesidusPemeriksaanUmum',
+        ],
+      },
+    },
+    dfxEqualToZero: {
+      //dfx=0
+      $sum: {
+        $cond: [
+          {
+            $and: [
+              {
+                $eq: [
+                  '$yaTidakPesakitMempunyaiGigi',
+                  'ya-pesakit-mempunyai-gigi',
+                ],
+              },
+              {
+                $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+              },
+              {
+                $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0],
+              },
+              {
+                $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    skorPlakA: {
+      $sum: {
+        $cond: [
+          {
+            $and: [
+              {
+                $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'A'],
+              },
+              {
+                $eq: [
+                  '$yaTidakPesakitMempunyaiGigi',
+                  'ya-pesakit-mempunyai-gigi',
+                ],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    skorPlakC: {
+      $sum: {
+        $cond: [
+          {
+            $and: [
+              {
+                $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'C'],
+              },
+              {
+                $eq: [
+                  '$yaTidakPesakitMempunyaiGigi',
+                  'ya-pesakit-mempunyai-gigi',
+                ],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    skorPlakE: {
+      $sum: {
+        $cond: [
+          {
+            $and: [
+              {
+                $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'E'],
+              },
+              {
+                $eq: [
+                  '$yaTidakPesakitMempunyaiGigi',
+                  'ya-pesakit-mempunyai-gigi',
+                ],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    TPR: {
+      //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+      // umurTahunLahir
+      $sum: {
+        $cond: [
+          {
+            $or: [
+              // baby punya kira
+              {
+                $and: [
+                  {
+                    $lt: ['$umurTahunLahir', 1],
+                  },
+                  {
+                    $eq: [
+                      '$yaTidakPesakitMempunyaiGigi',
+                      'tidak-pesakit-mempunyai-gigi',
+                    ],
+                  },
+                ],
+              },
+              {
+                $and: [
+                  {
+                    $lt: ['$umurTahunLahir', 1],
+                  },
+                  {
+                    $eq: ['$adaDesidusPemeriksaanUmum', true],
+                  },
+                  {
+                    $eq: ['$adaKekalPemeriksaanUmum', false],
+                  },
+                  {
+                    $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                  },
+                ],
+              },
+              // 1 tahun
+              {
+                $and: [
+                  {
+                    $gte: ['$umurTahunLahir', 1],
+                  },
+                  {
+                    $eq: ['$adaDesidusPemeriksaanUmum', true],
+                  },
+                  {
+                    $eq: ['$adaKekalPemeriksaanUmum', false],
+                  },
+                  {
+                    $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                  },
+                ],
+              },
+              {
+                $and: [
+                  {
+                    $gte: ['$umurTahunLahir', 1],
+                  },
+                  {
+                    $eq: ['$adaDesidusPemeriksaanUmum', true],
+                  },
+                  {
+                    $eq: ['$adaKekalPemeriksaanUmum', true],
+                  },
+                  {
+                    $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                  },
+                ],
+              },
+              {
+                $and: [
+                  {
+                    $gte: ['$umurTahunLahir', 1],
+                  },
+                  {
+                    $eq: ['$adaDesidusPemeriksaanUmum', false],
+                  },
+                  {
+                    $eq: ['$adaKekalPemeriksaanUmum', true],
+                  },
+                  {
+                    $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                  },
+                ],
+              },
+              {
+                $and: [
+                  {
+                    $gte: ['$umurTahunLahir', 5],
+                  },
+                  {
+                    $lte: ['$umurTahunLahir', 14],
+                  },
+                  {
+                    $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                  },
+                  {
+                    $or: [
+                      {
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      },
+                      {
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                $and: [
+                  {
+                    $gte: ['$umurTahunLahir', 15],
+                  },
+                  {
+                    $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                  },
+                  {
+                    $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                  },
+                  {
+                    $or: [
+                      {
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      },
+                      {
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      },
+                      {
+                        $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                $and: [
+                  {
+                    $gte: ['$umurTahunLahir', 1],
+                  },
+                  {
+                    $eq: ['$adaDesidusPemeriksaanUmum', false],
+                  },
+                  {
+                    $eq: ['$adaKekalPemeriksaanUmum', false],
+                  },
+                ],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    jumlahKecederaanTisuLembut: {
+      $sum: {
+        $cond: [
+          {
+            $eq: ['$kecederaanTisuLembutUmum', true],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    jumlahKecederaanTisuKeras: {
+      $sum: {
+        $cond: [
+          {
+            $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    perluSapuanFluorida: {
+      $sum: {
+        $cond: [
+          {
+            $eq: [
+              '$fvPerluSapuanPemeriksaanUmum',
+              'ya-fv-perlu-sapuan-pemeriksaan-umum',
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    sudahSapuanFluorida: {
+      $sum: {
+        $cond: [
+          {
+            $eq: ['$pesakitDibuatFluorideVarnish', true],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    jumlahTampalanAnteriorBaru: {
+      $sum: {
+        $add: [
+          '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        ],
+      },
+    },
+    jumlahTampalanPosteriorBaru: {
+      $sum: {
+        $add: [
+          '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          // nnti tambah semula posterior sewarna
+          '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+          // nnti tambah semula posterior amalgam
+        ],
+      },
+    },
+
+    craRendah: {
+      $sum: {
+        $cond: [
+          {
+            $and: [
+              {
+                $lte: [
+                  {
+                    $toInt: '$jumlahFaktorRisiko',
+                  },
+                  2,
+                ],
+              },
+              {
+                $eq: [
+                  '$yaTidakPesakitMempunyaiGigi',
+                  'ya-pesakit-mempunyai-gigi',
+                ],
+              },
+              {
+                $eq: ['$adaDesidusPemeriksaanUmum', true],
+              },
+              {
+                $eq: ['$adaKekalPemeriksaanUmum', false],
+              },
+              {
+                $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+              },
+              {
+                $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    craSederhana: {
+      $sum: {
+        $cond: [
+          {
+            $or: [
+              {
+                $and: [
+                  {
+                    $and: [
+                      {
+                        $eq: [
+                          '$yaTidakPesakitMempunyaiGigi',
+                          'ya-pesakit-mempunyai-gigi',
+                        ],
+                      },
+                      {
+                        $eq: ['$adaDesidusPemeriksaanUmum', true],
+                      },
+                      {
+                        $eq: ['$adaKekalPemeriksaanUmum', false],
+                      },
+                    ],
+                  },
+                  {
+                    $or: [
+                      {
+                        $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+                      },
+                      {
+                        $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
+                      },
+                    ],
+                  },
+                  {
+                    $gte: [
+                      {
+                        $toInt: '$jumlahFaktorRisiko',
+                      },
+                      3,
+                    ],
+                  },
+                ],
+              },
+              {
+                $and: [
+                  {
+                    $and: [
+                      {
+                        $eq: [
+                          '$yaTidakPesakitMempunyaiGigi',
+                          'ya-pesakit-mempunyai-gigi',
+                        ],
+                      },
+                      {
+                        $eq: ['$adaDesidusPemeriksaanUmum', true],
+                      },
+                      {
+                        $eq: ['$adaKekalPemeriksaanUmum', false],
+                      },
+                    ],
+                  },
+                  {
+                    $or: [
+                      {
+                        $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                      },
+                      {
+                        $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                      },
+                    ],
+                  },
+                  {
+                    $eq: [
+                      {
+                        $toInt: '$jumlahFaktorRisiko',
+                      },
+                      0,
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    craTinggi: {
+      $sum: {
+        $cond: [
+          {
+            $or: [
+              {
+                $and: [
+                  {
+                    $and: [
+                      {
+                        $eq: [
+                          '$yaTidakPesakitMempunyaiGigi',
+                          'ya-pesakit-mempunyai-gigi',
+                        ],
+                      },
+                      {
+                        $eq: ['$adaDesidusPemeriksaanUmum', true],
+                      },
+                      {
+                        $eq: ['$adaKekalPemeriksaanUmum', false],
+                      },
+                    ],
+                  },
+                  {
+                    $or: [
+                      {
+                        $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                      },
+                      {
+                        $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      {
+                        $gte: [
+                          {
+                            $toInt: '$jumlahFaktorRisiko',
+                          },
+                          1,
+                        ],
+                      },
+                      {
+                        $lte: [
+                          {
+                            $toInt: '$jumlahFaktorRisiko',
+                          },
+                          2,
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                $and: [
+                  {
+                    $and: [
+                      {
+                        $eq: [
+                          '$yaTidakPesakitMempunyaiGigi',
+                          'ya-pesakit-mempunyai-gigi',
+                        ],
+                      },
+                      {
+                        $eq: ['$adaDesidusPemeriksaanUmum', true],
+                      },
+                      {
+                        $eq: ['$adaKekalPemeriksaanUmum', false],
+                      },
+                    ],
+                  },
+                  {
+                    $or: [
+                      {
+                        $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1],
+                      },
+                      {
+                        $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1],
+                      },
+                    ],
+                  },
+                  {
+                    $gte: [
+                      {
+                        $toInt: '$jumlahFaktorRisiko',
+                      },
+                      3,
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+  },
+};
+
+const groupToddlerBu = {
+  $group: {
+    _id: '$jenisFasiliti',
+    kedatanganTahunSemasaUlangan: {
+      $sum: {
+        $cond: [
+          {
+            $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    perluSapuanFluoridaBu: {
+      $sum: {
+        $cond: [
+          {
+            $and: [
+              {
+                $eq: [
+                  '$fvPerluSapuanPemeriksaanUmum',
+                  'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                ],
+              },
+              {
+                $eq: ['$kedatangan', 'ulangan-kedatangan'],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    sudahSapuanFluoridaBu: {
+      $sum: {
+        $cond: [
+          {
+            $and: [
+              {
+                $eq: ['$pesakitDibuatFluorideVarnish', true],
+              },
+              {
+                $eq: ['$kedatangan', 'ulangan-kedatangan'],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    jumlahTampalanAnteriorBu: {
+      $sum: {
+        $add: [
+          '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        ],
+      },
+    },
+    jumlahTampalanPosteriorBu: {
+      $sum: {
+        $add: [
+          '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          // nnti tambah semula posterior sewarna
+          '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+          // nnti tambah semula posterior amalgam
+        ],
+      },
+    },
+    jumlahCabutan: {
+      $sum: '$cabutDesidusRawatanUmum',
+    },
+    jumlahAbses: {
+      $sum: {
+        $cond: [
+          {
+            $and: [
+              {
+                $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true],
+              },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    jumlahPulpotomi: {
+      $sum: {
+        $add: [
+          '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
+          '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
+          '$jumlahMolarKesEndodontikSelesaiRawatanUmum',
+          '$rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum',
+        ],
+      },
+    },
+    rujukanAgensiLuar: {
+      $sum: {
+        $cond: [
+          {
+            $or: [
+              {
+                $eq: ['$rujukDaripada', 'hospital/institusi-kerajaan'],
+              },
+              { $eq: ['$rujukDaripada', 'swasta'] },
+              { $eq: ['$rujukDaripada', 'lain-lain'] },
+            ],
+          },
+          1,
+          0,
+        ],
+      },
     },
   },
 };
@@ -5805,6 +13914,13 @@ const pipelineCPPC2PraSekolah = (payload) => {
 };
 
 module.exports = {
+  // pipeline
+  pipelineSekolahPemeriksaan,
+  pipelineSekolahRawatan,
+  pipelineEnrolmenSekolah,
+  pipelineTutupSekolah,
+  pipelineTod,
+  pipelineBegin,
   // id
   id201Biasa,
   id201KhasKham,
@@ -5816,10 +13932,6 @@ module.exports = {
   id203OAP,
   id203AllKPSKPB,
   id203AllOAP,
-  // pipeline
-  pipelineSekolah,
-  pipelineEnrolmenSekolah,
-  pipelineTutupSekolah,
   groupSekolah,
   groupSekolahPemeriksaan,
   groupSekolahRawatan,
@@ -5830,6 +13942,8 @@ module.exports = {
   groupKedatanganSekolah,
   groupKedatanganSekolahAllOAP,
   groupKedatanganSekolahAllOKU,
+  groupToddlerBaru,
+  groupToddlerBu,
   pipelineCPPC1Biasa,
   pipelineCPPC1PraSekolah,
   pipelineCPPC2Biasa,
