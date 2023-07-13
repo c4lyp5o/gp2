@@ -3,8 +3,8 @@ import { BsPlusCircleDotted, BsTable } from 'react-icons/bs';
 
 import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 
-import FormPemeriksaanProgramGtod from './FormPemeriksaanProgram';
 import FormTambahProgramGtod from './FormTambahProgram';
+import FormPemeriksaanProgramGtod from './FormPemeriksaanProgram';
 import ModalDeleteGtod from './ModalProgram';
 
 export default function ProgramGTod() {
