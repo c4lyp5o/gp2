@@ -55,7 +55,7 @@ export default function ProgramGTod() {
     <>
       <div className='grid grid-cols-1 lg:grid-cols-[1fr_7fr] gap-5 mt-4 relative'>
         <div className='hidden lg:block'>
-          <div className='py-6 px-3 shadow-md shadow-user1 rounded-md flex justify-center'>
+          <div className='py-6 px-3 bg-admin3 shadow-md rounded-md flex justify-center'>
             <button
               className='outline-none focus:outline-none flex items-center flex-col'
               onClick={() => {
@@ -66,11 +66,13 @@ export default function ProgramGTod() {
                 setSingleAgensiLuarGTod(null);
               }}
             >
-              <BsPlusCircleDotted className='text-8xl text-admin1' />
-              <span className=' text-admin1 text-sm mt-2'>Tambah</span>
+              <BsPlusCircleDotted className='text-8xl text-adminWhite font-semibold' />
+              <span className=' text-adminWhite font-semibold text-sm mt-2'>
+                Tambah
+              </span>
             </button>
           </div>
-          <div className='py-6 px-3 shadow-md shadow-user1 rounded-md flex justify-center mt-5'>
+          <div className='py-6 px-3 bg-admin3 shadow-md rounded-md flex justify-center mt-5'>
             <button
               className='outline-none focus:outline-none flex items-center flex-col'
               onClick={() => {
@@ -79,14 +81,16 @@ export default function ProgramGTod() {
                 setShowFormPemeriksaan(false);
               }}
             >
-              <BsTable className='text-8xl text-admin1' />
-              <span className=' text-admin1 text-sm mt-2'>Senarai</span>
+              <BsTable className='text-8xl text-adminWhite font-semibold' />
+              <span className=' text-adminWhite font-semibold text-sm mt-2'>
+                Senarai
+              </span>
             </button>
           </div>
         </div>
         <div className='auto-rows-min flex flex-col px-10'>
           <div className='flex items-center justify-start pb-5'>
-            <h1 className='text-3xl font-bold'>Program G-Tod</h1>
+            <h1 className='text-3xl px-11 font-bold'>Program G-Tod</h1>
           </div>
           {showTable && (
             <>
