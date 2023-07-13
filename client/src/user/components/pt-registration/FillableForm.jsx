@@ -804,6 +804,7 @@ export default function FillableForm({
     setAddingData(true);
     const config = {
       withCredentials: true,
+      headers: { Authorization: `Bearer ${kaunterToken}` },
     };
     await axios
       .get(`${nodejs_patient_details}${patientId}`, config)

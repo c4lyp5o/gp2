@@ -80,13 +80,15 @@ function KaunterAfterLogin() {
   const logout = () => {
     clearTimeout(kicker);
     clearTimeout(kickerNoti);
-    axios.get('/api/v1/myvastest/logout').then((res) => {
+    const config = {
+      withCredentials: true,
+      headers: { Authorization: `Bearer ${kaunterToken}` },
+    };
+    axios.get('/api/v1/myvastest/logout', config).then((res) => {
       alert(`MyVas session: ${res.data.message}`);
-    });
-    setTimeout(() => {
       catchAxiosErrorAndLogout();
-    }, 5000);
-    navigate('/pendaftaran');
+      navigate('/pendaftaran');
+    });
   };
 
   useEffect(() => {

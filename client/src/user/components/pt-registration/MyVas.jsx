@@ -32,6 +32,7 @@ export default function MyVas({ setShowMyVas, handleSubmitMyVas }) {
     const fetchMyVasData = async () => {
       const config = {
         withCredentials: true,
+        headers: { Authorization: `Bearer ${kaunterToken}` },
       };
       await axios.get(`${nodejs_patient}`, config).then((res) => {
         if (

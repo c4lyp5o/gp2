@@ -1,16 +1,66 @@
-const axios = require('axios'); //library for API call
-const qs = require('qs'); //library for query string
+const axios = require('axios');
+const qs = require('qs');
+const MyVasSession = require('../models/MyVasSession');
 
 // log in constants
 const loginSuccessMessage = 'Berjaya Log Masuk';
-const invalidCode = 'invalid code!'; //auth server return invalid code for auth flow (not 200)
+const invalidCode = 'Invalid code!';
 const Unauthorized = 'Unauthorized';
 
-// log out constansts
-const logoutSuccess = 'logout success!';
-const sessionNotLogin = 'session wasnt login!';
+// log out constants
+const logoutSuccess = 'Berjaya Log Keluar';
+const sessionNotLogin = 'Sesi MyVas tidak wujud';
 
-function getMyVasToken(req, res) {
+async function saveToken(req, res, token, idToken) {
+  console.log('calling saveToken');
+  let connect_sid = req.headers.cookie.split('=')[1];
+
+  await MyVasSession.create({
+    myVasSessionCookieId: connect_sid,
+    myVasToken: token,
+    myVasIdToken: idToken,
+  });
+}
+
+async function retrieveToken(req, res) {
+  console.log('calling retrieveToken');
+  let connect_sid = req.headers?.cookie?.split('=')[1];
+  if (connect_sid) {
+    const token = await MyVasSession.findOne({
+      myVasSessionCookieId: connect_sid,
+    });
+    if (!token) {
+      delete req.session[process.env.MYVAS_APP_TOKEN];
+      delete req.session[process.env.MYVAS_ID_TOKEN];
+      return false;
+    }
+    if (token) {
+      return token;
+    }
+  }
+}
+
+async function deleteToken(req, res) {
+  console.log('calling deleteToken');
+  let connect_sid = req.headers?.cookie?.split('=')[1];
+
+  if (connect_sid) {
+    const token = await MyVasSession.findOneAndDelete({
+      myVasSessionCookieId: connect_sid,
+    });
+    if (!token) {
+      delete req.session[process.env.MYVAS_APP_TOKEN];
+      delete req.session[process.env.MYVAS_ID_TOKEN];
+      return false;
+    }
+    if (token) {
+      return token;
+    }
+  }
+}
+
+async function getMyVasToken(req, res) {
+  console.log('calling getMyVasToken');
   const code = req.query.code;
   if (!code) {
     res.status(401).send(invalidCode);
@@ -39,13 +89,19 @@ function getMyVasToken(req, res) {
 
   axios
     .request(config)
-    .then((response) => {
+    .then(async (response) => {
       if (response.data) {
         if (response.data.access_token) {
           req.session[process.env.MYVAS_APP_TOKEN] = response.data.access_token;
           if (response.data.id_token)
             req.session[process.env.MYVAS_ID_TOKEN] = response.data.id_token;
           let newLandingPage = req.session[process.env.MYVAS_NEW_LANDING];
+          await saveToken(
+            req,
+            res,
+            response.data.access_token,
+            response.data.id_token
+          );
           if (!newLandingPage) newLandingPage = process.env.MYVAS_LANDING_PAGE;
           let echoSuccessLogin = `<script>
         alert("${loginSuccessMessage}");
@@ -65,6 +121,7 @@ function getMyVasToken(req, res) {
 }
 
 function redirectToAuth(req, res) {
+  console.log('calling redirectToAuth');
   let myUrlEncode = {
     client_id: process.env.MYVAS_CLIENT_ID,
     redirect_uri: process.env.MYVAS_REDIRECT_URI,
@@ -78,8 +135,14 @@ function redirectToAuth(req, res) {
     .json({ next_status: 401, message: Unauthorized, redirect_uri: authURL });
 }
 
-function getPatientDetails(req, res) {
-  let nric = req.query.nric;
+async function getPatientDetails(req, res) {
+  console.log('calling getPatientDetails');
+  const nric = req.query.nric;
+  const token = await retrieveToken(req, res);
+  if (token) {
+    req.session[process.env.MYVAS_APP_TOKEN] = token.myVasToken;
+    req.session[process.env.MYVAS_ID_TOKEN] = token.myVasIdToken;
+  }
   if (req.session[process.env.MYVAS_APP_TOKEN]) {
     delete req.session[process.env.MYVAS_NEW_LANDING];
     req.session.save();
@@ -110,7 +173,13 @@ function getPatientDetails(req, res) {
   }
 }
 
-function getAppointmentList(req, res) {
+async function getAppointmentList(req, res) {
+  console.log('calling getAppointmentList');
+  const token = await retrieveToken(req, res);
+  if (token) {
+    req.session[process.env.MYVAS_APP_TOKEN] = token.myVasToken;
+    req.session[process.env.MYVAS_ID_TOKEN] = token.myVasIdToken;
+  }
   if (req.session[process.env.MYVAS_APP_TOKEN]) {
     let branchcode = req.query.branchcode;
     let datefilter = req.query.datefilter;
@@ -146,7 +215,13 @@ function getAppointmentList(req, res) {
   }
 }
 
-function logOutMyVas(req, res) {
+async function logOutMyVas(req, res) {
+  console.log('calling logOutMyVas');
+  const token = await deleteToken(req, res);
+  if (token) {
+    req.session[process.env.MYVAS_APP_TOKEN] = token.myVasToken;
+    req.session[process.env.MYVAS_ID_TOKEN] = token.myVasIdToken;
+  }
   if (req.session[process.env.MYVAS_APP_TOKEN]) {
     let idTokenHint = req.session[process.env.MYVAS_ID_TOKEN];
     axios
@@ -156,11 +231,11 @@ function logOutMyVas(req, res) {
       .then();
     delete req.session[process.env.MYVAS_APP_TOKEN];
     delete req.session[process.env.MYVAS_ID_TOKEN];
-    req.session.save(() => {
-      res.status(200).json({ next_status: 200, message: logoutSuccess });
-    });
+    res.status(200).json({ next_status: 200, message: logoutSuccess });
+    return;
   } else {
     res.status(200).json({ next_status: 404, message: sessionNotLogin });
+    return;
   }
 }
 
