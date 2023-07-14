@@ -25,7 +25,7 @@ const ultimateCutoff = {
                 ],
               },
               day: 6,
-              hour: 4,
+              hour: 16,
             },
           },
         ],
