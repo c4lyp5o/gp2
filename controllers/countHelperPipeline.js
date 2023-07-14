@@ -1009,16 +1009,47 @@ const pipelineTod = (payload) => {
       $match: {
         ...getParamsTOD(payload),
         $expr: {
-          $gt: [
-            '$updatedAt',
+          $or: [
             {
-              $dateFromParts: {
-                year: { $year: '$createdAt' },
-                month: {
-                  $add: [{ $month: '$createdAt' }, 1],
+              $gt: [
+                '$createdAt',
+                {
+                  $dateFromParts: {
+                    year: {
+                      $year: {
+                        $toDate: '$tarikhKedatangan',
+                      },
+                    },
+                    month: {
+                      $add: [
+                        {
+                          $month: {
+                            $toDate: '$tarikhKedatangan',
+                          },
+                        },
+                        1,
+                      ],
+                    },
+                    day: 6,
+                    hour: 16,
+                  },
                 },
-                day: { $add: [1, 6] },
-              },
+              ],
+            },
+            {
+              $gt: [
+                '$updatedAt',
+                {
+                  $dateFromParts: {
+                    year: { $year: '$createdAt' },
+                    month: {
+                      $add: [{ $month: '$createdAt' }, 1],
+                    },
+                    day: 6,
+                    hour: 4,
+                  },
+                },
+              ],
             },
           ],
         },
