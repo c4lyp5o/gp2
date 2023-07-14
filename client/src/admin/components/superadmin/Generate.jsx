@@ -97,7 +97,14 @@ const ModalGenerateAdHoc = (props) => {
   const fileName = () => {
     let file = '';
     const date = moment(new Date()).format('DDMMYYYY');
-    const { jenisReten, namaKlinik, pilihanProgram, pilihanKpbMpb } = props;
+    const {
+      jenisReten,
+      namaKlinik,
+      pilihanProgram,
+      pilihanKpbMpb,
+      pilihanJanaSpesifikFasiliti,
+      namaSebenarFasilitiPendidikan,
+    } = props;
     if (loginInfo.accountType === 'hqSuperadmin') {
       const namaNegera = props.pilihanNegeri === 'all' ? 'MALAYSIA' : '';
       const namaNegeri =
@@ -119,11 +126,14 @@ const ModalGenerateAdHoc = (props) => {
       file = `${jenisReten}_${namaKlinik.toUpperCase()}_${pilihanProgram.toUpperCase()}_${date}_token.xlsx`;
     } else if (pilihanKpbMpb !== '') {
       file = `${jenisReten}_${pilihanKpbMpb}_${date}_token.xlsx`;
+    } else if (pilihanJanaSpesifikFasiliti !== '') {
+      file = `${jenisReten}_${namaSebenarFasilitiPendidikan.toUpperCase()}_${date}_token.xlsx`;
     } else if (
       props.pilihanDaerah !== 'all' &&
       props.pilihanKlinik !== 'all' &&
       pilihanProgram === '' &&
-      pilihanKpbMpb === ''
+      pilihanKpbMpb === '' &&
+      pilihanJanaSpesifikFasiliti === ''
     ) {
       file = `${jenisReten}_${namaKlinik.toUpperCase()}_${date}_token.xlsx`;
     } else if (props.pilihanDaerah !== 'all' && props.pilihanKlinik === 'all') {
@@ -204,11 +214,16 @@ const ModalGenerateAdHoc = (props) => {
         props.jenisReten
       }&negeri=${negeri}&daerah=${daerah}&klinik=${klinik}${
         props.pilihanFasiliti === 'program'
-          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
+          ? `&pilihanFasiliti=${
+              props.pilihanFasiliti
+            }&pilihanProgram=${encodeURIComponent(props.pilihanProgram)}`
           : ''
       }${
-        props.pilihanFasiliti === 'kpbmpb'
-          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
+        props.pilihanFasiliti === 'kpbmpb' ||
+        props.jenisReten === 'KPBMPBBulanan'
+          ? `&pilihanFasiliti=${
+              props.pilihanFasiliti
+            }&pilihanKpbMpb=${encodeURIComponent(props.pilihanKpbMpb)}`
           : ''
       }${
         props.pilihanFasiliti === 'individu'
@@ -364,8 +379,26 @@ const ModalGenerateAdHoc = (props) => {
                 <AiFillCloseCircle className='text-xl rounded-full' />
               </span>
             </div>
+            {![
+              'PG101A',
+              'PG101C',
+              'PG211A',
+              'PG211C',
+              'PGS201',
+              'PGS203',
+              'CPPC1',
+              'CPPC2',
+              'PPIM03',
+              'PPIM04',
+              'PPIM05',
+            ].includes(props.jenisReten) && (
+              <p className='text-lg font-semibold text-admin3'>
+                MAKLUMAN: Maklumat yang diisi selepas tarikh penutupan reten
+                bulan itu tidak akan dimasukkan ke dalam reten!
+              </p>
+            )}
             <div className='mb-3'>
-              <div className='admin-pegawai-handler-container'>
+              <div>
                 {pilihanRetenMASA && (
                   <>
                     <div className='grid grid-row-2 gap-2 p-2 normal-case'>
@@ -791,7 +824,10 @@ const ModalGenerateAdHoc = (props) => {
                                 id='pilihanSpesifikFasiliti'
                                 value={props.pilihanJanaSpesifikFasiliti}
                                 onChange={(e) => {
-                                  console.log(e.target.value);
+                                  props.setNamaSebenarFasilitiPendidikan(
+                                    e.target.options[e.target.selectedIndex]
+                                      .dataset.key
+                                  );
                                   props.setPilihanJanaSpesifikFasiliti(
                                     e.target.value
                                   );
@@ -810,7 +846,11 @@ const ModalGenerateAdHoc = (props) => {
                                     )
                                     .map((t, index) => {
                                       return (
-                                        <option key={index} value={t.kodTastad}>
+                                        <option
+                                          key={index}
+                                          data-key={t.nama}
+                                          value={t.kodTastad}
+                                        >
                                           {t.nama}
                                         </option>
                                       );
@@ -829,7 +869,7 @@ const ModalGenerateAdHoc = (props) => {
                                       return (
                                         <option
                                           key={index}
-                                          data-key={t.kodSekolah}
+                                          data-key={t.nama}
                                           value={t.kodSekolah}
                                         >
                                           {t.nama}
@@ -850,7 +890,7 @@ const ModalGenerateAdHoc = (props) => {
                                       return (
                                         <option
                                           key={index}
-                                          data-key={t.kodSekolah}
+                                          data-key={t.nama}
                                           value={t.kodSekolah}
                                         >
                                           {t.nama}
@@ -1199,7 +1239,7 @@ const ModalGenerateAdHoc = (props) => {
                             props.jenisReten === 'PG206' ? (
                               <div className='px-3 py-1'>
                                 <label
-                                  htmlFor='klinik'
+                                  htmlFor='pegawai'
                                   className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
                                 >
                                   Pegawai
@@ -1239,7 +1279,7 @@ const ModalGenerateAdHoc = (props) => {
                             props.jenisReten === 'PG207' ? (
                               <div className='px-3 py-1'>
                                 <label
-                                  htmlFor='klinik'
+                                  htmlFor='pegawai'
                                   className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
                                 >
                                   Pegawai
@@ -2191,11 +2231,6 @@ const Generate = () => {
   const [individuData, setIndividuData] = useState([]);
   const [rtcData, setRtcData] = useState([]);
 
-  // nantilah itu
-  const [pilihanSekolah, setPilihanSekolah] = useState('');
-  const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
-  const [namaSekolahs, setNamaSekolahs] = useState([]);
-
   const [statusToken, setStatusToken] = useState([]);
   const [statusReten, setStatusReten] = useState('');
 
@@ -2204,6 +2239,8 @@ const Generate = () => {
   const [carianJana, setCarianJana] = useState('');
   const [allTadika, setAllTadika] = useState([]);
   const [pilihanJanaSpesifikFasiliti, setPilihanJanaSpesifikFasiliti] =
+    useState('');
+  const [namaSebenarFasilitiPendidikan, setNamaSebenarFasilitiPendidikan] =
     useState('');
   const [allSekRendah, setAllSekRendah] = useState([]);
   const [allSekMenengah, setAllSekMenengah] = useState([]);
@@ -2561,6 +2598,8 @@ const Generate = () => {
     setAllTadika,
     pilihanJanaSpesifikFasiliti,
     setPilihanJanaSpesifikFasiliti,
+    namaSebenarFasilitiPendidikan,
+    setNamaSebenarFasilitiPendidikan,
     allSekRendah,
     setAllSekRendah,
     allSekMenengah,
