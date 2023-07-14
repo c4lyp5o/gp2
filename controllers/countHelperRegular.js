@@ -13,6 +13,7 @@ const {
   getParams214,
   getParams206,
   getParams207,
+  getParams206207sekolah,
   getParamsPgpr201,
   getParamsPGS201,
   getParamsPGS203,
@@ -2486,16 +2487,7 @@ const countPG206 = async (payload) => {
   const pipeline_pemeriksaan_sekolah = [
     {
       $match: {
-        ...(payload.pilihanIndividu
-          ? { createdByNegeri: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        ...getParams206207sekolah(payload),
       },
     },
     {
@@ -2576,16 +2568,7 @@ const countPG206 = async (payload) => {
   const pipeline_rawatan_sekolah = [
     {
       $match: {
-        ...(payload.pilihanIndividu
-          ? { createdByNegeri: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        ...getParams206207sekolah(payload),
       },
     },
     {
@@ -2667,13 +2650,7 @@ const countPG206 = async (payload) => {
   const pipeline_kedatangan_sekolah = [
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        sekolahSelesaiReten: true,
-        jenisFasiliti: {
-          $in: ['sekolah-rendah', 'sekolah-menengah'],
-        },
+        ...getParams206207sekolah(payload),
       },
     },
     {
@@ -2775,14 +2752,14 @@ const countPG206 = async (payload) => {
       $match: {
         $or: [
           {
-            operatorPemeriksaan: {
-              $regex: /mdtb/i,
-            },
+            operatorPemeriksaan: payload.pilihanIndividu
+              ? payload.pilihanIndividu
+              : { $regex: /^mdtb/i },
           },
           {
-            operatorRawatan: {
-              $regex: /mdtb/i,
-            },
+            operatorRawatan: payload.pilihanIndividu
+              ? payload.pilihanIndividu
+              : { $regex: /^mdtb/i },
           },
         ],
       },
@@ -2936,16 +2913,7 @@ const countPG206 = async (payload) => {
   const pipeline_kesSelesai_sekolah = [
     {
       $match: {
-        ...(payload.pilihanIndividu
-          ? { createdByNegeri: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        ...getParams206207sekolah(payload),
       },
     },
     {
@@ -4831,16 +4799,7 @@ const countPG207 = async (payload) => {
   const pipeline_pemeriksaan_sekolah = [
     {
       $match: {
-        ...(payload.pilihanIndividu
-          ? { createdByNegeri: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        ...getParams206207sekolah(payload),
       },
     },
     {
@@ -4921,16 +4880,7 @@ const countPG207 = async (payload) => {
   const pipeline_rawatan_sekolah = [
     {
       $match: {
-        ...(payload.pilihanIndividu
-          ? { createdByNegeri: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        ...getParams206207sekolah(payload),
       },
     },
     {
@@ -5009,12 +4959,7 @@ const countPG207 = async (payload) => {
   const pipeline_kedatangan_sekolah = [
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        jenisFasiliti: {
-          $in: ['sekolah-rendah', 'sekolah-menengah'],
-        },
+        ...getParams206207sekolah(payload),
       },
     },
     {
@@ -5116,14 +5061,14 @@ const countPG207 = async (payload) => {
       $match: {
         $or: [
           {
-            operatorPemeriksaan: {
-              $regex: /^(?!mdtb).*$/i,
-            },
+            operatorPemeriksaan: payload.pilihanIndividu
+              ? payload.pilihanIndividu
+              : { $regex: /^(?!mdtb).*$/i },
           },
           {
-            operatorRawatan: {
-              $regex: /^(?!mdtb).*$/i,
-            },
+            operatorRawatan: payload.pilihanIndividu
+              ? payload.pilihanIndividu
+              : { $regex: /^(?!mdtb).*$/i },
           },
         ],
       },
@@ -5277,16 +5222,7 @@ const countPG207 = async (payload) => {
   const pipeline_kesSelesai_sekolah = [
     {
       $match: {
-        ...(payload.pilihanIndividu
-          ? { createdByNegeri: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.pilihanIndividu
-          ? { createdByDaerah: { $exists: true } }
-          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        ...getParams206207sekolah(payload),
       },
     },
     {

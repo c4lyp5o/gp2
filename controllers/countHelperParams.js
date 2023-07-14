@@ -459,6 +459,32 @@ const getParams207 = (payload) => {
 
   return params;
 };
+const getParams206207sekolah = (payload) => {
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
+
+  const params = {
+    jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+  };
+
+  if (negeri !== 'all') {
+    params.createdByNegeri = negeri;
+  }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = daerah;
+  }
+
+  if (klinik !== 'all') {
+    params.kodFasilitiHandler = klinik;
+  }
+
+  if (pilihanIndividu) {
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+  }
+
+  return params;
+};
 const getParamsPgpr201 = (payload) => {
   const { negeri, daerah, klinik } = payload;
 
@@ -1258,6 +1284,7 @@ module.exports = {
   getParams214,
   getParams206,
   getParams207,
+  getParams206207sekolah,
   getParamsPgpr201,
   getParamsPGS201,
   getParamsPGS203,
