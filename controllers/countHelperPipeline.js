@@ -1,4 +1,4 @@
-const { getParamsTOD } = require('./countHelperParams');
+const { ultimateCutoff, getParamsTOD } = require('./countHelperParams');
 
 // the mother of all pipeline sekolah
 const pipelineSekolahPemeriksaan = (payload) => {
@@ -1008,51 +1008,7 @@ const pipelineTod = (payload) => {
     {
       $match: {
         ...getParamsTOD(payload),
-        $expr: {
-          $or: [
-            {
-              $lt: [
-                '$createdAt',
-                {
-                  $dateFromParts: {
-                    year: {
-                      $year: {
-                        $toDate: '$tarikhKedatangan',
-                      },
-                    },
-                    month: {
-                      $add: [
-                        {
-                          $month: {
-                            $toDate: '$tarikhKedatangan',
-                          },
-                        },
-                        1,
-                      ],
-                    },
-                    day: 6,
-                    hour: 16,
-                  },
-                },
-              ],
-            },
-            {
-              $lt: [
-                '$updatedAt',
-                {
-                  $dateFromParts: {
-                    year: { $year: '$createdAt' },
-                    month: {
-                      $add: [{ $month: '$createdAt' }, 1],
-                    },
-                    day: 6,
-                    hour: 16,
-                  },
-                },
-              ],
-            },
-          ],
-        },
+        ...ultimateCutoff,
         $expr: {
           $lte: [
             {
