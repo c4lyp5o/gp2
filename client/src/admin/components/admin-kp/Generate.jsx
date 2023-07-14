@@ -150,21 +150,15 @@ const ModalGenerateAdHoc = (props) => {
           : ''
       }${
         props.pilihanFasiliti === 'individu'
-          ? `&pilihanFasiliti=${
-              props.pilihanFasiliti
-            }&pilihanIndividu=${encodeURIComponent(props.pilihanIndividu)}`
+          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
           : ''
       }${
         ['tadika'].includes(props.jenisFasiliti)
-          ? `&pilihanTadika=${encodeURIComponent(
-              props.pilihanJanaSpesifikFasiliti
-            )}`
+          ? `&pilihanTadika=${props.pilihanJanaSpesifikFasiliti}`
           : ''
       }${
         ['sekolah rendah', 'sekolah menengah'].includes(props.jenisFasiliti)
-          ? `&pilihanSekolah=${encodeURIComponent(
-              props.pilihanJanaSpesifikFasiliti
-            )}`
+          ? `&pilihanSekolah=${props.pilihanJanaSpesifikFasiliti}`
           : ''
       }${
         ['semua sekolah menengah mmi'].includes(props.jenisFasiliti)
