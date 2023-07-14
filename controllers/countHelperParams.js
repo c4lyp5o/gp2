@@ -3,47 +3,58 @@ const moment = require('moment');
 //BISMILLAH ALLAH BAGI ILHAM
 const ultimateCutoff = {
   $expr: {
-    $or: [
+    $and: [
       {
-        $lt: [
-          '$createdAt',
-          {
-            $dateFromParts: {
-              year: {
-                $year: {
-                  $toDate: '$tarikhKedatangan',
-                },
-              },
-              month: {
-                $add: [
-                  {
-                    $month: {
-                      $toDate: '$tarikhKedatangan',
-                    },
+        $not: {
+          $gt: [
+            '$createdAt',
+            {
+              $dateFromParts: {
+                year: {
+                  $year: {
+                    $toDate: '$tarikhKedatangan',
                   },
-                  1,
-                ],
+                },
+                month: {
+                  $add: [
+                    {
+                      $month: {
+                        $toDate: '$tarikhKedatangan',
+                      },
+                    },
+                    1,
+                  ],
+                },
+                day: 6,
+                hour: 16,
               },
-              day: 6,
-              hour: 16,
             },
-          },
-        ],
+          ],
+        },
       },
       {
-        $lt: [
-          '$updatedAt',
-          {
-            $dateFromParts: {
-              year: { $year: '$createdAt' },
-              month: {
-                $add: [{ $month: '$createdAt' }, 1],
+        $not: {
+          $gt: [
+            '$updatedAt',
+            {
+              $dateFromParts: {
+                year: {
+                  $year: '$createdAt',
+                },
+                month: {
+                  $add: [
+                    {
+                      $month: '$createdAt',
+                    },
+                    1,
+                  ],
+                },
+                day: 6,
+                hour: 16,
               },
-              day: 6,
-              hour: 16,
             },
-          },
-        ],
+          ],
+        },
       },
     ],
   },
