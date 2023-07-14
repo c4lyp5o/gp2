@@ -1,5 +1,54 @@
 const moment = require('moment');
 
+//BISMILLAH ALLAH BAGI ILHAM
+const ultimateCutoff = {
+  $expr: {
+    $or: [
+      {
+        $lt: [
+          '$createdAt',
+          {
+            $dateFromParts: {
+              year: {
+                $year: {
+                  $toDate: '$tarikhKedatangan',
+                },
+              },
+              month: {
+                $add: [
+                  {
+                    $month: {
+                      $toDate: '$tarikhKedatangan',
+                    },
+                  },
+                  1,
+                ],
+              },
+              day: 6,
+              hour: 16,
+            },
+          },
+        ],
+      },
+      {
+        $lt: [
+          '$updatedAt',
+          {
+            $dateFromParts: {
+              year: { $year: '$createdAt' },
+              month: {
+                $add: [{ $month: '$createdAt' }, 1],
+              },
+              day: 6,
+              hour: 16,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+
 // PARAMS LIVES HERE
 // countHelperRegular params
 const getParams101 = (payload, reten) => {
@@ -1190,6 +1239,8 @@ const dateModifier = (payload) => {
 };
 
 module.exports = {
+  // bismillah
+  ultimateCutoff,
   // countHelper regular
   getParams101,
   getParams211,
