@@ -214,23 +214,34 @@ const ModalGenerateAdHoc = (props) => {
         props.jenisReten
       }&negeri=${negeri}&daerah=${daerah}&klinik=${klinik}${
         props.pilihanFasiliti === 'program'
-          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${encodedName}`
+          ? `&pilihanFasiliti=${
+              props.pilihanFasiliti
+            }&pilihanProgram=${encodeURIComponent(props.pilihanProgram)}`
           : ''
       }${
-        props.pilihanFasiliti === 'kpbmpb'
-          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
+        props.pilihanFasiliti === 'kpbmpb' ||
+        props.jenisReten === 'KPBMPBBulanan'
+          ? `&pilihanFasiliti=${
+              props.pilihanFasiliti
+            }&pilihanKpbMpb=${encodeURIComponent(props.pilihanKpbMpb)}`
           : ''
       }${
         props.pilihanFasiliti === 'individu'
-          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
+          ? `&pilihanFasiliti=${
+              props.pilihanFasiliti
+            }&pilihanIndividu=${encodeURIComponent(props.pilihanIndividu)}`
           : ''
       }${
         ['tadika'].includes(props.jenisFasiliti)
-          ? `&pilihanTadika=${props.pilihanJanaSpesifikFasiliti}`
+          ? `&pilihanTadika=${encodeURIComponent(
+              props.pilihanJanaSpesifikFasiliti
+            )}`
           : ''
       }${
         ['sekolah rendah', 'sekolah menengah'].includes(props.jenisFasiliti)
-          ? `&pilihanSekolah=${props.pilihanJanaSpesifikFasiliti}`
+          ? `&pilihanSekolah=${encodeURIComponent(
+              props.pilihanJanaSpesifikFasiliti
+            )}`
           : ''
       }${
         ['semua sekolah menengah mmi'].includes(props.jenisFasiliti)
@@ -240,8 +251,7 @@ const ModalGenerateAdHoc = (props) => {
         endDateRef.current
       }&fromEtl=false`;
       // console.log(url);
-      const encodedUrl = encodeURIComponent(url);
-      const res = await axios.get(encodedUrl, {
+      const res = await axios.get(url, {
         headers: {
           Authorization: adminToken,
         },
@@ -376,8 +386,10 @@ const ModalGenerateAdHoc = (props) => {
               </span>
             </div>
             {![
-              'PG101',
-              'PG211',
+              'PG101A',
+              'PG101C',
+              'PG211A',
+              'PG211C',
               'PGS201',
               'PGS203',
               'CPPC1',
