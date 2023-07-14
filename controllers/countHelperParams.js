@@ -40,7 +40,7 @@ const ultimateCutoff = {
                 $add: [{ $month: '$createdAt' }, 1],
               },
               day: 6,
-              hour: 4,
+              hour: 16,
             },
           },
         ],
