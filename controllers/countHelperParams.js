@@ -5,7 +5,7 @@ const ultimateCutoff = {
   $expr: {
     $or: [
       {
-        $gt: [
+        $lt: [
           '$createdAt',
           {
             $dateFromParts: {
@@ -31,7 +31,7 @@ const ultimateCutoff = {
         ],
       },
       {
-        $gt: [
+        $lt: [
           '$updatedAt',
           {
             $dateFromParts: {
