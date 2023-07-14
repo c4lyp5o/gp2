@@ -2447,6 +2447,7 @@ export function InputEditKkiakd(props) {
                         : false
                     }
                     type='radio'
+                    id='statusactive'
                     name='statusAktif'
                     value='active'
                     onChange={(e) => {
@@ -2469,6 +2470,7 @@ export function InputEditKkiakd(props) {
                         : false
                     }
                     type='radio'
+                    id='statusinactive'
                     name='statusTidakAktif'
                     value='non-active'
                     onChange={(e) => {
@@ -2961,6 +2963,7 @@ export function InputEditSR(props) {
                         : false
                     }
                     type='radio'
+                    id='statusactive'
                     name='statusAktif'
                     value='active'
                     onChange={(e) => {
@@ -2983,6 +2986,7 @@ export function InputEditSR(props) {
                         : false
                     }
                     type='radio'
+                    id='statusinactive'
                     name='statusTidakAktif'
                     value='non-active'
                     onChange={(e) => {
@@ -3240,6 +3244,7 @@ export function InputEditSM(props) {
                         : false
                     }
                     type='radio'
+                    id='statusactive'
                     name='statusAktif'
                     value='active'
                     onChange={(e) => {
@@ -3262,6 +3267,7 @@ export function InputEditSM(props) {
                         : false
                     }
                     type='radio'
+                    id='statusinactive'
                     name='statusTidakAktif'
                     value='non-active'
                     onChange={(e) => {
@@ -3370,6 +3376,7 @@ export function InputEditKPBMPB(props) {
                         : false
                     }
                     type='radio'
+                    id='statusactive'
                     name='statusAktif'
                     value='active'
                     onChange={(e) => {
@@ -3392,6 +3399,7 @@ export function InputEditKPBMPB(props) {
                         : false
                     }
                     type='radio'
+                    id='statusinactive'
                     name='statusTidakAktif'
                     value='non-active'
                     onChange={(e) => {
@@ -3526,7 +3534,8 @@ export function InputEditTastad(props) {
                         : false
                     }
                     type='radio'
-                    name='statusAktif'
+                    id='statusactive'
+                    name='statusAktifTidak'
                     value='active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -3549,7 +3558,8 @@ export function InputEditTastad(props) {
                         : false
                     }
                     type='radio'
-                    name='statusTidakAktif'
+                    id='statusinactive'
+                    name='statusAktifTidak'
                     value='non-active'
                     onChange={(e) => {
                       props.setEditedEntity({
