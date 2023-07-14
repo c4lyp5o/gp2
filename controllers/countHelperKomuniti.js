@@ -1331,6 +1331,7 @@ const countDEWASAMUDA = async (payload) => {
     {
       $match: {
         ...getParamsKOM(payload),
+        ...ultimateCutoff,
         jenisProgram: 'programDewasaMuda',
       },
     },
@@ -12495,6 +12496,7 @@ const countUTCRTC = async (payload) => {
         return {
           $match: {
             ...getParamsUTCRTC(payload),
+            ...ultimateCutoff,
             createdByKp: { $regex: /utc/i },
           },
         };
