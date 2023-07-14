@@ -30,6 +30,7 @@ const {
   pipelineSekolahRawatan,
   pipelineEnrolmenSekolah,
   pipelineTutupSekolah,
+  pipelineKepp,
   pipelineTod,
   // id
   id201Biasa,
@@ -8805,205 +8806,219 @@ const countPGS201 = async (payload) => {
   try {
     let bigData = [];
 
-    for (const stage of match_stage) {
-      const dataPG201 = await Umum.aggregate([...stage, ...group_stage]);
-      bigData.push(dataPG201);
+    if (
+      payload.pilihanTadika ||
+      (!payload.pilihanTadika && !payload.pilihanSekolah)
+    ) {
+      console.log('ada pilihan tadika');
+      for (const stage of match_stage) {
+        const dataPG201 = await Umum.aggregate([...stage, ...group_stage]);
+        bigData.push(dataPG201);
+      }
+
+      const dataFasiliti = await Fasiliti.find({
+        ...(payload.negeri != 'all' && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(payload.daerah != 'all' && {
+          createdByDaerah: payload.daerah,
+        }),
+        ...(payload.klinik != 'all' && {
+          kodFasilitiHandler: payload.klinik,
+        }),
+        jenisFasiliti: { $in: ['taska', 'tadika'] },
+      }).select(
+        'jenisFasiliti enrolmen5Tahun enrolmen6Tahun statusPerkhidmatan'
+      );
+
+      // nnt nk kena masuk taska
+      const totalEnrolmentTastadPra = dataFasiliti.reduce(
+        (
+          totals,
+          { jenisFasiliti, enrolmen5Tahun, enrolmen6Tahun, statusPerkhidmatan }
+        ) => {
+          if (jenisFasiliti === 'tadika' && statusPerkhidmatan === 'active') {
+            totals = {
+              ...totals,
+              enrolmen5Tahun:
+                (totals.enrolmen5Tahun ?? 0) +
+                (enrolmen5Tahun ? parseInt(enrolmen5Tahun) : 0),
+              enrolmen6Tahun:
+                (totals.enrolmen6Tahun ?? 0) +
+                (enrolmen6Tahun ? parseInt(enrolmen6Tahun) : 0),
+            };
+          }
+          return totals;
+        },
+        {}
+      );
+
+      bigData[0][0] = { ...bigData[0][0], ...totalEnrolmentTastadPra };
     }
 
-    // sekolah
-    // // one ring to rule them all
-    const dataSekolahPemeriksaan = await Fasiliti.aggregate([
-      ...pipelineSekolahPemeriksaan(payload),
-      {
-        $facet: {
-          dataBiasa: [
-            {
-              $group: {
-                ...id201Biasa,
-                ...groupSekolah,
+    if (
+      payload.pilihanSekolah ||
+      (!payload.pilihanTadika && !payload.pilihanSekolah)
+    ) {
+      console.log('ada pilihan sekolah');
+      // sekolah
+      // // one ring to rule them all
+      const dataSekolahPemeriksaan = await Fasiliti.aggregate([
+        ...pipelineSekolahPemeriksaan(payload),
+        {
+          $facet: {
+            dataBiasa: [
+              {
+                $group: {
+                  ...id201Biasa,
+                  ...groupSekolah,
+                },
               },
-            },
-          ],
-          dataKhasKham: [
-            {
-              $group: {
-                ...id201KhasKham,
-                ...groupSekolah,
+            ],
+            dataKhasKham: [
+              {
+                $group: {
+                  ...id201KhasKham,
+                  ...groupSekolah,
+                },
               },
-            },
-          ],
-          dataOAP: [
-            {
-              $group: {
-                ...id201OAP,
-                ...groupSekolah,
+            ],
+            dataOAP: [
+              {
+                $group: {
+                  ...id201OAP,
+                  ...groupSekolah,
+                },
               },
-            },
-          ],
-          dataAllOAP: [
-            {
-              $group: {
-                ...id201AllOAP,
-                ...groupSekolah,
+            ],
+            dataAllOAP: [
+              {
+                $group: {
+                  ...id201AllOAP,
+                  ...groupSekolah,
+                },
               },
-            },
-          ],
-          dataAllOKU: [
-            {
-              $group: {
-                ...id201AllOKU,
-                ...groupSekolah,
+            ],
+            dataAllOKU: [
+              {
+                $group: {
+                  ...id201AllOKU,
+                  ...groupSekolah,
+                },
               },
-            },
-          ],
+            ],
+          },
         },
-      },
-    ]);
+      ]);
 
-    const dataSekolahRawatan = await Fasiliti.aggregate([
-      ...pipelineSekolahRawatan(payload),
-      {
-        $facet: {
-          dataBiasa: [
-            {
-              $group: {
-                ...id201Biasa,
-                ...groupSekolah,
+      const dataSekolahRawatan = await Fasiliti.aggregate([
+        ...pipelineSekolahRawatan(payload),
+        {
+          $facet: {
+            dataBiasa: [
+              {
+                $group: {
+                  ...id201Biasa,
+                  ...groupSekolah,
+                },
               },
-            },
-          ],
-          dataKhasKham: [
-            {
-              $group: {
-                ...id201KhasKham,
-                ...groupSekolah,
+            ],
+            dataKhasKham: [
+              {
+                $group: {
+                  ...id201KhasKham,
+                  ...groupSekolah,
+                },
               },
-            },
-          ],
-          dataOAP: [
-            {
-              $group: {
-                ...id201OAP,
-                ...groupSekolah,
+            ],
+            dataOAP: [
+              {
+                $group: {
+                  ...id201OAP,
+                  ...groupSekolah,
+                },
               },
-            },
-          ],
-          dataAllOAP: [
-            {
-              $group: {
-                ...id201AllOAP,
-                ...groupSekolah,
+            ],
+            dataAllOAP: [
+              {
+                $group: {
+                  ...id201AllOAP,
+                  ...groupSekolah,
+                },
               },
-            },
-          ],
-          dataAllOKU: [
-            {
-              $group: {
-                ...id201AllOKU,
-                ...groupSekolah,
+            ],
+            dataAllOKU: [
+              {
+                $group: {
+                  ...id201AllOKU,
+                  ...groupSekolah,
+                },
               },
-            },
-          ],
+            ],
+          },
         },
-      },
-    ]);
+      ]);
 
-    const enrolmenSekolah = await Fasiliti.aggregate([
-      ...pipelineEnrolmenSekolah(payload),
-      {
-        $facet: {
-          enrolmenKelas: [
-            {
-              $group: {
-                ...id201Biasa,
-                jumlah: {
-                  $sum: 1,
+      const enrolmenSekolah = await Fasiliti.aggregate([
+        ...pipelineEnrolmenSekolah(payload),
+        {
+          $facet: {
+            enrolmenKelas: [
+              {
+                $group: {
+                  ...id201Biasa,
+                  jumlah: {
+                    $sum: 1,
+                  },
                 },
               },
-            },
-          ],
-          enrolmenKhasKham: [
-            {
-              $group: {
-                ...id201KhasKham,
-                jumlah: {
-                  $sum: 1,
+            ],
+            enrolmenKhasKham: [
+              {
+                $group: {
+                  ...id201KhasKham,
+                  jumlah: {
+                    $sum: 1,
+                  },
                 },
               },
-            },
-          ],
-          enrolmenOAP: [
-            {
-              $group: {
-                ...id201OAP,
-                jumlah: {
-                  $sum: 1,
+            ],
+            enrolmenOAP: [
+              {
+                $group: {
+                  ...id201OAP,
+                  jumlah: {
+                    $sum: 1,
+                  },
                 },
               },
-            },
-          ],
-          enrolmenAllOAP: [
-            {
-              $group: {
-                ...id201AllOAP,
-                jumlah: {
-                  $sum: 1,
+            ],
+            enrolmenAllOAP: [
+              {
+                $group: {
+                  ...id201AllOAP,
+                  jumlah: {
+                    $sum: 1,
+                  },
                 },
               },
-            },
-          ],
-          enrolmenAllOKU: [
-            {
-              $group: {
-                ...id201AllOKU,
-                jumlah: {
-                  $sum: 1,
+            ],
+            enrolmenAllOKU: [
+              {
+                $group: {
+                  ...id201AllOKU,
+                  jumlah: {
+                    $sum: 1,
+                  },
                 },
               },
-            },
-          ],
+            ],
+          },
         },
-      },
-    ]);
+      ]);
 
-    bigData.push(dataSekolahPemeriksaan, enrolmenSekolah, dataSekolahRawatan);
-
-    const dataFasiliti = await Fasiliti.find({
-      ...(payload.negeri != 'all' && {
-        createdByNegeri: payload.negeri,
-      }),
-      ...(payload.daerah != 'all' && {
-        createdByDaerah: payload.daerah,
-      }),
-      ...(payload.klinik != 'all' && {
-        kodFasilitiHandler: payload.klinik,
-      }),
-      jenisFasiliti: { $in: ['taska', 'tadika'] },
-    }).select('jenisFasiliti enrolmen5Tahun enrolmen6Tahun statusPerkhidmatan');
-
-    // nnt nk kena masuk taska
-    const totalEnrolmentTastadPra = dataFasiliti.reduce(
-      (
-        totals,
-        { jenisFasiliti, enrolmen5Tahun, enrolmen6Tahun, statusPerkhidmatan }
-      ) => {
-        if (jenisFasiliti === 'tadika' && statusPerkhidmatan === 'active') {
-          totals = {
-            ...totals,
-            enrolmen5Tahun:
-              (totals.enrolmen5Tahun ?? 0) +
-              (enrolmen5Tahun ? parseInt(enrolmen5Tahun) : 0),
-            enrolmen6Tahun:
-              (totals.enrolmen6Tahun ?? 0) +
-              (enrolmen6Tahun ? parseInt(enrolmen6Tahun) : 0),
-          };
-        }
-        return totals;
-      },
-      {}
-    );
-
-    bigData[0][0] = { ...bigData[0][0], ...totalEnrolmentTastadPra };
+      bigData.push(dataSekolahPemeriksaan, enrolmenSekolah, dataSekolahRawatan);
+    }
 
     return bigData;
   } catch (error) {
@@ -12455,153 +12470,10 @@ const countBPE = async (payload) => {
   }
 };
 const countKEPP = async (payload) => {
-  const { negeri } = payload;
-
   try {
-    let keppPt = await Umum.aggregate([
-      {
-        $match: {
-          kepp: true,
-          createdByNegeri: negeri,
-          deleted: false,
-          statusKehadiran: false,
-          ...ultimateCutoff,
-        },
-      },
-      {
-        $group: {
-          _id: '$createdByKodFasiliti',
-          kodFasiliti: { $first: '$createdByKodFasiliti' },
-          createdByKp: { $first: '$createdByKp' },
-        },
-      },
-    ]);
+    const dataKepp = await Umum.aggregate(pipelineKepp(payload));
 
-    keppPt = await Promise.all(
-      keppPt.map(async (kepp) => {
-        const { kodFasiliti } = kepp;
-        const jumlahPegawai = await Operator.countDocuments({
-          statusPegawai: 'pp',
-          kodFasiliti,
-        });
-        return { ...kepp, jumlahPegawai };
-      })
-    );
-
-    keppPt = await Promise.all(
-      keppPt.map(async (kepp) => {
-        const pesakit = await Umum.aggregate([
-          {
-            $match: { createdByKodFasiliti: kepp.kodFasiliti, kepp: true },
-          },
-          {
-            $group: {
-              _id: '$createdByKodFasiliti',
-              jumlahPesakit: { $sum: 1 },
-              statusReten: {
-                $sum: {
-                  $cond: [
-                    {
-                      $eq: ['$statusReten', 'reten salah'],
-                    },
-                    1,
-                    0,
-                  ],
-                },
-              },
-              jumlahKedatanganBaru: {
-                $sum: {
-                  $cond: [
-                    {
-                      $eq: ['$kedatangan', 'baru-kedatangan'],
-                    },
-                    1,
-                    0,
-                  ],
-                },
-              },
-              jumlahKedatanganUlangan: {
-                $sum: {
-                  $cond: [
-                    {
-                      $eq: ['$kedatangan', 'ulangan-kedatangan'],
-                    },
-                    1,
-                    0,
-                  ],
-                },
-              },
-              jumlahKesEndoPerluAnt: {
-                $sum: '$jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum',
-              },
-              jumlahKesEndoPerluPreMolar: {
-                $sum: '$jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum',
-              },
-              jumlahKesEndoPerluMolar: {
-                $sum: '$jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum',
-              },
-              jumlahKesEndoPerluRedo: {
-                $sum: '$rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum',
-              },
-              jumlahKesEndoRedoKP: {
-                $sum: '$rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum',
-              },
-              jumlahKesEndoRedoKeppAnt: {
-                $sum: '$jumlahAnteriorRawatanSemulaKeppRawatanUmum',
-              },
-              jumlahKesEndoRedoKeppPreMolar: {
-                $sum: '$jumlahPremolarRawatanSemulaKeppRawatanUmum',
-              },
-              jumlahKesEndoRedoKeppMolar: {
-                $sum: '$jumlahMolarRawatanSemulaKeppRawatanUmum',
-              },
-              jumlahKodRDITN3: {
-                $sum: {
-                  $cond: [
-                    {
-                      $eq: ['$memenuhiRditnKod3KesRujukUpprRawatanUmum', true],
-                    },
-                    1,
-                    0,
-                  ],
-                },
-              },
-              jumlahRestoPascaEndo: {
-                $sum: {
-                  $cond: [
-                    {
-                      $eq: [
-                        '$restorasiPascaEndodontikKesRujukUpprRawatanUmum',
-                        true,
-                      ],
-                    },
-                    1,
-                    0,
-                  ],
-                },
-              },
-              jumlahKomplikasiDiKEPP: {
-                $sum: {
-                  $cond: [
-                    {
-                      $eq: [
-                        '$komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum',
-                        true,
-                      ],
-                    },
-                    1,
-                    0,
-                  ],
-                },
-              },
-            },
-          },
-        ]);
-        return { ...kepp, ...pesakit[0] };
-      })
-    );
-
-    return keppPt;
+    return dataKepp;
   } catch (error) {
     errorRetenLogger.error(
       `Error mengira reten: ${payload.jenisReten}. ${error}`
