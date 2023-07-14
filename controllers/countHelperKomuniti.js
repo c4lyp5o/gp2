@@ -3,6 +3,7 @@ const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
 const { errorRetenLogger } = require('../logs/logger');
 const {
+  ultimateCutoff,
   placeModifier,
   getParamsPGS201,
   getParamsKOM,
@@ -18,24 +19,6 @@ const {
   pipelineCPPC2Biasa,
   pipelineCPPC2PraSekolah,
 } = require('../controllers/countHelperPipeline');
-
-//BISMILLAH ALLAH BAGI ILHAM
-const ultimateCutoff = {
-  $expr: {
-    $lt: [
-      '$updatedAt',
-      {
-        $dateFromParts: {
-          year: { $year: '$createdAt' },
-          month: {
-            $add: [{ $month: '$createdAt' }, 1],
-          },
-          day: { $add: [1, 6] },
-        },
-      },
-    ],
-  },
-};
 
 const countPPIM03 = async (payload) => {
   const dataKohort = await KohortKotak.aggregate([

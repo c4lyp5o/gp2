@@ -6,6 +6,7 @@ const Fasiliti = require('../models/Fasiliti');
 const MediaSosial = require('../models/MediaSosial');
 const { errorRetenLogger } = require('../logs/logger');
 const {
+  ultimateCutoff,
   placeModifier,
   getParams101,
   getParams211,
@@ -51,24 +52,6 @@ const {
   groupToddlerBaru,
   groupToddlerBu,
 } = require('./countHelperPipeline');
-
-//BISMILLAH ALLAH BAGI ILHAM
-const ultimateCutoff = {
-  $expr: {
-    $lt: [
-      '$updatedAt',
-      {
-        $dateFromParts: {
-          year: { $year: '$createdAt' },
-          month: {
-            $add: [{ $month: '$createdAt' }, 1],
-          },
-          day: { $add: [1, 6] },
-        },
-      },
-    ],
-  },
-};
 
 //Reten Kaunter
 const countPG101A = async (payload) => {
