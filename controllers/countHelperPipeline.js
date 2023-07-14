@@ -1002,6 +1002,171 @@ const pipelineTutupSekolah = (payload) => {
   ];
 };
 
+// pipeline kepp
+const pipelineKepp = (payload) => {
+  return [
+    {
+      $match: {
+        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
+        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(payload.klinik !== 'all' && {
+          createdByKodFasiliti: payload.klinik,
+        }),
+        statusReten: {
+          $in: ['telah diisi', 'reten salah'],
+        },
+        kepp: true,
+        deleted: false,
+        statusKehadiran: false,
+        onCall: { $in: [null, false] },
+        ...ultimateCutoff,
+      },
+    },
+    {
+      $group: {
+        _id: '$createdByKodFasiliti',
+        jumlah: { $sum: 1 },
+        jumlahSalah: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$statusReten', 'reten salah'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kodFasiliti: {
+          $first: '$createdByKodFasiliti',
+        },
+        namaKepp: {
+          $first: '$createdByKp',
+        },
+        jumlahPegawaiKepp: {
+          $addToSet: '$createdByMdcMdtb',
+        },
+        kedatanganBaru: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kedatanganKepp', 'baru-kedatangan-kepp'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganUlangan: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kedatanganKepp', 'ulangan-kedatangan-kepp'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        jumlahKesEndoPerluAnt: {
+          $sum: '$jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum',
+        },
+        jumlahKesEndoPerluPremolar: {
+          $sum: '$jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum',
+        },
+        jumlahKesEndoPerluMolar: {
+          $sum: '$jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum',
+        },
+        jumlahKesEndoPerluRedoDariKp: {
+          $sum: '$rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum',
+        },
+        jumlahKesEndoSelesaiAnt: {
+          $sum: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
+        },
+        jumlahKesEndoSelesaiPremolar: {
+          $sum: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
+        },
+        jumlahKesEndoSelesaiMolar: {
+          $sum: '$jumlahMolarKesEndodontikSelesaiRawatanUmum',
+        },
+        jumlahKesEndoSelesaiRedoDariKp: {
+          $sum: '$rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum',
+        },
+        jumlahKesEndoRedoDiKeppAnt: {
+          $sum: '$jumlahAnteriorRawatanSemulaKeppRawatanUmum',
+        },
+        jumlahKesEndoRedoDiKeppPremolar: {
+          $sum: '$jumlahPremolarRawatanSemulaKeppRawatanUmum',
+        },
+        jumlahKesEndoRedoDiKeppMolar: {
+          $sum: '$jumlahPremolarRawatanSemulaKeppRawatanUmum',
+        },
+        jumlahKodRDITN3: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$memenuhiRditnKod3KesRujukUpprRawatanUmum', true],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        jumlahRestoPascaEndo: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$restorasiPascaEndodontikKesRujukUpprRawatanUmum', true],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        jumlahKomplikasiDiKEPP: {
+          $sum: {
+            $cond: [
+              {
+                $eq: [
+                  '$komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum',
+                  true,
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        klinik: '$namaKepp',
+        jumlahPegawaiKepp: {
+          $size: '$jumlahPegawaiKepp',
+        },
+        kedatanganBaru: 1,
+        kedatanganUlangan: 1,
+        jumlahKesEndoPerluAnt: 1,
+        jumlahKesEndoPerluPremolar: 1,
+        jumlahKesEndoPerluMolar: 1,
+        jumlahKesEndoPerluRedoDariKp: 1,
+        jumlahKesEndoSelesaiAnt: 1,
+        jumlahKesEndoSelesaiPremolar: 1,
+        jumlahKesEndoSelesaiMolar: 1,
+        jumlahKesEndoSelesaiRedoDariKp: 1,
+        jumlahKesEndoRedoDiKeppAnt: 1,
+        jumlahKesEndoRedoDiKeppPremolar: 1,
+        jumlahKesEndoRedoDiKeppMolar: 1,
+        jumlahKodRDITN3: 1,
+        jumlahRestoPascaEndo: 1,
+        jumlahKomplikasiDiKEPP: 1,
+      },
+    },
+  ];
+};
+
 // pipeline tod
 const pipelineTod = (payload) => {
   return [
@@ -13906,6 +14071,7 @@ module.exports = {
   pipelineSekolahRawatan,
   pipelineEnrolmenSekolah,
   pipelineTutupSekolah,
+  pipelineKepp,
   pipelineTod,
   pipelineBegin,
   // id
