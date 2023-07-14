@@ -131,10 +131,6 @@ const ModalGenerateAdHoc = (props) => {
 
   const penjanaanReten = async (e) => {
     try {
-      let encodedName;
-      if (props.pilihanFasiliti === 'program') {
-        encodedName = encodeURIComponent(props.pilihanProgram);
-      }
       const url = `/api/v1/generatekp/download?jenisReten=${
         props.jenisReten
       }&negeri=${loginInfo.negeri}&daerah=${loginInfo.daerah}&klinik=${
@@ -167,7 +163,8 @@ const ModalGenerateAdHoc = (props) => {
         endDateRef.current
       }&fromEtl=false`;
       // console.log(url);
-      const res = await axios.get(url, {
+      const encodedUrl = encodeURIComponent(url);
+      const res = await axios.get(encodedUrl, {
         headers: {
           Authorization: adminToken,
         },

@@ -210,10 +210,6 @@ const ModalGenerateAdHoc = (props) => {
           break;
       }
       // ahh lega
-      let encodedName;
-      if (props.pilihanFasiliti === 'program') {
-        encodedName = encodeURIComponent(props.pilihanProgram);
-      }
       const url = `/api/v1/generate/download?jenisReten=${
         props.jenisReten
       }&negeri=${negeri}&daerah=${daerah}&klinik=${klinik}${
@@ -244,7 +240,8 @@ const ModalGenerateAdHoc = (props) => {
         endDateRef.current
       }&fromEtl=false`;
       // console.log(url);
-      const res = await axios.get(url, {
+      const encodedUrl = encodeURIComponent(url);
+      const res = await axios.get(encodedUrl, {
         headers: {
           Authorization: adminToken,
         },
