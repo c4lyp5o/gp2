@@ -97,11 +97,20 @@ const ModalGenerateAdHoc = (props) => {
   const fileName = () => {
     let file = '';
     const date = moment(new Date()).format('DDMMYYYY');
-    const { jenisReten, namaKlinik, pilihanProgram, pilihanKpbMpb } = props;
+    const {
+      jenisReten,
+      namaKlinik,
+      pilihanProgram,
+      pilihanKpbMpb,
+      pilihanJanaSpesifikFasiliti,
+      namaSebenarFasilitiPendidikan,
+    } = props;
     if (pilihanProgram !== '') {
       file = `${jenisReten}_${namaKlinik.toUpperCase()}_${pilihanProgram.toUpperCase()}_${date}_token.xlsx`;
     } else if (pilihanKpbMpb !== '') {
       file = `${jenisReten}_${pilihanKpbMpb}_${date}_token.xlsx`;
+    } else if (pilihanJanaSpesifikFasiliti !== '') {
+      file = `${jenisReten}_${namaKlinik.toUpperCase()}_${namaSebenarFasilitiPendidikan.toUpperCase()}_${date}_token.xlsx`;
     } else {
       file = `${jenisReten}_${namaKlinik.toUpperCase()}_${date}_token.xlsx`;
     }
@@ -128,11 +137,16 @@ const ModalGenerateAdHoc = (props) => {
         loginInfo.kodFasiliti
       }${
         props.pilihanFasiliti === 'program'
-          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
+          ? `&pilihanFasiliti=${
+              props.pilihanFasiliti
+            }&pilihanProgram=${encodeURIComponent(props.pilihanProgram)}`
           : ''
       }${
-        props.pilihanFasiliti === 'kpbmpb'
-          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
+        props.pilihanFasiliti === 'kpbmpb' ||
+        props.jenisReten === 'KPBMPBBulanan'
+          ? `&pilihanFasiliti=${
+              props.pilihanFasiliti
+            }&pilihanKpbMpb=${encodeURIComponent(props.pilihanKpbMpb)}`
           : ''
       }${
         props.pilihanFasiliti === 'individu'
@@ -248,8 +262,6 @@ const ModalGenerateAdHoc = (props) => {
 
   // fetch kpb atau rtc
   useEffect(() => {
-    // console.log(pilihanRetenAdaKPBSahaja ? 'ada kpb sahaja' : 'ada rtc sahaja');
-
     if (
       (pilihanRetenAdaKPBSahaja || pilihanRetenRTC) &&
       (loginInfo.accountType === 'hqSuperadmin' ||
@@ -290,8 +302,26 @@ const ModalGenerateAdHoc = (props) => {
                 <AiFillCloseCircle className='text-xl rounded-full' />
               </span>
             </div>
+            {![
+              'PG101A',
+              'PG101C',
+              'PG211A',
+              'PG211C',
+              'PGS201',
+              'PGS203',
+              'CPPC1',
+              'CPPC2',
+              'PPIM03',
+              'PPIM04',
+              'PPIM05',
+            ].includes(props.jenisReten) && (
+              <p className='text-lg font-semibold text-admin3'>
+                MAKLUMAN: Maklumat yang diisi selepas tarikh penutupan reten
+                bulan itu tidak akan dimasukkan ke dalam reten!
+              </p>
+            )}
             <div className='mb-3'>
-              <div className='admin-pegawai-handler-container'>
+              <div>
                 {pilihanRetenMASA && (
                   <div className='grid grid-row-2 gap-2 p-2 normal-case'>
                     Penjanaan PIAGAM MASA dengan token adalah untuk SATU TAHUN
@@ -606,6 +636,10 @@ const ModalGenerateAdHoc = (props) => {
                                 id='pilihanSpesifikFasiliti'
                                 value={props.pilihanJanaSpesifikFasiliti}
                                 onChange={(e) => {
+                                  props.setNamaSebenarFasilitiPendidikan(
+                                    e.target.options[e.target.selectedIndex]
+                                      .dataset.key
+                                  );
                                   props.setPilihanJanaSpesifikFasiliti(
                                     e.target.value
                                   );
@@ -624,7 +658,11 @@ const ModalGenerateAdHoc = (props) => {
                                     )
                                     .map((t, index) => {
                                       return (
-                                        <option key={index} value={t.kodTastad}>
+                                        <option
+                                          key={index}
+                                          data-key={t.nama}
+                                          value={t.kodTastad}
+                                        >
                                           {t.nama}
                                         </option>
                                       );
@@ -643,7 +681,7 @@ const ModalGenerateAdHoc = (props) => {
                                       return (
                                         <option
                                           key={index}
-                                          data-key={t.kodSekolah}
+                                          data-key={t.nama}
                                           value={t.kodSekolah}
                                         >
                                           {t.nama}
@@ -664,7 +702,7 @@ const ModalGenerateAdHoc = (props) => {
                                       return (
                                         <option
                                           key={index}
-                                          data-key={t.kodSekolah}
+                                          data-key={t.nama}
                                           value={t.kodSekolah}
                                         >
                                           {t.nama}
@@ -868,6 +906,115 @@ const ModalGenerateAdHoc = (props) => {
                                 </select>
                               </div>
                             )}
+                          </div>
+                          <div>
+                            {props.pilihanKlinik !== '' &&
+                            props.pilihanKlinik !== 'all' &&
+                            props.pilihanDaerah !== 'all' &&
+                            (props.jenisReten === 'PG206' ||
+                              props.jenisReten === 'PG207') ? (
+                              <div className='px-3 py-1'>
+                                <label
+                                  htmlFor='factype'
+                                  className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                                >
+                                  Fasiliti
+                                </label>
+                                <select
+                                  required
+                                  name='factype'
+                                  id='factype'
+                                  onChange={(e) => {
+                                    props.handleGetIndividu(e.target.value);
+                                  }}
+                                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                                >
+                                  <option value=''>Sila pilih..</option>
+                                  <option value='klinik'>Klinik</option>
+                                  <option value='individu'>Individu</option>
+                                </select>
+                              </div>
+                            ) : null}
+                            {props.pilihanFasiliti === 'individu' &&
+                            props.jenisReten === 'PG206' ? (
+                              <div className='px-3 py-1'>
+                                <label
+                                  htmlFor='pegawai'
+                                  className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                                >
+                                  Pegawai
+                                </label>
+                                <select
+                                  required
+                                  name='pegawai'
+                                  id='pegawai'
+                                  value={props.pilihanIndividu}
+                                  onChange={(e) => {
+                                    props.setPilihanIndividu(e.target.value);
+                                  }}
+                                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                                >
+                                  <option value=''>Sila pilih..</option>
+                                  {props.individuData
+                                    .filter((i) => i.statusPegawai === 'jp')
+                                    .map((i, index) => {
+                                      return (
+                                        <option
+                                          key={index}
+                                          value={
+                                            i.mdcNumber
+                                              ? i.mdcNumber
+                                              : i.mdtbNumber
+                                          }
+                                          className='capitalize'
+                                        >
+                                          {i.nama}
+                                        </option>
+                                      );
+                                    })}
+                                </select>
+                              </div>
+                            ) : null}
+                            {props.pilihanFasiliti === 'individu' &&
+                            props.jenisReten === 'PG207' ? (
+                              <div className='px-3 py-1'>
+                                <label
+                                  htmlFor='pegawai'
+                                  className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                                >
+                                  Pegawai
+                                </label>
+                                <select
+                                  required
+                                  name='pegawai'
+                                  id='pegawai'
+                                  value={props.pilihanIndividu}
+                                  onChange={(e) => {
+                                    props.setPilihanIndividu(e.target.value);
+                                  }}
+                                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                                >
+                                  <option value=''>Sila pilih..</option>
+                                  {props.individuData
+                                    .filter((i) => i.statusPegawai === 'pp')
+                                    .map((i, index) => {
+                                      return (
+                                        <option
+                                          key={index}
+                                          value={
+                                            i.mdcNumber
+                                              ? i.mdcNumber
+                                              : i.mdtbNumber
+                                          }
+                                          className='capitalize'
+                                        >
+                                          {i.nama}
+                                        </option>
+                                      );
+                                    })}
+                                </select>
+                              </div>
+                            ) : null}
                           </div>
                           <div>
                             {props.jenisReten === 'PGPRO01' ||
@@ -1630,11 +1777,6 @@ const Generate = () => {
   const [individuData, setIndividuData] = useState([]);
   const [rtcData, setRtcData] = useState([]);
 
-  // nantilah itu
-  const [pilihanSekolah, setPilihanSekolah] = useState('');
-  const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
-  const [namaSekolahs, setNamaSekolahs] = useState([]);
-
   const [statusToken, setStatusToken] = useState([]);
   const [statusReten, setStatusReten] = useState([]);
 
@@ -1643,6 +1785,8 @@ const Generate = () => {
   const [carianJana, setCarianJana] = useState('');
   const [allTadika, setAllTadika] = useState([]);
   const [pilihanJanaSpesifikFasiliti, setPilihanJanaSpesifikFasiliti] =
+    useState('');
+  const [namaSebenarFasilitiPendidikan, setNamaSebenarFasilitiPendidikan] =
     useState('');
   const [allSekRendah, setAllSekRendah] = useState([]);
   const [allSekMenengah, setAllSekMenengah] = useState([]);
@@ -1863,6 +2007,8 @@ const Generate = () => {
     setAllTadika,
     pilihanJanaSpesifikFasiliti,
     setPilihanJanaSpesifikFasiliti,
+    namaSebenarFasilitiPendidikan,
+    setNamaSebenarFasilitiPendidikan,
     allSekRendah,
     setAllSekRendah,
     allSekMenengah,

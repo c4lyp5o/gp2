@@ -3,6 +3,7 @@ const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
 const { errorRetenLogger } = require('../logs/logger');
 const {
+  ultimateCutoff,
   placeModifier,
   getParamsPGS201,
   getParamsKOM,
@@ -12,6 +13,7 @@ const {
   getParamsOperatorLain,
 } = require('../controllers/countHelperParams');
 const {
+  pipelineBegin,
   pipelineCPPC1Biasa,
   pipelineCPPC1PraSekolah,
   pipelineCPPC2Biasa,
@@ -183,10 +185,21 @@ const countPPIM03 = async (payload) => {
     },
     {
       $project: {
+        _id: 0,
         jantina: 1,
         keturunan: 1,
         tahunTingkatan: 1,
         statusMerokok: 1,
+        statusKotak: 1,
+        elektronikVapeKotak: 1,
+        shishaKotak: 1,
+        lainLainKotak: 1,
+        tarikhIntervensi1: 1,
+        tarikhIntervensi2: 1,
+        tarikhIntervensi3: 1,
+        tarikhQ: 1,
+        rujukGuruKaunseling: 1,
+        statusSelepas6Bulan: 1,
       },
     },
     {
@@ -602,7 +615,7 @@ const countPPIM04 = async (payload) => {
                 else: null,
               },
             },
-            'Unknown',
+            'Tiada Tarikh',
           ],
         },
         rujukGuruKaunseling: {
@@ -681,19 +694,16 @@ const countPPIM05 = async (payload) => {
     {
       $lookup: {
         from: 'sekolahs',
-        let: {
-          nama: '$nama',
-        },
+        localField: 'nama',
+        foreignField: 'nama',
         pipeline: [
           {
             $match: {
-              $expr: {
-                $eq: ['$nama', '$$nama'],
+              pemeriksaanSekolah: {
+                $exists: true,
+                $ne: null,
               },
             },
-          },
-          {
-            $limit: 1,
           },
         ],
         as: 'data_sekolah',
@@ -705,21 +715,8 @@ const countPPIM05 = async (payload) => {
     {
       $lookup: {
         from: 'pemeriksaansekolahs',
-        let: {
-          pemeriksaanSekolah: '$data_sekolah.pemeriksaanSekolah',
-        },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $eq: ['$_id', '$$pemeriksaanSekolah'],
-              },
-            },
-          },
-          {
-            $limit: 1,
-          },
-        ],
+        localField: 'data_sekolah.pemeriksaanSekolah',
+        foreignField: '_id',
         as: 'data_pemeriksaan',
       },
     },
@@ -733,11 +730,16 @@ const countPPIM05 = async (payload) => {
     },
     {
       $project: {
-        data_sekolah: 0,
-        data_pemeriksaan: 0,
-        createdAt: 0,
-        updatedAt: 0,
-        __v: 0,
+        _id: 0,
+        tahunTingkatan: 1,
+        statusMerokok: 1,
+        statusKotak: 1,
+        tarikhIntervensi1: 1,
+        tarikhIntervensi2: 1,
+        tarikhIntervensi3: 1,
+        tarikhQ: 1,
+        rujukGuruKaunseling: 1,
+        statusSelepas6Bulan: 1,
       },
     },
     {
@@ -929,96 +931,6 @@ const countPPIM05 = async (payload) => {
   }
 };
 const countBEGIN = async (payload) => {
-  let match_stage_umum = [];
-  let match_stage_sekolah = [];
-
-  // dari umum
-  const taska = [
-    {
-      $match: {
-        ...getParamsPGS201(payload),
-        jenisFasiliti: { $eq: 'taska-tadika' },
-      },
-    },
-    {
-      $lookup: {
-        from: 'fasilitis',
-        localField: 'kodFasilitiTaskaTadika',
-        foreignField: 'kodTastad',
-        as: 'fasiliti_data',
-      },
-    },
-    {
-      $unwind: '$fasiliti_data',
-    },
-    {
-      $addFields: {
-        melaksanakanBegin: '$fasiliti_data.melaksanakanBegin',
-      },
-    },
-    {
-      $project: {
-        fasiliti_data: 0,
-      },
-    },
-  ];
-  const pra_tad = [
-    {
-      $match: {
-        ...getParamsPGS201(payload),
-        jenisFasiliti: { $in: ['taska-tadika', 'sekolah-rendah'] },
-      },
-    },
-    {
-      $lookup: {
-        from: 'fasilitis',
-        localField: 'kodFasilitiTaskaTadika',
-        foreignField: 'kodTastad',
-        as: 'fasiliti_data',
-      },
-    },
-    {
-      $unwind: '$fasiliti_data',
-    },
-    {
-      $addFields: {
-        kodTastad: '$fasiliti_data.kodTastad',
-      },
-    },
-    {
-      $project: {
-        fasiliti_data: 0,
-      },
-    },
-    {
-      $match: {
-        kodTastad: { $regex: /tad/i },
-      },
-    },
-  ];
-  // dari sekolah
-  const sr_tahun1 = [
-    {
-      $match: {
-        ...getParamsPGS201(payload),
-        tahunTingkatan: 'T1',
-        tarikhMelaksanakanBegin: { $ne: '' },
-      },
-    },
-  ];
-  const sr_tahun26 = [
-    {
-      $match: {
-        ...getParamsPGS201(payload),
-        tahunTingkatan: { $ne: 'T1' },
-        tarikhMelaksanakanBegin: { $ne: '' },
-      },
-    },
-  ];
-
-  match_stage_umum = [taska, pra_tad];
-  match_stage_sekolah = [sr_tahun1, sr_tahun26];
-  //
   const group_stage_umum = [
     {
       $group: {
@@ -1030,13 +942,17 @@ const countBEGIN = async (payload) => {
           },
         },
         //
-        pesakitBaruBegin: {
+        jumlahMB: {
           $sum: {
             $cond: [
               {
                 $and: [
-                  { $ne: ['$tarikhMelaksanakanBegin', ''] },
-                  { $eq: ['$kedatangan', 'baru-kedatangan'] },
+                  {
+                    $eq: [
+                      '$melaksanakanAktivitiBeginPromosiUmum',
+                      'ya-melaksanakan-aktiviti-begin-promosi-umum',
+                    ],
+                  },
                 ],
               },
               1,
@@ -1044,23 +960,10 @@ const countBEGIN = async (payload) => {
             ],
           },
         },
-        jumlahFasiliti: {
-          $sum: {
-            $cond: [
-              {
-                $eq: ['$melaksanakanBegin', 'tidak-hadir-taska-tadika'],
-              },
-              1,
-              0,
-            ],
-          },
+        jumlahFasilitiMB: {
+          $addToSet: '$kodTastad',
         },
-        jumlahFasilitiMelaksanakanBegin: {
-          $sum: {
-            $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0],
-          },
-        },
-        craRendah: {
+        jumlahCRARendah: {
           $sum: {
             $cond: [
               {
@@ -1083,7 +986,7 @@ const countBEGIN = async (payload) => {
             ],
           },
         },
-        craSederhana: {
+        jumlahCRASederhana: {
           $sum: {
             $cond: [
               {
@@ -1161,7 +1064,7 @@ const countBEGIN = async (payload) => {
             ],
           },
         },
-        craTinggi: {
+        jumlahCRATinggi: {
           $sum: {
             $cond: [
               {
@@ -1246,17 +1149,68 @@ const countBEGIN = async (payload) => {
             ],
           },
         },
-        jumlahMuridMelaksanakanBegin: {
-          $sum: {
-            $cond: [
-              {
-                $and: [{ $ne: ['$tarikhMelaksanakanBegin', ''] }],
-              },
-              1,
-              0,
-            ],
+      },
+    },
+    {
+      $project: {
+        jumlah: '$jumlahReten',
+        jumlahRetenSalah: 1,
+        jumlahFasilitiMB: { $size: '$jumlahFasilitiMB' },
+        jumlahCRARendah: 1,
+        jumlahCRASederhana: 1,
+        jumlahCRATinggi: 1,
+      },
+    },
+  ];
+
+  // dari umum
+  const taska_tadika = [
+    {
+      $match: {
+        ...getParamsPGS201(payload),
+        jenisFasiliti: { $eq: 'taska-tadika' },
+      },
+    },
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodFasilitiTaskaTadika',
+        foreignField: 'kodTastad',
+        as: 'fasiliti_data',
+      },
+    },
+    {
+      $unwind: '$fasiliti_data',
+    },
+    {
+      $addFields: {
+        kodTastad: '$fasiliti_data.kodTastad',
+        melaksanakanBegin: '$fasiliti_data.melaksanakanBegin',
+      },
+    },
+    {
+      $project: {
+        fasiliti_data: 0,
+      },
+    },
+    {
+      $facet: {
+        dataTaska: [
+          {
+            $match: {
+              kodTastad: { $regex: /tas/i },
+            },
           },
-        },
+          ...group_stage_umum,
+        ],
+        dataTadika: [
+          {
+            $match: {
+              kodTastad: { $regex: /tad/i },
+            },
+          },
+          ...group_stage_umum,
+        ],
       },
     },
   ];
@@ -1265,10 +1219,10 @@ const countBEGIN = async (payload) => {
   let bigData = [];
 
   try {
-    for (const stage of match_stage_umum) {
-      const queryBEGIN = await Umum.aggregate([...stage, ...group_stage_umum]);
-      bigData.push({ queryBEGIN });
-    }
+    const tastadBegin = await Umum.aggregate([...taska_tadika]);
+    const sekolahBegin = await Fasiliti.aggregate([...pipelineBegin(payload)]);
+
+    bigData.push(tastadBegin[0], sekolahBegin[0]);
 
     const dataFasiliti = await Fasiliti.find({
       ...(payload.negeri != 'all' && {
@@ -1280,7 +1234,9 @@ const countBEGIN = async (payload) => {
       ...(payload.klinik != 'all' && {
         kodFasilitiHandler: payload.klinik,
       }),
-      jenisFasiliti: { $in: ['taska', 'tadika'] },
+      jenisFasiliti: {
+        $in: ['taska', 'tadika', 'sekolah-rendah'],
+      },
     }).select('jenisFasiliti enrolmen5Tahun enrolmen6Tahun statusPerkhidmatan');
 
     // nnt nk kena masuk taska
@@ -1305,7 +1261,42 @@ const countBEGIN = async (payload) => {
       {}
     );
 
-    bigData[0][0] = { ...bigData[0][0], ...totalEnrolmentTastadPra };
+    const totalFasiliti = dataFasiliti.reduce(
+      (totals, { jenisFasiliti, statusPerkhidmatan }) => {
+        if (jenisFasiliti === 'tadika' && statusPerkhidmatan === 'active') {
+          totals = {
+            ...totals,
+            totalFasilitiTadika: (totals.totalFasilitiTadika ?? 0) + 1,
+          };
+        }
+        if (jenisFasiliti === 'taska' && statusPerkhidmatan === 'active') {
+          totals = {
+            ...totals,
+            totalFasilitiTaska: (totals.totalFasilitiTaska ?? 0) + 1,
+          };
+        }
+        if (
+          jenisFasiliti === 'sekolah-rendah' &&
+          statusPerkhidmatan === 'active'
+        ) {
+          totals = {
+            ...totals,
+            totalFasilitiSR: (totals.totalFasilitiSR ?? 0) + 1,
+          };
+        }
+        return totals;
+      },
+      {}
+    );
+
+    // console.log(totalEnrolmentTastadPra);
+    // console.log(totalFasiliti);
+
+    bigData[0][0] = {
+      ...bigData[0][0],
+      ...totalEnrolmentTastadPra,
+      ...totalFasiliti,
+    };
 
     return bigData;
   } catch (error) {
@@ -1340,6 +1331,7 @@ const countDEWASAMUDA = async (payload) => {
     {
       $match: {
         ...getParamsKOM(payload),
+        ...ultimateCutoff,
         jenisProgram: 'programDewasaMuda',
       },
     },
@@ -2345,6 +2337,15 @@ const countDEWASAMUDA = async (payload) => {
         localField: 'kodSekolah',
         foreignField: 'kodSekolah',
         as: 'result',
+        pipeline: [
+          {
+            $match: {
+              deleted: false,
+              umur: { $gte: 15, $lte: 17 },
+              pemeriksaanSekolah: { $ne: null },
+            },
+          },
+        ],
       },
     },
     {
@@ -2405,7 +2406,6 @@ const countDEWASAMUDA = async (payload) => {
     },
     {
       $match: {
-        umur: { $gte: 15, $lte: 17 },
         'merged.createdByMdcMdtb': { $regex: /^(?!mdtb).*$/i },
         'merged.tarikhPemeriksaanSemasa': {
           $gte: payload.tarikhMula,
@@ -2415,19 +2415,6 @@ const countDEWASAMUDA = async (payload) => {
     },
     {
       $group: {
-        // _id: {
-        //   $switch: {
-        //     branches: [
-        //       {
-        //         case: {
-        //           $and: [{ $gte: ['$umur', 15] }, { $lte: ['$umur', 17] }],
-        //         },
-        //         then: 'lima-belas-tujuh-belas',
-        //       },
-        //     ],
-        //     default: 'Unknown',
-        //   },
-        // },
         _id: null,
         jumlahPelajar: {
           $sum: 1,
@@ -2803,6 +2790,15 @@ const countDEWASAMUDA = async (payload) => {
         localField: 'kodSekolah',
         foreignField: 'kodSekolah',
         as: 'result',
+        pipeline: [
+          {
+            $match: {
+              deleted: false,
+              umur: { $gte: 15, $lte: 17 },
+              rawatanSekolah: { $ne: [] },
+            },
+          },
+        ],
       },
     },
     {
@@ -2863,7 +2859,6 @@ const countDEWASAMUDA = async (payload) => {
     },
     {
       $match: {
-        umur: { $gte: 15, $lte: 17 },
         'merged.createdByMdcMdtb': { $regex: /^(?!mdtb).*$/i },
         'merged.tarikhRawatanSemasa': {
           $gte: payload.tarikhMula,
@@ -2873,19 +2868,6 @@ const countDEWASAMUDA = async (payload) => {
     },
     {
       $group: {
-        // _id: {
-        //   $switch: {
-        //     branches: [
-        //       {
-        //         case: {
-        //           $and: [{ $gte: ['$umur', 15] }, { $lte: ['$umur', 17] }],
-        //         },
-        //         then: 'lima-belas-tujuh-belas',
-        //       },
-        //     ],
-        //     default: 'Unknown',
-        //   },
-        // },
         _id: null,
         // rawatan
         kedatanganTahunSemasaUlangan: {
@@ -4032,6 +4014,7 @@ const countOAP = async (payload) => {
   const main_switch = {
     $match: {
       ...getParamsOAP(payload),
+      ...ultimateCutoff,
     },
   };
 
@@ -6980,6 +6963,7 @@ const countKOM = async (payload) => {
     {
       $match: {
         ...getParamsKOM(payload),
+        ...ultimateCutoff,
       },
     },
     {
@@ -9801,6 +9785,7 @@ const countPPR = async (payload) => {
     {
       $match: {
         ...getParamsKOM(payload),
+        ...ultimateCutoff,
       },
     },
     {
@@ -12501,6 +12486,7 @@ const countUTCRTC = async (payload) => {
         return {
           $match: {
             ...getParamsUTCRTC(payload),
+            ...ultimateCutoff,
             ...(klinik === 'rtc-tunjung'
               ? {}
               : { createdByKp: { $regex: /rtc/i } }),
@@ -12510,11 +12496,11 @@ const countUTCRTC = async (payload) => {
         return {
           $match: {
             ...getParamsUTCRTC(payload),
+            ...ultimateCutoff,
             createdByKp: { $regex: /utc/i },
           },
         };
       default:
-        console.log('Error: Jenis reten tidak dikenali');
         break;
     }
   };
@@ -15210,6 +15196,7 @@ const countPPKPS = async (payload) => {
     {
       $match: {
         ...getParamsKOM(payload),
+        ...ultimateCutoff,
         jenisProgram: 'ppkps',
       },
     },
@@ -17909,6 +17896,7 @@ const countPKAP2 = async (payload) => {
     {
       $match: {
         ...getParamsPKAP(payload),
+        ...ultimateCutoff,
       },
     },
     {
@@ -20556,14 +20544,14 @@ const countPKAP2 = async (payload) => {
         group_pemeriksaan,
       ];
       const queryPKAP2Pemeriksaan = await Umum.aggregate(pipeline_pemeriksaan);
-      console.log(queryPKAP2Pemeriksaan);
+      // console.log(queryPKAP2Pemeriksaan);
       dataPemeriksaan.push({ queryPKAP2Pemeriksaan });
     }
 
     for (let i = 0; i < match_stage.length; i++) {
       const pipeline = [...main_switch, match_stage[i], group];
       const queryPKAP2Rawatan = await Umum.aggregate(pipeline);
-      console.log(queryPKAP2Rawatan);
+      // console.log(queryPKAP2Rawatan);
       dataRawatan.push({ queryPKAP2Rawatan });
     }
 
