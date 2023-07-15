@@ -8,8 +8,8 @@ const invalidCode = 'Invalid code!';
 const Unauthorized = 'Unauthorized';
 
 // log out constants
-const logoutSuccess = 'Berjaya Log Keluar';
-const sessionNotLogin = 'Sesi MyVas tidak wujud';
+const logoutSuccess = '';
+const sessionNotLogin = '';
 
 async function saveToken(req, res, token, idToken) {
   console.log('calling saveToken');
@@ -59,11 +59,28 @@ async function deleteToken(req, res) {
   }
 }
 
+async function redirectToAuth(req, res) {
+  console.log('calling redirectToAuth');
+  const myUrlEncode = {
+    client_id: process.env.MYVAS_CLIENT_ID,
+    redirect_uri: process.env.MYVAS_REDIRECT_URI,
+    response_type: 'code',
+    scope: process.env.MYVAS_SCOPE,
+  };
+  const myEncoded = qs.stringify(myUrlEncode);
+  const authURL = `${process.env.MYVAS_AUTH_SERVER}${process.env.MYVAS_AUTH_ENDPOINT}?${myEncoded}`;
+  res
+    .status(200)
+    .json({ next_status: 401, message: Unauthorized, redirect_uri: authURL });
+  return;
+}
+
+// GET /callback
 async function getMyVasToken(req, res) {
   console.log('calling getMyVasToken');
   const code = req.query.code;
   if (!code) {
-    res.status(401).send(invalidCode);
+    res.status(401).json(invalidCode);
     return;
   }
 
@@ -127,66 +144,12 @@ async function getMyVasToken(req, res) {
       }
     })
     .catch((error) => {
-      res.status(401).json({ invalidCode });
+      res.status(401).json(invalidCode);
       return;
     });
 }
 
-async function redirectToAuth(req, res) {
-  console.log('calling redirectToAuth');
-  const myUrlEncode = {
-    client_id: process.env.MYVAS_CLIENT_ID,
-    redirect_uri: process.env.MYVAS_REDIRECT_URI,
-    response_type: 'code',
-    scope: process.env.MYVAS_SCOPE,
-  };
-  const myEncoded = qs.stringify(myUrlEncode);
-  const authURL = `${process.env.MYVAS_AUTH_SERVER}${process.env.MYVAS_AUTH_ENDPOINT}?${myEncoded}`;
-  res
-    .status(200)
-    .json({ next_status: 401, message: Unauthorized, redirect_uri: authURL });
-  return;
-}
-
-async function getPatientDetails(req, res) {
-  console.log('calling getPatientDetails');
-  return res.status(200).json({ msg: 'good patientDetails' });
-  const nric = req.query.nric;
-  const token = await retrieveToken(req, res);
-  if (token) {
-    req.session[process.env.MYVAS_APP_TOKEN] = token.myVasToken;
-    req.session[process.env.MYVAS_ID_TOKEN] = token.myVasIdToken;
-  }
-  if (req.session[process.env.MYVAS_APP_TOKEN]) {
-    delete req.session[process.env.MYVAS_NEW_LANDING];
-    req.session.save();
-    let config = {
-      withCredentials: true,
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `${process.env.MYVAS_API_ENDPOINT}?identifier=https://myvas.moh.gov.my/System/licence|${nric}`,
-      headers: {
-        Authorization: `Bearer ${req.session[process.env.MYVAS_APP_TOKEN]}`,
-      },
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        res.status(200).send(response.data);
-        return;
-      })
-      .catch((error) => {
-        console.log(error);
-        res.status(200).send();
-        return;
-      });
-  } else {
-    redirectToAuth(req, res);
-    return;
-  }
-}
-
+// GET /appointment-list
 async function getAppointmentList(req, res) {
   console.log('calling getAppointmentList');
   // const token = await retrieveToken(req, res);
@@ -195,9 +158,11 @@ async function getAppointmentList(req, res) {
   //   req.session[process.env.MYVAS_ID_TOKEN] = token.myVasIdToken;
   // }
   // if (req.session[process.env.MYVAS_APP_TOKEN]) {
-  return res.status(200).json({ msg: 'good appt' });
-  let branchcode = req.query.branchcode;
-  let datefilter = req.query.datefilter;
+  const authHeader = req.headers.authorization;
+  const arrayOfHeader = authHeader.split(' ');
+
+  const branchcode = req.query.branchcode;
+  const datefilter = req.query.datefilter;
   // if (req.query.landingPage)
   //   req.session[process.env.MYVAS_NEW_LANDING] = req.query.landingPage;
   // req.session.save();
@@ -207,20 +172,27 @@ async function getAppointmentList(req, res) {
     maxBodyLength: Infinity,
     url: `${process.env.MYVAS_API_APPOINTMENT}?actor:identifier=https://myvas.moh.gov.my/System/location|12-345678&date=2023-04-13`,
     headers: {
-      Authorization: `Bearer ${req.session[process.env.MYVAS_APP_TOKEN]}`,
+      Authorization: `Bearer ${arrayOfHeader[2]}`,
     },
   };
-  axios
-    .request(config)
-    .then((response) => {
-      res.status(200).send(response.data);
-      return;
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(200).send();
-      return;
-    });
+  try {
+    const response = await axios.request(config);
+    return res.status(200).json(response.data);
+  } catch (error) {
+    redirectToAuth(req, res);
+    return;
+  }
+  // axios
+  //   .request(config)
+  //   .then((response) => {
+  //     res.status(200).send(response.data);
+  //     return;
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //     res.status(200).send();
+  //     return;
+  //   });
   // } else {
   //   if (req.query.landingPage)
   //     req.session[process.env.MYVAS_NEW_LANDING] = req.query.landingPage;
@@ -230,6 +202,56 @@ async function getAppointmentList(req, res) {
   // }
 }
 
+// GET /patient-details
+async function getPatientDetails(req, res) {
+  console.log('calling getPatientDetails');
+
+  const authHeader = req.headers.authorization;
+  const arrayOfHeader = authHeader.split(' ');
+
+  const nric = req.query.nric;
+  // const token = await retrieveToken(req, res);
+  // if (token) {
+  //   req.session[process.env.MYVAS_APP_TOKEN] = token.myVasToken;
+  //   req.session[process.env.MYVAS_ID_TOKEN] = token.myVasIdToken;
+  // }
+  // if (req.session[process.env.MYVAS_APP_TOKEN]) {
+  //   delete req.session[process.env.MYVAS_NEW_LANDING];
+  //   req.session.save();
+  let config = {
+    withCredentials: true,
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `${process.env.MYVAS_API_ENDPOINT}?identifier=https://myvas.moh.gov.my/System/licence|${nric}`,
+    headers: {
+      Authorization: `Bearer ${arrayOfHeader[2]}`,
+    },
+  };
+  try {
+    const response = await axios.request(config);
+    return res.status(200).json(response.data);
+  } catch (error) {
+    redirectToAuth(req, res);
+    return;
+  }
+  // axios
+  //   .request(config)
+  //   .then((response) => {
+  //     res.status(200).send(response.data);
+  //     return;
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //     res.status(200).send();
+  //     return;
+  //   });
+  // } else {
+  //   redirectToAuth(req, res);
+  //   return;
+  // }
+}
+
+// GET /logout
 async function logOutMyVas(req, res) {
   console.log('calling logOutMyVas');
   const authHeader = req.headers.authorization;
@@ -248,15 +270,15 @@ async function logOutMyVas(req, res) {
     );
     // delete req.session[process.env.MYVAS_APP_TOKEN];
     // delete req.session[process.env.MYVAS_ID_TOKEN];
-    return res.status(200).json({ message: logoutSuccess });
+    return res.status(200).json({ message: 'Berjaya log keluar MyVas' });
   } else {
-    return res.status(200).json({ message: sessionNotLogin });
+    return res.status(404).json({ message: 'Sesi MyVas tidak wujud' });
   }
 }
 
 module.exports = {
-  getMyVasToken,
   redirectToAuth,
+  getMyVasToken,
   getPatientDetails,
   getAppointmentList,
   logOutMyVas,

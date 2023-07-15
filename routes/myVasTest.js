@@ -12,8 +12,8 @@ const {
 
 // ROUTES ------------------------------------------------------
 router.get('/callback', authCheck, getMyVasToken); // ni tutup dgn authCheck sendiri
-router.get('/patient-details', myVasAuthCheck, getPatientDetails);
 router.get('/appointment-list', myVasAuthCheck, getAppointmentList);
+router.get('/patient-details', myVasAuthCheck, getPatientDetails);
 router.get('/logout', authCheck, logOutMyVas); // ni tutup dgn authCheck sendiri
 
 module.exports = router;

@@ -79,7 +79,7 @@ function KaunterAfterLogin() {
     setTimer(real);
   };
 
-  const logout = () => {
+  const logout = async () => {
     clearTimeout(kicker);
     clearTimeout(kickerNoti);
     const config = {
@@ -90,11 +90,14 @@ function KaunterAfterLogin() {
         } ${myVasIdToken ? myVasIdToken : ''}`,
       },
     };
-    axios.get('/api/v1/myvastest/logout', config).then((res) => {
-      alert(`MyVas session: ${res.data.message}`);
+    try {
+      await axios.get('/api/v1/myvastest/logout', config);
       catchAxiosErrorAndLogout();
       navigate('/pendaftaran');
-    });
+    } catch (error) {
+      catchAxiosErrorAndLogout();
+      navigate('/pendaftaran');
+    }
   };
 
   useEffect(() => {
