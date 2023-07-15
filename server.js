@@ -7,8 +7,8 @@ const path = require('path');
 const { logger } = require('./logs/logger');
 
 // for MyVas library
-const session = require('express-session');
-const cors = require('cors'); //Library for Node JS
+// const session = require('express-session');
+// const cors = require('cors'); //Library for Node JS
 
 // cron job
 // const startETL = require('./jobs/ETL');
@@ -66,14 +66,14 @@ const onDemand = require('./routes/ondemand');
 const myVasTest = require('./routes/myVasTest');
 
 // MyVas settings
-const portalURL = process.env.MYVAS_PORTAL_URL; //Provided by Entomo
-const sessionSecret = process.env.MYVAS_SESSION_SECRET; //Provided by Entomo
-const corsOptions = {
-  origin: portalURL,
-  methods: 'GET, POST, OPTIONS',
-  allowedHeaders: 'Content-Type, Authorization',
-  credentials: true,
-};
+// const portalURL = process.env.MYVAS_PORTAL_URL; //Provided by Entomo
+// const sessionSecret = process.env.MYVAS_SESSION_SECRET; //Provided by Entomo
+// const corsOptions = {
+//   origin: portalURL,
+//   methods: 'GET, POST, OPTIONS',
+//   allowedHeaders: 'Content-Type, Authorization',
+//   credentials: true,
+// };
 
 // IMPORT MIDDLEWARES ------------------------------------------
 const authCheck = require('./middlewares/authCheck');
@@ -102,13 +102,13 @@ app.use(
 );
 
 // MyVas session
-app.use(
-  session({
-    secret: sessionSecret,
-    cookie: { maxAge: 60000 },
-  })
-);
-app.use(cors(corsOptions));
+// app.use(
+//   session({
+//     secret: sessionSecret,
+//     cookie: { maxAge: 60000 },
+//   })
+// );
+// app.use(cors(corsOptions));
 
 // getting date & time from the server because it shouldn't rely on the client to have correct date & time
 app.use('/api/v1/getdate', getdate);

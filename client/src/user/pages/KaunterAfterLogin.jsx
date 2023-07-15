@@ -16,6 +16,8 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 function KaunterAfterLogin() {
   const {
     kaunterToken,
+    myVasToken,
+    myVasIdToken,
     navigate,
     catchAxiosErrorAndLogout,
     refetchDateTime,
@@ -82,7 +84,11 @@ function KaunterAfterLogin() {
     clearTimeout(kickerNoti);
     const config = {
       withCredentials: true,
-      headers: { Authorization: `Bearer ${kaunterToken}` },
+      headers: {
+        Authorization: `Bearer ${kaunterToken} ${
+          myVasToken ? myVasToken : ''
+        } ${myVasIdToken ? myVasIdToken : ''}`,
+      },
     };
     axios.get('/api/v1/myvastest/logout', config).then((res) => {
       alert(`MyVas session: ${res.data.message}`);

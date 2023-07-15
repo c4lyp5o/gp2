@@ -1,4 +1,5 @@
-import { useState, useEffect, useId } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import moment from 'moment';
@@ -17,7 +18,8 @@ function Kaunter({
   createdByDaerah,
   createdByNegeri,
 }) {
-  const { kaunterToken, dateToday, toast } = useGlobalUserAppContext();
+  const { kaunterToken, setMyVasToken, setMyVasIdToken, navigate, dateToday } =
+    useGlobalUserAppContext();
 
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
@@ -32,6 +34,10 @@ function Kaunter({
   const [showPilihanProgram, setShowPilihanProgram] = useState(false);
   const [dariFormProgramKomuniti, setDariFormProgramKomuniti] = useState(false);
   const [fetchProgramData, setFetchProgramData] = useState(false);
+
+  // state untuk myvas code
+  const [searchParams] = useSearchParams();
+  const code = searchParams.get('code');
 
   useEffect(() => {
     if (showForm === false && jenisFasiliti !== 'projek-komuniti-lain') {
@@ -49,9 +55,6 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-single'
-          // );
         }
       };
       setSemuaProgram([]);
@@ -74,9 +77,6 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-pj'
-          // );
         }
       };
       fetchJenisProgram();
@@ -101,9 +101,6 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-single-pj'
-          // );
         }
       };
       fetchPersonUmum();
@@ -118,6 +115,32 @@ function Kaunter({
       setNamaProgram('');
     }
   }, [jenisFasiliti]);
+
+  // dapatkan token MyVas
+  useEffect(() => {
+    if (code) {
+      const getMyVasToken = async () => {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${kaunterToken}`,
+          },
+        };
+        await axios
+          .get(`/api/v1/myvastest/callback?code=${code}`, config)
+          .then((res) => {
+            localStorage.setItem('myVasToken', res.data.myVasToken);
+            localStorage.setItem('myVasIdToken', res.data.myVasIdToken);
+            setMyVasToken(res.data.myVasToken);
+            setMyVasIdToken(res.data.myVasIdToken);
+            navigate('/pendaftaran/daftar/kp');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+      getMyVasToken();
+    }
+  }, []);
 
   if (loading) {
     return (

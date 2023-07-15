@@ -45,6 +45,7 @@ export default function FillableForm({
 }) {
   const {
     kaunterToken,
+    myVasToken,
     Dictionary,
     dateToday,
     masterDatePicker,
@@ -804,7 +805,9 @@ export default function FillableForm({
     setAddingData(true);
     const config = {
       withCredentials: true,
-      headers: { Authorization: `Bearer ${kaunterToken}` },
+      headers: {
+        Authorization: `Bearer ${kaunterToken} ${myVasToken ? myVasToken : ''}`,
+      },
     };
     await axios
       .get(`${nodejs_patient_details}${patientId}`, config)

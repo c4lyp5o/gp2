@@ -8,7 +8,7 @@ import { useGlobalUserAppContext } from '../../context/userAppContext';
 import mysejahtera from '../../../assets/MySejahtera.png';
 
 export default function MyVas({ setShowMyVas, handleSubmitMyVas }) {
-  const { kaunterToken } = useGlobalUserAppContext();
+  const { kaunterToken, myVasToken } = useGlobalUserAppContext();
 
   const searchParams = new URLSearchParams(useLocation().search);
   const nricParam = searchParams.get('nric');
@@ -32,7 +32,11 @@ export default function MyVas({ setShowMyVas, handleSubmitMyVas }) {
     const fetchMyVasData = async () => {
       const config = {
         withCredentials: true,
-        headers: { Authorization: `Bearer ${kaunterToken}` },
+        headers: {
+          Authorization: `Bearer ${kaunterToken} ${
+            myVasToken ? myVasToken : ''
+          }`,
+        },
       };
       await axios.get(`${nodejs_patient}`, config).then((res) => {
         if (
