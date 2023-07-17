@@ -10,6 +10,7 @@ import Kaunter from '../components/Kaunter';
 import KaunterDaftarPesakit from '../components/KaunterDaftarPesakit';
 import KaunterLoggedInNotFound from './KaunterLoggedInNotFound';
 import KaunterFooter from '../components/KaunterFooter';
+import MyVas from '../components/pt-registration/MyVas';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -34,7 +35,41 @@ function KaunterAfterLogin() {
   const [kicker, setKicker] = useState(null);
   const [kickerNoti, setKickerNoti] = useState(null);
 
+  const [patientDataFromMyVas, setPatientDataFromMyVas] = useState({});
+  const [dariMyVas, setDariMyVas] = useState(false);
+
   const kickerNotiId = useRef();
+
+  const handleSubmitMyVas = async (patientId) => {
+    const nodejs_patient_details = '/api/v1/myvas/patient-details?nric=';
+    // setAddingData(true);
+    const config = {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${kaunterToken} ${myVasToken ? myVasToken : ''}`,
+      },
+    };
+    await axios
+      .get(`${nodejs_patient_details}${patientId}`, config)
+      .then((res) => {
+        if (
+          res &&
+          res.data.next_status &&
+          res.data.next_status >= 400 &&
+          res.data.next_status <= 599
+        ) {
+          if (res.data.redirect_uri) {
+            window.location.href = res.data.redirect_uri;
+            return;
+          }
+        }
+        toast.success('Pesakit berjaya ditarik', { autoClose: 2000 });
+        const patientData = res.data.entry[0];
+        setDariMyVas(true);
+        setPatientDataFromMyVas(patientData);
+      });
+    // setAddingData(false);
+  };
 
   const logOutNotiSystem = () => {
     const notifyLogOut = () =>
@@ -91,7 +126,7 @@ function KaunterAfterLogin() {
       },
     };
     try {
-      await axios.get('/api/v1/myvastest/logout', config);
+      await axios.get('/api/v1/myvas/logout', config);
       catchAxiosErrorAndLogout();
       navigate('/pendaftaran');
     } catch (error) {
@@ -148,8 +183,15 @@ function KaunterAfterLogin() {
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 createdByNegeri={createdByNegeri}
+                patientDataFromMyVas={patientDataFromMyVas}
+                dariMyVas={dariMyVas}
+                setDariMyVas={setDariMyVas}
               />
             }
+          />
+          <Route
+            path='kp/myvas'
+            element={<MyVas handleSubmitMyVas={handleSubmitMyVas} />}
           />
           <Route
             path='kk-kd'
