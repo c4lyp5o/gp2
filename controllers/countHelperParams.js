@@ -1,4 +1,65 @@
 const moment = require('moment');
+
+//BISMILLAH ALLAH BAGI ILHAM
+const ultimateCutoff = {
+  $expr: {
+    $and: [
+      {
+        $not: {
+          $gt: [
+            '$createdAt',
+            {
+              $dateFromParts: {
+                year: {
+                  $year: {
+                    $toDate: '$tarikhKedatangan',
+                  },
+                },
+                month: {
+                  $add: [
+                    {
+                      $month: {
+                        $toDate: '$tarikhKedatangan',
+                      },
+                    },
+                    1,
+                  ],
+                },
+                day: 6,
+                hour: 16,
+              },
+            },
+          ],
+        },
+      },
+      {
+        $not: {
+          $gt: [
+            '$updatedAt',
+            {
+              $dateFromParts: {
+                year: {
+                  $year: '$createdAt',
+                },
+                month: {
+                  $add: [
+                    {
+                      $month: '$createdAt',
+                    },
+                    1,
+                  ],
+                },
+                day: 6,
+                hour: 16,
+              },
+            },
+          ],
+        },
+      },
+    ],
+  },
+};
+
 // PARAMS LIVES HERE
 // countHelperRegular params
 const getParams101 = (payload, reten) => {
@@ -394,6 +455,32 @@ const getParams207 = (payload) => {
     delete params.createdByDaerah;
     delete params.createdByKodFasiliti;
     params.createdByMdcMdtb = pilihanIndividu;
+  }
+
+  return params;
+};
+const getParams206207sekolah = (payload) => {
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
+
+  const params = {
+    jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+  };
+
+  if (negeri !== 'all') {
+    params.createdByNegeri = negeri;
+  }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = daerah;
+  }
+
+  if (klinik !== 'all') {
+    params.kodFasilitiHandler = klinik;
+  }
+
+  if (pilihanIndividu) {
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
   }
 
   return params;
@@ -1189,12 +1276,15 @@ const dateModifier = (payload) => {
 };
 
 module.exports = {
+  // bismillah
+  ultimateCutoff,
   // countHelper regular
   getParams101,
   getParams211,
   getParams214,
   getParams206,
   getParams207,
+  getParams206207sekolah,
   getParamsPgpr201,
   getParamsPGS201,
   getParamsPGS203,
