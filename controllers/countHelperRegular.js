@@ -1,6 +1,5 @@
 const moment = require('moment');
 const Umum = require('../models/Umum');
-const Operator = require('../models/Operator');
 const Promosi = require('../models/Promosi');
 const Fasiliti = require('../models/Fasiliti');
 const MediaSosial = require('../models/MediaSosial');
@@ -44,6 +43,8 @@ const {
   id203OAP,
   id203AllKPSKPB,
   id203AllOAP,
+  outputReq211,
+  groupPG214,
   groupSekolah,
   groupSekolahPemeriksaan,
   groupSekolahRawatan,
@@ -61,9 +62,9 @@ const countPG101A = async (payload) => {
 
   const bigData = [];
 
-  const match = { $match: getParams101(payload, 'A') };
+  const match_stage = { $match: getParams101(payload, 'A') };
 
-  const project = {
+  const project_stage = {
     $project: {
       _id: placeModifier(payload),
       deleted: 1,
@@ -113,7 +114,7 @@ const countPG101A = async (payload) => {
       },
     },
   };
-  const sort = {
+  const sort_stage = {
     $sort: {
       tarikhKedatangan: 1,
     },
@@ -144,11 +145,11 @@ const countPG101A = async (payload) => {
     console.log('KKIA find for NEGERI not yet implemented');
   }
 
-  let kkiaData = [];
+  const kkiaData = [];
 
   try {
     // cari pt kp
-    const pipeline = [match, project, sort];
+    const pipeline = [match_stage, project_stage, sort_stage];
     const kpData = await Umum.aggregate(pipeline);
 
     // cari pt kkiakd
@@ -167,10 +168,10 @@ const countPG101A = async (payload) => {
             },
           },
           {
-            ...project,
+            ...project_stage,
           },
           {
-            ...sort,
+            ...sort_stage,
           },
         ];
         let temp = await Umum.aggregate(kkiaMatchPipeline);
@@ -203,9 +204,9 @@ const countPG101A = async (payload) => {
   }
 };
 const countPG101C = async (payload) => {
-  const match = { $match: getParams101(payload, 'C') };
+  const match_stage = { $match: getParams101(payload, 'C') };
 
-  const project = {
+  const project_stage = {
     $project: {
       _id: placeModifier(payload),
       deleted: 1,
@@ -251,25 +252,25 @@ const countPG101C = async (payload) => {
     },
   };
 
-  const sort = {
+  const sort_stage = {
     $sort: {
       tarikhKedatangan: 1,
     },
   };
 
   try {
-    const pipeline = [match, project, sort];
+    const pipeline = [match_stage, project_stage, sort_stage];
 
-    const data = await Umum.aggregate(pipeline);
+    const PG101C = await Umum.aggregate(pipeline);
 
-    if (data.length === 0) {
+    if (PG101C.length === 0) {
       errorRetenLogger.error(
         `Error mengira reten: ${payload.jenisReten}. Tiada data yang dijumpai.`
       );
       throw new Error('Tiada data yang dijumpai');
     }
 
-    return data;
+    return PG101C;
   } catch (error) {
     throw new Error(error);
   }
@@ -281,794 +282,56 @@ const countPG211A = async (payload) => {
     },
   };
 
-  let match_stage = [];
-
-  const bage_below_1 = {
-    $match: {
-      umur: {
-        $lt: 1,
-      },
-      umurBulan: {
-        $lt: 12,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_1_4 = {
-    $match: {
-      umur: {
-        $gte: 1,
-        $lte: 4,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_5_6 = {
-    $match: {
-      umur: {
-        $gte: 5,
-        $lte: 6,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_7_9 = {
-    $match: {
-      umur: {
-        $gte: 7,
-        $lte: 9,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_10_12 = {
-    $match: {
-      umur: {
-        $gte: 10,
-        $lte: 12,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_13_14 = {
-    $match: {
-      umur: {
-        $gte: 13,
-        $lte: 14,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_15_17 = {
-    $match: {
-      umur: {
-        $gte: 15,
-        $lte: 17,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_18_19 = {
-    $match: {
-      umur: {
-        $gte: 18,
-        $lte: 19,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_20_29 = {
-    $match: {
-      umur: {
-        $gte: 20,
-        $lte: 29,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_30_39 = {
-    $match: {
-      umur: {
-        $gte: 30,
-        $lte: 39,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_40_49 = {
-    $match: {
-      umur: {
-        $gte: 40,
-        $lte: 49,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_50_59 = {
-    $match: {
-      umur: {
-        $gte: 50,
-        $lte: 59,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_60 = {
-    $match: {
-      umur: {
-        $eq: 60,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_61_64 = {
-    $match: {
-      umur: {
-        $gte: 61,
-        $lte: 64,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_65 = {
-    $match: {
-      umur: {
-        $eq: 65,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_66_69 = {
-    $match: {
-      umur: {
-        $gte: 66,
-        $lte: 69,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_70_74 = {
-    $match: {
-      umur: {
-        $gte: 70,
-        $lte: 74,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_lebih_75 = {
-    $match: {
-      umur: {
-        $gte: 75,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-
-  const uage_below_1 = {
-    $match: {
-      umur: {
-        $lt: 1,
-      },
-      umurBulan: {
-        $lt: 13,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_1_4 = {
-    $match: {
-      umur: {
-        $gte: 1,
-        $lte: 4,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_5_6 = {
-    $match: {
-      umur: {
-        $gte: 5,
-        $lte: 6,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_7_9 = {
-    $match: {
-      umur: {
-        $gte: 7,
-        $lte: 9,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_10_12 = {
-    $match: {
-      umur: {
-        $gte: 10,
-        $lte: 12,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_13_14 = {
-    $match: {
-      umur: {
-        $gte: 13,
-        $lte: 14,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_15_17 = {
-    $match: {
-      umur: {
-        $gte: 15,
-        $lte: 17,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_18_19 = {
-    $match: {
-      umur: {
-        $gte: 18,
-        $lte: 19,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_20_29 = {
-    $match: {
-      umur: {
-        $gte: 20,
-        $lte: 29,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_30_39 = {
-    $match: {
-      umur: {
-        $gte: 30,
-        $lte: 39,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_40_49 = {
-    $match: {
-      umur: {
-        $gte: 40,
-        $lte: 49,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_50_59 = {
-    $match: {
-      umur: {
-        $gte: 50,
-        $lte: 59,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_60 = {
-    $match: {
-      umur: {
-        $eq: 60,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_61_64 = {
-    $match: {
-      umur: {
-        $gte: 61,
-        $lte: 64,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_65 = {
-    $match: {
-      umur: {
-        $eq: 65,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_66_69 = {
-    $match: {
-      umur: {
-        $gte: 66,
-        $lte: 69,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_70_74 = {
-    $match: {
-      umur: {
-        $gte: 70,
-        $lte: 74,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_lebih_75 = {
-    $match: {
-      umur: {
-        $gte: 75,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-
-  match_stage.push(bage_below_1);
-  match_stage.push(uage_below_1);
-
-  match_stage.push(bage_1_4);
-  match_stage.push(uage_1_4);
-
-  match_stage.push(bage_5_6);
-  match_stage.push(uage_5_6);
-
-  match_stage.push(bage_7_9);
-  match_stage.push(uage_7_9);
-
-  match_stage.push(bage_10_12);
-  match_stage.push(uage_10_12);
-
-  match_stage.push(bage_13_14);
-  match_stage.push(uage_13_14);
-
-  match_stage.push(bage_15_17);
-  match_stage.push(uage_15_17);
-
-  match_stage.push(bage_18_19);
-  match_stage.push(uage_18_19);
-
-  match_stage.push(bage_20_29);
-  match_stage.push(uage_20_29);
-
-  match_stage.push(bage_30_39);
-  match_stage.push(uage_30_39);
-
-  match_stage.push(bage_40_49);
-  match_stage.push(uage_40_49);
-
-  match_stage.push(bage_50_59);
-  match_stage.push(uage_50_59);
-
-  match_stage.push(bage_60);
-  match_stage.push(uage_60);
-
-  match_stage.push(bage_61_64);
-  match_stage.push(uage_61_64);
-
-  match_stage.push(bage_65);
-  match_stage.push(uage_65);
-
-  match_stage.push(bage_66_69);
-  match_stage.push(uage_66_69);
-
-  match_stage.push(bage_70_74);
-  match_stage.push(uage_70_74);
-
-  match_stage.push(bage_lebih_75);
-  match_stage.push(uage_lebih_75);
-
-  let group_stage = {
-    $group: {
-      _id: placeModifier(payload),
-      // stats
-      jumlahReten: { $sum: 1 },
-      statusReten: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusReten', 'reten salah'],
-            },
-            1,
-            0,
-          ],
+  const facet_stage = {
+    $facet: {
+      dataBaru: [
+        {
+          $match: {
+            kedatangan: 'baru-kedatangan',
+          },
         },
-      },
-      //
-      jumlahLelaki: {
-        $sum: {
-          $cond: [
-            {
-              $or: [
-                { $eq: ['$jantina', 'lelaki'] },
-                { $eq: ['$jantina', ''] }, // sementara waktu
-              ],
+        {
+          $bucket: {
+            groupBy: '$umur',
+            boundaries: [
+              0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 40, 50, 60, 61, 65, 66, 70,
+              75, 150,
+            ],
+            default: 'Other',
+            output: {
+              ...outputReq211,
             },
-            1,
-            0,
-          ],
+          },
         },
-      },
-      //
-      jumlahPerempuan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'perempuan'],
+      ],
+      dataUlangan: [
+        {
+          $match: {
+            kedatangan: 'ulangan-kedatangan',
+          },
+        },
+        {
+          $bucket: {
+            groupBy: '$umur',
+            boundaries: [
+              0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 40, 50, 60, 61, 65, 66, 70,
+              75, 150,
+            ],
+            default: 'Other',
+            output: {
+              ...outputReq211,
             },
-            1,
-            0,
-          ],
+          },
         },
-      },
-      //
-      jumlahMelayu: {
-        $sum: {
-          $cond: [
-            {
-              $or: [
-                {
-                  $eq: ['$kumpulanEtnik', 'melayu'],
-                },
-                {
-                  $eq: ['$kumpulanEtnik', null],
-                },
-                {
-                  $eq: ['$kumpulanEtnik', ''],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahCina: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'cina'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIndia: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'india'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBajau: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bajau'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahDusun: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'dusun'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahKadazan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'kadazan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahMurut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'murut'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBMSL: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bumiputera sabah lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahMelanau: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'melanau'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahKedayan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'kedayan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIban: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'iban'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBidayuh: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bidayuh'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPenan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'penan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBMSwL: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bumiputera sarawak lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahOA: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'orang asli semenanjung'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahLainlain: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'lain-lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBukanWarganegara: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bukan warganegara'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIbuMengandung: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: ['$ibuMengandung', true],
-                },
-                {
-                  $gte: ['$umur', 7],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBersekolah: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$bersekolah', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahOKU: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$orangKurangUpaya', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPesaraKerajaan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusPesara', 'pesara-kerajaan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPesaraATM: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusPesara', 'pesara-atm'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanDalaman: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'dalaman'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanKP: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'kp'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanKK: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'kk'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanHospital: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'hospital/institusi-kerajaan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanSwasta: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'swasta'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanLainlain: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'lain-lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
+      ],
     },
   };
-
-  let data = [];
 
   try {
-    for (let i = 0; i < match_stage.length; i++) {
-      const pipeline = [main_switch, match_stage[i], group_stage];
-      const query = await Umum.aggregate(pipeline);
-      data.push(query);
-    }
-    return data;
+    const pipeline = [main_switch, facet_stage];
+    const PG211A = await Umum.aggregate(pipeline);
+
+    return PG211A;
   } catch (error) {
     errorRetenLogger.error(
       `Error mengira reten: ${payload.jenisReten}. ${error}`
@@ -1083,784 +346,56 @@ const countPG211C = async (payload) => {
     },
   };
 
-  let match_stage = [];
-
-  const bage_below_1 = {
-    $match: {
-      umur: {
-        $lt: 1,
-      },
-      umurBulan: {
-        $lt: 13,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_1_4 = {
-    $match: {
-      umur: {
-        $gte: 1,
-        $lte: 4,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_5_6 = {
-    $match: {
-      umur: {
-        $gte: 5,
-        $lte: 6,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_7_9 = {
-    $match: {
-      umur: {
-        $gte: 7,
-        $lte: 9,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_10_12 = {
-    $match: {
-      umur: {
-        $gte: 10,
-        $lte: 12,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_13_14 = {
-    $match: {
-      umur: {
-        $gte: 13,
-        $lte: 14,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_15_17 = {
-    $match: {
-      umur: {
-        $gte: 15,
-        $lte: 17,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_18_19 = {
-    $match: {
-      umur: {
-        $gte: 18,
-        $lte: 19,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_20_29 = {
-    $match: {
-      umur: {
-        $gte: 20,
-        $lte: 29,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_30_39 = {
-    $match: {
-      umur: {
-        $gte: 30,
-        $lte: 39,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_40_49 = {
-    $match: {
-      umur: {
-        $gte: 40,
-        $lte: 49,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_50_59 = {
-    $match: {
-      umur: {
-        $gte: 50,
-        $lte: 59,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_60 = {
-    $match: {
-      umur: {
-        $eq: 60,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_61_64 = {
-    $match: {
-      umur: {
-        $gte: 61,
-        $lte: 64,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_65 = {
-    $match: {
-      umur: {
-        $eq: 65,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_66_69 = {
-    $match: {
-      umur: {
-        $gte: 66,
-        $lte: 69,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_70_74 = {
-    $match: {
-      umur: {
-        $gte: 70,
-        $lte: 74,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-  const bage_lebih_75 = {
-    $match: {
-      umur: {
-        $gte: 75,
-      },
-      kedatangan: { $eq: 'baru-kedatangan' },
-    },
-  };
-
-  const uage_below_1 = {
-    $match: {
-      umur: {
-        $lt: 1,
-      },
-      umurBulan: {
-        $lt: 13,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_1_4 = {
-    $match: {
-      umur: {
-        $gte: 1,
-        $lte: 4,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_5_6 = {
-    $match: {
-      umur: {
-        $gte: 5,
-        $lte: 6,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_7_9 = {
-    $match: {
-      umur: {
-        $gte: 7,
-        $lte: 9,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_10_12 = {
-    $match: {
-      umur: {
-        $gte: 10,
-        $lte: 12,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_13_14 = {
-    $match: {
-      umur: {
-        $gte: 13,
-        $lte: 14,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_15_17 = {
-    $match: {
-      umur: {
-        $gte: 15,
-        $lte: 17,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_18_19 = {
-    $match: {
-      umur: {
-        $gte: 18,
-        $lte: 19,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_20_29 = {
-    $match: {
-      umur: {
-        $gte: 20,
-        $lte: 29,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_30_39 = {
-    $match: {
-      umur: {
-        $gte: 30,
-        $lte: 39,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_40_49 = {
-    $match: {
-      umur: {
-        $gte: 40,
-        $lte: 49,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_50_59 = {
-    $match: {
-      umur: {
-        $gte: 50,
-        $lte: 59,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_60 = {
-    $match: {
-      umur: {
-        $eq: 60,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_61_64 = {
-    $match: {
-      umur: {
-        $gte: 61,
-        $lte: 64,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_65 = {
-    $match: {
-      umur: {
-        $eq: 65,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_66_69 = {
-    $match: {
-      umur: {
-        $gte: 66,
-        $lte: 69,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_70_74 = {
-    $match: {
-      umur: {
-        $gte: 70,
-        $lte: 74,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-  const uage_lebih_75 = {
-    $match: {
-      umur: {
-        $gte: 75,
-      },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-    },
-  };
-
-  match_stage.push(bage_below_1);
-  match_stage.push(uage_below_1);
-
-  match_stage.push(bage_1_4);
-  match_stage.push(uage_1_4);
-
-  match_stage.push(bage_5_6);
-  match_stage.push(uage_5_6);
-
-  match_stage.push(bage_7_9);
-  match_stage.push(uage_7_9);
-
-  match_stage.push(bage_10_12);
-  match_stage.push(uage_10_12);
-
-  match_stage.push(bage_13_14);
-  match_stage.push(uage_13_14);
-
-  match_stage.push(bage_15_17);
-  match_stage.push(uage_15_17);
-
-  match_stage.push(bage_18_19);
-  match_stage.push(uage_18_19);
-
-  match_stage.push(bage_20_29);
-  match_stage.push(uage_20_29);
-
-  match_stage.push(bage_30_39);
-  match_stage.push(uage_30_39);
-
-  match_stage.push(bage_40_49);
-  match_stage.push(uage_40_49);
-
-  match_stage.push(bage_50_59);
-  match_stage.push(uage_50_59);
-
-  match_stage.push(bage_60);
-  match_stage.push(uage_60);
-
-  match_stage.push(bage_61_64);
-  match_stage.push(uage_61_64);
-
-  match_stage.push(bage_65);
-  match_stage.push(uage_65);
-
-  match_stage.push(bage_66_69);
-  match_stage.push(uage_66_69);
-
-  match_stage.push(bage_70_74);
-  match_stage.push(uage_70_74);
-
-  match_stage.push(bage_lebih_75);
-  match_stage.push(uage_lebih_75);
-
-  let group_stage = {
-    $group: {
-      _id: null,
-      // stats
-      jumlahReten: { $sum: 1 },
-      statusReten: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusReten', 'reten salah'],
-            },
-            1,
-            0,
-          ],
+  const facet_stage = {
+    $facet: {
+      dataBaru: [
+        {
+          $match: {
+            kedatangan: 'baru-kedatangan',
+          },
         },
-      },
-      //
-      jumlahLelaki: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'lelaki'],
+        {
+          $bucket: {
+            groupBy: '$umur',
+            boundaries: [
+              0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 40, 50, 60, 61, 65, 66, 70,
+              75, 150,
+            ],
+            default: 'Other',
+            output: {
+              ...outputReq211,
             },
-            1,
-            0,
-          ],
+          },
         },
-      },
-      //
-      jumlahPerempuan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'perempuan'],
+      ],
+      dataUlangan: [
+        {
+          $match: {
+            kedatangan: 'ulangan-kedatangan',
+          },
+        },
+        {
+          $bucket: {
+            groupBy: '$umur',
+            boundaries: [
+              0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 40, 50, 60, 61, 65, 66, 70,
+              75, 150,
+            ],
+            default: 'Other',
+            output: {
+              ...outputReq211,
             },
-            1,
-            0,
-          ],
+          },
         },
-      },
-      //
-      jumlahMelayu: {
-        $sum: {
-          $cond: [
-            {
-              $or: [
-                {
-                  $eq: ['$kumpulanEtnik', 'melayu'],
-                },
-                {
-                  $eq: ['$kumpulanEtnik', null],
-                },
-                {
-                  $eq: ['$kumpulanEtnik', ''],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahCina: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'cina'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIndia: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'india'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBajau: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bajau'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahDusun: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'dusun'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahKadazan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'kadazan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahMurut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'murut'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBMSL: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bumiputera sabah lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahMelanau: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'melanau'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahKedayan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'kedayan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIban: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'iban'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBidayuh: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bidayuh'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPenan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'penan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBMSwL: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bumiputera sarawak lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahOA: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'orang asli semenanjung'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahLainlain: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'lain-lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBukanWarganegara: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bukan warganegara'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIbuMengandung: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$ibuMengandung', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBersekolah: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$bersekolah', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahOKU: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$orangKurangUpaya', true],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPesaraKerajaan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusPesara', 'pesara-kerajaan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPesaraATM: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusPesara', 'pesara-atm'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanDalaman: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'dalaman'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanKP: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'kp'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanKK: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'kk'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanHospital: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'hospital/institusi-kerajaan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanSwasta: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'swasta'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahRujukanLainlain: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$rujukDaripada', 'laoin-lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
+      ],
     },
   };
-
-  let data = [];
 
   try {
-    for (let i = 0; i < match_stage.length; i++) {
-      const pipeline = [main_switch, match_stage[i], group_stage];
-      const query = await Umum.aggregate(pipeline);
-      data.push(query);
-    }
-    return data;
+    const pipeline = [main_switch, facet_stage];
+    const PG211C = await Umum.aggregate(pipeline);
+
+    return PG211C;
   } catch (error) {
     errorRetenLogger.error(
       `Error mengira reten: ${payload.jenisReten}. ${error}`
@@ -6693,860 +5228,196 @@ const countPG207 = async (payload) => {
   }
 };
 const countPG214 = async (payload) => {
-  const main_switch = {
-    $match: {
-      ...getParams214(payload),
-      ...ultimateCutoff,
-    },
-  };
-
-  const match_stage = {
-    $match: {
-      umur: { $gte: 59, $lte: 60 },
-    },
-  };
-
-  const first_group_stage = {
-    $group: {
-      _id: {
-        ic: '$ic',
-        visitMonth: {
-          $month: {
-            $dateFromString: { dateString: '$tarikhKedatangan' },
-          },
-        },
-      },
-      //
-      jumlahReten: { $sum: 1 },
-      statusReten: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusReten', 'reten salah'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      age: { $max: '$umur' },
-      kedatangan: { $first: '$kedatangan' },
-      jumlahMelayu: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'melayu'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahCina: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'cina'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIndia: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'india'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBajau: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bajau'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahDusun: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'dusun'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahKadazan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'kadazan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahMurut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'murut'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBMSL: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bumiputera sabah lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahMelanau: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'melanau'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahKedayan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'kedayan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIban: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'iban'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBidayuh: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bidayuh'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPenan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'penan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBMSwL: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bumiputera sarawak lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahOAS: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'orang asli semenanjung'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahLainlain: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'lain-lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBukanWarganegara: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bukan warganegara'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahLelaki: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'lelaki'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPerempuan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'perempuan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahEdentulous: {
-        $sum: {
-          $cond: [
-            {
-              $eq: [
-                '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                0,
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahGigiLebihAtauSama20: {
-        $sum: {
-          $cond: [
-            {
-              $or: [
-                {
-                  $gte: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    20,
-                  ],
-                },
-                {
-                  $eq: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    null,
-                  ],
-                },
-                {
-                  $eq: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    '',
-                  ],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahGigiKurang20: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $lt: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    20,
-                  ],
-                },
-                {
-                  $gt: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    0,
-                  ],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahSemuaGigi: {
-        $sum: '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+  const pipeline214 = [
+    {
+      $match: {
+        ...getParams214(payload),
+        ...ultimateCutoff,
       },
     },
-  };
-
-  const second_group_stage = {
-    $group: {
-      _id: {
-        $cond: [
-          { $lt: ['$age', 61] },
-          '60',
+    {
+      $facet: {
+        takNormal: [
           {
-            $cond: [
-              { $lt: ['$age', 65] },
-              '61 - 64',
-              {
-                $cond: [
-                  { $eq: ['$age', 65] },
-                  '65',
+            $match: {
+              umur: { $gte: 59, $lte: 60 },
+            },
+          },
+          {
+            $group: {
+              _id: '$ic',
+              ages: {
+                $push: '$umur',
+              },
+              tarikhKedatangan: {
+                $push: '$tarikhKedatangan',
+              },
+              patientInfoIds: {
+                $first: '$_id',
+              },
+            },
+          },
+          {
+            $match: {
+              ages: {
+                $all: [59, 60],
+              },
+            },
+          },
+          {
+            $addFields: {
+              tarikhKedatanganAged60: {
+                $arrayElemAt: [
+                  '$tarikhKedatangan',
                   {
-                    $cond: [
-                      { $lt: ['$age', 70] },
-                      '66 - 69',
-                      {
-                        $cond: [
-                          { $lt: ['$age', 75] },
-                          '70 - 74',
-                          {
-                            $cond: [{ $eq: ['$age', 75] }, 75, '75++'],
-                          },
-                        ],
-                      },
-                    ],
+                    $indexOfArray: ['$ages', 60],
                   },
                 ],
               },
-            ],
+            },
+          },
+          {
+            $lookup: {
+              from: 'umums',
+              localField: 'patientInfoIds',
+              foreignField: '_id',
+              as: 'patientInfo',
+              pipeline: [
+                {
+                  $project: {
+                    statusReten: 1,
+                    kumpulanEtnik: 1,
+                    jantina: 1,
+                    bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: 1,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            $unwind: '$patientInfo',
+          },
+          {
+            $replaceRoot: {
+              newRoot: {
+                $mergeObjects: ['$$ROOT', '$patientInfo'],
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              statusReten: 1,
+              kumpulanEtnik: 1,
+              jantina: 1,
+              bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum: 1,
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              ...groupPG214,
+            },
+          },
+        ],
+        normal: [
+          {
+            $match: {
+              umur: {
+                $gte: 60,
+              },
+              kedatangan: 'baru-kedatangan',
+            },
+          },
+          {
+            $group: {
+              _id: {
+                $switch: {
+                  branches: [
+                    {
+                      case: {
+                        $and: [
+                          {
+                            $eq: ['$umur', 60],
+                          },
+                        ],
+                      },
+                      then: 'umur60',
+                    },
+                    {
+                      case: {
+                        $and: [
+                          {
+                            $gte: ['$umur', 61],
+                          },
+                          {
+                            $lte: ['$umur', 64],
+                          },
+                        ],
+                      },
+                      then: 'umur6164',
+                    },
+                    {
+                      case: {
+                        $and: [
+                          {
+                            $eq: ['$umur', 65],
+                          },
+                        ],
+                      },
+                      then: 'umur65',
+                    },
+                    {
+                      case: {
+                        $and: [
+                          {
+                            $gte: ['$umur', 66],
+                          },
+                          {
+                            $lte: ['$umur', 69],
+                          },
+                        ],
+                      },
+                      then: 'umur6669',
+                    },
+                    {
+                      case: {
+                        $and: [
+                          {
+                            $gte: ['$umur', 70],
+                          },
+                          {
+                            $lte: ['$umur', 74],
+                          },
+                        ],
+                      },
+                      then: 'umur7074',
+                    },
+                    {
+                      case: {
+                        $and: [
+                          {
+                            $gte: ['$umur', 75],
+                          },
+                        ],
+                      },
+                      then: 'umur75',
+                    },
+                  ],
+                  default: 'Unknown',
+                },
+              },
+              ...groupPG214,
+            },
           },
         ],
       },
-      jumlahReten: { $sum: 1 },
-      statusReten: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusReten', 'reten salah'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      jumlahMelayu: { $sum: '$jumlahMelayu' },
-      jumlahCina: { $sum: '$jumlahCina' },
-      jumlahIndia: { $sum: '$jumlahIndia' },
-      //
-      jumlahBajau: { $sum: '$jumlahBajau' },
-      //
-      jumlahDusun: {
-        $sum: '$jumlahDusun',
-      },
-      //
-      jumlahKadazan: {
-        $sum: '$jumlahKadazan',
-      },
-      //
-      jumlahMurut: {
-        $sum: '$jumlahMurut',
-      },
-      //
-      jumlahBMSL: {
-        $sum: '$jumlahBMSL',
-      },
-      //
-      jumlahMelanau: {
-        $sum: '$jumlahMelanau',
-      },
-      //
-      jumlahKedayan: {
-        $sum: '$jumlahKedayan',
-      },
-      //
-      jumlahIban: {
-        $sum: '$jumlahIban',
-      },
-      //
-      jumlahBidayuh: {
-        $sum: '$jumlahBidayuh',
-      },
-      //
-      jumlahPenan: {
-        $sum: '$jumlahPenan',
-      },
-      //
-      jumlahBMSwL: {
-        $sum: '$jumlahBMSwL',
-      },
-      //
-      jumlahOAS: {
-        $sum: '$jumlahOAS',
-      },
-      //
-      jumlahLainlain: {
-        $sum: '$jumlahLainlain',
-      },
-      //
-      jumlahBukanWarganegara: {
-        $sum: '$jumlahBukanWarganegara',
-      },
-      //
-      jumlahLelaki: {
-        $sum: '$jumlahLelaki',
-      },
-      //
-      jumlahPerempuan: {
-        $sum: '$jumlahPerempuan',
-      },
-      //
-      jumlahEdentulous: {
-        $sum: '$jumlahEdentulous',
-      },
-      //
-      jumlahGigiLebihAtauSama20: {
-        $sum: '$jumlahGigiLebihAtauSama20',
-      },
-      //
-      jumlahGigiKurang20: {
-        $sum: '$jumlahGigiKurang20',
-      },
-      //
-      jumlahSemuaGigi: {
-        $sum: '$jumlahSemuaGigi',
-      },
     },
-  };
-
-  let match_stage_custom = [];
-
-  const match_stage_custom_6164 = {
-    $match: {
-      umur: { $gte: 61, $lte: 64 },
-    },
-  };
-  const match_stage_custom_65 = {
-    $match: {
-      umur: { $eq: 65 },
-    },
-  };
-  const match_stage_custom_6669 = {
-    $match: {
-      umur: { $gte: 66, $lte: 69 },
-    },
-  };
-  const match_stage_custom_7074 = {
-    $match: {
-      umur: { $gte: 70, $lte: 74 },
-    },
-  };
-  const match_stage_custom_75 = {
-    $match: {
-      umur: { $gte: 75 },
-    },
-  };
-
-  match_stage_custom = [
-    match_stage_custom_6164,
-    match_stage_custom_65,
-    match_stage_custom_6669,
-    match_stage_custom_7074,
-    match_stage_custom_75,
   ];
 
-  const first_custom_group_stage = {
-    $group: {
-      _id: placeModifier(payload),
-      //
-      jumlahReten: { $sum: 1 },
-      statusReten: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusReten', 'reten salah'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      jumlahMelayu: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'melayu'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahCina: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'cina'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIndia: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'india'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBajau: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bajau'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahDusun: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'dusun'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahKadazan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'kadazan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahMurut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'murut'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBMSL: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bumiputera sabah lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahMelanau: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'melanau'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahKedayan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'kedayan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahIban: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'iban'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBidayuh: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bidayuh'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPenan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'penan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBMSwL: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bumiputera sarawak lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahOAS: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'orang asli semenanjung'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahLainlain: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'lain-lain'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahBukanWarganegara: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kumpulanEtnik', 'bukan warganegara'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahLelaki: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'lelaki'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPerempuan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'perempuan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahEdentulous: {
-        $sum: {
-          $cond: [
-            {
-              $eq: [
-                '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                0,
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahGigiLebihAtauSama20: {
-        $sum: {
-          $cond: [
-            {
-              $or: [
-                {
-                  $gte: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    20,
-                  ],
-                },
-                {
-                  $eq: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    null,
-                  ],
-                },
-                {
-                  $eq: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    '',
-                  ],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahGigiKurang20: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $lt: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    20,
-                  ],
-                },
-                {
-                  $gt: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    0,
-                  ],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahSemuaGigi: {
-        $sum: '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-      },
-    },
-  };
+  const PG214 = await Umum.aggregate(pipeline214);
 
-  let bigData = [];
-
-  const pipeline = [
-    main_switch,
-    match_stage,
-    first_group_stage,
-    second_group_stage,
-  ];
-
-  const PG214 = await Umum.aggregate(pipeline);
-  bigData.push({ PG214 });
-
-  for (let i = 0; i < match_stage_custom.length; i++) {
-    const custom_pipeline = [
-      main_switch,
-      match_stage_custom[i],
-      first_custom_group_stage,
-    ];
-    const customPG214 = await Umum.aggregate(custom_pipeline);
-    bigData.push({ customPG214 });
-  }
-
-  return bigData;
+  return PG214;
 };
 const countPGPR201 = async (payload) => {
   const main_switch = {
