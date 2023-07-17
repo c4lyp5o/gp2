@@ -42,10 +42,14 @@ export default function FillableForm({
   fetchProgramData,
   setFetchProgramData,
   kp,
+  dariMyVas,
+  setDariMyVas,
+  patientDataFromMyVas,
 }) {
   const {
     kaunterToken,
     myVasToken,
+    navigate,
     Dictionary,
     dateToday,
     masterDatePicker,
@@ -800,137 +804,131 @@ export default function FillableForm({
     }
   };
 
-  const handleSubmitMyVas = async (patientId) => {
-    const nodejs_patient_details = '/api/v1/myvastest/patient-details?nric=';
-    setAddingData(true);
-    const config = {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${kaunterToken} ${myVasToken ? myVasToken : ''}`,
-      },
-    };
-    await axios
-      .get(`${nodejs_patient_details}${patientId}`, config)
-      .then((res) => {
-        if (
-          res &&
-          res.data.next_status &&
-          res.data.next_status >= 400 &&
-          res.data.next_status <= 599
-        ) {
-          if (res.data.redirect_uri) {
-            window.location.href = res.data.redirect_uri;
-            return;
-          }
-        }
-        toast.success('Pesakit berjaya ditarik', { autoClose: 2000 });
-        const patientData = res.data.entry[0];
-        setNama(patientData.resource.name[0].given[0]);
-        setNomborTelefon(patientData.resource.telecom[0].value);
-        setJantina(patientData.resource.gender);
-        // setTarikhLahir(patientData.resource.birthDate);
-        setPoskodAlamat(patientData.resource.address[0].state);
-      });
-    setAddingData(false);
-  };
-
   // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
-    setKedatangan('');
-    setNoPendaftaranBaru('');
-    setNoPendaftaranUlangan('');
-    setTarikhKedatangan(moment(dateToday).format('YYYY-MM-DD'));
-    setWaktuSampai('');
-    setTemujanji(false);
-    setWaktuTemujanji('');
-    setOncall(false);
-    setNama('');
-    setJenisIc('');
-    setIc('');
-    setNomborTelefon('');
-    setNomborTelefon2('');
-    setEmel('');
-    setTarikhLahir('');
-    setUmur(0);
-    setUmurBulan(0);
-    setUmurHari(0);
-    setJantina('');
-    setKumpulanEtnik('');
-    setAlamat('');
-    setDaerahAlamat('');
-    setNegeriAlamat('');
-    setPoskodAlamat('');
-    setIbuMengandung(false);
-    setEpisodMengandung('');
-    setBookingIM('');
-    setMengandungDahGravida(false);
-    setBersekolah(false);
-    setOrangKurangUpaya(false);
-    setNoOku('');
-    setStatusPesara('');
-    setNoPesara('');
-    setRujukDaripada('');
-    setGtod(false);
-    setKakitanganKerajaan(false);
-    setNoBayaran('');
-    setNoResit('');
-    setNoBayaran2('');
-    setNoResit2('');
-    setNoBayaran3('');
-    setNoResit3('');
-    setCatatan('');
-    // kepp
-    setKepp(false);
-    setKedatanganKepp('');
-    setTarikhRujukanKepp('');
-    setTarikhRundinganPertama('');
-    setTarikhMulaRawatanKepp('');
-    // penyampaian perkhidmatan
-    // setKpBergerak(false);
-    // setLabelKpBergerak('');
-    // setPasukanPergigianBergerak(false);
-    // setMakmalPergigianBergerak(false);
-    // setLabelMakmalPergigianBergerak('');
-    // kk / kd
-    setNamaFasilitiKkKd('');
-    setKodFasilitiKkKd('');
-    // taska / tadika
-    setFasilitiTaskaTadika('');
-    setKelasToddler(false);
-    setNamaFasilitiTaskaTadika('');
-    setKodFasilitiTaskaTadika('');
-    // ipt / kolej
-    setIptKolej('');
-    setIpg('');
-    setKolejKomuniti('');
-    setPoliteknik('');
-    setInstitutLatihanKerajaan('');
-    setGiatmara('');
-    setIpta('');
-    setIpts('');
-    setEnrolmenIptKolej(false);
-    // institusi warga emas
-    setInstitusiWargaEmas('');
-    setKerajaanInstitusiWargaEmas('');
-    setSwastaInstitusiWargaEmas('');
-    // institusi OKU
-    setInstitusiOku('');
-    // kampung angkat
-    setKgAngkat('');
-    // datepicker issues
-    setTarikhKedatanganDP(moment(dateToday, moment.ISO_8601).toDate());
-    setTarikhLahirDP(null);
-    setTarikhRujukanKeppDP(null);
-    setTarikhRundinganPertamaDP(null);
-    setTarikhMulaRawatanKeppDP(null);
-    // datetime issues
-    setWaktuSampaiDT(moment(dateToday, moment.ISO_8601).toDate());
-    setWaktuTemujanjiDT(moment(dateToday, moment.ISO_8601).toDate());
-    if (showForm === false) {
-      // reset editId when change jenisFasiliti & showForm === false
-      setEditId('');
+    if (!patientDataFromMyVas) {
+      setKedatangan('');
+      setNoPendaftaranBaru('');
+      setNoPendaftaranUlangan('');
+      setTarikhKedatangan(moment(dateToday).format('YYYY-MM-DD'));
+      setWaktuSampai('');
+      setTemujanji(false);
+      setWaktuTemujanji('');
+      setOncall(false);
+      setNama('');
+      setJenisIc('');
+      setIc('');
+      setNomborTelefon('');
+      setNomborTelefon2('');
+      setEmel('');
+      setTarikhLahir('');
+      setUmur(0);
+      setUmurBulan(0);
+      setUmurHari(0);
+      setJantina('');
+      setKumpulanEtnik('');
+      setAlamat('');
+      setDaerahAlamat('');
+      setNegeriAlamat('');
+      setPoskodAlamat('');
+      setIbuMengandung(false);
+      setEpisodMengandung('');
+      setBookingIM('');
+      setMengandungDahGravida(false);
+      setBersekolah(false);
+      setOrangKurangUpaya(false);
+      setNoOku('');
+      setStatusPesara('');
+      setNoPesara('');
+      setRujukDaripada('');
+      setGtod(false);
+      setKakitanganKerajaan(false);
+      setNoBayaran('');
+      setNoResit('');
+      setNoBayaran2('');
+      setNoResit2('');
+      setNoBayaran3('');
+      setNoResit3('');
+      setCatatan('');
+      // kepp
+      setKepp(false);
+      setKedatanganKepp('');
+      setTarikhRujukanKepp('');
+      setTarikhRundinganPertama('');
+      setTarikhMulaRawatanKepp('');
+      // penyampaian perkhidmatan
+      // setKpBergerak(false);
+      // setLabelKpBergerak('');
+      // setPasukanPergigianBergerak(false);
+      // setMakmalPergigianBergerak(false);
+      // setLabelMakmalPergigianBergerak('');
+      // kk / kd
+      setNamaFasilitiKkKd('');
+      setKodFasilitiKkKd('');
+      // taska / tadika
+      setFasilitiTaskaTadika('');
+      setKelasToddler(false);
+      setNamaFasilitiTaskaTadika('');
+      setKodFasilitiTaskaTadika('');
+      // ipt / kolej
+      setIptKolej('');
+      setIpg('');
+      setKolejKomuniti('');
+      setPoliteknik('');
+      setInstitutLatihanKerajaan('');
+      setGiatmara('');
+      setIpta('');
+      setIpts('');
+      setEnrolmenIptKolej(false);
+      // institusi warga emas
+      setInstitusiWargaEmas('');
+      setKerajaanInstitusiWargaEmas('');
+      setSwastaInstitusiWargaEmas('');
+      // institusi OKU
+      setInstitusiOku('');
+      // kampung angkat
+      setKgAngkat('');
+      // datepicker issues
+      setTarikhKedatanganDP(moment(dateToday, moment.ISO_8601).toDate());
+      setTarikhLahirDP(null);
+      setTarikhRujukanKeppDP(null);
+      setTarikhRundinganPertamaDP(null);
+      setTarikhMulaRawatanKeppDP(null);
+      // datetime issues
+      setWaktuSampaiDT(moment(dateToday, moment.ISO_8601).toDate());
+      setWaktuTemujanjiDT(moment(dateToday, moment.ISO_8601).toDate());
+      if (showForm === false) {
+        // reset editId when change jenisFasiliti & showForm === false
+        setEditId('');
+      }
     }
-  }, [jenisFasiliti, showForm]);
+  }, [jenisFasiliti, showForm, patientDataFromMyVas]);
+
+  useEffect(() => {
+    if (dariMyVas) {
+      setIc(patientDataFromMyVas.resource.identifier[0].value);
+      setNama(patientDataFromMyVas.resource.name[0].given[0]);
+      setNomborTelefon(patientDataFromMyVas.resource.telecom[0].value);
+      setJantina(patientDataFromMyVas.resource.gender);
+      setTarikhLahir(patientDataFromMyVas.resource.birthDate);
+      setTarikhLahirDP(new Date(patientDataFromMyVas.resource.birthDate));
+      const tarikhLahirObj = moment(
+        patientDataFromMyVas.resource.birthDate
+      ).toDate();
+      const tahun = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahirObj));
+      const bulan = parseInt(howOldAreYouMyFriendbulanV2(tarikhLahirObj));
+      const hari = parseInt(howOldAreYouMyFrienddaysV2(tarikhLahirObj));
+      setUmur(tahun);
+      setUmurBulan(bulan);
+      setUmurHari(hari);
+      setPoskodAlamat(patientDataFromMyVas.resource.address[0].postalCode);
+      setNegeriAlamat(
+        patientDataFromMyVas.resource.address[0].state.toLowerCase()
+      );
+      setDariMyVas(false);
+      console.log(patientDataFromMyVas.resource.start);
+    }
+  }, [dariMyVas]);
 
   // close form when change jenisFasiliti
   useEffect(() => {
@@ -1586,7 +1584,7 @@ export default function FillableForm({
                       jenisFasiliti === 'kp' ? (
                         <span
                           onClick={() => {
-                            setShowMyVas(true);
+                            navigate('/pendaftaran/daftar/kp/myVas');
                           }}
                           className='absolute -right-24 top-2 bg-user1 text-userWhite rounded-md text-sm px-1.5 py-1 hover:bg-user3 hover:text-userBlack cursor-pointer flex items-center'
                         >
@@ -3527,12 +3525,12 @@ export default function FillableForm({
               </button>
               {addingData ? <BusyButton /> : <SubmitButtton />}
             </form>
-            {showMyVas && (
+            {/* {showMyVas && (
               <MyVas
                 setShowMyVas={setShowMyVas}
                 handleSubmitMyVas={handleSubmitMyVas}
               />
-            )}
+            )} */}
           </>
         )}
       </Confirmation>
