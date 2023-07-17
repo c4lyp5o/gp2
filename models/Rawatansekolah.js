@@ -58,10 +58,6 @@ const RawatansekolahSchema = new mongoose.Schema(
       default: '',
     },
     // rawatan -----------------------------------------------------------
-    muridDibuatFs: {
-      type: Boolean,
-      default: false,
-    },
     baruJumlahGigiKekalDibuatFs: {
       type: Number,
       min: 0,
@@ -71,26 +67,28 @@ const RawatansekolahSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    baruJumlahGigiKekalDiberiFv: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    muridDiberiPrrJenis1: {
-      type: Boolean,
-      default: false,
-    },
     baruJumlahGigiKekalDiberiPrrJenis1: {
       type: Number,
       min: 0,
       default: 0,
     },
+    // use one day maybe??
     baruJumlahGigiYangDiberiSdf: {
       type: Number,
       min: 0,
       default: 0,
     },
     semulaJumlahGigiYangDiberiSdf: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    cabutDesidusSekolahRawatan: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    cabutKekalSekolahRawatan: {
       type: Number,
       min: 0,
       default: 0,
@@ -155,68 +153,12 @@ const RawatansekolahSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    cabutDesidusSekolahRawatan: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    cabutKekalSekolahRawatan: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
     jumlahTampalanSementaraSekolahRawatan: {
       type: Number,
       min: 0,
       default: 0,
     },
-    pulpotomiSekolahRawatan: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    endodontikSekolahRawatan: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    absesSekolahRawatan: {
-      type: Boolean,
-      default: false,
-    },
     penskaleranSekolahRawatan: {
-      type: Boolean,
-      default: false,
-    },
-    kesSelesaiSekolahRawatan: {
-      type: String,
-      default: '',
-    },
-    kesSelesaiIcdasSekolahRawatan: {
-      type: String,
-      default: '',
-    },
-    rujukSekolahRawatan: {
-      type: Boolean,
-      default: false,
-    },
-    rujukRawatanOrtodontikSekolahRawatan: {
-      type: Boolean,
-      default: false,
-    },
-    rujukPakarPatologiSekolahRawatan: {
-      type: Boolean,
-      default: false,
-    },
-    rujukPakarRestoratifSekolahRawatan: {
-      type: Boolean,
-      default: false,
-    },
-    rujukPakarBedahMulutSekolahRawatan: {
-      type: Boolean,
-      default: false,
-    },
-    rujukPakarPediatrikSekolahRawatan: {
       type: Boolean,
       default: false,
     },
@@ -252,11 +194,31 @@ const RawatansekolahSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan: {
+    rujukRawatanOrtodontikSekolahRawatan: {
+      type: Boolean,
+      default: false,
+    },
+    rujukPakarPatologiSekolahRawatan: {
+      type: Boolean,
+      default: false,
+    },
+    rujukPakarRestoratifSekolahRawatan: {
+      type: Boolean,
+      default: false,
+    },
+    rujukPakarBedahMulutSekolahRawatan: {
+      type: Boolean,
+      default: false,
+    },
+    rujukPakarPediatrikSekolahRawatan: {
+      type: Boolean,
+      default: false,
+    },
+    kesSelesaiSekolahRawatan: {
       type: String,
       default: '',
     },
-    yaTidakLawatanKeRumahPromosiSekolahRawatan: {
+    kesSelesaiIcdasSekolahRawatan: {
       type: String,
       default: '',
     },
