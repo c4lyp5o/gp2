@@ -1065,45 +1065,201 @@ const makePG211A = async (payload) => {
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
 
-    for (let i = 0; i < data.length; i++) {
-      let rowNew = worksheet.getRow(13 + i);
-      if (data[i][0]) {
-        jumlahReten += data[i][0].jumlahReten;
-        jumlahRetenSalah += data[i][0].statusReten;
-        rowNew.getCell(4).value = data[i][0].jumlahLelaki; //D13	Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(5).value = data[i][0].jumlahPerempuan; //E13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(6).value = data[i][0].jumlahMelayu; //F13	Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(7).value = data[i][0].jumlahCina; //G13	Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(8).value = data[i][0].jumlahIndia; //H13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(9).value = data[i][0].jumlahBajau; //I13	Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(10).value = data[i][0].jumlahDusun; //J13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(11).value = data[i][0].jumlahKadazan; //K13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(12).value = data[i][0].jumlahMurut; //L13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(13).value = data[i][0].jumlahBMSL; //M13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(14).value = data[i][0].jumlahMelanau; //N13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(15).value = data[i][0].jumlahKedayan; //O13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(16).value = data[i][0].jumlahIban; //P13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(17).value = data[i][0].jumlahBidayuh; //Q13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(18).value = data[i][0].jumlahPenan; //R13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(19).value = data[i][0].jumlahBMSwL; //R13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(20).value = data[i][0].jumlahOA; //S13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(21).value = data[i][0].jumlahLainlain; //T13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(22).value = data[i][0].jumlahBukanWarganegara; //U13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(23).value = data[i][0].jumlahIbuMengandung; //V13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(24).value = data[i][0].jumlahBersekolah; //W13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(25).value = data[i][0].jumlahOKU; //X13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(26).value = data[i][0].jumlahPesaraKerajaan; //Y13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(27).value = data[i][0].jumlahPesaraATM; //Z13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(28).value = data[i][0].jumlahRujukanDalaman; //AA13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(29).value = data[i][0].jumlahRujukanKP; //AB13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(30).value = data[i][0].jumlahRujukanKK; //AC13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(31).value = data[i][0].jumlahRujukanHospital; //AD13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(32).value = data[i][0].jumlahRujukanSwasta; //AE13 Kategori bawah 1 Tahun (baru)
-        rowNew.getCell(33).value = data[i][0].jumlahRujukanLainlain; //AF13 Kategori bawah 1 Tahun (baru)
+    for (const item of data[0].dataBaru) {
+      let rowNumber;
+
+      switch (item._id) {
+        case 0:
+          rowNumber = 13;
+          break;
+        case 1:
+          rowNumber = 15;
+          break;
+        case 5:
+          rowNumber = 17;
+          break;
+        case 7:
+          rowNumber = 19;
+          break;
+        case 10:
+          rowNumber = 21;
+          break;
+        case 13:
+          rowNumber = 23;
+          break;
+        case 15:
+          rowNumber = 25;
+          break;
+        case 18:
+          rowNumber = 27;
+          break;
+        case 20:
+          rowNumber = 29;
+          break;
+        case 30:
+          rowNumber = 31;
+          break;
+        case 40:
+          rowNumber = 33;
+          break;
+        case 50:
+          rowNumber = 35;
+          break;
+        case 60:
+          rowNumber = 37;
+          break;
+        case 61:
+          rowNumber = 39;
+          break;
+        case 65:
+          rowNumber = 41;
+          break;
+        case 66:
+          rowNumber = 43;
+          break;
+        case 70:
+          rowNumber = 45;
+          break;
+        case 75:
+          rowNumber = 47;
+          break;
+        default:
+          continue;
       }
+
+      const row = worksheet.getRow(rowNumber);
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(4).value = item.jumlahLelaki; //D13	Kategori bawah 1 Tahun (baru)
+      row.getCell(5).value = item.jumlahPerempuan; //E13 Kategori bawah 1 Tahun (baru)
+      row.getCell(6).value = item.jumlahMelayu; //F13	Kategori bawah 1 Tahun (baru)
+      row.getCell(7).value = item.jumlahCina; //G13	Kategori bawah 1 Tahun (baru)
+      row.getCell(8).value = item.jumlahIndia; //H13 Kategori bawah 1 Tahun (baru)
+      row.getCell(9).value = item.jumlahBajau; //I13	Kategori bawah 1 Tahun (baru)
+      row.getCell(10).value = item.jumlahDusun; //J13 Kategori bawah 1 Tahun (baru)
+      row.getCell(11).value = item.jumlahKadazan; //K13 Kategori bawah 1 Tahun (baru)
+      row.getCell(12).value = item.jumlahMurut; //L13 Kategori bawah 1 Tahun (baru)
+      row.getCell(13).value = item.jumlahBMSL; //M13 Kategori bawah 1 Tahun (baru)
+      row.getCell(14).value = item.jumlahMelanau; //N13 Kategori bawah 1 Tahun (baru)
+      row.getCell(15).value = item.jumlahKedayan; //O13 Kategori bawah 1 Tahun (baru)
+      row.getCell(16).value = item.jumlahIban; //P13 Kategori bawah 1 Tahun (baru)
+      row.getCell(17).value = item.jumlahBidayuh; //Q13 Kategori bawah 1 Tahun (baru)
+      row.getCell(18).value = item.jumlahPenan; //R13 Kategori bawah 1 Tahun (baru)
+      row.getCell(19).value = item.jumlahBMSwL; //R13 Kategori bawah 1 Tahun (baru)
+      row.getCell(20).value = item.jumlahOA; //S13 Kategori bawah 1 Tahun (baru)
+      row.getCell(21).value = item.jumlahLainlain; //T13 Kategori bawah 1 Tahun (baru)
+      row.getCell(22).value = item.jumlahBukanWarganegara; //U13 Kategori bawah 1 Tahun (baru)
+      row.getCell(23).value = item.jumlahIbuMengandung; //V13 Kategori bawah 1 Tahun (baru)
+      row.getCell(24).value = item.jumlahBersekolah; //W13 Kategori bawah 1 Tahun (baru)
+      row.getCell(25).value = item.jumlahOKU; //X13 Kategori bawah 1 Tahun (baru)
+      row.getCell(26).value = item.jumlahPesaraKerajaan; //Y13 Kategori bawah 1 Tahun (baru)
+      row.getCell(27).value = item.jumlahPesaraATM; //Z13 Kategori bawah 1 Tahun (baru)
+      row.getCell(28).value = item.jumlahRujukanDalaman; //AA13 Kategori bawah 1 Tahun (baru)
+      row.getCell(29).value = item.jumlahRujukanKP; //AB13 Kategori bawah 1 Tahun (baru)
+      row.getCell(30).value = item.jumlahRujukanKK; //AC13 Kategori bawah 1 Tahun (baru)
+      row.getCell(31).value = item.jumlahRujukanHospital; //AD13 Kategori bawah 1 Tahun (baru)
+      row.getCell(32).value = item.jumlahRujukanSwasta; //AE13 Kategori bawah 1 Tahun (baru)
+      row.getCell(33).value = item.jumlahRujukanLainlain; //AF13 Kategori bawah 1 Tahun (baru)
     }
 
-    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+    for (const item of data[0].dataUlangan) {
+      let rowNumber;
+
+      switch (item._id) {
+        case 0:
+          rowNumber = 14;
+          break;
+        case 1:
+          rowNumber = 16;
+          break;
+        case 5:
+          rowNumber = 18;
+          break;
+        case 7:
+          rowNumber = 20;
+          break;
+        case 10:
+          rowNumber = 22;
+          break;
+        case 13:
+          rowNumber = 24;
+          break;
+        case 15:
+          rowNumber = 26;
+          break;
+        case 18:
+          rowNumber = 28;
+          break;
+        case 20:
+          rowNumber = 30;
+          break;
+        case 30:
+          rowNumber = 32;
+          break;
+        case 40:
+          rowNumber = 34;
+          break;
+        case 50:
+          rowNumber = 36;
+          break;
+        case 60:
+          rowNumber = 38;
+          break;
+        case 61:
+          rowNumber = 40;
+          break;
+        case 65:
+          rowNumber = 42;
+          break;
+        case 66:
+          rowNumber = 44;
+          break;
+        case 70:
+          rowNumber = 46;
+          break;
+        case 75:
+          rowNumber = 48;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(4).value = item.jumlahLelaki; //D13	Kategori bawah 1 Tahun (baru)
+      row.getCell(5).value = item.jumlahPerempuan; //E13 Kategori bawah 1 Tahun (baru)
+      row.getCell(6).value = item.jumlahMelayu; //F13	Kategori bawah 1 Tahun (baru)
+      row.getCell(7).value = item.jumlahCina; //G13	Kategori bawah 1 Tahun (baru)
+      row.getCell(8).value = item.jumlahIndia; //H13 Kategori bawah 1 Tahun (baru)
+      row.getCell(9).value = item.jumlahBajau; //I13	Kategori bawah 1 Tahun (baru)
+      row.getCell(10).value = item.jumlahDusun; //J13 Kategori bawah 1 Tahun (baru)
+      row.getCell(11).value = item.jumlahKadazan; //K13 Kategori bawah 1 Tahun (baru)
+      row.getCell(12).value = item.jumlahMurut; //L13 Kategori bawah 1 Tahun (baru)
+      row.getCell(13).value = item.jumlahBMSL; //M13 Kategori bawah 1 Tahun (baru)
+      row.getCell(14).value = item.jumlahMelanau; //N13 Kategori bawah 1 Tahun (baru)
+      row.getCell(15).value = item.jumlahKedayan; //O13 Kategori bawah 1 Tahun (baru)
+      row.getCell(16).value = item.jumlahIban; //P13 Kategori bawah 1 Tahun (baru)
+      row.getCell(17).value = item.jumlahBidayuh; //Q13 Kategori bawah 1 Tahun (baru)
+      row.getCell(18).value = item.jumlahPenan; //R13 Kategori bawah 1 Tahun (baru)
+      row.getCell(19).value = item.jumlahBMSwL; //R13 Kategori bawah 1 Tahun (baru)
+      row.getCell(20).value = item.jumlahOA; //S13 Kategori bawah 1 Tahun (baru)
+      row.getCell(21).value = item.jumlahLainlain; //T13 Kategori bawah 1 Tahun (baru)
+      row.getCell(22).value = item.jumlahBukanWarganegara; //U13 Kategori bawah 1 Tahun (baru)
+      row.getCell(23).value = item.jumlahIbuMengandung; //V13 Kategori bawah 1 Tahun (baru)
+      row.getCell(24).value = item.jumlahBersekolah; //W13 Kategori bawah 1 Tahun (baru)
+      row.getCell(25).value = item.jumlahOKU; //X13 Kategori bawah 1 Tahun (baru)
+      row.getCell(26).value = item.jumlahPesaraKerajaan; //Y13 Kategori bawah 1 Tahun (baru)
+      row.getCell(27).value = item.jumlahPesaraATM; //Z13 Kategori bawah 1 Tahun (baru)
+      row.getCell(28).value = item.jumlahRujukanDalaman; //AA13 Kategori bawah 1 Tahun (baru)
+      row.getCell(29).value = item.jumlahRujukanKP; //AB13 Kategori bawah 1 Tahun (baru)
+      row.getCell(30).value = item.jumlahRujukanKK; //AC13 Kategori bawah 1 Tahun (baru)
+      row.getCell(31).value = item.jumlahRujukanHospital; //AD13 Kategori bawah 1 Tahun (baru)
+      row.getCell(32).value = item.jumlahRujukanSwasta; //AE13 Kategori bawah 1 Tahun (baru)
+      row.getCell(33).value = item.jumlahRujukanLainlain; //AF13 Kategori bawah 1 Tahun (baru)
+    }
+
+    // let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
 
     worksheet.getCell(
       'AG6'
@@ -2524,78 +2680,89 @@ const makePG214 = async (payload) => {
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
     //
-    let rowNew;
-
-    for (let i = 0; i < data[0].PG214.length; i++) {
-      if (data[0].PG214[i]) {
-        switch (data[0].PG214[i]._id) {
-          case '60':
-            rowNew = worksheet.getRow(13);
-            break;
-          default:
-            break;
-        }
-      }
-      jumlahReten += data[0].PG214[i].jumlahReten;
-      jumlahRetenSalah += data[0].PG214[i].statusReten;
-      rowNew.getCell(3).value = data[0].PG214[i].jumlahMelayu; //C13	Kategori Umur 60 Tahun
-      rowNew.getCell(4).value = data[0].PG214[i].jumlahCina; //D13	Kategori Umur 60 Tahun
-      rowNew.getCell(5).value = data[0].PG214[i].jumlahIndia; //E13	Kategori Umur 60 Tahun
-      rowNew.getCell(6).value = data[0].PG214[i].jumlahBajau; //F13	Kategori Umur 60 Tahun
-      rowNew.getCell(7).value = data[0].PG214[i].jumlahDusun; //G13	Kategori Umur 60 Tahun
-      rowNew.getCell(8).value = data[0].PG214[i].jumlahKadazan; //H13 Kategori Umur 60 Tahun
-      rowNew.getCell(9).value = data[0].PG214[i].jumlahMurut; //I13	Kategori Umur 60 Tahun
-      rowNew.getCell(10).value = data[0].PG214[i].jumlahBMSL; //J13 Kategori Umur 60 Tahun
-      rowNew.getCell(11).value = data[0].PG214[i].jumlahMelanau; //K13 Kategori Umur 60 Tahun
-      rowNew.getCell(12).value = data[0].PG214[i].jumlahKedayan; //L13 Kategori Umur 60 Tahun
-      rowNew.getCell(13).value = data[0].PG214[i].jumlahIban; //M13 Kategori Umur 60 Tahun
-      rowNew.getCell(14).value = data[0].PG214[i].jumlahBidayuh; //N13 Kategori Umur 60 Tahun
-      rowNew.getCell(15).value = data[0].PG214[i].jumlahPenan; //O13 Kategori Umur 60 Tahun
-      rowNew.getCell(16).value = data[0].PG214[i].jumlahBMSwL; //P13 Kategori Umur 60 Tahun
-      rowNew.getCell(17).value = data[0].PG214[i].jumlahOAS; //Q13 Kategori Umur 60 Tahun
-      rowNew.getCell(18).value = data[0].PG214[i].jumlahLainlain; //R13 Kategori Umur 60 Tahun
-      rowNew.getCell(19).value = data[0].PG214[i].jumlahBukanWarganegara; //S13 Kategori Umur 60 Tahun
-      rowNew.getCell(20).value = data[0].PG214[i].jumlahLelaki; //T13 Kategori Umur 60 Tahun
-      rowNew.getCell(21).value = data[0].PG214[i].jumlahPerempuan; //U13 Kategori Umur 60 Tahun
-      rowNew.getCell(22).value = data[0].PG214[i].jumlahEdentulous; //V13 Kategori Umur 60 Tahun
-      rowNew.getCell(23).value = data[0].PG214[i].jumlahGigiLebihAtauSama20; //W13 Kategori Umur 60 Tahun
-      rowNew.getCell(24).value = data[0].PG214[i].jumlahGigiKurang20; //X13 Kategori Umur 60 Tahun
-      rowNew.getCell(25).value = data[0].PG214[i].jumlahSemuaGigi; //Y13 Kategori Umur 60 Tahun
+    for (const item of data[0].takNormal) {
+      const row = worksheet.getRow(13);
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(3).value = item.jumlahMelayu; //C13	Kategori Umur 60 Tahun
+      row.getCell(4).value = item.jumlahCina; //D13	Kategori Umur 60 Tahun
+      row.getCell(5).value = item.jumlahIndia; //E13	Kategori Umur 60 Tahun
+      row.getCell(6).value = item.jumlahBajau; //F13	Kategori Umur 60 Tahun
+      row.getCell(7).value = item.jumlahDusun; //G13	Kategori Umur 60 Tahun
+      row.getCell(8).value = item.jumlahKadazan; //H13 Kategori Umur 60 Tahun
+      row.getCell(9).value = item.jumlahMurut; //I13	Kategori Umur 60 Tahun
+      row.getCell(10).value = item.jumlahBMSL; //J13 Kategori Umur 60 Tahun
+      row.getCell(11).value = item.jumlahMelanau; //K13 Kategori Umur 60 Tahun
+      row.getCell(12).value = item.jumlahKedayan; //L13 Kategori Umur 60 Tahun
+      row.getCell(13).value = item.jumlahIban; //M13 Kategori Umur 60 Tahun
+      row.getCell(14).value = item.jumlahBidayuh; //N13 Kategori Umur 60 Tahun
+      row.getCell(15).value = item.jumlahPenan; //O13 Kategori Umur 60 Tahun
+      row.getCell(16).value = item.jumlahBMSwL; //P13 Kategori Umur 60 Tahun
+      row.getCell(17).value = item.jumlahOAS; //Q13 Kategori Umur 60 Tahun
+      row.getCell(18).value = item.jumlahLainlain; //R13 Kategori Umur 60 Tahun
+      row.getCell(19).value = item.jumlahBukanWarganegara; //S13 Kategori Umur 60 Tahun
+      row.getCell(20).value = item.jumlahLelaki; //T13 Kategori Umur 60 Tahun
+      row.getCell(21).value = item.jumlahPerempuan; //U13 Kategori Umur 60 Tahun
+      row.getCell(22).value = item.jumlahEdentulous; //V13 Kategori Umur 60 Tahun
+      row.getCell(23).value = item.jumlahGigiLebihAtauSama20; //W13 Kategori Umur 60 Tahun
+      row.getCell(24).value = item.jumlahGigiKurang20; //X13 Kategori Umur 60 Tahun
+      row.getCell(25).value = item.jumlahSemuaGigi; //Y13 Kategori Umur 60 Tahun
     }
 
-    for (let i = 1; i < data.length; i++) {
-      if (data[i].customPG214[0]) {
-        let rowNew = worksheet.getRow(13 + i);
-        jumlahReten += data[i].customPG214[0].jumlahReten;
-        jumlahRetenSalah += data[i].customPG214[0].statusReten;
-        rowNew.getCell(3).value = data[i].customPG214[0].jumlahMelayu; //C13	Kategori Umur 60 Tahun
-        rowNew.getCell(4).value = data[i].customPG214[0].jumlahCina; //D13	Kategori Umur 60 Tahun
-        rowNew.getCell(5).value = data[i].customPG214[0].jumlahIndia; //E13	Kategori Umur 60 Tahun
-        rowNew.getCell(6).value = data[i].customPG214[0].jumlahBajau; //F13	Kategori Umur 60 Tahun
-        rowNew.getCell(7).value = data[i].customPG214[0].jumlahDusun; //G13	Kategori Umur 60 Tahun
-        rowNew.getCell(8).value = data[i].customPG214[0].jumlahKadazan; //H13 Kategori Umur 60 Tahun
-        rowNew.getCell(9).value = data[i].customPG214[0].jumlahMurut; //I13	Kategori Umur 60 Tahun
-        rowNew.getCell(10).value = data[i].customPG214[0].jumlahBMSL; //J13 Kategori Umur 60 Tahun
-        rowNew.getCell(11).value = data[i].customPG214[0].jumlahMelanau; //K13 Kategori Umur 60 Tahun
-        rowNew.getCell(12).value = data[i].customPG214[0].jumlahKedayan; //L13 Kategori Umur 60 Tahun
-        rowNew.getCell(13).value = data[i].customPG214[0].jumlahIban; //M13 Kategori Umur 60 Tahun
-        rowNew.getCell(14).value = data[i].customPG214[0].jumlahBidayuh; //N13 Kategori Umur 60 Tahun
-        rowNew.getCell(15).value = data[i].customPG214[0].jumlahPenan; //O13 Kategori Umur 60 Tahun
-        rowNew.getCell(16).value = data[i].customPG214[0].jumlahBMSwL; //P13 Kategori Umur 60 Tahun
-        rowNew.getCell(17).value = data[i].customPG214[0].jumlahOAS; //Q13 Kategori Umur 60 Tahun
-        rowNew.getCell(18).value = data[i].customPG214[0].jumlahLainlain; //R13 Kategori Umur 60 Tahun
-        rowNew.getCell(19).value =
-          data[i].customPG214[0].jumlahBukanWarganegara; //S13 Kategori Umur 60 Tahun
-        rowNew.getCell(20).value = data[i].customPG214[0].jumlahLelaki; //T13 Kategori Umur 60 Tahun
-        rowNew.getCell(21).value = data[i].customPG214[0].jumlahPerempuan; //U13 Kategori Umur 60 Tahun
-        rowNew.getCell(22).value = data[i].customPG214[0].jumlahEdentulous; //V13 Kategori Umur 60 Tahun
-        rowNew.getCell(23).value =
-          data[i].customPG214[0].jumlahGigiLebihAtauSama20; //W13 Kategori Umur 60 Tahun
-        rowNew.getCell(24).value = data[i].customPG214[0].jumlahGigiKurang20; //X13 Kategori Umur 60 Tahun
-        rowNew.getCell(25).value = data[i].customPG214[0].jumlahSemuaGigi; //Y13 Kategori Umur 60 Tahun
-      }
-    }
+    for (const item of data[0].normal) {
+      let rowNumber;
 
+      switch (item._id) {
+        case 'umur60':
+          rowNumber = 13;
+          break;
+        case 'umur6164':
+          rowNumber = 14;
+          break;
+        case 'umur65':
+          rowNumber = 15;
+          break;
+        case 'umur6669':
+          rowNumber = 16;
+          break;
+        case 'umur7074':
+          rowNumber = 17;
+          break;
+        case 'umur75':
+          rowNumber = 18;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(3).value += item.jumlahMelayu; //C13	Kategori Umur 60 Tahun
+      row.getCell(4).value += item.jumlahCina; //D13	Kategori Umur 60 Tahun
+      row.getCell(5).value += item.jumlahIndia; //E13	Kategori Umur 60 Tahun
+      row.getCell(6).value += item.jumlahBajau; //F13	Kategori Umur 60 Tahun
+      row.getCell(7).value += item.jumlahDusun; //G13	Kategori Umur 60 Tahun
+      row.getCell(8).value += item.jumlahKadazan; //H13 Kategori Umur 60 Tahun
+      row.getCell(9).value += item.jumlahMurut; //I13	Kategori Umur 60 Tahun
+      row.getCell(10).value += item.jumlahBMSL; //J13 Kategori Umur 60 Tahun
+      row.getCell(11).value += item.jumlahMelanau; //K13 Kategori Umur 60 Tahun
+      row.getCell(12).value += item.jumlahKedayan; //L13 Kategori Umur 60 Tahun
+      row.getCell(13).value += item.jumlahIban; //M13 Kategori Umur 60 Tahun
+      row.getCell(14).value += item.jumlahBidayuh; //N13 Kategori Umur 60 Tahun
+      row.getCell(15).value += item.jumlahPenan; //O13 Kategori Umur 60 Tahun
+      row.getCell(16).value += item.jumlahBMSwL; //P13 Kategori Umur 60 Tahun
+      row.getCell(17).value += item.jumlahOAS; //Q13 Kategori Umur 60 Tahun
+      row.getCell(18).value += item.jumlahLainlain; //R13 Kategori Umur 60 Tahun
+      row.getCell(19).value += item.jumlahBukanWarganegara; //S13 Kategori Umur 60 Tahun
+      row.getCell(20).value += item.jumlahLelaki; //T13 Kategori Umur 60 Tahun
+      row.getCell(21).value += item.jumlahPerempuan; //U13 Kategori Umur 60 Tahun
+      row.getCell(22).value += item.jumlahEdentulous; //V13 Kategori Umur 60 Tahun
+      row.getCell(23).value += item.jumlahGigiLebihAtauSama20; //W13 Kategori Umur 60 Tahun
+      row.getCell(24).value += item.jumlahGigiKurang20; //X13 Kategori Umur 60 Tahun
+      row.getCell(25).value += item.jumlahSemuaGigi; //Y13 Kategori Umur 60 Tahun
+    }
+    //
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
 
     worksheet.getCell(
