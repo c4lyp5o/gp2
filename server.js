@@ -63,7 +63,7 @@ const ETL = require('./routes/ETL');
 const onDemand = require('./routes/ondemand');
 
 // MyVas import
-const myVasTest = require('./routes/myVasTest');
+const myVas = require('./routes/myVas');
 
 // MyVas settings
 // const portalURL = process.env.MYVAS_PORTAL_URL; //Provided by Entomo
@@ -186,8 +186,8 @@ app.use('/api/v1/etl', etlAuth, ETL);
 // ondemand setting
 app.use('/api/v1/ondemand', adminAuth, onDemand);
 
-// myVasTest route
-app.use('/api/v1/myvastest', myVasTest);
+// MyVas route
+app.use('/api/v1/myvas', myVas);
 
 // identify client ip
 app.get('/api/v1/ip', async (req, res) => {

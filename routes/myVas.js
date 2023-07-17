@@ -8,7 +8,7 @@ const {
   getPatientDetails,
   getAppointmentList,
   logOutMyVas,
-} = require('../controllers/myVasTest');
+} = require('../controllers/myVas');
 
 // ROUTES ------------------------------------------------------
 router.get('/callback', authCheck, getMyVasToken); // ni tutup dgn authCheck sendiri

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { redirectToAuth } = require('../controllers/myVasTest');
+const { redirectToAuth } = require('../controllers/myVas');
 const { unauthorizedLogger } = require('../logs/logger');
 
 const myVasAuthCheck = async (req, res, next) => {
@@ -13,7 +13,6 @@ const myVasAuthCheck = async (req, res, next) => {
       .json({ msg: 'Unauthorized. This behaviour will be reported' });
   }
   const arrayOfHeader = authHeader.split(' ');
-  console.log(arrayOfHeader);
   try {
     const userTokenVerified = jwt.verify(
       arrayOfHeader[1],

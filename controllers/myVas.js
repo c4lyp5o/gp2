@@ -1,6 +1,5 @@
 const axios = require('axios');
 const qs = require('qs');
-const MyVasSession = require('../models/MyVasSession');
 
 // log in constants
 const loginSuccessMessage = 'Berjaya Log Masuk';
