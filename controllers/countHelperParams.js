@@ -330,70 +330,27 @@ const getParams211 = (payload, reten) => {
 const getParams214 = (payload) => {
   const { negeri, daerah, klinik } = payload;
 
-  const byKp = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByKodFasiliti: { $eq: klinik },
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
+  const params = {
+    tarikhKedatangan: dateModifier(payload),
+    umur: { $gte: 59 },
+    deleted: false,
+    statusKehadiran: false,
+    oncall: { $in: [false, null] },
   };
 
-  const byDaerah = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      createdByDaerah: { $eq: daerah },
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
-  };
-
-  const byNegeri = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
-  };
-
-  const satuMalaysia = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
-  };
-
-  switch (true) {
-    case negeri === 'all':
-      return satuMalaysia(payload);
-    case daerah !== 'all' && klinik !== 'all':
-      return byKp(payload);
-    case daerah !== 'all' && klinik === 'all':
-      return byDaerah(payload);
-    case daerah === 'all':
-      return byNegeri(payload);
-    default:
-      return null;
+  if (negeri !== 'all') {
+    params.createdByNegeri = { $eq: negeri };
   }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = { $eq: daerah };
+  }
+
+  if (klinik !== 'all') {
+    params.createdByKodFasiliti = { $eq: klinik };
+  }
+
+  return params;
 };
 const getParams206 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
