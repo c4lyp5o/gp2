@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { FaWindowClose } from 'react-icons/fa';
 
@@ -8,8 +8,7 @@ import { useGlobalUserAppContext } from '../../context/userAppContext';
 import mysejahtera from '../../../assets/MySejahtera.png';
 
 export default function MyVas({ handleSubmitMyVas }) {
-  const { kaunterToken, myVasToken, setMyVasToken, setMyVasIdToken, navigate } =
-    useGlobalUserAppContext();
+  const { kaunterToken, myVasToken, navigate } = useGlobalUserAppContext();
 
   const searchParamsic = new URLSearchParams(useLocation().search);
   const nricParam = searchParamsic.get('nric');
@@ -26,10 +25,6 @@ export default function MyVas({ handleSubmitMyVas }) {
   const [txtCity, setTxtCity] = useState('');
 
   const [appointmentList, setAppointmentList] = useState([]);
-
-  // state untuk myvas code
-  const [searchParams] = useSearchParams();
-  const code = searchParams.get('code');
 
   const nodejs_patient = '/api/v1/myvas/appointment-list';
 
@@ -59,32 +54,6 @@ export default function MyVas({ handleSubmitMyVas }) {
       });
     };
     fetchMyVasData();
-  }, []);
-
-  // dapatkan token MyVas
-  useEffect(() => {
-    if (code) {
-      const getMyVasToken = async () => {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${kaunterToken}`,
-          },
-        };
-        await axios
-          .get(`/api/v1/myvas/callback?code=${code}`, config)
-          .then((res) => {
-            localStorage.setItem('myVasToken', res.data.myVasToken);
-            localStorage.setItem('myVasIdToken', res.data.myVasIdToken);
-            setMyVasToken(res.data.myVasToken);
-            setMyVasIdToken(res.data.myVasIdToken);
-            navigate('/pendaftaran/daftar/kp/myvas');
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
-      getMyVasToken();
-    }
   }, []);
 
   const AppointmentList = ({ appointment, index }) => {

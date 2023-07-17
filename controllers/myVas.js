@@ -262,7 +262,6 @@ async function logOutMyVas(req, res) {
   // }
   // if (req.session[process.env.MYVAS_APP_TOKEN]) {
   // let idTokenHint = req.session[process.env.MYVAS_ID_TOKEN];
-  console.log(arrayOfHeader);
   if (arrayOfHeader[3]) {
     await axios.get(
       `${process.env.MYVAS_AUTH_SERVER}${process.env.MYVAS_LOGOUT_ENDPOINT}?id_token_hint=${arrayOfHeader[3]}`

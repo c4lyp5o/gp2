@@ -22,8 +22,6 @@ import Datetime from 'react-datetime';
 
 import Confirmation from './Confirmation';
 
-import MyVas from './MyVas';
-
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 import mysejahtera from '../../../assets/MySejahtera.png';
@@ -1584,7 +1582,7 @@ export default function FillableForm({
                       jenisFasiliti === 'kp' ? (
                         <span
                           onClick={() => {
-                            navigate('/pendaftaran/daftar/kp/myVas');
+                            navigate('/pendaftaran/daftar/kp/myvas');
                           }}
                           className='absolute -right-24 top-2 bg-user1 text-userWhite rounded-md text-sm px-1.5 py-1 hover:bg-user3 hover:text-userBlack cursor-pointer flex items-center'
                         >

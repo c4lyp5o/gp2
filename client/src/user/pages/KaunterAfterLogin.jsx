@@ -7,10 +7,11 @@ import KaunterNavbar from '../components/KaunterNavbar';
 import KaunterHeaderLoggedIn from '../components/KaunterHeaderLoggedIn';
 import KaunterLanding from '../components/KaunterLanding';
 import Kaunter from '../components/Kaunter';
+import MyVas from '../components/pt-registration/MyVas';
+import MyVasCallback from '../components/pt-registration/MyVasCallback';
 import KaunterDaftarPesakit from '../components/KaunterDaftarPesakit';
 import KaunterLoggedInNotFound from './KaunterLoggedInNotFound';
 import KaunterFooter from '../components/KaunterFooter';
-import MyVas from '../components/pt-registration/MyVas';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -42,7 +43,6 @@ function KaunterAfterLogin() {
 
   const handleSubmitMyVas = async (patientId) => {
     const nodejs_patient_details = '/api/v1/myvas/patient-details?nric=';
-    // setAddingData(true);
     const config = {
       withCredentials: true,
       headers: {
@@ -68,7 +68,6 @@ function KaunterAfterLogin() {
         setDariMyVas(true);
         setPatientDataFromMyVas(patientData);
       });
-    // setAddingData(false);
   };
 
   const logOutNotiSystem = () => {
@@ -183,9 +182,9 @@ function KaunterAfterLogin() {
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 createdByNegeri={createdByNegeri}
-                patientDataFromMyVas={patientDataFromMyVas}
                 dariMyVas={dariMyVas}
                 setDariMyVas={setDariMyVas}
+                patientDataFromMyVas={patientDataFromMyVas}
               />
             }
           />
@@ -193,6 +192,7 @@ function KaunterAfterLogin() {
             path='kp/myvas'
             element={<MyVas handleSubmitMyVas={handleSubmitMyVas} />}
           />
+          <Route path='kp/myvas/callback' element={<MyVasCallback />} />
           <Route
             path='kk-kd'
             element={
