@@ -9415,6 +9415,402 @@ const id203AllOAP = {
   },
 };
 
+// ni untuk 211
+const outputReq211 = {
+  jumlahReten: { $sum: 1 },
+  statusReten: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$statusReten', 'reten salah'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahLelaki: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            { $eq: ['$jantina', 'lelaki'] },
+            { $eq: ['$jantina', ''] }, // sementara waktu
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahPerempuan: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$jantina', 'perempuan'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahMelayu: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            {
+              $eq: ['$kumpulanEtnik', 'melayu'],
+            },
+            {
+              $eq: ['$kumpulanEtnik', null],
+            },
+            {
+              $eq: ['$kumpulanEtnik', ''],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahCina: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'cina'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahIndia: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'india'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahBajau: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'bajau'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahDusun: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'dusun'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahKadazan: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'kadazan'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahMurut: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'murut'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahBMSL: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'bumiputera sabah lain'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahMelanau: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'melanau'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahKedayan: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'kedayan'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahIban: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'iban'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahBidayuh: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'bidayuh'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahPenan: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'penan'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahBMSwL: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'bumiputera sarawak lain'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahOA: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'orang asli semenanjung'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahLainlain: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'lain-lain'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahBukanWarganegara: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'bukan warganegara'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahIbuMengandung: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $eq: ['$ibuMengandung', true],
+            },
+            {
+              $gte: ['$umur', 7],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahBersekolah: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$bersekolah', true],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahOKU: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$orangKurangUpaya', true],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahPesaraKerajaan: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$statusPesara', 'pesara-kerajaan'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahPesaraATM: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$statusPesara', 'pesara-atm'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahRujukanDalaman: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$rujukDaripada', 'dalaman'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahRujukanKP: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$rujukDaripada', 'kp'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahRujukanKK: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$rujukDaripada', 'kk'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahRujukanHospital: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$rujukDaripada', 'hospital/institusi-kerajaan'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahRujukanSwasta: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$rujukDaripada', 'swasta'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahRujukanLainlain: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$rujukDaripada', 'lain-lain'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+};
+
 // ni untuk 214
 const groupPG214 = {
   jumlahReten: {
@@ -14384,6 +14780,7 @@ module.exports = {
   id203OAP,
   id203AllKPSKPB,
   id203AllOAP,
+  outputReq211,
   groupPG214,
   groupSekolah,
   groupSekolahPemeriksaan,
