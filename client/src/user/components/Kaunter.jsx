@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import moment from 'moment';
@@ -17,9 +16,11 @@ function Kaunter({
   createdByKp,
   createdByDaerah,
   createdByNegeri,
+  patientDataFromMyVas,
+  dariMyVas,
+  setDariMyVas,
 }) {
-  const { kaunterToken, setMyVasToken, setMyVasIdToken, navigate, dateToday } =
-    useGlobalUserAppContext();
+  const { kaunterToken, dateToday } = useGlobalUserAppContext();
 
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
@@ -34,10 +35,6 @@ function Kaunter({
   const [showPilihanProgram, setShowPilihanProgram] = useState(false);
   const [dariFormProgramKomuniti, setDariFormProgramKomuniti] = useState(false);
   const [fetchProgramData, setFetchProgramData] = useState(false);
-
-  // state untuk myvas code
-  const [searchParams] = useSearchParams();
-  const code = searchParams.get('code');
 
   useEffect(() => {
     if (showForm === false && jenisFasiliti !== 'projek-komuniti-lain') {
@@ -116,31 +113,12 @@ function Kaunter({
     }
   }, [jenisFasiliti]);
 
-  // dapatkan token MyVas
+  //show FillableForm if dariMyVas === true
   useEffect(() => {
-    if (code) {
-      const getMyVasToken = async () => {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${kaunterToken}`,
-          },
-        };
-        await axios
-          .get(`/api/v1/myvastest/callback?code=${code}`, config)
-          .then((res) => {
-            localStorage.setItem('myVasToken', res.data.myVasToken);
-            localStorage.setItem('myVasIdToken', res.data.myVasIdToken);
-            setMyVasToken(res.data.myVasToken);
-            setMyVasIdToken(res.data.myVasIdToken);
-            navigate('/pendaftaran/daftar/kp');
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
-      getMyVasToken();
+    if (dariMyVas) {
+      setShowForm(true);
     }
-  }, []);
+  }, [dariMyVas]);
 
   if (loading) {
     return (
@@ -188,6 +166,9 @@ function Kaunter({
           fetchProgramData={fetchProgramData}
           setFetchProgramData={setFetchProgramData}
           kp={createdByKp}
+          dariMyVas={dariMyVas}
+          setDariMyVas={setDariMyVas}
+          patientDataFromMyVas={patientDataFromMyVas}
         />
         {jenisFasiliti === 'projek-komuniti-lain' ? (
           <KaunterKomunitiLain
