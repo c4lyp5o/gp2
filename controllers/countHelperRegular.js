@@ -6617,7 +6617,7 @@ const countPGS201 = async (payload) => {
       payload.pilihanTadika ||
       (!payload.pilihanTadika && !payload.pilihanSekolah)
     ) {
-      console.log('ada pilihan tadika');
+      // console.log('ada pilihan tadika');
       for (const stage of match_stage) {
         const dataPG201 = await Umum.aggregate([...stage, ...group_stage]);
         bigData.push(dataPG201);
@@ -6663,11 +6663,15 @@ const countPGS201 = async (payload) => {
       bigData[0][0] = { ...bigData[0][0], ...totalEnrolmentTastadPra };
     }
 
+    if (!payload.pilihanTadika && payload.pilihanSekolah) {
+      bigData.push([], [], [], []);
+    }
+
     if (
       payload.pilihanSekolah ||
       (!payload.pilihanTadika && !payload.pilihanSekolah)
     ) {
-      console.log('ada pilihan sekolah');
+      // console.log('ada pilihan sekolah');
       // sekolah
       // // one ring to rule them all
       const dataSekolahPemeriksaan = await Fasiliti.aggregate([
