@@ -1584,7 +1584,8 @@ export default function FillableForm({
                       {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
                         import.meta.env.VITE_ENV === 'DEV') &&
                       jenisFasiliti === 'kp' &&
-                      !editId ? (
+                      !editId &&
+                      kp === 'Klinik Pergigian Senggarang' ? (
                         <span
                           onClick={() => {
                             setDariMyVas(false);
