@@ -6,6 +6,7 @@ const MediaSosial = require('../models/MediaSosial');
 const { errorRetenLogger } = require('../logs/logger');
 const {
   ultimateCutoff,
+  ultimateCutoffPromosiEdition,
   placeModifier,
   getParams101,
   getParams211,
@@ -8027,6 +8028,7 @@ const countPGPro01 = async (payload) => {
   const match_stage = {
     $match: {
       ...getParamsPgPro(payload),
+      ...ultimateCutoffPromosiEdition(payload),
     },
   };
 
@@ -8418,6 +8420,7 @@ const countPGPro01Combined = async (payload) => {
   const main_switch = {
     $match: {
       ...getParamsPgPro(payload),
+      ...ultimateCutoffPromosiEdition(payload),
     },
   };
 
