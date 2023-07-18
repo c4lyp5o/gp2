@@ -70,18 +70,18 @@ export default function MyVas({ handleSubmitMyVas }) {
           <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
             {index + 1}
           </td>
-          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
             {patientname}
           </td>
-          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1  md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
             {patientIdentifier}
           </td>
-          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 w-60'>
             {moment(timeslot).format('hh:mm A')}
           </td>
-          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-2 w-60'>
             <span
-              className='bg-user1 text-userWhite px-2 py-1 rounded-md cursor-pointer'
+              className='bg-user1 text-userWhite px-2 py-1 rounded-md cursor-pointer m-3'
               onClick={() => {
                 handleSubmitMyVas(patientIdentifier, timeslot);
                 navigate('/pendaftaran/daftar/kp');
@@ -119,9 +119,9 @@ export default function MyVas({ handleSubmitMyVas }) {
         <div className='my-4 mb-1 text-2xl font-semibold'>
           <h1> Senarai Temujanji Hari Ini </h1>
         </div>
-        <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2'>
-          <table className='table-auto'>
-            <thead className='text-userWhite bg-kaunter2'>
+        <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2 px-24'>
+          <table className='table-auto rounded-md'>
+            <thead className='text-userWhite bg-kaunter2 rounded-t-md'>
               <tr>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   BIL

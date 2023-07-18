@@ -907,6 +907,7 @@ export default function FillableForm({
     if (dariMyVas) {
       const timeString = moment(masaTemujanji).format('HH:mm');
       const jantinaMyvas =
+        patientDataFromMyVas.resource.gender &&
         patientDataFromMyVas.resource.gender === 'female'
           ? 'perempuan'
           : 'lelaki';
@@ -915,11 +916,25 @@ export default function FillableForm({
       setWaktuTemujanjiDT(moment(masaTemujanji).toDate());
       setJenisIc('mykad-mykid');
       setIc(patientDataFromMyVas.resource.identifier[0].value);
-      setNomborTelefon(patientDataFromMyVas.resource.telecom[0].value);
-      setNama(patientDataFromMyVas.resource.name[0].given[0]);
+      setNomborTelefon(
+        patientDataFromMyVas.resource.telecom[0].value &&
+          patientDataFromMyVas.resource.telecom[0].value
+      );
+      setNama(
+        patientDataFromMyVas.resource.name[0].given[0] &&
+          patientDataFromMyVas.resource.name[0].given[0]
+      );
       setJantina(jantinaMyvas);
-      setTarikhLahir(patientDataFromMyVas.resource.birthDate);
-      setTarikhLahirDP(new Date(patientDataFromMyVas.resource.birthDate));
+      setTarikhLahir(
+        patientDataFromMyVas.resource.birthDate &&
+          patientDataFromMyVas.resource.birthDate
+      );
+      setTarikhLahirDP(
+        new Date(
+          patientDataFromMyVas.resource.birthDate &&
+            patientDataFromMyVas.resource.birthDate
+        )
+      );
       const tarikhLahirObj = moment(
         patientDataFromMyVas.resource.birthDate
       ).toDate();
@@ -929,23 +944,38 @@ export default function FillableForm({
       setUmur(tahun);
       setUmurBulan(bulan);
       setUmurHari(hari);
-      setPoskodAlamat(patientDataFromMyVas.resource.address[0].postalCode);
+      setPoskodAlamat(
+        patientDataFromMyVas.resource.address[0].postalCode &&
+          patientDataFromMyVas.resource.address[0].postalCode
+      );
       setNegeriAlamat(
-        patientDataFromMyVas.resource.address[0].state.toLowerCase()
+        patientDataFromMyVas.resource.address[0].state &&
+          patientDataFromMyVas.resource.address[0].state.toLowerCase()
       );
       setConfirmData({
         temujanji: true,
         waktuTemujanji: timeString,
-        ic: patientDataFromMyVas.resource.identifier[0].value,
-        nomborTelefon: patientDataFromMyVas.resource.telecom[0].value,
-        nama: patientDataFromMyVas.resource.name[0].given[0],
+        ic:
+          patientDataFromMyVas.resource.identifier[0].value &&
+          patientDataFromMyVas.resource.identifier[0].value,
+        nomborTelefon:
+          patientDataFromMyVas.resource.telecom[0].value &&
+          patientDataFromMyVas.resource.telecom[0].value,
+        nama:
+          patientDataFromMyVas.resource.name[0].given[0] &&
+          patientDataFromMyVas.resource.name[0].given[0],
         jantina: jantinaMyvas,
-        tarikhLahir: patientDataFromMyVas.resource.birthDate,
+        tarikhLahir:
+          patientDataFromMyVas.resource.birthDate &&
+          patientDataFromMyVas.resource.birthDate,
         umur: tahun,
         umurBulan: bulan,
         umurHari: hari,
-        poskodAlamat: patientDataFromMyVas.resource.address[0].postalCode,
+        poskodAlamat:
+          patientDataFromMyVas.resource.address[0].postalCode &&
+          patientDataFromMyVas.resource.address[0].postalCode,
         negeriAlamat:
+          patientDataFromMyVas.resource.address[0].state &&
           patientDataFromMyVas.resource.address[0].state.toLowerCase(),
       });
       // setDariMyVas(false);
