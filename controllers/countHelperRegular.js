@@ -6,6 +6,7 @@ const MediaSosial = require('../models/MediaSosial');
 const { errorRetenLogger } = require('../logs/logger');
 const {
   ultimateCutoff,
+  ultimateCutoffPromosiEdition,
   placeModifier,
   getParams101,
   getParams211,
@@ -409,7 +410,7 @@ const countPG206 = async (payload) => {
   const main_switch = {
     $match: {
       ...getParams206(payload),
-      ...ultimateCutoff,
+      ...ultimateCutoff(payload),
     },
   };
 
@@ -2322,16 +2323,22 @@ const countPG206 = async (payload) => {
       dataRawatan.push({ queryRawatan });
     }
 
-    for (let i = 0; i < match_stage_operatorLain.length; i++) {
-      const pipeline = [
-        main_switch,
-        match_stage_operatorLain[i],
-        ...getParamsOperatorLain,
-        ...hotfix206,
-        group_operatorLain,
-      ];
-      const queryOperatorLain = await Umum.aggregate(pipeline);
-      dataOperatorLain.push({ queryOperatorLain });
+    if (!payload.pilihanIndividu) {
+      for (let i = 0; i < match_stage_operatorLain.length; i++) {
+        const pipeline = [
+          main_switch,
+          match_stage_operatorLain[i],
+          ...getParamsOperatorLain,
+          {
+            $match: {
+              createdByMdcMdtb: { $regex: /^mdtb/i },
+            },
+          },
+          group_operatorLain,
+        ];
+        const queryOperatorLain = await Umum.aggregate(pipeline);
+        dataOperatorLain.push({ queryOperatorLain });
+      }
     }
 
     bigData.push(
@@ -2365,7 +2372,7 @@ const countPG207 = async (payload) => {
   const main_switch = {
     $match: {
       ...getParams207(payload),
-      ...ultimateCutoff,
+      ...ultimateCutoff(payload),
     },
   };
 
@@ -5185,7 +5192,11 @@ const countPG207 = async (payload) => {
           main_switch,
           match_stage_operatorLain[i],
           ...getParamsOperatorLain,
-          ...hotfix207,
+          {
+            $match: {
+              createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i },
+            },
+          },
           group_operatorLain,
         ];
         const queryOperatorLain = await Umum.aggregate(pipeline);
@@ -5232,7 +5243,7 @@ const countPG214 = async (payload) => {
     {
       $match: {
         ...getParams214(payload),
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
       },
     },
     {
@@ -5423,7 +5434,7 @@ const countPGPR201 = async (payload) => {
   const main_switch = {
     $match: {
       ...getParamsPgpr201(payload),
-      ...ultimateCutoff,
+      ...ultimateCutoff(payload),
     },
   };
 
@@ -5742,7 +5753,7 @@ const countPGS201 = async (payload) => {
     {
       $match: {
         ...getParamsPGS201(payload),
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         $expr: {
           $and: [
             {
@@ -5797,7 +5808,7 @@ const countPGS201 = async (payload) => {
     {
       $match: {
         ...getParamsPGS201(payload),
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         $expr: {
           $and: [
             {
@@ -5851,7 +5862,7 @@ const countPGS201 = async (payload) => {
   const pra_tad_OKU = [
     {
       $match: {
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         ...getParamsPGS201(payload),
         $expr: {
           $and: [
@@ -5921,7 +5932,7 @@ const countPGS201 = async (payload) => {
   const pra_tad_OA_penan = [
     {
       $match: {
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         ...getParamsPGS201(payload),
         $expr: {
           $and: [
@@ -6846,7 +6857,7 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         ...getParamsPGS203(payload),
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         $expr: {
           $and: [
             {
@@ -6917,7 +6928,7 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         ...getParamsPGS203(payload),
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         $expr: {
           $and: [
             {
@@ -6988,7 +6999,7 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         ...getParamsPGS203(payload),
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         $expr: {
           $and: [
             {
@@ -7057,7 +7068,7 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         ...getParamsPGS203(payload),
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         $expr: {
           $and: [
             {
@@ -8017,6 +8028,7 @@ const countPGPro01 = async (payload) => {
   const match_stage = {
     $match: {
       ...getParamsPgPro(payload),
+      ...ultimateCutoffPromosiEdition(payload),
     },
   };
 
@@ -8408,6 +8420,7 @@ const countPGPro01Combined = async (payload) => {
   const main_switch = {
     $match: {
       ...getParamsPgPro(payload),
+      ...ultimateCutoffPromosiEdition(payload),
     },
   };
 
@@ -8762,7 +8775,7 @@ const countGender = async (payload) => {
   const main_switch = {
     $match: {
       ...getParamsGender(payload),
-      ...ultimateCutoff,
+      ...ultimateCutoff(payload),
     },
   };
   //
@@ -9026,7 +9039,7 @@ const countMasa = async (payload) => {
   const main_switch = {
     $match: {
       ...getParamsPiagamMasa(payload),
-      ...ultimateCutoff,
+      ...ultimateCutoff(payload),
     },
   };
   let match_stage_op = [];
@@ -9714,7 +9727,7 @@ const countBp = async (payload) => {
       const dataMelayu = await Umum.aggregate([
         {
           $match: {
-            ...ultimateCutoff,
+            ...ultimateCutoff(payload),
           },
         },
         match_stage_melayu[i],
@@ -9726,7 +9739,7 @@ const countBp = async (payload) => {
       const dataCina = await Umum.aggregate([
         {
           $match: {
-            ...ultimateCutoff,
+            ...ultimateCutoff(payload),
           },
         },
         match_stage_cina[i],
@@ -9738,7 +9751,7 @@ const countBp = async (payload) => {
       const dataIndia = await Umum.aggregate([
         {
           $match: {
-            ...ultimateCutoff,
+            ...ultimateCutoff(payload),
           },
         },
         match_stage_india[i],
@@ -9750,7 +9763,7 @@ const countBp = async (payload) => {
       const dataBumiputeraSabah = await Umum.aggregate([
         {
           $match: {
-            ...ultimateCutoff,
+            ...ultimateCutoff(payload),
           },
         },
         match_stage_bumiputeraSabah[i],
@@ -9762,7 +9775,7 @@ const countBp = async (payload) => {
       const dataBumiputeraSarawak = await Umum.aggregate([
         {
           $match: {
-            ...ultimateCutoff,
+            ...ultimateCutoff(payload),
           },
         },
         match_stage_bumiputeraSarawak[i],
@@ -9774,7 +9787,7 @@ const countBp = async (payload) => {
       const dataOrangAsliSemenanjung = await Umum.aggregate([
         {
           $match: {
-            ...ultimateCutoff,
+            ...ultimateCutoff(payload),
           },
         },
         match_stage_orangAsliSemenanjung[i],
@@ -9786,7 +9799,7 @@ const countBp = async (payload) => {
       const dataLain = await Umum.aggregate([
         {
           $match: {
-            ...ultimateCutoff,
+            ...ultimateCutoff(payload),
           },
         },
         match_stage_lain[i],
@@ -9817,7 +9830,7 @@ const countBPE = async (payload) => {
   const main_switch = {
     $match: {
       ...getParamsBPE(payload),
-      ...ultimateCutoff,
+      ...ultimateCutoff(payload),
     },
   };
   //
@@ -10319,7 +10332,7 @@ const countTOD = async (payload) => {
     {
       $match: {
         ...getParamsTOD(payload),
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         kedatangan: 'baru-kedatangan',
         umur: { $eq: 1 },
         umurBulan: { $eq: 6 },
@@ -10331,7 +10344,7 @@ const countTOD = async (payload) => {
     {
       $match: {
         ...getParamsTOD(payload),
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         kedatangan: 'baru-kedatangan',
         umur: { $eq: 3 },
         umurBulan: { $eq: 0 },
@@ -10672,23 +10685,6 @@ const countAdHocQuery = async (
     throw new Error(error);
   }
 };
-
-// temp fix
-const hotfix206 = [
-  {
-    $match: {
-      createdByMdcMdtb: { $regex: /^mdtb/i },
-    },
-  },
-];
-
-const hotfix207 = [
-  {
-    $match: {
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i },
-    },
-  },
-];
 
 module.exports = {
   countPG101A,

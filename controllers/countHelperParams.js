@@ -1,38 +1,45 @@
 const moment = require('moment');
 
 //BISMILLAH ALLAH BAGI ILHAM
-const ultimateCutoff = {
-  $expr: {
-    $and: [
-      {
-        $not: {
-          $gt: [
-            '$createdAt',
-            {
-              $dateFromParts: {
-                year: {
-                  $year: {
-                    $toDate: '$tarikhKedatangan',
+const ultimateCutoff = (payload) => {
+  const { tarikhMula, tarikhAkhir } = payload;
+
+  const mula = moment(tarikhMula).format('MM-DD');
+  const akhir = moment(tarikhAkhir).format('MM-DD');
+
+  console.log(mula, akhir);
+
+  if (mula === '01-01' && akhir === '06-30') {
+    console.log('janjun');
+    return {
+      $expr: {
+        $and: [
+          {
+            $not: {
+              $gt: [
+                '$updatedAt',
+                {
+                  $dateFromParts: {
+                    year: {
+                      $year: '$createdAt',
+                    },
+                    month: 7,
+                    day: 6,
+                    hour: 16,
                   },
                 },
-                month: {
-                  $add: [
-                    {
-                      $month: {
-                        $toDate: '$tarikhKedatangan',
-                      },
-                    },
-                    1,
-                  ],
-                },
-                day: 6,
-                hour: 16,
-              },
+              ],
             },
-          ],
-        },
+          },
+        ],
       },
-      {
+    };
+  }
+
+  if (mula === '01-01' && akhir === '12-31') {
+    console.log('jandis');
+    return {
+      $expr: {
         $not: {
           $gt: [
             '$updatedAt',
@@ -41,23 +48,146 @@ const ultimateCutoff = {
                 year: {
                   $year: '$createdAt',
                 },
-                month: {
-                  $add: [
-                    {
-                      $month: '$createdAt',
-                    },
-                    1,
-                  ],
-                },
-                day: 6,
-                hour: 16,
+                month: 12,
+                day: 31,
+                hour: 23,
+                minute: 59,
               },
             },
           ],
         },
       },
-    ],
-  },
+    };
+  }
+
+  console.log('normal date');
+  return {
+    $expr: {
+      $and: [
+        {
+          $not: {
+            $gt: [
+              '$createdAt',
+              {
+                $dateFromParts: {
+                  year: {
+                    $year: {
+                      $toDate: '$tarikhKedatangan',
+                    },
+                  },
+                  month: {
+                    $add: [
+                      {
+                        $month: {
+                          $toDate: '$tarikhKedatangan',
+                        },
+                      },
+                      1,
+                    ],
+                  },
+                  day: 6,
+                  hour: 16,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $not: {
+            $gt: [
+              '$updatedAt',
+              {
+                $dateFromParts: {
+                  year: {
+                    $year: '$createdAt',
+                  },
+                  month: {
+                    $add: [
+                      {
+                        $month: '$createdAt',
+                      },
+                      1,
+                    ],
+                  },
+                  day: 6,
+                  hour: 16,
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
+};
+
+const ultimateCutoffPromosiEdition = (payload) => {
+  const { tarikhMula, tarikhAkhir } = payload;
+
+  const mula = moment(tarikhMula).format('MM-DD');
+  const akhir = moment(tarikhAkhir).format('MM-DD');
+
+  console.log(mula, akhir);
+
+  if (mula === '01-01' && akhir === '12-31') {
+    console.log('jandis');
+    return {
+      $expr: {
+        $not: {
+          $gt: [
+            '$updatedAt',
+            {
+              $dateFromParts: {
+                year: {
+                  $year: '$updatedAt',
+                },
+                month: 12,
+                day: 31,
+                hour: 23,
+                minute: 59,
+              },
+            },
+          ],
+        },
+      },
+    };
+  }
+
+  console.log('normal date');
+  return {
+    $expr: {
+      $and: [
+        {
+          $not: {
+            $gt: [
+              '$updatedAt',
+              {
+                $dateFromParts: {
+                  year: {
+                    $year: {
+                      $toDate: '$tarikhAkhir',
+                    },
+                  },
+                  month: {
+                    $add: [
+                      {
+                        $month: {
+                          $toDate: '$tarikhAkhir',
+                        },
+                      },
+                      1,
+                    ],
+                  },
+                  day: 6,
+                  hour: 16,
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
 };
 
 // PARAMS LIVES HERE
@@ -1235,6 +1365,7 @@ const dateModifier = (payload) => {
 module.exports = {
   // bismillah
   ultimateCutoff,
+  ultimateCutoffPromosiEdition,
   // countHelper regular
   getParams101,
   getParams211,
