@@ -7222,6 +7222,14 @@ const makeTOD = async (payload) => {
       return 'No data found';
     }
     //
+    const jumlahPPdanJP = await Operator.countDocuments({
+      ...(negeri !== 'all' && { createdByNegeri: negeri }),
+      ...(daerah !== 'all' && { createdByDaerah: daerah }),
+      ...(klinik !== 'all' && { kodFasiliti: klinik }),
+      statusPegawai: { $in: ['pp', 'jp'] },
+      activationStatus: true,
+    });
+    //
     if (klinik !== 'all') {
       const currentKlinik = await User.findOne({
         kodFasiliti: klinik,
@@ -7254,25 +7262,8 @@ const makeTOD = async (payload) => {
     //   worksheet.getCell('B9').value = `${currentIndividu.nama.toUpperCase()}`;
     // }
 
-    const jumlahPPdanJP = await Operator.aggregate([
-      {
-        $match: {
-          ...(negeri !== 'all' ? { createdByNegeri: negeri } : null),
-          ...(daerah !== 'all' ? { createdByDaerah: daerah } : null),
-          ...(klinik !== 'all' ? { kodFasiliti: klinik } : null),
-          statusPegawai: { $in: ['pp', 'jp'] },
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          jumlah: { $sum: 1 },
-        },
-      },
-    ]);
-
     worksheet.getCell('C8').value =
-      jumlahPPdanJP.length > 0 ? `${jumlahPPdanJP[0].jumlah}` : 'TIADA DATA';
+      jumlahPPdanJP != 0 ? `${jumlahPPdanJP}` : 'TIADA DATA';
     worksheet.getCell('C7').value = `${klinik.toUpperCase()}`;
     worksheet.getCell(
       'C6'
@@ -7280,91 +7271,113 @@ const makeTOD = async (payload) => {
 
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
-    let j;
-    //
-    j = 0;
-    for (let i = 0; i < data[0].length; i++) {
-      const queryBaru = data[0][i] || [];
 
-      if (queryBaru) {
-        const row = worksheet.getRow(19 + j);
-        row.getCell(3).value = queryBaru.kedatanganTahunSemasaBaru;
-        row.getCell(5).value = queryBaru.jumlahd;
-        row.getCell(7).value = queryBaru.jumlahf;
-        row.getCell(8).value = queryBaru.jumlahx;
-        // row.getCell(10).value = queryBaru.jumlahdfx;
-        row.getCell(11).value = queryBaru.dfxEqualToZero;
-        row.getCell(12).value = queryBaru.skorPlakA;
-        row.getCell(13).value = queryBaru.skorPlakC;
-        row.getCell(14).value = queryBaru.skorPlakE;
-        row.getCell(15).value = queryBaru.TPR;
-        row.getCell(16).value = queryBaru.jumlahKecederaanTisuLembut;
-        row.getCell(17).value = queryBaru.jumlahKecederaanTisuKeras;
-        row.getCell(19).value = queryBaru.perluSapuanFluorida;
-        row.getCell(20).value = queryBaru.sudahSapuanFluorida;
-        row.getCell(21).value = queryBaru.jumlahTampalanAnteriorBaru;
-        row.getCell(22).value = queryBaru.jumlahTampalanPosteriorBaru;
+    // baru
+    const rowBaru = [19, 21, 23, 25, 27];
+    const arraysBaru = [
+      data[0][0].baru_taska,
+      data[0][0].baru_tadika,
+      data[0][0].baru_kkia,
+      data[0][0].baru_op,
+      data[0][0].baru_outreach,
+    ];
+
+    for (let i = 0; i < arraysBaru.length; i++) {
+      const arrayBaru = arraysBaru[i];
+      const rowIndex = rowBaru[i];
+
+      for (const item of arrayBaru) {
+        const row = worksheet.getRow(rowIndex);
+        row.getCell(3).value = item.kedatanganTahunSemasaBaru;
+        row.getCell(5).value = item.jumlahd;
+        row.getCell(7).value = item.jumlahf;
+        row.getCell(8).value = item.jumlahx;
+        // row.getCell(10).value = item.jumlahdfx;
+        row.getCell(11).value = item.dfxEqualToZero;
+        row.getCell(12).value = item.skorPlakA;
+        row.getCell(13).value = item.skorPlakC;
+        row.getCell(14).value = item.skorPlakE;
+        row.getCell(15).value = item.TPR;
+        row.getCell(16).value = item.jumlahKecederaanTisuLembut;
+        row.getCell(17).value = item.jumlahKecederaanTisuKeras;
+        row.getCell(19).value = item.perluSapuanFluorida;
+        row.getCell(20).value = item.sudahSapuanFluorida;
+        row.getCell(21).value = item.jumlahTampalanAnteriorBaru;
+        row.getCell(22).value = item.jumlahTampalanPosteriorBaru;
         // CRA nak data baru je
-        row.getCell(30).value = queryBaru.craRendah;
-        row.getCell(31).value = queryBaru.craSederhana;
-        row.getCell(32).value = queryBaru.craTinggi;
+        row.getCell(30).value = item.craRendah;
+        row.getCell(31).value = item.craSederhana;
+        row.getCell(32).value = item.craTinggi;
       }
-      j += 2;
     }
 
-    j = 0;
+    // ulangan
+    const rowBu = [20, 22, 24, 26, 28];
+    const arraysBu = [
+      data[0][0].baruUlangan_taska,
+      data[0][0].baruUlangan_tadika,
+      data[0][0].baruUlangan_kkia,
+      data[0][0].baruUlangan_op,
+      data[0][0].baruUlangan_outreach,
+    ];
+
+    for (let i = 0; i < arraysBu.length; i++) {
+      const arrayBu = arraysBu[i];
+      const rowIndex = rowBu[i];
+
+      for (const item of arrayBu) {
+        const row = worksheet.getRow(rowIndex);
+        row.getCell(4).value = item.kedatanganTahunSemasaUlangan;
+        row.getCell(19).value = item.perluSapuanFluoridaBu;
+        row.getCell(20).value = item.sudahSapuanFluoridaBu;
+        row.getCell(21).value = item.jumlahTampalanAnteriorBu;
+        row.getCell(22).value = item.jumlahTampalanPosteriorBu;
+        row.getCell(24).value = item.jumlahCabutan;
+        row.getCell(25).value = item.jumlahAbses;
+        row.getCell(26).value = item.jumlahPulpotomi;
+        row.getCell(27).value = item.rujukanAgensiLuar;
+      }
+    }
+
+    // op lain
+    const rowOplain = [20, 22, 24, 26, 28];
+    const arraysOplain = [
+      data[0][0].opLain_taska,
+      data[0][0].opLain_tadika,
+      data[0][0].opLain_kkia,
+      data[0][0].opLain_op,
+      data[0][0].opLain_outreach,
+    ];
+
+    for (let i = 0; i < arraysOplain.length; i++) {
+      const arrayOplain = arraysBu[i];
+      const rowIndex = rowOplain[i];
+
+      for (const item of arrayOplain) {
+        const row = worksheet.getRow(rowIndex);
+        row.getCell(4).value += item.kedatanganTahunSemasaUlangan;
+        row.getCell(19).value += item.perluSapuanFluoridaBu;
+        row.getCell(20).value += item.sudahSapuanFluoridaBu;
+        row.getCell(21).value += item.jumlahTampalanAnteriorBu;
+        row.getCell(22).value += item.jumlahTampalanPosteriorBu;
+        row.getCell(24).value += item.jumlahCabutan;
+        row.getCell(25).value += item.jumlahAbses;
+        row.getCell(26).value += item.jumlahPulpotomi;
+        row.getCell(27).value += item.rujukanAgensiLuar;
+      }
+    }
+
     for (let i = 0; i < data[1].length; i++) {
-      const queryBu = data[1][i] || [];
+      const query1836 = data[1][i] || [];
 
-      if (queryBu) {
-        let row = worksheet.getRow(20 + j);
-        row.getCell(4).value = queryBu.kedatanganTahunSemasaUlangan;
-        row.getCell(19).value = queryBu.perluSapuanFluoridaBu;
-        row.getCell(20).value = queryBu.sudahSapuanFluoridaBu;
-        row.getCell(21).value = queryBu.jumlahTampalanAnteriorBu;
-        row.getCell(22).value = queryBu.jumlahTampalanPosteriorBu;
-        row.getCell(24).value = queryBu.jumlahCabutan;
-        row.getCell(25).value = queryBu.jumlahAbses;
-        row.getCell(26).value = queryBu.jumlahPulpotomi;
-        row.getCell(27).value = queryBu.rujukanAgensiLuar;
-      }
-      j += 2;
-    }
-
-    j = 0;
-    for (let i = 0; i < data[2].length; i++) {
-      const [queryOplain] = data[2][i].queryOplain || [];
-
-      if (queryOplain) {
-        let row = worksheet.getRow(20 + j);
-        // row.getCell(4).value += queryOplain.kedatanganTahunSemasaUlangan;
-        row.getCell(19).value += queryOplain.perluSapuanFluoridaBu;
-        row.getCell(20).value += queryOplain.sudahSapuanFluoridaBu;
-        j--;
-        row = worksheet.getRow(20 + j);
-        row.getCell(21).value += queryOplain.jumlahTampalanAnteriorBaru;
-        row.getCell(22).value += queryOplain.jumlahTampalanPosteriorBaru;
-        j++;
-        row = worksheet.getRow(20 + j);
-        row.getCell(21).value += queryOplain.jumlahTampalanAnteriorBu;
-        row.getCell(22).value += queryOplain.jumlahTampalanPosteriorBu;
-        row.getCell(24).value += queryOplain.jumlahCabutan;
-        row.getCell(25).value += queryOplain.jumlahAbses;
-        row.getCell(26).value += queryOplain.jumlahPulpotomi;
-        row.getCell(27).value += queryOplain.rujukanAgensiLuar;
-      }
-      j += 2;
-    }
-
-    for (let i = 0; i < data[3].length; i++) {
-      if (data[2][i].query1836[0]) {
+      if (query1836) {
         let row = worksheet.getRow(38 + i);
-        row.getCell(3).value = data[2][i].query1836[0].jumlahKedatanganBaru;
-        row.getCell(4).value = data[2][i].query1836[0].jumlahd;
+        row.getCell(3).value = query1836.jumlahKedatanganBaru;
+        row.getCell(4).value = query1836.jumlahd;
         // row.getCell(5).value = data[2][i].jumlahm;
-        row.getCell(6).value = data[2][i].query1836[0].jumlahf;
-        row.getCell(7).value = data[2][i].query1836[0].jumlahx;
-        row.getCell(10).value = data[2][i].query1836[0].dfxEqualToZero;
+        row.getCell(6).value = query1836.jumlahf;
+        row.getCell(7).value = query1836.jumlahx;
+        row.getCell(10).value = query1836.dfxEqualToZero;
       }
     }
 
@@ -7637,14 +7650,14 @@ const makeBEGIN = async (payload) => {
 
       let row = worksheet.getRow(17 + i);
       if (beginData) {
-        row.getCell(3).value = beginData.jumlah || 0;
+        row.getCell(3).value = beginData?.jumlah || 0;
         // row.getCell(4).value = beginData.jumlahFasiliti || 0;
-        row.getCell(5).value = beginData.jumlahFasilitiMB || 0;
+        row.getCell(5).value = beginData?.jumlahFasilitiMB || 0;
         // skipping cells
-        row.getCell(7).value = beginData.jumlahCRARendah || 0;
-        row.getCell(8).value = beginData.jumlahCRASederhana || 0;
-        row.getCell(9).value = beginData.jumlahCRATinggi || 0;
-        row.getCell(10).value = beginData.jumlahMB || 0;
+        row.getCell(7).value = beginData?.jumlahCRARendah || 0;
+        row.getCell(8).value = beginData?.jumlahCRASederhana || 0;
+        row.getCell(9).value = beginData?.jumlahCRATinggi || 0;
+        row.getCell(10).value = beginData?.jumlahMB || 0;
       }
     }
     for (let i = 0; i < 3; i++) {
@@ -7653,30 +7666,30 @@ const makeBEGIN = async (payload) => {
       switch (i) {
         case 0:
           [beginData] = data[1].prasekolah || [];
-          worksheet.getCell('D19').value += beginData.jumlahFasilitiMB;
+          worksheet.getCell('D19').value += beginData?.jumlahFasilitiMB || 0;
           break;
         case 1:
           [beginData] = data[1].darjah1 || [];
-          worksheet.getCell('D20').value += beginData.jumlahFasilitiMB;
+          worksheet.getCell('D20').value += beginData?.jumlahFasilitiMB || 0;
           break;
         default:
           [beginData] = data[1].lebihDarjah1 || [];
-          worksheet.getCell('D21').value = beginData.jumlahFasilitiMB;
+          worksheet.getCell('D21').value = beginData?.jumlahFasilitiMB || 0;
           break;
       }
 
       let row = worksheet.getRow(19 + i);
       if (beginData) {
-        row.getCell(3).value += beginData.jumlah || 0;
+        row.getCell(3).value += beginData?.jumlah || 0;
         // row.getCell(4).value = beginData.jumlahFasiliti || 0;
-        row.getCell(5).value += beginData.jumlahFasilitiMB || 0;
+        row.getCell(5).value += beginData?.jumlahFasilitiMB || 0;
         // skipping cells
-        row.getCell(7).value += beginData.jumlahCRARendah || 0;
-        row.getCell(8).value += beginData.jumlahCRASederhana || 0;
-        row.getCell(9).value += beginData.jumlahCRATinggi || 0;
-        row.getCell(10).value += beginData.jumlahMB || 0;
+        row.getCell(7).value += beginData?.jumlahCRARendah || 0;
+        row.getCell(8).value += beginData?.jumlahCRASederhana || 0;
+        row.getCell(9).value += beginData?.jumlahCRATinggi || 0;
+        row.getCell(10).value += beginData?.jumlahMB || 0;
         if (i === 2) {
-          row.getCell(12).value += beginData.jumlahCRATinggiBuatBegin || 0;
+          row.getCell(12).value += beginData?.jumlahCRATinggiBuatBegin || 0;
         }
       }
     }
