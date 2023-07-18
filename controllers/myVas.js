@@ -1,5 +1,6 @@
 const axios = require('axios');
 const qs = require('qs');
+const moment = require('moment');
 const { logger } = require('../logs/logger');
 
 async function redirectToAuth(req, res) {
@@ -74,13 +75,21 @@ async function getAppointmentList(req, res) {
   const authHeader = req.headers.authorization;
   const arrayOfHeader = authHeader.split(' ');
 
-  const branchcode = req.query.branchcode;
-  const datefilter = req.query.datefilter;
+  const { data: allFasilitiKp } = await axios.get(
+    `https://gpass.nocturnal.quest/api/getfs?negeri=${req.user.negeri}&daerah=${req.user.daerah}`
+  );
+
+  const currentFasilitiKp = allFasilitiKp.filter((el) => {
+    return el.kodFasilitiGiret === req.user.kodFasiliti;
+  });
+
+  const branchCode = currentFasilitiKp[0].kodFasiliti;
+  const dateFilter = moment().format('YYYY-MM-DD');
 
   const config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|12-345678&date=2023-04-13`,
+    url: `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|${branchCode}&date=${dateFilter}`,
     headers: {
       Authorization: `Bearer ${arrayOfHeader[2]}`,
     },

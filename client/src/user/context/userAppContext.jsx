@@ -326,7 +326,7 @@ function UserAppProvider({ children }) {
   // pendaftaran
   const [kaunterToken, setKaunterToken] = useState(storageKaunterToken);
 
-  // MyVas
+  // MyVAS
   const [myVasToken, setMyVasToken] = useState(storageMyVasToken);
   const [myVasIdToken, setMyVasIdToken] = useState(storageMyVasIdToken);
 
