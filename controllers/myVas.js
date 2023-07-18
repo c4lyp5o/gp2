@@ -94,11 +94,15 @@ async function getAppointmentList(req, res) {
       Authorization: `Bearer ${arrayOfHeader[2]}`,
     },
   };
+
+  console.log(config.url)
+
   try {
     const response = await axios.request(config);
     return res.status(200).json(response.data);
   } catch (error) {
-    redirectToAuth(req, res);
+//    redirectToAuth(req, res);
+console.log(error)
     return;
   }
 }
