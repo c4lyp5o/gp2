@@ -204,7 +204,7 @@ function KaunterAfterLogin() {
                 path='kp/myvas'
                 element={<MyVas handleSubmitMyVas={handleSubmitMyVas} />}
               />
-              <Route path='kp/myvas/callback' element={<MyVasCallback />} />
+              <Route path='kp/callback' element={<MyVasCallback />} />
             </>
           ) : null}
           <Route
