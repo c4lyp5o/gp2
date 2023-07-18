@@ -195,11 +195,17 @@ function KaunterAfterLogin() {
               />
             }
           />
-          <Route
-            path='kp/myvas'
-            element={<MyVas handleSubmitMyVas={handleSubmitMyVas} />}
-          />
-          <Route path='kp/myvas/callback' element={<MyVasCallback />} />
+          {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
+            import.meta.env.VITE_ENV === 'DEV') &&
+          createdByKp === 'Klinik Pergigian Senggarang' ? (
+            <>
+              <Route
+                path='kp/myvas'
+                element={<MyVas handleSubmitMyVas={handleSubmitMyVas} />}
+              />
+              <Route path='kp/myvas/callback' element={<MyVasCallback />} />
+            </>
+          ) : null}
           <Route
             path='kk-kd'
             element={
