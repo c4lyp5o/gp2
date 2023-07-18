@@ -1,3 +1,4 @@
+const axios = require('axios');
 const Umum = require('../models/Umum');
 const Runningnumber = require('../models/Runningnumber');
 const Operator = require('../models/Operator');
@@ -382,6 +383,90 @@ const updatePersonUmum = async (req, res) => {
   res.status(200).json({ updatedSinglePersonUmum });
 };
 
+// POST /to-myvas
+const toMyVas = async (req, res) => {
+  const toMyVas = {
+    createdByNegeri: 'Negeri',
+    createdByDaerah: 'Daerah',
+    createdByKp: 'Nama Klinik Pergigian',
+    createdByKodFasiliti: 'KOD-GI_RET',
+    createdByKodFasilitiPIk: 'KOD-PIK',
+    createdByUsername: 'kaunter',
+    createdByMdcMdtb: 'kaunter',
+    tahunDaftar: 2023,
+    kedatangan: 'ulangan-kedatangan',
+    jenisFasiliti: 'kp',
+    tarikhKedatangan: '2023-05-17',
+    nama: 'baru la di ni',
+    jenisIc: 'mykad-mykid',
+    ic: '020120332210',
+    tarikhLahir: '2002-06-18',
+    umur: 20,
+    jantina: 'perempuan',
+    kumpulanEtnik: 'melayu',
+    dAdaGigiDesidusPemeriksaanUmum: 0,
+    dAdaGigiKekalPemeriksaanUmum: 0,
+    kebersihanMulutOralHygienePemeriksaanUmum: '',
+    gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: 0,
+    gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: 0,
+    gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: 0,
+    gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: 0,
+    penskaleranRawatanUmum: false,
+    kesSelesaiRawatanUmum: false,
+  };
+
+  const resto = await axios.get(`https://cs.kpisoft.com/myvas/misc/haspt.php`);
+  console.log(resto.status);
+  // if (res.status === 200) {
+  await axios.post(`https://cs.kpisoft.com/myvas/misc/gigirec.php`, {
+    createdByNegeri: 'Negeri',
+    createdByDaerah: 'Daerah',
+    createdByKp: 'Nama Klinik Pergigian',
+    createdByKodFasiliti: 'KOD-GI_RET',
+    createdByKodFasilitiPIk: 'KOD-PIK',
+    createdByUsername: 'kaunter',
+    createdByMdcMdtb: 'kaunter',
+    tahunDaftar: 2023,
+    kedatangan: 'ulangan-kedatangan',
+    jenisFasiliti: 'kp',
+    tarikhKedatangan: '2023-05-17',
+    nama: 'baru la di ni',
+    jenisIc: 'mykad-mykid',
+    ic: '020120332210',
+    tarikhLahir: '2002-06-18',
+    umur: 20,
+    jantina: 'perempuan',
+    kumpulanEtnik: 'melayu',
+    dAdaGigiDesidusPemeriksaanUmum: 0,
+    dAdaGigiKekalPemeriksaanUmum: 0,
+    kebersihanMulutOralHygienePemeriksaanUmum: '',
+    gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum: 0,
+    gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: 0,
+    gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: 0,
+    gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: 0,
+    gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: 0,
+    penskaleranRawatanUmum: false,
+    kesSelesaiRawatanUmum: false,
+  });
+  // }
+  res.status(200).json({ toMyVas });
+};
+
 // PATCH /salah/:id
 const retenSalahPersonUmum = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -624,4 +709,5 @@ module.exports = {
   getKkKdList,
   getTaskaTadikaList,
   getProjekKomuniti,
+  toMyVas,
 };
