@@ -197,7 +197,8 @@ function KaunterAfterLogin() {
           />
           {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
             import.meta.env.VITE_ENV === 'DEV') &&
-          createdByKp === 'Klinik Pergigian Senggarang' ? (
+          (createdByKp === 'Klinik Pergigian Senggarang' ||
+            createdByKp === 'Klinik Pergigian UTC Pasir Gudang') ? (
             <>
               <Route
                 path='kp/myvas'
