@@ -12,18 +12,19 @@ import styles from '../../Modal.module.css';
 const ModalGenerateAdHoc = (props) => {
   const { toast, adminToken, loginInfo, masterDatePicker, Dictionary } =
     useGlobalAdminAppContext();
-  // const [startDate, setStartDate] = useState('');
-  // const [endDate, setEndDate] = useState('');
+
+  // the date value in YYYY-MM-DD
   const startDateRef = useRef('');
   const endDateRef = useRef('');
 
-  // datepicker range
+  // for datepicker
   const [startDatePicker, setStartDatePicker] = useState(null);
   const [endDatePicker, setEndDatePicker] = useState(null);
 
   // reten spesial
   const pilihanRetenMASA = ['MASA'].includes(props.jenisReten);
-  const pilihanRetenAdaProgramDanKPBMPB = ['PG101C', 'PG211C'].includes(
+  const pilihanRetenRTC = ['RTC'].includes(props.jenisReten);
+  const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB', 'KPBMPBBulanan'].includes(
     props.jenisReten
   );
   const pilihanRetenTasTadSekolah = [
@@ -32,10 +33,9 @@ const ModalGenerateAdHoc = (props) => {
     'CPPC1',
     'CPPC2',
   ].includes(props.jenisReten);
-  const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB', 'KPBMPBBulanan'].includes(
+  const pilihanRetenAdaProgramDanKPBMPB = ['PG101C', 'PG211C'].includes(
     props.jenisReten
   );
-  const pilihanRetenRTC = ['RTC'].includes(props.jenisReten);
   const tunjukProgram =
     [
       'PG101C',
@@ -384,6 +384,7 @@ const ModalGenerateAdHoc = (props) => {
               'PG101C',
               'PG211A',
               'PG211C',
+              'PG211C-KPBMPB',
               'PGS201',
               'PGS203',
               'CPPC1',
@@ -391,11 +392,34 @@ const ModalGenerateAdHoc = (props) => {
               'PPIM03',
               'PPIM04',
               'PPIM05',
-            ].includes(props.jenisReten) && (
-              <p className='text-lg font-semibold text-admin3'>
+            ].includes(props.jenisReten) &&
+            startDateRef.current &&
+            endDateRef.current &&
+            (!startDateRef.current.includes('-01-01') ||
+              (!endDateRef.current.includes('-06-30') &&
+                !endDateRef.current.includes('-12-31'))) ? (
+              <p className='normal-case font-semibold text-admin3'>
                 MAKLUMAN: Maklumat yang diisi selepas tarikh penutupan reten
-                bulan itu tidak akan dimasukkan ke dalam reten!
+                bulan itu tidak akan dimasukkan ke dalam reten
               </p>
+            ) : startDateRef.current &&
+              startDateRef.current.includes('-01-01') &&
+              endDateRef.current &&
+              endDateRef.current.includes('-06-30') ? (
+              <p className='normal-case font-semibold text-admin3'>
+                MAKLUMAN: Maklumat yang dijana adalah daripada keseluruhan reten
+                JANUARI-JUN
+              </p>
+            ) : (
+              startDateRef.current &&
+              startDateRef.current.includes('-01-01') &&
+              endDateRef.current &&
+              endDateRef.current.includes('-12-31') && (
+                <p className='normal-case font-semibold text-admin3'>
+                  MAKLUMAN: Maklumat yang dijana adalah daripada keseluruhan
+                  reten JANUARI-DISEMBER
+                </p>
+              )
             )}
             <div className='mb-3'>
               <div>
