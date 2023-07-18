@@ -9,7 +9,7 @@ const { logger } = require('./logs/logger');
 // cron job
 // const startETL = require('./jobs/ETL');
 
-// security package
+// security packages
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 
@@ -44,6 +44,9 @@ const kohortFMR = require('./routes/kohortFMR');
 
 // kaunter
 const kaunter = require('./routes/kaunter');
+
+// MyVAS import
+const myVas = require('./routes/myVas');
 
 // admin import
 const adminAPI = require('./routes/adminAPI');
@@ -144,6 +147,9 @@ app.use('/api/v1/kohort/fmr', authCheck, kohortFMR);
 
 // kaunter route
 app.use('/api/v1/kaunter', authCheck, kaunter);
+
+// MyVAS route
+app.use('/api/v1/myvas', myVas);
 
 // admin route
 app.use('/api/v1/superadmin', adminAPI);
