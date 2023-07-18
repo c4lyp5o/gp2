@@ -84,8 +84,8 @@ async function getAppointmentList(req, res) {
     return el.kodFasilitiGiret === req.user.kodFasiliti;
   });
 
-  const branchCode = currentFasilitiKp[0].kodFasiliti;
-  const dateFilter = moment().format('YYYY-MM-DD');
+  const branchCode = encodeURIComponent(currentFasilitiKp[0].kodFasiliti);
+  const dateFilter = encodeURIComponent(moment().format('YYYY-MM-DD'));
 
   const config = {
     withCredentials: true,
@@ -97,14 +97,14 @@ async function getAppointmentList(req, res) {
     },
   };
 
-  console.log(config.url)
+  console.log(config.url);
 
   try {
     const response = await axios.request(config);
     return res.status(200).json(response.data);
   } catch (error) {
 //    redirectToAuth(req, res);
-console.log(error)
+    console.log(error);
     return;
   }
 }
