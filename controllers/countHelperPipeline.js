@@ -1019,7 +1019,7 @@ const pipelineKepp = (payload) => {
         deleted: false,
         statusKehadiran: false,
         onCall: { $in: [null, false] },
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
       },
     },
     {
@@ -1173,7 +1173,7 @@ const pipelineTod = (payload) => {
     {
       $match: {
         ...getParamsTOD(payload),
-        ...ultimateCutoff,
+        ...ultimateCutoff(payload),
         $expr: {
           $lte: [
             {
