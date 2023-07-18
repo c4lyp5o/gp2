@@ -19,6 +19,9 @@ const storageFasilitiRelief = localStorage.getItem('fasilitiRelief');
 
 const storageKaunterToken = localStorage.getItem('kaunterToken');
 
+const storageMyVasToken = localStorage.getItem('myVasToken');
+const storageMyVasIdToken = localStorage.getItem('myVasIdToken');
+
 // format 24 hour time to 12 hour
 function formatTime(timeString) {
   const [hourString, minute] = timeString.split(':');
@@ -313,6 +316,7 @@ function UserAppProvider({ children }) {
   const [datePastTwoDays, setDatePastTwoDays] = useState('');
   const [refetchDateTime, setRefetchDateTime] = useState(false);
 
+  // pengguna
   const [userToken, setUserToken] = useState(storageUserToken);
   const [username, setUsername] = useState(storageUsername);
   const [userinfo, setUserinfo] = useState(JSON.parse(storageUserinfo));
@@ -321,7 +325,12 @@ function UserAppProvider({ children }) {
   );
   const [fasilitiRelief, setFasilitiRelief] = useState(storageFasilitiRelief);
 
+  // pendaftaran
   const [kaunterToken, setKaunterToken] = useState(storageKaunterToken);
+
+  // MyVAS
+  const [myVasToken, setMyVasToken] = useState(storageMyVasToken);
+  const [myVasIdToken, setMyVasIdToken] = useState(storageMyVasIdToken);
 
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
   const [isLoginError, setIsLoginError] = useState(false);
@@ -464,12 +473,16 @@ function UserAppProvider({ children }) {
     localStorage.removeItem('reliefUserToken');
     localStorage.removeItem('fasilitiRelief');
     localStorage.removeItem('kaunterToken');
+    localStorage.removeItem('myVasToken');
+    localStorage.removeItem('myVasIdToken');
     setUserToken(null);
     setUsername(null);
     setUserinfo(null);
     setReliefUserToken(null);
     setFasilitiRelief(null);
     setKaunterToken(null);
+    setMyVasToken(null);
+    setMyVasIdToken(null);
   };
 
   return (
@@ -487,6 +500,10 @@ function UserAppProvider({ children }) {
         setFasilitiRelief,
         kaunterToken,
         setKaunterToken,
+        myVasToken,
+        setMyVasToken,
+        myVasIdToken,
+        setMyVasIdToken,
         loginErrorMessage,
         isLoginError,
         displayLoginForm,

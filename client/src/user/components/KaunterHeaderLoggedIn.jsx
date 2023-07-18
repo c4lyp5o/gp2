@@ -7,8 +7,13 @@ import { ConfirmModalForLogOut } from '../../admin/components/Confirmation';
 import CountdownTimer from '../../admin/context/countdownTimer';
 
 function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
-  const { kaunterToken, setKaunterToken, refetchDateTime, setRefetchDateTime } =
-    useGlobalUserAppContext();
+  const {
+    kaunterToken,
+    setKaunterToken,
+    myVasToken,
+    refetchDateTime,
+    setRefetchDateTime,
+  } = useGlobalUserAppContext();
 
   const [showProfile, setShowProfile] = useState(false);
 
@@ -61,12 +66,10 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
                 <b>pendaftaran : </b>
                 {namaKlinik}
               </p>
-              {import.meta.env.VITE_ENV === 'UNSTABLE' ||
-              import.meta.env.VITE_ENV === 'DEV' ? (
-                <p className='w-96 text-sm leading-3 normal-case'>
-                  <b>MyVas : </b>
-                  izzuddinazman5@outlook.com
-                </p>
+              {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                import.meta.env.VITE_ENV === 'DEV') &&
+              myVasToken ? (
+                <div className='text-user7 font-bold'>MyVAS</div>
               ) : null}
             </div>
             <button

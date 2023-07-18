@@ -10306,25 +10306,6 @@ const countKEPP = async (payload) => {
   }
 };
 const countTOD = async (payload) => {
-  const add_field_baru = {
-    $addFields: {
-      jumlahFaktorRisiko: {
-        $cond: {
-          if: {
-            $eq: [
-              {
-                $ifNull: ['$jumlahFaktorRisikoPemeriksaanUmum', ''],
-              },
-              '',
-            ],
-          },
-          then: 0,
-          else: '$jumlahFaktorRisikoPemeriksaanUmum',
-        },
-      },
-    },
-  };
-
   // 18 dan 36 bulan
   let match_stage_1836 = [];
 
@@ -10399,177 +10380,18 @@ const countTOD = async (payload) => {
     },
   ];
 
-  // oplain
-  const group_oplain = [
-    {
-      $group: {
-        _id: '$jenisFasiliti',
-        // dibuat rawatan
-        perluSapuanFluoridaBu: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: [
-                      '$fvPerluSapuanPemeriksaanUmum',
-                      'ya-fv-perlu-sapuan-pemeriksaan-umum',
-                    ],
-                  },
-                  {
-                    $eq: ['$kedatangan', 'ulangan-kedatangan'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        sudahSapuanFluoridaBu: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$pesakitDibuatFluorideVarnish', true],
-                  },
-                  {
-                    $eq: ['$kedatangan', 'ulangan-kedatangan'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        jumlahTampalanAnteriorBaru: {
-          $sum: {
-            $toInt: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-          },
-        },
-        jumlahTampalanPosteriorBaru: {
-          $sum: {
-            $add: [
-              {
-                $toInt:
-                  '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-              },
-              {
-                $toInt:
-                  '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-              },
-            ],
-          },
-        },
-        jumlahTampalanAnteriorBu: {
-          $sum: {
-            $toInt: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-          },
-        },
-        jumlahTampalanPosteriorBu: {
-          $sum: {
-            $add: [
-              {
-                $toInt:
-                  '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-              },
-              {
-                $toInt:
-                  '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-              },
-            ],
-          },
-        },
-        jumlahCabutan: {
-          $sum: { $toInt: '$cabutDesidusRawatanUmum' },
-        },
-        jumlahAbses: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        jumlahPulpotomi: {
-          $sum: {
-            $add: [
-              { $toInt: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum' },
-              { $toInt: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum' },
-              { $toInt: '$jumlahMolarKesEndodontikSelesaiRawatanUmum' },
-              {
-                $toInt:
-                  '$rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum',
-              },
-            ],
-          },
-        },
-        rujukanAgensiLuar: {
-          $sum: {
-            $cond: [
-              {
-                $or: [
-                  {
-                    $eq: ['$rujukDaripada', 'hospital/institusi-kerajaan'],
-                  },
-                  { $eq: ['$rujukDaripada', 'swasta'] },
-                  { $eq: ['$rujukDaripada', 'lain-lain'] },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-      },
-    },
-  ];
-
   try {
-    let data1836 = [];
-    // let dataOplain = [];
     let bigData = [];
+    let data1836 = [];
 
-    const dataBaru = await Umum.aggregate([
-      ...pipelineTod(payload),
-      add_field_baru,
-      groupToddlerBaru,
-    ]);
-    const dataBu = await Umum.aggregate([
-      ...pipelineTod(payload),
-      groupToddlerBu,
-    ]);
+    const TOD = await Umum.aggregate([...pipelineTod(payload)]);
 
     for (const stage of match_stage_1836) {
       const query1836 = await Umum.aggregate([...stage, ...group_1836]);
       data1836.push({ query1836 });
     }
 
-    // for (const stage of match_stage_bu) {
-    //   // kena buat match_stage_oplain sendiri
-    //   const queryOplain = await Umum.aggregate([
-    //     ...stage,
-    //     ...getParamsOperatorLain,
-    //     ...group_oplain,
-    //   ]);
-    //   dataOplain.push({ queryOplain });
-    // }
-
-    bigData.push(
-      dataBaru,
-      dataBu,
-      // dataOplain,
-      data1836
-    );
+    bigData.push(TOD, data1836);
 
     return bigData;
   } catch (error) {
