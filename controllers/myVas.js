@@ -46,6 +46,7 @@ async function getMyVasToken(req, res) {
   });
 
   const config = {
+    withCredentials: true,
     method: 'post',
     maxBodyLength: Infinity,
     url: `${process.env.MYVAS_AUTH_SERVER}${process.env.MYVAS_TOKEN_ENDPOINT}`,
@@ -87,6 +88,7 @@ async function getAppointmentList(req, res) {
   const dateFilter = moment().format('YYYY-MM-DD');
 
   const config = {
+    withCredentials: true,
     method: 'get',
     maxBodyLength: Infinity,
     url: `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|${branchCode}&date=${dateFilter}`,
@@ -119,6 +121,7 @@ async function getPatientDetails(req, res) {
   const nric = req.query.nric;
 
   const config = {
+    withCredentials: true,
     method: 'get',
     maxBodyLength: Infinity,
     url: `${process.env.MYVAS_API_PATIENT_DETAILS}?identifier=https://myvas.moh.gov.my/System/licence|${nric}`,
