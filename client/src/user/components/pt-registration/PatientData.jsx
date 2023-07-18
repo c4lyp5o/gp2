@@ -141,6 +141,7 @@ export default function PatientData({
   showPilihanProgram,
   setShowPilihanProgram,
   kp,
+  queryingMyVas,
 }) {
   const {
     kaunterToken,
@@ -336,7 +337,18 @@ export default function PatientData({
     defaultTimer,
   };
 
-  if (!showForm && !showPilihanProgram) {
+  if (queryingMyVas) {
+    return (
+      <div className='mt-20'>
+        {/* <Spinner /> */}
+        <h1 className='animate-pulse text-user1 font-bold text-6xl'>
+          Sedang Mengambil Data....
+        </h1>
+      </div>
+    );
+  }
+
+  if (!showForm && !showPilihanProgram && !queryingMyVas) {
     return (
       <>
         <div className='py-3'>

@@ -43,6 +43,7 @@ export default function FillableForm({
   dariMyVas,
   setDariMyVas,
   patientDataFromMyVas,
+  masaTemujanji,
 }) {
   const {
     kaunterToken,
@@ -804,7 +805,7 @@ export default function FillableForm({
 
   // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
-    if (!patientDataFromMyVas) {
+    if (!patientDataFromMyVas || editId) {
       setKedatangan('');
       setNoPendaftaranBaru('');
       setNoPendaftaranUlangan('');
@@ -904,10 +905,19 @@ export default function FillableForm({
 
   useEffect(() => {
     if (dariMyVas) {
+      const timeString = moment(masaTemujanji).format('HH:mm');
+      const jantinaMyvas =
+        patientDataFromMyVas.resource.gender === 'female'
+          ? 'perempuan'
+          : 'lelaki';
+      setTemujanji(true);
+      setWaktuTemujanji(timeString);
+      setWaktuTemujanjiDT(moment(masaTemujanji).toDate());
+      setJenisIc('mykad-mykid');
       setIc(patientDataFromMyVas.resource.identifier[0].value);
-      setNama(patientDataFromMyVas.resource.name[0].given[0]);
       setNomborTelefon(patientDataFromMyVas.resource.telecom[0].value);
-      setJantina(patientDataFromMyVas.resource.gender);
+      setNama(patientDataFromMyVas.resource.name[0].given[0]);
+      setJantina(jantinaMyvas);
       setTarikhLahir(patientDataFromMyVas.resource.birthDate);
       setTarikhLahirDP(new Date(patientDataFromMyVas.resource.birthDate));
       const tarikhLahirObj = moment(
@@ -923,8 +933,22 @@ export default function FillableForm({
       setNegeriAlamat(
         patientDataFromMyVas.resource.address[0].state.toLowerCase()
       );
-      setDariMyVas(false);
-      console.log(patientDataFromMyVas.resource.start);
+      setConfirmData({
+        temujanji: true,
+        waktuTemujanji: timeString,
+        ic: patientDataFromMyVas.resource.identifier[0].value,
+        nomborTelefon: patientDataFromMyVas.resource.telecom[0].value,
+        nama: patientDataFromMyVas.resource.name[0].given[0],
+        jantina: jantinaMyvas,
+        tarikhLahir: patientDataFromMyVas.resource.birthDate,
+        umur: tahun,
+        umurBulan: bulan,
+        umurHari: hari,
+        poskodAlamat: patientDataFromMyVas.resource.address[0].postalCode,
+        negeriAlamat:
+          patientDataFromMyVas.resource.address[0].state.toLowerCase(),
+      });
+      // setDariMyVas(false);
     }
   }, [dariMyVas]);
 
@@ -934,12 +958,12 @@ export default function FillableForm({
   }, [jenisFasiliti]);
 
   // reset waktuTemujanji when change temujanji
-  useEffect(() => {
-    if (!editId) {
-      setWaktuTemujanji('');
-      setWaktuTemujanjiDT(moment(dateToday, moment.ISO_8601).toDate());
-    }
-  }, [temujanji]);
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setWaktuTemujanji('');
+  //     setWaktuTemujanjiDT(moment(dateToday, moment.ISO_8601).toDate());
+  //   }
+  // }, [temujanji]);
 
   //reset no telefon 2 when change no telefon
   useEffect(() => {
@@ -949,43 +973,43 @@ export default function FillableForm({
   }, [tambahTelefon]);
 
   // reset ic when change jenis ic
-  useEffect(() => {
-    if (!editId) {
-      setIc('');
-    }
-  }, [jenisIc]);
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setIc('');
+  //   }
+  // }, [jenisIc]);
 
-  // birth of nak daftar nama ic ibu
-  useEffect(() => {
-    if (!editId) {
-      if (jenisIc === 'birth-of') {
-        setNama('B/O');
-      }
-      if (jenisIc !== 'birth-of') {
-        setNama('');
-      }
-    }
-  }, [jenisIc]);
+  // baby of nak daftar nama ic ibu
+  // useEffect(() => {
+  //   if (!editId) {
+  //     if (jenisIc === 'birth-of') {
+  //       setNama('B/O');
+  //     }
+  //     if (jenisIc !== 'birth-of') {
+  //       setNama('');
+  //     }
+  //   }
+  // }, [jenisIc]);
 
   // passport terus bukan warganegara
-  useEffect(() => {
-    if (!editId) {
-      if (jenisIc === 'passport') {
-        setKumpulanEtnik('bukan warganegara');
-        setConfirmData({
-          ...confirmData,
-          kumpulanEtnik: 'bukan warganegara',
-        });
-      }
-      if (jenisIc !== 'passport') {
-        setKumpulanEtnik('');
-        setConfirmData({
-          ...confirmData,
-          kumpulanEtnik: '',
-        });
-      }
-    }
-  }, [jenisIc]);
+  // useEffect(() => {
+  //   if (!editId) {
+  //     if (jenisIc === 'passport') {
+  //       setKumpulanEtnik('bukan warganegara');
+  //       setConfirmData({
+  //         ...confirmData,
+  //         kumpulanEtnik: 'bukan warganegara',
+  //       });
+  //     }
+  //     if (jenisIc !== 'passport') {
+  //       setKumpulanEtnik('');
+  //       setConfirmData({
+  //         ...confirmData,
+  //         kumpulanEtnik: '',
+  //       });
+  //     }
+  //   }
+  // }, [jenisIc]);
 
   //reset bersekolah
   useEffect(() => {
@@ -1307,53 +1331,6 @@ export default function FillableForm({
     }
   }, [jenisFasiliti]);
 
-  // buttons
-  function BusyButton() {
-    return (
-      <>
-        <button
-          type='button'
-          className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 shadow-md inline-flex cursor-not-allowed'
-          disabled
-        >
-          <svg
-            className='animate-spin ml-1 mr-3 h-5 w-5 text-white'
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-          >
-            <circle
-              className='opacity-25'
-              cx='12'
-              cy='12'
-              r='10'
-              stroke='currentColor'
-              strokeWidth='4'
-            ></circle>
-            <path
-              className='opacity-75'
-              fill='currentColor'
-              d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-            ></path>
-          </svg>
-          Menambah...
-        </button>
-      </>
-    );
-  }
-
-  function SubmitButtton() {
-    return (
-      <button
-        type='submit'
-        className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
-        data-cy='submit-pendaftaran'
-      >
-        Tambah Data
-      </button>
-    );
-  }
-
   if (editLoading) {
     return (
       <div className='mt-20'>
@@ -1467,6 +1444,10 @@ export default function FillableForm({
                           checked={temujanji}
                           onChange={() => {
                             setTemujanji(!temujanji);
+                            setWaktuTemujanji('');
+                            setWaktuTemujanjiDT(
+                              moment(dateToday, moment.ISO_8601).toDate()
+                            );
                           }}
                           className='mr-2'
                         />
@@ -1557,6 +1538,29 @@ export default function FillableForm({
                         value={jenisIc}
                         onChange={(e) => {
                           setJenisIc(e.target.value);
+                          if (!dariMyVas) {
+                            setIc('');
+                            if (e.target.value === 'birth-of') {
+                              setNama('B/O');
+                            }
+                            if (e.target.value !== 'birth-of') {
+                              setNama('');
+                            }
+                            if (e.target.value === 'passport') {
+                              setKumpulanEtnik('bukan warganegara');
+                              setConfirmData({
+                                ...confirmData,
+                                kumpulanEtnik: 'bukan warganegara',
+                              });
+                            }
+                            if (e.target.value !== 'passport') {
+                              setKumpulanEtnik('');
+                              setConfirmData({
+                                ...confirmData,
+                                kumpulanEtnik: '',
+                              });
+                            }
+                          }
                         }}
                         className='appearance-none w-full md:w-56 leading-7 px-2 py-1 pr-6 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
                         data-cy='jenis-pengenalan'
@@ -1579,9 +1583,11 @@ export default function FillableForm({
                       </span>
                       {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
                         import.meta.env.VITE_ENV === 'DEV') &&
-                      jenisFasiliti === 'kp' ? (
+                      jenisFasiliti === 'kp' &&
+                      !editId ? (
                         <span
                           onClick={() => {
+                            setDariMyVas(false);
                             navigate('/pendaftaran/daftar/kp/myvas');
                           }}
                           className='absolute -right-24 top-2 bg-user1 text-userWhite rounded-md text-sm px-1.5 py-1 hover:bg-user3 hover:text-userBlack cursor-pointer flex items-center'
@@ -3508,27 +3514,67 @@ export default function FillableForm({
                   </article>
                 )} */}
               </div>
-              <button
-                onClick={() => {
-                  if (jenisFasiliti === 'projek-komuniti-lain') {
-                    setDariFormProgramKomuniti(true);
-                    setFetchProgramData(!fetchProgramData);
-                  }
-                  setShowForm(false);
-                }}
-                className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
-                data-cy='kembali-pendaftaran'
-              >
-                kembali
-              </button>
-              {addingData ? <BusyButton /> : <SubmitButtton />}
+              <div className='flex flex-row justify-center'>
+                <span
+                  onClick={() => {
+                    if (jenisFasiliti === 'projek-komuniti-lain') {
+                      setDariFormProgramKomuniti(true);
+                      setFetchProgramData(!fetchProgramData);
+                    }
+                    if (jenisFasiliti === 'kp') {
+                      setDariMyVas(false);
+                    }
+                    setShowForm(false);
+                  }}
+                  className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+                  data-cy='kembali-pendaftaran'
+                >
+                  kembali
+                </span>
+                {addingData ? (
+                  <button
+                    type='button'
+                    className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 shadow-md inline-flex cursor-not-allowed'
+                    disabled
+                  >
+                    <svg
+                      className='animate-spin ml-1 mr-3 h-5 w-5 text-white'
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                    >
+                      <circle
+                        className='opacity-25'
+                        cx='12'
+                        cy='12'
+                        r='10'
+                        stroke='currentColor'
+                        strokeWidth='4'
+                      ></circle>
+                      <path
+                        className='opacity-75'
+                        fill='currentColor'
+                        d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                      ></path>
+                    </svg>
+                    Menambah...
+                  </button>
+                ) : (
+                  <button
+                    type='submit'
+                    onClick={() => {
+                      if (jenisFasiliti === 'kp') {
+                        setDariMyVas(false);
+                      }
+                    }}
+                    className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+                    data-cy='submit-pendaftaran'
+                  >
+                    Tambah Data
+                  </button>
+                )}
+              </div>
             </form>
-            {/* {showMyVas && (
-              <MyVas
-                setShowMyVas={setShowMyVas}
-                handleSubmitMyVas={handleSubmitMyVas}
-              />
-            )} */}
           </>
         )}
       </Confirmation>

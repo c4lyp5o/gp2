@@ -19,6 +19,8 @@ function Kaunter({
   patientDataFromMyVas,
   dariMyVas,
   setDariMyVas,
+  masaTemujanji,
+  queryingMyVas,
 }) {
   const { kaunterToken, dateToday } = useGlobalUserAppContext();
 
@@ -150,6 +152,7 @@ function Kaunter({
             showPilihanProgram={showPilihanProgram}
             setShowPilihanProgram={setShowPilihanProgram}
             kp={createdByKp}
+            queryingMyVas={queryingMyVas}
           />
         ) : null}
         <FillableForm
@@ -169,6 +172,7 @@ function Kaunter({
           dariMyVas={dariMyVas}
           setDariMyVas={setDariMyVas}
           patientDataFromMyVas={patientDataFromMyVas}
+          masaTemujanji={masaTemujanji}
         />
         {jenisFasiliti === 'projek-komuniti-lain' ? (
           <KaunterKomunitiLain

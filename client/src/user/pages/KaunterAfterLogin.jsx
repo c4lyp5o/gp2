@@ -38,10 +38,13 @@ function KaunterAfterLogin() {
 
   const [patientDataFromMyVas, setPatientDataFromMyVas] = useState({});
   const [dariMyVas, setDariMyVas] = useState(false);
+  const [masaTemujanji, setMasaTemujanji] = useState('');
+  const [queryingMyVas, setQueryingMyVas] = useState(false);
 
   const kickerNotiId = useRef();
 
-  const handleSubmitMyVas = async (patientId) => {
+  const handleSubmitMyVas = async (patientId, timeslot) => {
+    setQueryingMyVas(true);
     const nodejs_patient_details = '/api/v1/myvas/patient-details?nric=';
     const config = {
       withCredentials: true,
@@ -65,8 +68,10 @@ function KaunterAfterLogin() {
         }
         toast.success('Pesakit berjaya ditarik', { autoClose: 2000 });
         const patientData = res.data.entry[0];
-        setDariMyVas(true);
         setPatientDataFromMyVas(patientData);
+        setMasaTemujanji(timeslot);
+        setDariMyVas(true);
+        setQueryingMyVas(false);
       });
   };
 
@@ -185,6 +190,8 @@ function KaunterAfterLogin() {
                 dariMyVas={dariMyVas}
                 setDariMyVas={setDariMyVas}
                 patientDataFromMyVas={patientDataFromMyVas}
+                masaTemujanji={masaTemujanji}
+                queryingMyVas={queryingMyVas}
               />
             }
           />

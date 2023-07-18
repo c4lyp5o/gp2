@@ -6,6 +6,7 @@ import { FaWindowClose } from 'react-icons/fa';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 import mysejahtera from '../../../assets/MySejahtera.png';
+import moment from 'moment';
 
 export default function MyVas({ handleSubmitMyVas }) {
   const { kaunterToken, myVasToken, navigate } = useGlobalUserAppContext();
@@ -76,19 +77,13 @@ export default function MyVas({ handleSubmitMyVas }) {
             {patientIdentifier}
           </td>
           <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-            {timeslot}
+            {moment(timeslot).format('hh:mm A')}
           </td>
-          {/* <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-            {txtGender}
-          </td>
-          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-            {txtAddress1}
-          </td> */}
           <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
             <span
-              className='bg-user1 text-userWhite px-2 py-1 rounded-md'
+              className='bg-user1 text-userWhite px-2 py-1 rounded-md cursor-pointer'
               onClick={() => {
-                handleSubmitMyVas(patientIdentifier);
+                handleSubmitMyVas(patientIdentifier, timeslot);
                 navigate('/pendaftaran/daftar/kp');
               }}
             >
@@ -103,24 +98,27 @@ export default function MyVas({ handleSubmitMyVas }) {
   return (
     <>
       <div className=' bg-userWhite z-20 overflow-y-auto rounded-md'>
-        <FaWindowClose
-          className='absolute top-0.5 right-2 text-xl cursor-pointer text-userWhite hover:text-kaunter3'
-          onClick={() => {
-            navigate('/pendaftaran/daftar/kp');
-          }}
-        />
-        <div className='h-7 bg-userBlack bg-opacity-90 flex justify-center items-center text-userWhite normal-case font-semibold text-lg'>
+        <div className='flex justify-end'>
+          <span
+            onClick={() => {
+              navigate('/pendaftaran/daftar/kp');
+            }}
+            className='capitalize whitespace-nowrap bg-kaunter1 text-xs text-userWhite rounded-md shadow-xl p-1 my-2 mr-2 hover:bg-user1 transition-all cursor-pointer'
+          >
+            kembali ke senarai pesakit
+          </span>
+        </div>
+        <div className='flex justify-center items-center text-user1 normal-case font-bold text-4xl'>
           <img
             src={mysejahtera}
             alt='MySejahtera Logo'
-            className='w-6 h-6 inline-block m-1'
-          />{' '}
+            className='w-20 h-20 m-1 mr-5'
+          />
           MyVas
         </div>
-        <div className='my-4 mb-1 text-lg font-bold'>
-          <h1> MyKAD & MyKID </h1>
+        <div className='my-4 mb-1 text-2xl font-semibold'>
+          <h1> Senarai Temujanji Hari Ini </h1>
         </div>
-        <h1 className='my-2 text-lg font-bold'>Patient Detail</h1>
         <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2'>
           <table className='table-auto'>
             <thead className='text-userWhite bg-kaunter2'>
@@ -137,12 +135,6 @@ export default function MyVas({ handleSubmitMyVas }) {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   MASA TEMUJANJI
                 </th>
-                {/* <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                  JANTINA
-                </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                  ALAMAT
-                </th> */}
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   PILIHAN
                 </th>
@@ -156,22 +148,6 @@ export default function MyVas({ handleSubmitMyVas }) {
               />
             ))}
           </table>
-          {/* <div className='p-4 w-full border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 m-auto'>
-            <div className='flex flex-col sm:flex-row bg-black rounded-lg text-white'>
-              <div className='w-1/4 sm:w-3/12 bg-black rounded-tl-lg rounded-tr-lg p-4'>
-                <h2 className='text-left font-bold'>Timeslot</h2>
-              </div>
-              <div className='w-1/4 sm:w-3/12 bg-black p-4'>
-                <h2 className='text-left font-bold'>ID</h2>
-              </div>
-              <div className='w-1/2 sm:w-6/12 bg-black rounded-tr-lg rounded-bl-lg p-4'>
-                <h2 className='text-center font-bold'>Name</h2>
-              </div>
-            </div>
-            {appointmentList.map((appointment, index) => (
-              <AppointmentList key={index} appointment={appointment} />
-            ))}
-          </div> */}
         </div>
       </div>
     </>
