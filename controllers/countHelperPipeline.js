@@ -112,12 +112,6 @@ const pipelineSekolahPemeriksaan = (payload) => {
       },
     },
     {
-      $unwind: {
-        path: '$rawatanSekolah',
-        preserveNullAndEmptyArrays: true,
-      },
-    },
-    {
       $project: {
         statusRawatan: 1,
         kodSekolah: 1,
@@ -224,24 +218,9 @@ const pipelineSekolahRawatan = (payload) => {
         warganegara: '$result.warganegara',
         kelasPelajar: '$result.kelasPelajar',
         jantina: '$result.jantina',
-        // pemeriksaanSekolah: '$result.pemeriksaanSekolah',
         rawatanSekolah: '$result.rawatanSekolah',
       },
     },
-    // {
-    //   $lookup: {
-    //     from: 'pemeriksaansekolahs',
-    //     localField: 'pemeriksaanSekolah',
-    //     foreignField: '_id',
-    //     as: 'pemeriksaanSekolah',
-    //   },
-    // },
-    // {
-    //   $unwind: {
-    //     path: '$pemeriksaanSekolah',
-    //     preserveNullAndEmptyArrays: false,
-    //   },
-    // },
     {
       $lookup: {
         from: 'rawatansekolahs',
@@ -250,29 +229,10 @@ const pipelineSekolahRawatan = (payload) => {
         as: 'rawatanSekolah',
       },
     },
-    // {
-    //   $addFields: {
-    //     tarikhPemeriksaan: '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
-    //     operatorPemeriksaan: '$pemeriksaanSekolah.createdByMdcMdtb',
-    //     lastRawatan: {
-    //       $arrayElemAt: [
-    //         '$rawatanSekolah',
-    //         {
-    //           $subtract: [
-    //             {
-    //               $size: '$rawatanSekolah',
-    //             },
-    //             1,
-    //           ],
-    //         },
-    //       ],
-    //     },
-    //   },
-    // },
     {
       $unwind: {
         path: '$rawatanSekolah',
-        preserveNullAndEmptyArrays: true,
+        preserveNullAndEmptyArrays: false,
       },
     },
     {
@@ -290,10 +250,6 @@ const pipelineSekolahRawatan = (payload) => {
         statusOku: 1,
         tahunTingkatan: 1,
         kelasPelajar: 1,
-        // tarikhPemeriksaan: 1,
-        // operatorPemeriksaan: 1,
-        // tarikhRawatan: '$lastRawatan.tarikhRawatanSemasa',
-        // operatorRawatan: '$lastRawatan.createdByMdcMdtb',
         merged: {
           $mergeObjects: ['$rawatanSekolah'],
         },
@@ -4290,10 +4246,32 @@ const groupPG214 = {
   },
 };
 
-// ni untuk 201 dan 203
+// ni untuk 201, 203, DEWASAMUDA
 const groupSekolah = {
   jumlahPelajar: {
     $sum: 1,
+  },
+  jumlahLelaki: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$jantina', 'LELAKI'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  jumlahPerempuan: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$jantina', 'PEREMPUAN'],
+        },
+        1,
+        0,
+      ],
+    },
   },
   kedatanganEnggan: {
     $sum: {
@@ -4797,6 +4775,178 @@ const groupSekolah = {
       ],
     },
   },
+  jumlahTPRmmi: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $or: [
+                {
+                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                },
+                {
+                  $and: [
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                    },
+                    {
+                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              $or: [
+                {
+                  $and: [
+                    {
+                      $eq: ['$merged.adaDesidus', true],
+                    },
+                    {
+                      $eq: ['$merged.dAdaGigiDesidus', 0],
+                    },
+                    {
+                      $eq: ['$merged.xAdaGigiDesidus', 0],
+                    },
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      $eq: ['$merged.adaKekal', true],
+                    },
+                    {
+                      $eq: ['$merged.dAdaGigiKekal', 0],
+                    },
+                    {
+                      $eq: ['$merged.xAdaGigiKekal', 0],
+                    },
+                    {
+                      $eq: ['$merged.eAdaGigiKekal', 0],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              $eq: ['$merged.perluPenskaleranOralHygiene', false],
+            },
+            {
+              $or: [
+                {
+                  $and: [
+                    {
+                      $eq: ['$merged.skorGisMulutOralHygiene', ''],
+                    },
+                    {
+                      $eq: ['$merged.skorBpeOralHygiene', '0'],
+                    },
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      $or: [
+                        {
+                          $eq: ['$merged.skorGisMulutOralHygiene', '0'],
+                        },
+                        {
+                          $eq: ['$merged.skorGisMulutOralHygiene', '2'],
+                        },
+                      ],
+                    },
+                    {
+                      $eq: ['$merged.skorBpeOralHygiene', ''],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  jumlahTPRbiasa: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $or: [
+                {
+                  $and: [
+                    {
+                      $eq: ['$merged.adaDesidus', true],
+                    },
+                    {
+                      $eq: ['$merged.dAdaGigiDesidus', 0],
+                    },
+                    {
+                      $eq: ['$merged.xAdaGigiDesidus', 0],
+                    },
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      $eq: ['$merged.adaKekal', true],
+                    },
+                    {
+                      $eq: ['$merged.dAdaGigiKekal', 0],
+                    },
+                    {
+                      $eq: ['$merged.xAdaGigiKekal', 0],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              $eq: ['$merged.perluPenskaleranOralHygiene', false],
+            },
+            {
+              $or: [
+                {
+                  $and: [
+                    {
+                      $eq: ['$merged.skorGisMulutOralHygiene', ''],
+                    },
+                    {
+                      $eq: ['$merged.skorBpeOralHygiene', '0'],
+                    },
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      $or: [
+                        {
+                          $eq: ['$merged.skorGisMulutOralHygiene', '0'],
+                        },
+                        {
+                          $eq: ['$merged.skorGisMulutOralHygiene', '2'],
+                        },
+                      ],
+                    },
+                    {
+                      $eq: ['$merged.skorBpeOralHygiene', ''],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
   skorGIS0: {
     $sum: {
       $cond: [
@@ -5087,178 +5237,6 @@ const groupSekolah = {
       ],
     },
   },
-  jumlahTPRmmi: {
-    $sum: {
-      $cond: [
-        {
-          $and: [
-            {
-              $or: [
-                {
-                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
-                },
-                {
-                  $and: [
-                    {
-                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
-                    },
-                    {
-                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              $or: [
-                {
-                  $and: [
-                    {
-                      $eq: ['$merged.adaDesidus', true],
-                    },
-                    {
-                      $eq: ['$merged.dAdaGigiDesidus', 0],
-                    },
-                    {
-                      $eq: ['$merged.xAdaGigiDesidus', 0],
-                    },
-                  ],
-                },
-                {
-                  $and: [
-                    {
-                      $eq: ['$merged.adaKekal', true],
-                    },
-                    {
-                      $eq: ['$merged.dAdaGigiKekal', 0],
-                    },
-                    {
-                      $eq: ['$merged.xAdaGigiKekal', 0],
-                    },
-                    {
-                      $eq: ['$merged.eAdaGigiKekal', 0],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              $eq: ['$merged.perluPenskaleranOralHygiene', false],
-            },
-            {
-              $or: [
-                {
-                  $and: [
-                    {
-                      $eq: ['$merged.skorGisMulutOralHygiene', ''],
-                    },
-                    {
-                      $eq: ['$merged.skorBpeOralHygiene', '0'],
-                    },
-                  ],
-                },
-                {
-                  $and: [
-                    {
-                      $or: [
-                        {
-                          $eq: ['$merged.skorGisMulutOralHygiene', '0'],
-                        },
-                        {
-                          $eq: ['$merged.skorGisMulutOralHygiene', '2'],
-                        },
-                      ],
-                    },
-                    {
-                      $eq: ['$merged.skorBpeOralHygiene', ''],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        1,
-        0,
-      ],
-    },
-  },
-  jumlahTPRbiasa: {
-    $sum: {
-      $cond: [
-        {
-          $and: [
-            {
-              $or: [
-                {
-                  $and: [
-                    {
-                      $eq: ['$merged.adaDesidus', true],
-                    },
-                    {
-                      $eq: ['$merged.dAdaGigiDesidus', 0],
-                    },
-                    {
-                      $eq: ['$merged.xAdaGigiDesidus', 0],
-                    },
-                  ],
-                },
-                {
-                  $and: [
-                    {
-                      $eq: ['$merged.adaKekal', true],
-                    },
-                    {
-                      $eq: ['$merged.dAdaGigiKekal', 0],
-                    },
-                    {
-                      $eq: ['$merged.xAdaGigiKekal', 0],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              $eq: ['$merged.perluPenskaleranOralHygiene', false],
-            },
-            {
-              $or: [
-                {
-                  $and: [
-                    {
-                      $eq: ['$merged.skorGisMulutOralHygiene', ''],
-                    },
-                    {
-                      $eq: ['$merged.skorBpeOralHygiene', '0'],
-                    },
-                  ],
-                },
-                {
-                  $and: [
-                    {
-                      $or: [
-                        {
-                          $eq: ['$merged.skorGisMulutOralHygiene', '0'],
-                        },
-                        {
-                          $eq: ['$merged.skorGisMulutOralHygiene', '2'],
-                        },
-                      ],
-                    },
-                    {
-                      $eq: ['$merged.skorBpeOralHygiene', ''],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        1,
-        0,
-      ],
-    },
-  },
   jumlahKecederaanTulangMuka: {
     $sum: {
       $cond: [
@@ -5292,11 +5270,11 @@ const groupSekolah = {
       ],
     },
   },
-  jumlahPatientAdaTSL: {
+  jumlahTSL: {
     $sum: {
       $cond: [
         {
-          $eq: ['$merged.toothSurfaceLossTrauma', true],
+          $eq: ['$merged.toothSurfaceLoss', true],
         },
         1,
         0,
@@ -5479,6 +5457,53 @@ const groupSekolah = {
           ],
         },
         '$merged.baruJumlahGigiKekalPerluFs',
+        0,
+      ],
+    },
+  },
+  perluPenskaleran: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$merged.perluPenskaleranOralHygiene', true],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  perluDenturPenuh: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            {
+              $eq: ['$merged.separaPenuhAtasPerluDenture', true],
+            },
+            {
+              $eq: ['$merged.separaPenuhBawahPerluDenture', true],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  perluDenturSepara: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            {
+              $eq: ['$merged.separaPenuhAtasSediaAdaDenture', true],
+            },
+            {
+              $eq: ['$merged.separaPenuhBawahSediaAdaDenture', true],
+            },
+          ],
+        },
+        1,
         0,
       ],
     },
