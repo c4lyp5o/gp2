@@ -1,38 +1,45 @@
 const moment = require('moment');
 
 //BISMILLAH ALLAH BAGI ILHAM
-const ultimateCutoff = {
-  $expr: {
-    $and: [
-      {
-        $not: {
-          $gt: [
-            '$createdAt',
-            {
-              $dateFromParts: {
-                year: {
-                  $year: {
-                    $toDate: '$tarikhKedatangan',
+const ultimateCutoff = (payload) => {
+  const { tarikhMula, tarikhAkhir } = payload;
+
+  const mula = moment(tarikhMula).format('MM-DD');
+  const akhir = moment(tarikhAkhir).format('MM-DD');
+
+  console.log(mula, akhir);
+
+  if (mula === '01-01' && akhir === '06-30') {
+    console.log('janjun');
+    return {
+      $expr: {
+        $and: [
+          {
+            $not: {
+              $gt: [
+                '$updatedAt',
+                {
+                  $dateFromParts: {
+                    year: {
+                      $year: '$createdAt',
+                    },
+                    month: 7,
+                    day: 6,
+                    hour: 16,
                   },
                 },
-                month: {
-                  $add: [
-                    {
-                      $month: {
-                        $toDate: '$tarikhKedatangan',
-                      },
-                    },
-                    1,
-                  ],
-                },
-                day: 6,
-                hour: 16,
-              },
+              ],
             },
-          ],
-        },
+          },
+        ],
       },
-      {
+    };
+  }
+
+  if (mula === '01-01' && akhir === '12-31') {
+    console.log('jandis');
+    return {
+      $expr: {
         $not: {
           $gt: [
             '$updatedAt',
@@ -41,23 +48,146 @@ const ultimateCutoff = {
                 year: {
                   $year: '$createdAt',
                 },
-                month: {
-                  $add: [
-                    {
-                      $month: '$createdAt',
-                    },
-                    1,
-                  ],
-                },
-                day: 6,
-                hour: 16,
+                month: 12,
+                day: 31,
+                hour: 23,
+                minute: 59,
               },
             },
           ],
         },
       },
-    ],
-  },
+    };
+  }
+
+  console.log('normal date');
+  return {
+    $expr: {
+      $and: [
+        {
+          $not: {
+            $gt: [
+              '$createdAt',
+              {
+                $dateFromParts: {
+                  year: {
+                    $year: {
+                      $toDate: '$tarikhKedatangan',
+                    },
+                  },
+                  month: {
+                    $add: [
+                      {
+                        $month: {
+                          $toDate: '$tarikhKedatangan',
+                        },
+                      },
+                      1,
+                    ],
+                  },
+                  day: 6,
+                  hour: 16,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $not: {
+            $gt: [
+              '$updatedAt',
+              {
+                $dateFromParts: {
+                  year: {
+                    $year: '$createdAt',
+                  },
+                  month: {
+                    $add: [
+                      {
+                        $month: '$createdAt',
+                      },
+                      1,
+                    ],
+                  },
+                  day: 6,
+                  hour: 16,
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
+};
+
+const ultimateCutoffPromosiEdition = (payload) => {
+  const { tarikhMula, tarikhAkhir } = payload;
+
+  const mula = moment(tarikhMula).format('MM-DD');
+  const akhir = moment(tarikhAkhir).format('MM-DD');
+
+  console.log(mula, akhir);
+
+  if (mula === '01-01' && akhir === '12-31') {
+    console.log('jandis');
+    return {
+      $expr: {
+        $not: {
+          $gt: [
+            '$updatedAt',
+            {
+              $dateFromParts: {
+                year: {
+                  $year: '$updatedAt',
+                },
+                month: 12,
+                day: 31,
+                hour: 23,
+                minute: 59,
+              },
+            },
+          ],
+        },
+      },
+    };
+  }
+
+  console.log('normal date');
+  return {
+    $expr: {
+      $and: [
+        {
+          $not: {
+            $gt: [
+              '$updatedAt',
+              {
+                $dateFromParts: {
+                  year: {
+                    $year: {
+                      $toDate: '$tarikhAkhir',
+                    },
+                  },
+                  month: {
+                    $add: [
+                      {
+                        $month: {
+                          $toDate: '$tarikhAkhir',
+                        },
+                      },
+                      1,
+                    ],
+                  },
+                  day: 6,
+                  hour: 16,
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
 };
 
 // PARAMS LIVES HERE
@@ -330,70 +460,27 @@ const getParams211 = (payload, reten) => {
 const getParams214 = (payload) => {
   const { negeri, daerah, klinik } = payload;
 
-  const byKp = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByKodFasiliti: { $eq: klinik },
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
+  const params = {
+    tarikhKedatangan: dateModifier(payload),
+    umur: { $gte: 59 },
+    deleted: false,
+    statusKehadiran: false,
+    oncall: { $in: [false, null] },
   };
 
-  const byDaerah = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      createdByDaerah: { $eq: daerah },
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
-  };
-
-  const byNegeri = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
-  };
-
-  const satuMalaysia = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
-  };
-
-  switch (true) {
-    case negeri === 'all':
-      return satuMalaysia(payload);
-    case daerah !== 'all' && klinik !== 'all':
-      return byKp(payload);
-    case daerah !== 'all' && klinik === 'all':
-      return byDaerah(payload);
-    case daerah === 'all':
-      return byNegeri(payload);
-    default:
-      return null;
+  if (negeri !== 'all') {
+    params.createdByNegeri = { $eq: negeri };
   }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = { $eq: daerah };
+  }
+
+  if (klinik !== 'all') {
+    params.createdByKodFasiliti = { $eq: klinik };
+  }
+
+  return params;
 };
 const getParams206 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
@@ -1278,6 +1365,7 @@ const dateModifier = (payload) => {
 module.exports = {
   // bismillah
   ultimateCutoff,
+  ultimateCutoffPromosiEdition,
   // countHelper regular
   getParams101,
   getParams211,

@@ -7,6 +7,8 @@ import KaunterNavbar from '../components/KaunterNavbar';
 import KaunterHeaderLoggedIn from '../components/KaunterHeaderLoggedIn';
 import KaunterLanding from '../components/KaunterLanding';
 import Kaunter from '../components/Kaunter';
+import MyVas from '../components/pt-registration/MyVas';
+import MyVasCallback from '../components/pt-registration/MyVasCallback';
 import KaunterDaftarPesakit from '../components/KaunterDaftarPesakit';
 import KaunterLoggedInNotFound from './KaunterLoggedInNotFound';
 import KaunterFooter from '../components/KaunterFooter';
@@ -16,6 +18,8 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 function KaunterAfterLogin() {
   const {
     kaunterToken,
+    myVasToken,
+    myVasIdToken,
     navigate,
     catchAxiosErrorAndLogout,
     refetchDateTime,
@@ -32,7 +36,44 @@ function KaunterAfterLogin() {
   const [kicker, setKicker] = useState(null);
   const [kickerNoti, setKickerNoti] = useState(null);
 
+  const [patientDataFromMyVas, setPatientDataFromMyVas] = useState({});
+  const [dariMyVas, setDariMyVas] = useState(false);
+  const [masaTemujanji, setMasaTemujanji] = useState('');
+  const [queryingMyVas, setQueryingMyVas] = useState(false);
+
   const kickerNotiId = useRef();
+
+  const handleSubmitMyVas = async (patientId, timeslot) => {
+    setQueryingMyVas(true);
+    const nodejs_patient_details = '/api/v1/myvas/patient-details?nric=';
+    const config = {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${kaunterToken} ${myVasToken ? myVasToken : ''}`,
+      },
+    };
+    await axios
+      .get(`${nodejs_patient_details}${patientId}`, config)
+      .then((res) => {
+        if (
+          res &&
+          res.data.next_status &&
+          res.data.next_status >= 400 &&
+          res.data.next_status <= 599
+        ) {
+          if (res.data.redirect_uri) {
+            window.location.href = res.data.redirect_uri;
+            return;
+          }
+        }
+        toast.success('Pesakit berjaya ditarik', { autoClose: 2000 });
+        const patientData = res.data.entry[0];
+        setPatientDataFromMyVas(patientData);
+        setMasaTemujanji(timeslot);
+        setDariMyVas(true);
+        setQueryingMyVas(false);
+      });
+  };
 
   const logOutNotiSystem = () => {
     const notifyLogOut = () =>
@@ -77,11 +118,25 @@ function KaunterAfterLogin() {
     setTimer(real);
   };
 
-  const logout = () => {
+  const logout = async () => {
     clearTimeout(kicker);
     clearTimeout(kickerNoti);
-    catchAxiosErrorAndLogout();
-    navigate('/pendaftaran');
+    const config = {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${kaunterToken} ${
+          myVasToken ? myVasToken : ''
+        } ${myVasIdToken ? myVasIdToken : ''}`,
+      },
+    };
+    try {
+      await axios.get('/api/v1/myvas/logout', config);
+      catchAxiosErrorAndLogout();
+      navigate('/pendaftaran');
+    } catch (error) {
+      catchAxiosErrorAndLogout();
+      navigate('/pendaftaran');
+    }
   };
 
   useEffect(() => {
@@ -132,9 +187,24 @@ function KaunterAfterLogin() {
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 createdByNegeri={createdByNegeri}
+                dariMyVas={dariMyVas}
+                setDariMyVas={setDariMyVas}
+                patientDataFromMyVas={patientDataFromMyVas}
+                masaTemujanji={masaTemujanji}
+                queryingMyVas={queryingMyVas}
               />
             }
           />
+          {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
+            <>
+              <Route
+                path='kp/myvas'
+                element={<MyVas handleSubmitMyVas={handleSubmitMyVas} />}
+              />
+              <Route path='kp/callback' element={<MyVasCallback />} />
+            </>
+          ) : null}
           <Route
             path='kk-kd'
             element={
