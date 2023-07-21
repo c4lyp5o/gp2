@@ -129,6 +129,7 @@ const countPPIM03 = async (payload) => {
           createdByDaerah: payload.daerah,
         }),
         ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        sekolahSelesaiReten: true,
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
     },
@@ -2459,9 +2460,53 @@ const countDEWASAMUDA = async (payload) => {
       },
     },
     {
-      $group: {
-        _id: null,
-        ...groupSekolah,
+      $facet: {
+        sekolahAll: [
+          {
+            $group: {
+              _id: null,
+              ...groupSekolah,
+            },
+          },
+        ],
+        sekolahOku: [
+          {
+            $match: {
+              statusOku: 'OKU',
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              ...groupSekolah,
+            },
+          },
+        ],
+        sekolahOap: [
+          {
+            $match: {
+              keturunan: {
+                $in: [
+                  'PENAN',
+                  'ORANG ASLI (SEMENANJUNG)',
+                  'JAKUN',
+                  'NEGRITO',
+                  'SAKAI',
+                  'SEMAI',
+                  'SEMALAI',
+                  'TEMIAR',
+                  'SENOI',
+                ],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              ...groupSekolah,
+            },
+          },
+        ],
       },
     },
   ]);
@@ -2564,9 +2609,53 @@ const countDEWASAMUDA = async (payload) => {
       },
     },
     {
-      $group: {
-        _id: null,
-        ...groupSekolah,
+      $facet: {
+        sekolahAll: [
+          {
+            $group: {
+              _id: null,
+              ...groupSekolah,
+            },
+          },
+        ],
+        sekolahOku: [
+          {
+            $match: {
+              statusOku: 'OKU',
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              ...groupSekolah,
+            },
+          },
+        ],
+        sekolahOap: [
+          {
+            $match: {
+              keturunan: {
+                $in: [
+                  'PENAN',
+                  'ORANG ASLI (SEMENANJUNG)',
+                  'JAKUN',
+                  'NEGRITO',
+                  'SAKAI',
+                  'SEMAI',
+                  'SEMALAI',
+                  'TEMIAR',
+                  'SENOI',
+                ],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              ...groupSekolah,
+            },
+          },
+        ],
       },
     },
   ]);
