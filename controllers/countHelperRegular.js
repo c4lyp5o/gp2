@@ -1229,7 +1229,7 @@ const countPG206 = async (payload) => {
           {
             $bucket: {
               groupBy: '$umur',
-              boundaries: [0, 1, 5, 7, 10, 13, 15, 17],
+              boundaries: [0, 1, 5, 7, 10, 13, 15, 18],
               default: 'Other',
               output: {
                 ...group_pemeriksaan,
@@ -1241,7 +1241,7 @@ const countPG206 = async (payload) => {
           {
             $bucket: {
               groupBy: '$umur',
-              boundaries: [0, 1, 5, 7, 10, 13, 15, 17],
+              boundaries: [0, 1, 5, 7, 10, 13, 15, 18],
               default: 'Other',
               output: {
                 ...group_rawatan,
@@ -1307,12 +1307,18 @@ const countPG206 = async (payload) => {
             },
           },
         ],
+      },
+    },
+  ]);
+  const data206oplain = await Umum.aggregate([
+    {
+      $match: {
+        ...ultimateCutoff(payload),
+      },
+    },
+    {
+      $facet: {
         oplainRawatan: [
-          {
-            $match: {
-              rawatanDibuatOperatorLain: true,
-            },
-          },
           ...getParamsOperatorLain,
           {
             $match: {
@@ -1324,7 +1330,7 @@ const countPG206 = async (payload) => {
           {
             $bucket: {
               groupBy: '$umur',
-              boundaries: [0, 1, 5, 7, 10, 13, 15, 17],
+              boundaries: [0, 1, 5, 7, 10, 13, 15, 18],
               default: 'Other',
               output: {
                 ...group_opLain,
@@ -1333,11 +1339,6 @@ const countPG206 = async (payload) => {
           },
         ],
         oplainOku: [
-          {
-            $match: {
-              rawatanDibuatOperatorLain: true,
-            },
-          },
           ...getParamsOperatorLain,
           {
             $match: {
@@ -1355,11 +1356,6 @@ const countPG206 = async (payload) => {
           },
         ],
         oplainBw: [
-          {
-            $match: {
-              rawatanDibuatOperatorLain: true,
-            },
-          },
           ...getParamsOperatorLain,
           {
             $match: {
@@ -2238,6 +2234,7 @@ const countPG206 = async (payload) => {
 
     bigData.push(
       data206,
+      data206oplain,
       // hal sekolah
       dataSekolahPemeriksaan,
       dataSekolahRawatan,
@@ -3012,17 +3009,6 @@ const countPG207 = async (payload) => {
   };
 
   const group_opLain = {
-    // kedatanganTahunSemasaUlangan: {
-    //   $sum: {
-    //     $cond: [
-    //       {
-    //         $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
-    //       },
-    //       1,
-    //       0,
-    //     ],
-    //   },
-    // },
     // dibuat rawatan
     sapuanFluorida: {
       //fvMuridB
@@ -3773,7 +3759,7 @@ const countPG207 = async (payload) => {
           {
             $bucket: {
               groupBy: '$umur',
-              boundaries: [0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 50, 60],
+              boundaries: [0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 50, 60, 150],
               default: 'Other',
               output: {
                 ...group_pemeriksaan,
@@ -3785,7 +3771,7 @@ const countPG207 = async (payload) => {
           {
             $bucket: {
               groupBy: '$umur',
-              boundaries: [0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 50, 60],
+              boundaries: [0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 50, 60, 150],
               default: 'Other',
               output: {
                 ...group_rawatan,
@@ -3897,7 +3883,7 @@ const countPG207 = async (payload) => {
           {
             $bucket: {
               groupBy: '$umur',
-              boundaries: [0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 50, 60],
+              boundaries: [0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 50, 60, 150],
               default: 'Other',
               output: {
                 ...group_opLain,
@@ -3956,6 +3942,89 @@ const countPG207 = async (payload) => {
               rawatanDibuatOperatorLain: true,
             },
           },
+          ...getParamsOperatorLain,
+          {
+            $match: {
+              kumpulanEtnik: 'bukan warganegara',
+              createdByMdcMdtb: payload.pilihanIndividu
+                ? payload.pilihanIndividu
+                : { $regex: /^(?!mdtb).*$/i },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              ...group_opLain,
+            },
+          },
+        ],
+      },
+    },
+  ]);
+  const data207oplain = await Umum.aggregate([
+    {
+      $match: {
+        ...ultimateCutoff(payload),
+      },
+    },
+    {
+      $facet: {
+        oplainRawatan: [
+          ...getParamsOperatorLain,
+          {
+            $match: {
+              createdByMdcMdtb: payload.pilihanIndividu
+                ? payload.pilihanIndividu
+                : { $regex: /^(?!mdtb).*$/i },
+            },
+          },
+          {
+            $bucket: {
+              groupBy: '$umur',
+              boundaries: [0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 50, 60, 150],
+              default: 'Other',
+              output: {
+                ...group_opLain,
+              },
+            },
+          },
+        ],
+        oplainIm: [
+          ...getParamsOperatorLain,
+          {
+            $match: {
+              umur: { $gte: 7 },
+              ibuMengandung: true,
+              createdByMdcMdtb: payload.pilihanIndividu
+                ? payload.pilihanIndividu
+                : { $regex: /^(?!mdtb).*$/i },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              ...group_opLain,
+            },
+          },
+        ],
+        oplainOku: [
+          ...getParamsOperatorLain,
+          {
+            $match: {
+              orangKurangUpaya: true,
+              createdByMdcMdtb: payload.pilihanIndividu
+                ? payload.pilihanIndividu
+                : { $regex: /^(?!mdtb).*$/i },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              ...group_opLain,
+            },
+          },
+        ],
+        oplainBw: [
           ...getParamsOperatorLain,
           {
             $match: {
@@ -5030,6 +5099,7 @@ const countPG207 = async (payload) => {
 
     bigData.push(
       data207,
+      data207oplain,
       dataSekolahPemeriksaan,
       dataSekolahRawatan,
       skorBpe,

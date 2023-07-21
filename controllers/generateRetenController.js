@@ -1593,9 +1593,6 @@ const makePG206 = async (payload) => {
         case 15:
           rowNumber = 23;
           break;
-        case 17:
-          rowNumber = 24;
-          break;
         default:
           continue;
       }
@@ -1657,9 +1654,6 @@ const makePG206 = async (payload) => {
           break;
         case 15:
           rowNumber = 23;
-          break;
-        case 17:
-          rowNumber = 24;
           break;
         default:
           continue;
@@ -1850,7 +1844,7 @@ const makePG206 = async (payload) => {
       }
       row.getCell(47).value = item.kesSelesai;
     }
-    for (const item of data[0][0].oplainRawatan) {
+    for (const item of data[1][0].oplainRawatan) {
       switch (item._id) {
         case 0:
           rowNumber = 17;
@@ -1873,16 +1867,12 @@ const makePG206 = async (payload) => {
         case 15:
           rowNumber = 23;
           break;
-        case 17:
-          rowNumber = 24;
-          break;
         default:
           continue;
       }
 
       const row = worksheet.getRow(rowNumber);
 
-      row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
       row.getCell(24).value = item.sapuanFluorida;
       if (item._id > 1) {
         row.getCell(25).value = item.jumlahPesakitPrrJenis1;
@@ -1917,85 +1907,64 @@ const makePG206 = async (payload) => {
       }
       row.getCell(47).value = item.kesSelesai;
     }
-    for (const item of data[0][0].oplainOku) {
+    for (const item of data[1][0].oplainOku) {
       const row = worksheet.getRow(25);
 
-      row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
       row.getCell(24).value = item.sapuanFluorida;
-      if (item._id > 1) {
-        row.getCell(25).value = item.jumlahPesakitPrrJenis1;
-        row.getCell(26).value = item.jumlahGigiPrrJenis1;
-        row.getCell(27).value = item.jumlahPesakitDiBuatFs;
-        row.getCell(28).value = item.jumlahGigiDibuatFs;
-      }
+      row.getCell(25).value = item.jumlahPesakitPrrJenis1;
+      row.getCell(26).value = item.jumlahGigiPrrJenis1;
+      row.getCell(27).value = item.jumlahPesakitDiBuatFs;
+      row.getCell(28).value = item.jumlahGigiDibuatFs;
       row.getCell(29).value = item.tampalanAntGdBaru;
       row.getCell(30).value = item.tampalanAntGdSemula;
-      if (item._id > 1) {
-        row.getCell(31).value = item.tampalanAntGkBaru;
-        row.getCell(32).value = item.tampalanAntGkSemula;
-      }
+      row.getCell(31).value = item.tampalanAntGkBaru;
+      row.getCell(32).value = item.tampalanAntGkSemula;
       row.getCell(33).value = item.tampalanPostGdBaru;
       row.getCell(34).value = item.tampalanPostGdSemula;
-      if (item._id > 1) {
-        row.getCell(35).value = item.tampalanPostGkBaru;
-        row.getCell(36).value = item.tampalanPostGkSemula;
-      }
+      row.getCell(35).value = item.tampalanPostGkBaru;
+      row.getCell(36).value = item.tampalanPostGkSemula;
       row.getCell(37).value = item.tampalanPostAmgGdBaru;
       row.getCell(38).value = item.tampalanPostAmgGdSemula;
-      if (item._id > 1) {
-        row.getCell(39).value = item.tampalanPostAmgGkBaru;
-        row.getCell(40).value = item.tampalanPostAmgGkSemula;
-      }
+      row.getCell(39).value = item.tampalanPostAmgGkBaru;
+      row.getCell(40).value = item.tampalanPostAmgGkSemula;
       // skipping cells
       row.getCell(43).value = item.tampalanSementara;
       row.getCell(44).value = item.cabutanGd;
-      if (item._id > 1) {
-        row.getCell(45).value = item.cabutanGk;
-        row.getCell(46).value = item.penskaleran;
-      }
+      row.getCell(45).value = item.cabutanGk;
+      row.getCell(46).value = item.penskaleran;
       row.getCell(47).value = item.kesSelesai;
     }
-    for (const item of data[0][0].oplainBw) {
+    for (const item of data[1][0].oplainBw) {
       const row = worksheet.getRow(26);
 
       row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
       row.getCell(24).value = item.sapuanFluorida;
-      if (item._id > 1) {
-        row.getCell(25).value = item.jumlahPesakitPrrJenis1;
-        row.getCell(26).value = item.jumlahGigiPrrJenis1;
-        row.getCell(27).value = item.jumlahPesakitDiBuatFs;
-        row.getCell(28).value = item.jumlahGigiDibuatFs;
-      }
+      row.getCell(25).value = item.jumlahPesakitPrrJenis1;
+      row.getCell(26).value = item.jumlahGigiPrrJenis1;
+      row.getCell(27).value = item.jumlahPesakitDiBuatFs;
+      row.getCell(28).value = item.jumlahGigiDibuatFs;
       row.getCell(29).value = item.tampalanAntGdBaru;
       row.getCell(30).value = item.tampalanAntGdSemula;
-      if (item._id > 1) {
-        row.getCell(31).value = item.tampalanAntGkBaru;
-        row.getCell(32).value = item.tampalanAntGkSemula;
-      }
+      row.getCell(31).value = item.tampalanAntGkBaru;
+      row.getCell(32).value = item.tampalanAntGkSemula;
       row.getCell(33).value = item.tampalanPostGdBaru;
       row.getCell(34).value = item.tampalanPostGdSemula;
-      if (item._id > 1) {
-        row.getCell(35).value = item.tampalanPostGkBaru;
-        row.getCell(36).value = item.tampalanPostGkSemula;
-      }
+      row.getCell(35).value = item.tampalanPostGkBaru;
+      row.getCell(36).value = item.tampalanPostGkSemula;
       row.getCell(37).value = item.tampalanPostAmgGdBaru;
       row.getCell(38).value = item.tampalanPostAmgGdSemula;
-      if (item._id > 1) {
-        row.getCell(39).value = item.tampalanPostAmgGkBaru;
-        row.getCell(40).value = item.tampalanPostAmgGkSemula;
-      }
+      row.getCell(39).value = item.tampalanPostAmgGkBaru;
+      row.getCell(40).value = item.tampalanPostAmgGkSemula;
       // skipping cells
       row.getCell(43).value = item.tampalanSementara;
       row.getCell(44).value = item.cabutanGd;
-      if (item._id > 1) {
-        row.getCell(45).value = item.cabutanGk;
-        row.getCell(46).value = item.penskaleran;
-      }
+      row.getCell(45).value = item.cabutanGk;
+      row.getCell(46).value = item.penskaleran;
       row.getCell(47).value = item.kesSelesai;
     }
 
     // data pemeriksaan sekolah
-    for (const item of data[1]) {
+    for (const item of data[2]) {
       const rowNumber = rowNumbers[item._id];
 
       if (rowNumber !== undefined) {
@@ -2024,7 +1993,7 @@ const makePG206 = async (payload) => {
     }
 
     // data rawatan sekolah
-    for (const item of data[2]) {
+    for (const item of data[3]) {
       const rowNumber = rowNumbers[item._id];
 
       if (rowNumber !== undefined) {
@@ -2054,7 +2023,7 @@ const makePG206 = async (payload) => {
     }
 
     // data kedatangan sekolah
-    for (const item of data[3]) {
+    for (const item of data[4]) {
       const rowNumber = rowNumbers[item._id];
       if (rowNumber !== undefined) {
         const row = worksheet.getRow(rowNumber);
@@ -2066,7 +2035,7 @@ const makePG206 = async (payload) => {
     }
 
     // data OKU sekolah pemeriksaan
-    for (const item of data[4]) {
+    for (const item of data[5]) {
       const row = worksheet.getRow(25);
       row.getCell(4).value += item.jumlahd;
       row.getCell(5).value += item.jumlahf;
@@ -2091,7 +2060,7 @@ const makePG206 = async (payload) => {
     }
 
     // data OKU sekolah rawatan
-    for (const item of data[5]) {
+    for (const item of data[6]) {
       const row = worksheet.getRow(25);
       row.getCell(24).value += item.sapuanFluorida;
       row.getCell(25).value += item.jumlahPesakitPrrJenis1;
@@ -2117,7 +2086,7 @@ const makePG206 = async (payload) => {
     }
 
     // data BW sekolah pemeriksaan
-    for (const item of data[6]) {
+    for (const item of data[7]) {
       const row = worksheet.getRow(26);
       row.getCell(4).value += item.jumlahd;
       row.getCell(5).value += item.jumlahf;
@@ -2142,7 +2111,7 @@ const makePG206 = async (payload) => {
     }
 
     // data BW sekolah rawatan
-    for (const item of data[7]) {
+    for (const item of data[8]) {
       const row = worksheet.getRow(26);
       row.getCell(24).value += item.sapuanFluorida;
       row.getCell(25).value += item.jumlahPesakitPrrJenis1;
@@ -2168,7 +2137,7 @@ const makePG206 = async (payload) => {
     }
 
     // data kedatangan sekolah OKU
-    for (const item of data[8]) {
+    for (const item of data[9]) {
       const row = worksheet.getRow(25);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
@@ -2177,7 +2146,7 @@ const makePG206 = async (payload) => {
     }
 
     // data kedatangan sekolah BW
-    for (const item of data[9]) {
+    for (const item of data[10]) {
       const row = worksheet.getRow(26);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
@@ -2186,7 +2155,7 @@ const makePG206 = async (payload) => {
     }
 
     // kes selesai sekolah
-    for (const item of data[10]) {
+    for (const item of data[11]) {
       const rowNumber = rowNumbers[item._id];
 
       if (rowNumber !== undefined) {
@@ -2196,13 +2165,13 @@ const makePG206 = async (payload) => {
     }
 
     // kes selesai sekolah oku
-    for (const item of data[11]) {
+    for (const item of data[12]) {
       const row = worksheet.getRow(25);
       row.getCell(47).value += item.kesSelesai;
     }
 
     // kes selesai sekolah bw
-    for (const item of data[12]) {
+    for (const item of data[13]) {
       const row = worksheet.getRow(26);
       row.getCell(47).value += item.kesSelesai;
     }
@@ -2828,7 +2797,7 @@ const makePG207 = async (payload) => {
       row.getCell(80).value = item.xrayDiambil;
       row.getCell(81).value = item.pesakitDisaringOC;
     }
-    for (const item of data[0][0].oplainRawatan) {
+    for (const item of data[1][0].oplainRawatan) {
       switch (item._id) {
         case 0:
           rowNumber = 17;
@@ -2873,7 +2842,6 @@ const makePG207 = async (payload) => {
       const row = worksheet.getRow(rowNumber);
 
       // rawatan
-      row.getCell(3).value += item.kedatanganTahunSemasaUlangan;
       row.getCell(29).value += item.sapuanFluorida;
       if (item._id > 1) {
         row.getCell(30).value += item.jumlahPesakitPrrJenis1;
@@ -2935,12 +2903,10 @@ const makePG207 = async (payload) => {
       }
       row.getCell(79).value += item.kesSelesai;
       row.getCell(80).value += item.xrayDiambil;
-      row.getCell(81).value += item.pesakitDisaringOC;
     }
-    for (const item of data[0][0].oplainIm) {
+    for (const item of data[1][0].oplainIm) {
       const row = worksheet.getRow(30);
 
-      row.getCell(3).value += item.kedatanganTahunSemasaUlangan;
       row.getCell(29).value += item.sapuanFluorida;
       row.getCell(30).value += item.jumlahPesakitPrrJenis1;
       row.getCell(31).value += item.jumlahGigiPrrJenis1;
@@ -2992,12 +2958,10 @@ const makePG207 = async (payload) => {
       row.getCell(78).value += item.pembaikanDenture;
       row.getCell(79).value += item.kesSelesai;
       row.getCell(80).value += item.xrayDiambil;
-      row.getCell(81).value += item.pesakitDisaringOC;
     }
-    for (const item of data[0][0].oplainOku) {
+    for (const item of data[1][0].oplainOku) {
       const row = worksheet.getRow(31);
 
-      row.getCell(3).value += item.kedatanganTahunSemasaUlangan;
       row.getCell(29).value += item.sapuanFluorida;
       row.getCell(30).value += item.jumlahPesakitPrrJenis1;
       row.getCell(31).value += item.jumlahGigiPrrJenis1;
@@ -3049,12 +3013,10 @@ const makePG207 = async (payload) => {
       row.getCell(78).value += item.pembaikanDenture;
       row.getCell(79).value += item.kesSelesai;
       row.getCell(80).value += item.xrayDiambil;
-      row.getCell(81).value += item.pesakitDisaringOC;
     }
-    for (const item of data[0][0].oplainBw) {
+    for (const item of data[1][0].oplainBw) {
       const row = worksheet.getRow(32);
 
-      row.getCell(3).value += item.kedatanganTahunSemasaUlangan;
       row.getCell(29).value += item.sapuanFluorida;
       row.getCell(30).value += item.jumlahPesakitPrrJenis1;
       row.getCell(31).value += item.jumlahGigiPrrJenis1;
@@ -3106,11 +3068,10 @@ const makePG207 = async (payload) => {
       row.getCell(78).value += item.pembaikanDenture;
       row.getCell(79).value += item.kesSelesai;
       row.getCell(80).value += item.xrayDiambil;
-      row.getCell(81).value += item.pesakitDisaringOC;
     }
 
     // data pemeriksaan sekolah
-    for (const item of data[1]) {
+    for (const item of data[2]) {
       const rowNumber = rowNumbers[item._id];
       if (rowNumber !== undefined) {
         const row = worksheet.getRow(rowNumber);
@@ -3140,7 +3101,7 @@ const makePG207 = async (payload) => {
     }
 
     // data rawatan sekolah
-    for (const item of data[2]) {
+    for (const item of data[3]) {
       const rowNumber = rowNumbers[item._id];
       if (rowNumber !== undefined) {
         const row = worksheet.getRow(rowNumber);
@@ -3174,7 +3135,7 @@ const makePG207 = async (payload) => {
 
     // data skor bpe
     j = 0;
-    for (let i = 0; i < data[3].length; i++) {
+    for (let i = 0; i < data[4].length; i++) {
       const [skorBpe] = data[5][i].skorBpe || [];
 
       if (skorBpe) {
@@ -3191,7 +3152,7 @@ const makePG207 = async (payload) => {
     }
 
     // data kedatangan sekolah
-    for (const item of data[4]) {
+    for (const item of data[5]) {
       const rowNumber = rowNumbers[item._id];
       if (rowNumber !== undefined) {
         const row = worksheet.getRow(rowNumber);
@@ -3203,7 +3164,7 @@ const makePG207 = async (payload) => {
     }
 
     // data OKU sekolah pemeriksaan
-    for (const item of data[5]) {
+    for (const item of data[6]) {
       const row = worksheet.getRow(31);
       row.getCell(4).value += item.jumlahd;
       row.getCell(5).value += item.jumlahf;
@@ -3228,7 +3189,7 @@ const makePG207 = async (payload) => {
     }
 
     // data OKU sekolah rawatan
-    for (const item of data[6]) {
+    for (const item of data[7]) {
       const row = worksheet.getRow(31);
       row.getCell(29).value += item.sapuanFluorida;
       row.getCell(30).value += item.jumlahPesakitPrrJenis1;
@@ -3258,7 +3219,7 @@ const makePG207 = async (payload) => {
     }
 
     // data BW sekolah pemeriksaan
-    for (const item of data[7]) {
+    for (const item of data[8]) {
       const row = worksheet.getRow(32);
       row.getCell(4).value += item.jumlahd;
       row.getCell(5).value += item.jumlahf;
@@ -3283,7 +3244,7 @@ const makePG207 = async (payload) => {
     }
 
     // data BW sekolah rawatan
-    for (const item of data[8]) {
+    for (const item of data[9]) {
       const row = worksheet.getRow(32);
       row.getCell(29).value += item.sapuanFluorida;
       row.getCell(30).value += item.jumlahPesakitPrrJenis1;
@@ -3313,7 +3274,7 @@ const makePG207 = async (payload) => {
     }
 
     // data kedatangan OKU
-    for (const item of data[9]) {
+    for (const item of data[10]) {
       const row = worksheet.getRow(31);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
@@ -3322,7 +3283,7 @@ const makePG207 = async (payload) => {
     }
 
     // data kedatangan BW
-    for (const item of data[10]) {
+    for (const item of data[11]) {
       const row = worksheet.getRow(32);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
@@ -3331,7 +3292,7 @@ const makePG207 = async (payload) => {
     }
 
     // kes selesai sekolah
-    for (const item of data[11]) {
+    for (const item of data[12]) {
       const rowNumber = rowNumbers[item._id];
 
       if (rowNumber !== undefined) {
@@ -3341,13 +3302,13 @@ const makePG207 = async (payload) => {
     }
 
     // kes selesai sekolah oku
-    for (const item of data[12]) {
+    for (const item of data[13]) {
       const row = worksheet.getRow(31);
       row.getCell(79).value += item.kesSelesai;
     }
 
     // kes selesai sekolah bw
-    for (const item of data[13]) {
+    for (const item of data[14]) {
       const row = worksheet.getRow(32);
       row.getCell(79).value += item.kesSelesai;
     }
@@ -10299,6 +10260,7 @@ const makeDEWASAMUDA = async (payload) => {
       row.getCell(70).value = item.xrayDiambil;
       row.getCell(71).value = item.pesakitDisaringOC;
     }
+
     // sekolah
     for (let i = 0; i < 2; i++) {
       const sekolahDM = data[1][0].sekolahAll[0] || [];
@@ -11498,6 +11460,7 @@ const makeKOM = async (payload) => {
   } = payload;
   try {
     let data;
+    let dataDM;
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
@@ -11505,6 +11468,7 @@ const makeKOM = async (payload) => {
         break;
       default:
         data = await Helper.countKOM(payload);
+        dataDM = await Helper.countDEWASAMUDA(payload);
         break;
     }
     //
@@ -11720,6 +11684,241 @@ const makeKOM = async (payload) => {
       j++;
       if (i === 11 || i === 15) {
         j++;
+      }
+    }
+
+    // sekolah dari dewasa muda
+    for (let i = 0; i < 2; i++) {
+      const sekolahDM = dataDM[1][0].sekolahAll[0] || [];
+
+      if (sekolahDM) {
+        if (i === 0) {
+          rowNumber = 26;
+        } else {
+          rowNumber = 38;
+        }
+
+        const row = worksheet.getRow(rowNumber);
+
+        // pemeriksaan
+        row.getCell(3).value += sekolahDM.kedatanganBaru;
+        row.getCell(4).value += sekolahDM.kedatanganUlangan;
+        row.getCell(5).value += sekolahDM.jumlahd;
+        row.getCell(6).value += sekolahDM.jumlahf;
+        row.getCell(7).value += sekolahDM.jumlahx;
+        // row.getCell(10).value += sekolahDM.jumlahdfx;
+        row.getCell(9).value += sekolahDM.jumlahD;
+        row.getCell(10).value += sekolahDM.jumlahM;
+        row.getCell(11).value += sekolahDM.jumlahF;
+        row.getCell(12).value += sekolahDM.jumlahX;
+        // row.getCell(12).value += sekolahDM.jumlahDMFX;
+        row.getCell(14).value += sekolahDM.jumlahMBK;
+        row.getCell(15).value += sekolahDM.statusBebasKaries;
+        row.getCell(16).value += sekolahDM.jumlahTPRbiasa;
+        row.getCell(17).value += sekolahDM.skorBPE0;
+        row.getCell(18).value =
+          sekolahDM.skorBPE1 +
+          sekolahDM.skorBPE2 +
+          sekolahDM.skorBPE3 +
+          sekolahDM.skorBPE4;
+        row.getCell(19).value += sekolahDM.perluSapuanFluorida;
+        row.getCell(20).value += sekolahDM.perluJumlahPesakitPrrJenis1;
+        row.getCell(21).value += sekolahDM.perluJumlahGigiPrrJenis1;
+        row.getCell(22).value += sekolahDM.perluJumlahPesakitFS;
+        row.getCell(23).value += sekolahDM.perluJumlahGigiFS;
+        row.getCell(24).value += sekolahDM.perluPenskaleran;
+        // skipping cells
+        row.getCell(28).value += sekolahDM.perluDenturPenuh;
+        row.getCell(29).value += sekolahDM.perluDenturSepara;
+        // skipping cells
+        row.getCell(66).value += sekolahDM.kesSelesai;
+      }
+    }
+
+    for (let i = 0; i < 2; i++) {
+      const sekolahDM = dataDM[2][0].sekolahAll[0] || [];
+
+      if (sekolahDM) {
+        if (i === 0) {
+          rowNumber = 26;
+        } else {
+          rowNumber = 38;
+        }
+
+        const row = worksheet.getRow(rowNumber);
+
+        // rawatan
+        row.getCell(30).value += sekolahDM.sapuanFluorida;
+        row.getCell(31).value += sekolahDM.jumlahPesakitPrrJenis1;
+        row.getCell(32).value += sekolahDM.jumlahGigiPrrJenis1;
+        row.getCell(33).value += sekolahDM.jumlahPesakitDiBuatFs;
+        row.getCell(34).value += sekolahDM.jumlahGigiDibuatFs;
+        row.getCell(35).value += sekolahDM.tampalanAntGdBaru;
+        row.getCell(36).value += sekolahDM.tampalanAntGdSemula;
+        row.getCell(37).value += sekolahDM.tampalanAntGkBaru;
+        row.getCell(38).value += sekolahDM.tampalanAntGkSemula;
+        row.getCell(39).value += sekolahDM.tampalanPostGdBaru;
+        row.getCell(40).value += sekolahDM.tampalanPostGdSemula;
+        row.getCell(41).value += sekolahDM.tampalanPostGkBaru;
+        row.getCell(42).value += sekolahDM.tampalanPostGkSemula;
+        row.getCell(43).value += sekolahDM.tampalanPostAmgGdBaru;
+        row.getCell(44).value += sekolahDM.tampalanPostAmgGdSemula;
+        row.getCell(45).value += sekolahDM.tampalanPostAmgGkBaru;
+        row.getCell(46).value += sekolahDM.tampalanPostAmgGkSemula;
+        // skipping cells
+        row.getCell(49).value += sekolahDM.tampalanSementara;
+        row.getCell(50).value += sekolahDM.cabutanGd;
+        row.getCell(51).value += sekolahDM.cabutanGk;
+        // skipping cells
+        row.getCell(53).value += sekolahDM.penskaleran;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = dataDM[1][0].sekolahOku[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(34);
+
+        // pemeriksaan
+        row.getCell(3).value += sekolahDM.kedatanganBaru;
+        row.getCell(4).value += sekolahDM.kedatanganUlangan;
+        row.getCell(5).value += sekolahDM.jumlahd;
+        row.getCell(6).value += sekolahDM.jumlahf;
+        row.getCell(7).value += sekolahDM.jumlahx;
+        // row.getCell(10).value += sekolahDM.jumlahdfx;
+        row.getCell(9).value += sekolahDM.jumlahD;
+        row.getCell(10).value += sekolahDM.jumlahM;
+        row.getCell(11).value += sekolahDM.jumlahF;
+        row.getCell(12).value += sekolahDM.jumlahX;
+        // row.getCell(12).value += sekolahDM.jumlahDMFX;
+        row.getCell(14).value += sekolahDM.jumlahMBK;
+        row.getCell(15).value += sekolahDM.statusBebasKaries;
+        row.getCell(16).value += sekolahDM.jumlahTPRbiasa;
+        row.getCell(17).value += sekolahDM.skorBPE0;
+        row.getCell(18).value +=
+          sekolahDM.skorBPE1 +
+          sekolahDM.skorBPE2 +
+          sekolahDM.skorBPE3 +
+          sekolahDM.skorBPE4;
+        row.getCell(19).value += sekolahDM.perluSapuanFluorida;
+        row.getCell(20).value += sekolahDM.perluJumlahPesakitPrrJenis1;
+        row.getCell(21).value += sekolahDM.perluJumlahGigiPrrJenis1;
+        row.getCell(22).value += sekolahDM.perluJumlahPesakitFS;
+        row.getCell(23).value += sekolahDM.perluJumlahGigiFS;
+        row.getCell(24).value += sekolahDM.perluPenskaleran;
+        // skipping cells
+        row.getCell(28).value += sekolahDM.perluDenturPenuh;
+        row.getCell(29).value += sekolahDM.perluDenturSepara;
+        // skipping cells
+        row.getCell(66).value += sekolahDM.kesSelesai;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = dataDM[2][0].sekolahOku[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(34);
+
+        // rawatan
+        row.getCell(30).value += sekolahDM.sapuanFluorida;
+        row.getCell(31).value += sekolahDM.jumlahPesakitPrrJenis1;
+        row.getCell(32).value += sekolahDM.jumlahGigiPrrJenis1;
+        row.getCell(33).value += sekolahDM.jumlahPesakitDiBuatFs;
+        row.getCell(34).value += sekolahDM.jumlahGigiDibuatFs;
+        row.getCell(35).value += sekolahDM.tampalanAntGdBaru;
+        row.getCell(36).value += sekolahDM.tampalanAntGdSemula;
+        row.getCell(37).value += sekolahDM.tampalanAntGkBaru;
+        row.getCell(38).value += sekolahDM.tampalanAntGkSemula;
+        row.getCell(39).value += sekolahDM.tampalanPostGdBaru;
+        row.getCell(40).value += sekolahDM.tampalanPostGdSemula;
+        row.getCell(41).value += sekolahDM.tampalanPostGkBaru;
+        row.getCell(42).value += sekolahDM.tampalanPostGkSemula;
+        row.getCell(43).value += sekolahDM.tampalanPostAmgGdBaru;
+        row.getCell(44).value += sekolahDM.tampalanPostAmgGdSemula;
+        row.getCell(45).value += sekolahDM.tampalanPostAmgGkBaru;
+        row.getCell(46).value += sekolahDM.tampalanPostAmgGkSemula;
+        // skipping cells
+        row.getCell(49).value += sekolahDM.tampalanSementara;
+        row.getCell(50).value += sekolahDM.cabutanGd;
+        row.getCell(51).value += sekolahDM.cabutanGk;
+        // skipping cells
+        row.getCell(53).value += sekolahDM.penskaleran;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = data[1][0].sekolahOap[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(36);
+
+        // pemeriksaan
+        row.getCell(3).value += sekolahDM.kedatanganBaru;
+        row.getCell(4).value += sekolahDM.kedatanganUlangan;
+        row.getCell(5).value += sekolahDM.jumlahd;
+        row.getCell(6).value += sekolahDM.jumlahf;
+        row.getCell(7).value += sekolahDM.jumlahx;
+        // row.getCell(10).value += sekolahDM.jumlahdfx;
+        row.getCell(9).value += sekolahDM.jumlahD;
+        row.getCell(10).value += sekolahDM.jumlahM;
+        row.getCell(11).value += sekolahDM.jumlahF;
+        row.getCell(12).value += sekolahDM.jumlahX;
+        // row.getCell(12).value += sekolahDM.jumlahDMFX;
+        row.getCell(14).value += sekolahDM.jumlahMBK;
+        row.getCell(15).value += sekolahDM.statusBebasKaries;
+        row.getCell(16).value += sekolahDM.jumlahTPRbiasa;
+        row.getCell(17).value += sekolahDM.skorBPE0;
+        row.getCell(18).value +=
+          sekolahDM.skorBPE1 +
+          sekolahDM.skorBPE2 +
+          sekolahDM.skorBPE3 +
+          sekolahDM.skorBPE4;
+        row.getCell(19).value += sekolahDM.perluSapuanFluorida;
+        row.getCell(20).value += sekolahDM.perluJumlahPesakitPrrJenis1;
+        row.getCell(21).value += sekolahDM.perluJumlahGigiPrrJenis1;
+        row.getCell(22).value += sekolahDM.perluJumlahPesakitFS;
+        row.getCell(23).value += sekolahDM.perluJumlahGigiFS;
+        row.getCell(24).value += sekolahDM.perluPenskaleran;
+        // skipping cells
+        row.getCell(28).value += sekolahDM.perluDenturPenuh;
+        row.getCell(29).value += sekolahDM.perluDenturSepara;
+        // skipping cells
+        row.getCell(66).value += sekolahDM.kesSelesai;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = data[2][0].sekolahOap[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(36);
+
+        // rawatan
+        row.getCell(30).value += sekolahDM.sapuanFluorida;
+        row.getCell(31).value += sekolahDM.jumlahPesakitPrrJenis1;
+        row.getCell(32).value += sekolahDM.jumlahGigiPrrJenis1;
+        row.getCell(33).value += sekolahDM.jumlahPesakitDiBuatFs;
+        row.getCell(34).value += sekolahDM.jumlahGigiDibuatFs;
+        row.getCell(35).value += sekolahDM.tampalanAntGdBaru;
+        row.getCell(36).value += sekolahDM.tampalanAntGdSemula;
+        row.getCell(37).value += sekolahDM.tampalanAntGkBaru;
+        row.getCell(38).value += sekolahDM.tampalanAntGkSemula;
+        row.getCell(39).value += sekolahDM.tampalanPostGdBaru;
+        row.getCell(40).value += sekolahDM.tampalanPostGdSemula;
+        row.getCell(41).value += sekolahDM.tampalanPostGkBaru;
+        row.getCell(42).value += sekolahDM.tampalanPostGkSemula;
+        row.getCell(43).value += sekolahDM.tampalanPostAmgGdBaru;
+        row.getCell(44).value += sekolahDM.tampalanPostAmgGdSemula;
+        row.getCell(45).value += sekolahDM.tampalanPostAmgGkBaru;
+        row.getCell(46).value += sekolahDM.tampalanPostAmgGkSemula;
+        // skipping cells
+        row.getCell(49).value += sekolahDM.tampalanSementara;
+        row.getCell(50).value += sekolahDM.cabutanGd;
+        row.getCell(51).value += sekolahDM.cabutanGk;
+        // skipping cells
+        row.getCell(53).value += sekolahDM.penskaleran;
       }
     }
 

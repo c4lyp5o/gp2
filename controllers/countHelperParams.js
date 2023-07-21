@@ -506,6 +506,7 @@ const getParams206 = (payload) => {
   }
 
   if (pilihanIndividu) {
+    delete params.createdByNegeri;
     delete params.createdByDaerah;
     delete params.createdByKodFasiliti;
     params.createdByMdcMdtb = pilihanIndividu;
@@ -537,6 +538,7 @@ const getParams207 = (payload) => {
   }
 
   if (pilihanIndividu) {
+    delete params.createdByNegeri;
     delete params.createdByDaerah;
     delete params.createdByKodFasiliti;
     params.createdByMdcMdtb = pilihanIndividu;
@@ -1302,6 +1304,11 @@ const getParamsPKAP = (payload) => {
 
 // operator lain punya hal kegunaan 206 207
 const getParamsOperatorLain = [
+  {
+    $match: {
+      rawatanDibuatOperatorLain: true,
+    },
+  },
   {
     $unwind: {
       path: '$rawatanOperatorLain',
