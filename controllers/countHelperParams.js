@@ -7,10 +7,7 @@ const ultimateCutoff = (payload) => {
   const mula = moment(tarikhMula).format('MM-DD');
   const akhir = moment(tarikhAkhir).format('MM-DD');
 
-  console.log(mula, akhir);
-
   if (mula === '01-01' && akhir === '06-30') {
-    console.log('janjun');
     return {
       $expr: {
         $and: [
@@ -37,7 +34,6 @@ const ultimateCutoff = (payload) => {
   }
 
   if (mula === '01-01' && akhir === '12-31') {
-    console.log('jandis');
     return {
       $expr: {
         $not: {
@@ -60,7 +56,6 @@ const ultimateCutoff = (payload) => {
     };
   }
 
-  console.log('normal date');
   return {
     $expr: {
       $and: [
@@ -127,10 +122,7 @@ const ultimateCutoffPromosiEdition = (payload) => {
   const mula = moment(tarikhMula).format('MM-DD');
   const akhir = moment(tarikhAkhir).format('MM-DD');
 
-  console.log(mula, akhir);
-
   if (mula === '01-01' && akhir === '12-31') {
-    console.log('jandis');
     return {
       $expr: {
         $not: {
@@ -153,7 +145,6 @@ const ultimateCutoffPromosiEdition = (payload) => {
     };
   }
 
-  console.log('normal date');
   return {
     $expr: {
       $and: [
