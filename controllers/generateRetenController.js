@@ -1558,6 +1558,7 @@ const makePG206 = async (payload) => {
 
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
+    let rowNumber;
     let j = 0;
 
     const rowNumbers = {
@@ -1568,99 +1569,398 @@ const makePG206 = async (payload) => {
       'lima-belas-tujuh-belas': 23,
     };
 
-    // data pemeriksaan biasa
-    j = 0;
-    for (let i = 0; i < data[0].length; i++) {
-      const [pemeriksaan] = data[0][i].queryPemeriksaan || [];
+    // data biasa
+    for (const item of data[0][0].umumPemeriksaan) {
+      switch (item._id) {
+        case 0:
+          rowNumber = 17;
+          break;
+        case 1:
+          rowNumber = 18;
+          break;
+        case 5:
+          rowNumber = 19;
+          break;
+        case 7:
+          rowNumber = 20;
+          break;
+        case 10:
+          rowNumber = 21;
+          break;
+        case 13:
+          rowNumber = 22;
+          break;
+        case 15:
+          rowNumber = 23;
+          break;
+        default:
+          continue;
+      }
 
-      if (pemeriksaan) {
-        const row = worksheet.getRow(17 + j);
-        jumlahReten += pemeriksaan.jumlahReten;
-        jumlahRetenSalah += pemeriksaan.statusReten;
-        // pemeriksaan
-        row.getCell(2).value = pemeriksaan.kedatanganTahunSemasaBaru;
-        row.getCell(4).value = pemeriksaan.jumlahd;
-        row.getCell(5).value = pemeriksaan.jumlahf;
-        row.getCell(6).value = pemeriksaan.jumlahx;
-        row.getCell(7).value = pemeriksaan.jumlahdfx;
-        if (i > 1) {
-          row.getCell(8).value = pemeriksaan.jumlahD;
-          row.getCell(9).value = pemeriksaan.jumlahM;
-          row.getCell(10).value = pemeriksaan.jumlahF;
-          row.getCell(11).value = pemeriksaan.jumlahX;
-          row.getCell(12).value = pemeriksaan.jumlahDMFX;
-        }
-        row.getCell(13).value = pemeriksaan.jumlahMBK;
-        if (i > 1) {
-          row.getCell(14).value = pemeriksaan.statusBebasKaries;
-        }
-        row.getCell(15).value = pemeriksaan.TPR;
-        if (i > 1) {
-          row.getCell(16).value = pemeriksaan.skorGISZero;
-          row.getCell(17).value = pemeriksaan.skorGISMoreThanZero;
-        }
-        row.getCell(18).value = pemeriksaan.perluSapuanFluorida;
-        if (i > 1) {
-          row.getCell(19).value = pemeriksaan.perluJumlahPesakitPrrJenis1;
-          row.getCell(20).value = pemeriksaan.perluJumlahGigiPrrJenis1;
-          row.getCell(21).value = pemeriksaan.perluJumlahPesakitFS;
-          row.getCell(22).value = pemeriksaan.perluJumlahGigiFS;
-        }
-        row.getCell(23).value = pemeriksaan.perluPenskaleran;
+      const row = worksheet.getRow(rowNumber);
+
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      // item
+      row.getCell(2).value = item.kedatanganTahunSemasaBaru;
+      row.getCell(4).value = item.jumlahd;
+      row.getCell(5).value = item.jumlahf;
+      row.getCell(6).value = item.jumlahx;
+      row.getCell(7).value = item.jumlahdfx;
+      if (item._id > 1) {
+        row.getCell(8).value = item.jumlahD;
+        row.getCell(9).value = item.jumlahM;
+        row.getCell(10).value = item.jumlahF;
+        row.getCell(11).value = item.jumlahX;
+        row.getCell(12).value = item.jumlahDMFX;
       }
-      j++;
-      if (i === 6) {
-        j++;
+      row.getCell(13).value = item.jumlahMBK;
+      if (item._id > 1) {
+        row.getCell(14).value = item.statusBebasKaries;
       }
+      row.getCell(15).value = item.TPR;
+      if (item._id > 1) {
+        row.getCell(16).value = item.skorGISZero;
+        row.getCell(17).value = item.skorGISMoreThanZero;
+      }
+      row.getCell(18).value = item.perluSapuanFluorida;
+      if (item._id > 1) {
+        row.getCell(19).value = item.perluJumlahPesakitPrrJenis1;
+        row.getCell(20).value = item.perluJumlahGigiPrrJenis1;
+        row.getCell(21).value = item.perluJumlahPesakitFS;
+        row.getCell(22).value = item.perluJumlahGigiFS;
+      }
+      row.getCell(23).value = item.perluPenskaleran;
     }
-
-    // data rawatan biasa
-    j = 0;
-    for (let i = 0; i < data[1].length; i++) {
-      const [rawatan] = data[1][i].queryRawatan || [];
-
-      if (rawatan) {
-        const row = worksheet.getRow(17 + j);
-        // rawatan
-        row.getCell(3).value = rawatan.kedatanganTahunSemasaUlangan;
-        row.getCell(24).value = rawatan.sapuanFluorida;
-        if (i > 1) {
-          row.getCell(25).value = rawatan.jumlahPesakitPrrJenis1;
-          row.getCell(26).value = rawatan.jumlahGigiPrrJenis1;
-          row.getCell(27).value = rawatan.jumlahPesakitDiBuatFs;
-          row.getCell(28).value = rawatan.jumlahGigiDibuatFs;
-        }
-        row.getCell(29).value = rawatan.tampalanAntGdBaru;
-        row.getCell(30).value = rawatan.tampalanAntGdSemula;
-        if (i > 1) {
-          row.getCell(31).value = rawatan.tampalanAntGkBaru;
-          row.getCell(32).value = rawatan.tampalanAntGkSemula;
-        }
-        row.getCell(33).value = rawatan.tampalanPostGdBaru;
-        row.getCell(34).value = rawatan.tampalanPostGdSemula;
-        if (i > 1) {
-          row.getCell(35).value = rawatan.tampalanPostGkBaru;
-          row.getCell(36).value = rawatan.tampalanPostGkSemula;
-        }
-        row.getCell(37).value = rawatan.tampalanPostAmgGdBaru;
-        row.getCell(38).value = rawatan.tampalanPostAmgGdSemula;
-        if (i > 1) {
-          row.getCell(39).value = rawatan.tampalanPostAmgGkBaru;
-          row.getCell(40).value = rawatan.tampalanPostAmgGkSemula;
-        }
-        // skipping cells
-        row.getCell(43).value = rawatan.tampalanSementara;
-        row.getCell(44).value = rawatan.cabutanGd;
-        if (i > 1) {
-          row.getCell(45).value = rawatan.cabutanGk;
-          row.getCell(46).value = rawatan.penskaleran;
-        }
-        row.getCell(47).value = rawatan.kesSelesai;
+    for (const item of data[0][0].umumRawatan) {
+      switch (item._id) {
+        case 0:
+          rowNumber = 17;
+          break;
+        case 1:
+          rowNumber = 18;
+          break;
+        case 5:
+          rowNumber = 19;
+          break;
+        case 7:
+          rowNumber = 20;
+          break;
+        case 10:
+          rowNumber = 21;
+          break;
+        case 13:
+          rowNumber = 22;
+          break;
+        case 15:
+          rowNumber = 23;
+          break;
+        default:
+          continue;
       }
-      j++;
-      if (i === 6) {
-        j++;
+
+      const row = worksheet.getRow(rowNumber);
+
+      row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
+      row.getCell(24).value = item.sapuanFluorida;
+      if (item._id > 1) {
+        row.getCell(25).value = item.jumlahPesakitPrrJenis1;
+        row.getCell(26).value = item.jumlahGigiPrrJenis1;
+        row.getCell(27).value = item.jumlahPesakitDiBuatFs;
+        row.getCell(28).value = item.jumlahGigiDibuatFs;
       }
+      row.getCell(29).value = item.tampalanAntGdBaru;
+      row.getCell(30).value = item.tampalanAntGdSemula;
+      if (item._id > 1) {
+        row.getCell(31).value = item.tampalanAntGkBaru;
+        row.getCell(32).value = item.tampalanAntGkSemula;
+      }
+      row.getCell(33).value = item.tampalanPostGdBaru;
+      row.getCell(34).value = item.tampalanPostGdSemula;
+      if (item._id > 1) {
+        row.getCell(35).value = item.tampalanPostGkBaru;
+        row.getCell(36).value = item.tampalanPostGkSemula;
+      }
+      row.getCell(37).value = item.tampalanPostAmgGdBaru;
+      row.getCell(38).value = item.tampalanPostAmgGdSemula;
+      if (item._id > 1) {
+        row.getCell(39).value = item.tampalanPostAmgGkBaru;
+        row.getCell(40).value = item.tampalanPostAmgGkSemula;
+      }
+      // skipping cells
+      row.getCell(43).value = item.tampalanSementara;
+      row.getCell(44).value = item.cabutanGd;
+      if (item._id > 1) {
+        row.getCell(45).value = item.cabutanGk;
+        row.getCell(46).value = item.penskaleran;
+      }
+      row.getCell(47).value = item.kesSelesai;
+    }
+    for (const item of data[0][0].okuPemeriksaan) {
+      const row = worksheet.getRow(25);
+
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      // item
+      row.getCell(2).value = item.kedatanganTahunSemasaBaru;
+      row.getCell(4).value = item.jumlahd;
+      row.getCell(5).value = item.jumlahf;
+      row.getCell(6).value = item.jumlahx;
+      row.getCell(7).value = item.jumlahdfx;
+      if (item._id > 1) {
+        row.getCell(8).value = item.jumlahD;
+        row.getCell(9).value = item.jumlahM;
+        row.getCell(10).value = item.jumlahF;
+        row.getCell(11).value = item.jumlahX;
+        row.getCell(12).value = item.jumlahDMFX;
+      }
+      row.getCell(13).value = item.jumlahMBK;
+      if (item._id > 1) {
+        row.getCell(14).value = item.statusBebasKaries;
+      }
+      row.getCell(15).value = item.TPR;
+      if (item._id > 1) {
+        row.getCell(16).value = item.skorGISZero;
+        row.getCell(17).value = item.skorGISMoreThanZero;
+      }
+      row.getCell(18).value = item.perluSapuanFluorida;
+      if (item._id > 1) {
+        row.getCell(19).value = item.perluJumlahPesakitPrrJenis1;
+        row.getCell(20).value = item.perluJumlahGigiPrrJenis1;
+        row.getCell(21).value = item.perluJumlahPesakitFS;
+        row.getCell(22).value = item.perluJumlahGigiFS;
+      }
+      row.getCell(23).value = item.perluPenskaleran;
+    }
+    for (const item of data[0][0].okuRawatan) {
+      const row = worksheet.getRow(25);
+
+      row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
+      row.getCell(24).value = item.sapuanFluorida;
+      if (item._id > 1) {
+        row.getCell(25).value = item.jumlahPesakitPrrJenis1;
+        row.getCell(26).value = item.jumlahGigiPrrJenis1;
+        row.getCell(27).value = item.jumlahPesakitDiBuatFs;
+        row.getCell(28).value = item.jumlahGigiDibuatFs;
+      }
+      row.getCell(29).value = item.tampalanAntGdBaru;
+      row.getCell(30).value = item.tampalanAntGdSemula;
+      if (item._id > 1) {
+        row.getCell(31).value = item.tampalanAntGkBaru;
+        row.getCell(32).value = item.tampalanAntGkSemula;
+      }
+      row.getCell(33).value = item.tampalanPostGdBaru;
+      row.getCell(34).value = item.tampalanPostGdSemula;
+      if (item._id > 1) {
+        row.getCell(35).value = item.tampalanPostGkBaru;
+        row.getCell(36).value = item.tampalanPostGkSemula;
+      }
+      row.getCell(37).value = item.tampalanPostAmgGdBaru;
+      row.getCell(38).value = item.tampalanPostAmgGdSemula;
+      if (item._id > 1) {
+        row.getCell(39).value = item.tampalanPostAmgGkBaru;
+        row.getCell(40).value = item.tampalanPostAmgGkSemula;
+      }
+      // skipping cells
+      row.getCell(43).value = item.tampalanSementara;
+      row.getCell(44).value = item.cabutanGd;
+      if (item._id > 1) {
+        row.getCell(45).value = item.cabutanGk;
+        row.getCell(46).value = item.penskaleran;
+      }
+      row.getCell(47).value = item.kesSelesai;
+    }
+    for (const item of data[0][0].bwPemeriksaan) {
+      const row = worksheet.getRow(26);
+
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      // item
+      row.getCell(2).value = item.kedatanganTahunSemasaBaru;
+      row.getCell(4).value = item.jumlahd;
+      row.getCell(5).value = item.jumlahf;
+      row.getCell(6).value = item.jumlahx;
+      row.getCell(7).value = item.jumlahdfx;
+      if (item._id > 1) {
+        row.getCell(8).value = item.jumlahD;
+        row.getCell(9).value = item.jumlahM;
+        row.getCell(10).value = item.jumlahF;
+        row.getCell(11).value = item.jumlahX;
+        row.getCell(12).value = item.jumlahDMFX;
+      }
+      row.getCell(13).value = item.jumlahMBK;
+      if (item._id > 1) {
+        row.getCell(14).value = item.statusBebasKaries;
+      }
+      row.getCell(15).value = item.TPR;
+      if (item._id > 1) {
+        row.getCell(16).value = item.skorGISZero;
+        row.getCell(17).value = item.skorGISMoreThanZero;
+      }
+      row.getCell(18).value = item.perluSapuanFluorida;
+      if (item._id > 1) {
+        row.getCell(19).value = item.perluJumlahPesakitPrrJenis1;
+        row.getCell(20).value = item.perluJumlahGigiPrrJenis1;
+        row.getCell(21).value = item.perluJumlahPesakitFS;
+        row.getCell(22).value = item.perluJumlahGigiFS;
+      }
+      row.getCell(23).value = item.perluPenskaleran;
+    }
+    for (const item of data[0][0].bwRawatan) {
+      const row = worksheet.getRow(26);
+
+      row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
+      row.getCell(24).value = item.sapuanFluorida;
+      if (item._id > 1) {
+        row.getCell(25).value = item.jumlahPesakitPrrJenis1;
+        row.getCell(26).value = item.jumlahGigiPrrJenis1;
+        row.getCell(27).value = item.jumlahPesakitDiBuatFs;
+        row.getCell(28).value = item.jumlahGigiDibuatFs;
+      }
+      row.getCell(29).value = item.tampalanAntGdBaru;
+      row.getCell(30).value = item.tampalanAntGdSemula;
+      if (item._id > 1) {
+        row.getCell(31).value = item.tampalanAntGkBaru;
+        row.getCell(32).value = item.tampalanAntGkSemula;
+      }
+      row.getCell(33).value = item.tampalanPostGdBaru;
+      row.getCell(34).value = item.tampalanPostGdSemula;
+      if (item._id > 1) {
+        row.getCell(35).value = item.tampalanPostGkBaru;
+        row.getCell(36).value = item.tampalanPostGkSemula;
+      }
+      row.getCell(37).value = item.tampalanPostAmgGdBaru;
+      row.getCell(38).value = item.tampalanPostAmgGdSemula;
+      if (item._id > 1) {
+        row.getCell(39).value = item.tampalanPostAmgGkBaru;
+        row.getCell(40).value = item.tampalanPostAmgGkSemula;
+      }
+      // skipping cells
+      row.getCell(43).value = item.tampalanSementara;
+      row.getCell(44).value = item.cabutanGd;
+      if (item._id > 1) {
+        row.getCell(45).value = item.cabutanGk;
+        row.getCell(46).value = item.penskaleran;
+      }
+      row.getCell(47).value = item.kesSelesai;
+    }
+    for (const item of data[1][0].oplainRawatan) {
+      switch (item._id) {
+        case 0:
+          rowNumber = 17;
+          break;
+        case 1:
+          rowNumber = 18;
+          break;
+        case 5:
+          rowNumber = 19;
+          break;
+        case 7:
+          rowNumber = 20;
+          break;
+        case 10:
+          rowNumber = 21;
+          break;
+        case 13:
+          rowNumber = 22;
+          break;
+        case 15:
+          rowNumber = 23;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+
+      row.getCell(24).value = item.sapuanFluorida;
+      if (item._id > 1) {
+        row.getCell(25).value = item.jumlahPesakitPrrJenis1;
+        row.getCell(26).value = item.jumlahGigiPrrJenis1;
+        row.getCell(27).value = item.jumlahPesakitDiBuatFs;
+        row.getCell(28).value = item.jumlahGigiDibuatFs;
+      }
+      row.getCell(29).value = item.tampalanAntGdBaru;
+      row.getCell(30).value = item.tampalanAntGdSemula;
+      if (item._id > 1) {
+        row.getCell(31).value = item.tampalanAntGkBaru;
+        row.getCell(32).value = item.tampalanAntGkSemula;
+      }
+      row.getCell(33).value = item.tampalanPostGdBaru;
+      row.getCell(34).value = item.tampalanPostGdSemula;
+      if (item._id > 1) {
+        row.getCell(35).value = item.tampalanPostGkBaru;
+        row.getCell(36).value = item.tampalanPostGkSemula;
+      }
+      row.getCell(37).value = item.tampalanPostAmgGdBaru;
+      row.getCell(38).value = item.tampalanPostAmgGdSemula;
+      if (item._id > 1) {
+        row.getCell(39).value = item.tampalanPostAmgGkBaru;
+        row.getCell(40).value = item.tampalanPostAmgGkSemula;
+      }
+      // skipping cells
+      row.getCell(43).value = item.tampalanSementara;
+      row.getCell(44).value = item.cabutanGd;
+      if (item._id > 1) {
+        row.getCell(45).value = item.cabutanGk;
+        row.getCell(46).value = item.penskaleran;
+      }
+      row.getCell(47).value = item.kesSelesai;
+    }
+    for (const item of data[1][0].oplainOku) {
+      const row = worksheet.getRow(25);
+
+      row.getCell(24).value = item.sapuanFluorida;
+      row.getCell(25).value = item.jumlahPesakitPrrJenis1;
+      row.getCell(26).value = item.jumlahGigiPrrJenis1;
+      row.getCell(27).value = item.jumlahPesakitDiBuatFs;
+      row.getCell(28).value = item.jumlahGigiDibuatFs;
+      row.getCell(29).value = item.tampalanAntGdBaru;
+      row.getCell(30).value = item.tampalanAntGdSemula;
+      row.getCell(31).value = item.tampalanAntGkBaru;
+      row.getCell(32).value = item.tampalanAntGkSemula;
+      row.getCell(33).value = item.tampalanPostGdBaru;
+      row.getCell(34).value = item.tampalanPostGdSemula;
+      row.getCell(35).value = item.tampalanPostGkBaru;
+      row.getCell(36).value = item.tampalanPostGkSemula;
+      row.getCell(37).value = item.tampalanPostAmgGdBaru;
+      row.getCell(38).value = item.tampalanPostAmgGdSemula;
+      row.getCell(39).value = item.tampalanPostAmgGkBaru;
+      row.getCell(40).value = item.tampalanPostAmgGkSemula;
+      // skipping cells
+      row.getCell(43).value = item.tampalanSementara;
+      row.getCell(44).value = item.cabutanGd;
+      row.getCell(45).value = item.cabutanGk;
+      row.getCell(46).value = item.penskaleran;
+      row.getCell(47).value = item.kesSelesai;
+    }
+    for (const item of data[1][0].oplainBw) {
+      const row = worksheet.getRow(26);
+
+      row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
+      row.getCell(24).value = item.sapuanFluorida;
+      row.getCell(25).value = item.jumlahPesakitPrrJenis1;
+      row.getCell(26).value = item.jumlahGigiPrrJenis1;
+      row.getCell(27).value = item.jumlahPesakitDiBuatFs;
+      row.getCell(28).value = item.jumlahGigiDibuatFs;
+      row.getCell(29).value = item.tampalanAntGdBaru;
+      row.getCell(30).value = item.tampalanAntGdSemula;
+      row.getCell(31).value = item.tampalanAntGkBaru;
+      row.getCell(32).value = item.tampalanAntGkSemula;
+      row.getCell(33).value = item.tampalanPostGdBaru;
+      row.getCell(34).value = item.tampalanPostGdSemula;
+      row.getCell(35).value = item.tampalanPostGkBaru;
+      row.getCell(36).value = item.tampalanPostGkSemula;
+      row.getCell(37).value = item.tampalanPostAmgGdBaru;
+      row.getCell(38).value = item.tampalanPostAmgGdSemula;
+      row.getCell(39).value = item.tampalanPostAmgGkBaru;
+      row.getCell(40).value = item.tampalanPostAmgGkSemula;
+      // skipping cells
+      row.getCell(43).value = item.tampalanSementara;
+      row.getCell(44).value = item.cabutanGd;
+      row.getCell(45).value = item.cabutanGk;
+      row.getCell(46).value = item.penskaleran;
+      row.getCell(47).value = item.kesSelesai;
     }
 
     // data pemeriksaan sekolah
@@ -1722,59 +2022,8 @@ const makePG206 = async (payload) => {
       }
     }
 
-    // BUKAN data pilihan individu
-    j = 0;
-    if (!pilihanIndividu) {
-      for (let i = 0; i < data[4].length; i++) {
-        const [operatorLain] = data[4][i].queryOperatorLain || [];
-
-        if (operatorLain) {
-          const row = worksheet.getRow(17 + j);
-          // rawatan
-          // row.getCell(3).value = operatorLain.kedatanganTahunSemasaUlangan;
-          row.getCell(24).value += operatorLain.sapuanFluorida;
-          if (i > 1) {
-            row.getCell(25).value += operatorLain.jumlahPesakitPrrJenis1;
-            row.getCell(26).value += operatorLain.jumlahGigiPrrJenis1;
-            row.getCell(27).value += operatorLain.jumlahPesakitDiBuatFs;
-            row.getCell(28).value += operatorLain.jumlahGigiDibuatFs;
-          }
-          row.getCell(29).value += operatorLain.tampalanAntGdBaru;
-          row.getCell(30).value += operatorLain.tampalanAntGdSemula;
-          if (i > 1) {
-            row.getCell(31).value += operatorLain.tampalanAntGkBaru;
-            row.getCell(32).value += operatorLain.tampalanAntGkSemula;
-          }
-          row.getCell(33).value += operatorLain.tampalanPostGdBaru;
-          row.getCell(34).value += operatorLain.tampalanPostGdSemula;
-          if (i > 1) {
-            row.getCell(35).value += operatorLain.tampalanPostGkBaru;
-            row.getCell(36).value += operatorLain.tampalanPostGkSemula;
-          }
-          row.getCell(37).value += operatorLain.tampalanPostAmgGdBaru;
-          row.getCell(38).value += operatorLain.tampalanPostAmgGdSemula;
-          if (i > 1) {
-            row.getCell(39).value += operatorLain.tampalanPostAmgGkBaru;
-            row.getCell(40).value += operatorLain.tampalanPostAmgGkSemula;
-          }
-          // skipping cells
-          row.getCell(43).value += operatorLain.tampalanSementara;
-          row.getCell(44).value += operatorLain.cabutanGd;
-          if (i > 1) {
-            row.getCell(45).value += operatorLain.cabutanGk;
-            row.getCell(46).value += operatorLain.penskaleran;
-          }
-          row.getCell(47).value += operatorLain.kesSelesai;
-        }
-        j++;
-        if (i === 6) {
-          j++;
-        }
-      }
-    }
-
     // data kedatangan sekolah
-    for (const item of data[5]) {
+    for (const item of data[4]) {
       const rowNumber = rowNumbers[item._id];
       if (rowNumber !== undefined) {
         const row = worksheet.getRow(rowNumber);
@@ -1786,7 +2035,7 @@ const makePG206 = async (payload) => {
     }
 
     // data OKU sekolah pemeriksaan
-    for (const item of data[6]) {
+    for (const item of data[5]) {
       const row = worksheet.getRow(25);
       row.getCell(4).value += item.jumlahd;
       row.getCell(5).value += item.jumlahf;
@@ -1811,7 +2060,7 @@ const makePG206 = async (payload) => {
     }
 
     // data OKU sekolah rawatan
-    for (const item of data[7]) {
+    for (const item of data[6]) {
       const row = worksheet.getRow(25);
       row.getCell(24).value += item.sapuanFluorida;
       row.getCell(25).value += item.jumlahPesakitPrrJenis1;
@@ -1837,7 +2086,7 @@ const makePG206 = async (payload) => {
     }
 
     // data BW sekolah pemeriksaan
-    for (const item of data[8]) {
+    for (const item of data[7]) {
       const row = worksheet.getRow(26);
       row.getCell(4).value += item.jumlahd;
       row.getCell(5).value += item.jumlahf;
@@ -1862,7 +2111,7 @@ const makePG206 = async (payload) => {
     }
 
     // data BW sekolah rawatan
-    for (const item of data[9]) {
+    for (const item of data[8]) {
       const row = worksheet.getRow(26);
       row.getCell(24).value += item.sapuanFluorida;
       row.getCell(25).value += item.jumlahPesakitPrrJenis1;
@@ -1888,7 +2137,7 @@ const makePG206 = async (payload) => {
     }
 
     // data kedatangan sekolah OKU
-    for (const item of data[10]) {
+    for (const item of data[9]) {
       const row = worksheet.getRow(25);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
@@ -1897,7 +2146,7 @@ const makePG206 = async (payload) => {
     }
 
     // data kedatangan sekolah BW
-    for (const item of data[11]) {
+    for (const item of data[10]) {
       const row = worksheet.getRow(26);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
@@ -1906,7 +2155,7 @@ const makePG206 = async (payload) => {
     }
 
     // kes selesai sekolah
-    for (const item of data[12]) {
+    for (const item of data[11]) {
       const rowNumber = rowNumbers[item._id];
 
       if (rowNumber !== undefined) {
@@ -1916,13 +2165,13 @@ const makePG206 = async (payload) => {
     }
 
     // kes selesai sekolah oku
-    for (const item of data[13]) {
+    for (const item of data[12]) {
       const row = worksheet.getRow(25);
       row.getCell(47).value += item.kesSelesai;
     }
 
     // kes selesai sekolah bw
-    for (const item of data[14]) {
+    for (const item of data[13]) {
       const row = worksheet.getRow(26);
       row.getCell(47).value += item.kesSelesai;
     }
@@ -2078,6 +2327,7 @@ const makePG207 = async (payload) => {
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
     let j = 0;
+    let rowNumber;
 
     const rowNumbers = {
       'lima-enam': 19,
@@ -2087,135 +2337,737 @@ const makePG207 = async (payload) => {
       'lima-belas-tujuh-belas': 23,
     };
 
-    // data pemeriksaan biasa
-    j = 0;
-    for (let i = 0; i < data[0].length; i++) {
-      const [pemeriksaan] = data[0][i].queryPemeriksaan || [];
-
-      if (pemeriksaan) {
-        const row = worksheet.getRow(17 + j);
-        jumlahReten += pemeriksaan.jumlahReten;
-        jumlahRetenSalah += pemeriksaan.statusReten;
-        // pemeriksaan
-        row.getCell(2).value = pemeriksaan.kedatanganTahunSemasaBaru;
-        row.getCell(4).value = pemeriksaan.jumlahd;
-        row.getCell(5).value = pemeriksaan.jumlahf;
-        row.getCell(6).value = pemeriksaan.jumlahx;
-        row.getCell(7).value = pemeriksaan.jumlahdfx;
-        if (i > 1) {
-          row.getCell(8).value = pemeriksaan.jumlahD;
-          row.getCell(9).value = pemeriksaan.jumlahM;
-          row.getCell(10).value = pemeriksaan.jumlahF;
-          row.getCell(11).value = pemeriksaan.jumlahX;
-          row.getCell(12).value = pemeriksaan.jumlahDMFX;
-        }
-        row.getCell(13).value = pemeriksaan.jumlahMBK;
-        if (i > 1) {
-          row.getCell(14).value = pemeriksaan.statusBebasKaries;
-        }
-        row.getCell(15).value = pemeriksaan.TPR;
-        if (i > 5) {
-          row.getCell(16).value = pemeriksaan.skorBPEZero;
-          row.getCell(17).value = pemeriksaan.skorBPEMoreThanZero;
-        }
-        row.getCell(18).value = pemeriksaan.perluSapuanFluorida;
-        if (i > 1) {
-          row.getCell(19).value = pemeriksaan.perluJumlahPesakitPrrJenis1;
-          row.getCell(20).value = pemeriksaan.perluJumlahGigiPrrJenis1;
-          row.getCell(21).value = pemeriksaan.perluJumlahPesakitFS;
-          row.getCell(22).value = pemeriksaan.perluJumlahGigiFS;
-        }
-        row.getCell(23).value = pemeriksaan.perluPenskaleran;
-        row.getCell(24).value = pemeriksaan.perluEndoAnterior;
-        row.getCell(25).value = pemeriksaan.perluEndoPremolar;
-        row.getCell(26).value = pemeriksaan.perluEndoMolar;
-        if (i > 1) {
-          row.getCell(27).value = pemeriksaan.jumlahPerluDenturPenuh;
-          row.getCell(28).value = pemeriksaan.jumlahPerluDenturSepara;
-        }
+    // data biasa
+    for (const item of data[0][0].umumPemeriksaan) {
+      switch (item._id) {
+        case 0:
+          rowNumber = 17;
+          break;
+        case 1:
+          rowNumber = 18;
+          break;
+        case 5:
+          rowNumber = 19;
+          break;
+        case 7:
+          rowNumber = 20;
+          break;
+        case 10:
+          rowNumber = 21;
+          break;
+        case 13:
+          rowNumber = 22;
+          break;
+        case 15:
+          rowNumber = 23;
+          break;
+        case 18:
+          rowNumber = 24;
+          break;
+        case 20:
+          rowNumber = 25;
+          break;
+        case 30:
+          rowNumber = 26;
+          break;
+        case 50:
+          rowNumber = 27;
+          break;
+        case 60:
+          rowNumber = 28;
+          break;
+        default:
+          continue;
       }
-      j++;
-      if (i === 11) {
-        j++;
+
+      const row = worksheet.getRow(rowNumber);
+
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(2).value = item.kedatanganTahunSemasaBaru;
+      row.getCell(4).value = item.jumlahd;
+      row.getCell(5).value = item.jumlahf;
+      row.getCell(6).value = item.jumlahx;
+      row.getCell(7).value = item.jumlahdfx;
+      if (item._id > 1) {
+        row.getCell(8).value = item.jumlahD;
+        row.getCell(9).value = item.jumlahM;
+        row.getCell(10).value = item.jumlahF;
+        row.getCell(11).value = item.jumlahX;
+        row.getCell(12).value = item.jumlahDMFX;
+      }
+      row.getCell(13).value = item.jumlahMBK;
+      if (item._id > 1) {
+        row.getCell(14).value = item.statusBebasKaries;
+      }
+      row.getCell(15).value = item.TPR;
+      if (item._id > 13) {
+        row.getCell(16).value = item.skorBPEZero;
+        row.getCell(17).value = item.skorBPEMoreThanZero;
+      }
+      row.getCell(18).value = item.perluSapuanFluorida;
+      if (item._id > 1) {
+        row.getCell(19).value = item.perluJumlahPesakitPrrJenis1;
+        row.getCell(20).value = item.perluJumlahGigiPrrJenis1;
+        row.getCell(21).value = item.perluJumlahPesakitFS;
+        row.getCell(22).value = item.perluJumlahGigiFS;
+      }
+      row.getCell(23).value = item.perluPenskaleran;
+      row.getCell(24).value = item.perluEndoAnterior;
+      row.getCell(25).value = item.perluEndoPremolar;
+      row.getCell(26).value = item.perluEndoMolar;
+      if (item._id > 1) {
+        row.getCell(27).value = item.jumlahPerluDenturPenuh;
+        row.getCell(28).value = item.jumlahPerluDenturSepara;
       }
     }
-
-    // data rawatan biasa
-    j = 0;
-    for (let i = 0; i < data[1].length; i++) {
-      const [rawatan] = data[1][i].queryRawatan || [];
-
-      if (rawatan) {
-        const row = worksheet.getRow(17 + j);
-        // rawatan
-        row.getCell(3).value = rawatan.kedatanganTahunSemasaUlangan;
-        row.getCell(29).value = rawatan.sapuanFluorida;
-        if (i > 1) {
-          row.getCell(30).value = rawatan.jumlahPesakitPrrJenis1;
-          row.getCell(31).value = rawatan.jumlahGigiPrrJenis1;
-          row.getCell(32).value = rawatan.jumlahPesakitDiBuatFs;
-          row.getCell(33).value = rawatan.jumlahGigiDibuatFs;
-        }
-        row.getCell(34).value = rawatan.tampalanAntGdBaru;
-        row.getCell(35).value = rawatan.tampalanAntGdSemula;
-        if (i > 1) {
-          row.getCell(36).value = rawatan.tampalanAntGkBaru;
-          row.getCell(37).value = rawatan.tampalanAntGkSemula;
-        }
-        row.getCell(38).value = rawatan.tampalanPostGdBaru;
-        row.getCell(39).value = rawatan.tampalanPostGdSemula;
-        if (i > 1) {
-          row.getCell(40).value = rawatan.tampalanPostGkBaru;
-          row.getCell(41).value = rawatan.tampalanPostGkSemula;
-        }
-        row.getCell(42).value = rawatan.tampalanPostAmgGdBaru;
-        row.getCell(43).value = rawatan.tampalanPostAmgGdSemula;
-        if (i > 1) {
-          row.getCell(44).value = rawatan.tampalanPostAmgGkBaru;
-          row.getCell(45).value = rawatan.tampalanPostAmgGkSemula;
-          row.getCell(46).value = rawatan.inlayOnlayBaru;
-          row.getCell(47).value = rawatan.inlayOnlaySemula;
-        }
-        // skipping cells
-        row.getCell(50).value = rawatan.tampalanSementara;
-        row.getCell(51).value = rawatan.cabutanGd;
-        row.getCell(52).value = rawatan.cabutanGk;
-        row.getCell(53).value = rawatan.komplikasiSelepasCabutan;
-        row.getCell(54).value = rawatan.penskaleran;
-        row.getCell(55).value = rawatan.rawatanPerioLain;
-        row.getCell(56).value = rawatan.rawatanEndoAnterior;
-        row.getCell(57).value = rawatan.rawatanEndoPremolar;
-        row.getCell(58).value = rawatan.rawatanEndoMolar;
-        row.getCell(59).value = rawatan.rawatanOrtho;
-        row.getCell(60).value = rawatan.kesPerubatan;
-        row.getCell(61).value = rawatan.abses;
-        row.getCell(62).value = rawatan.kecederaanTulangMuka;
-        row.getCell(63).value = rawatan.kecederaanGigi;
-        row.getCell(64).value = rawatan.kecederaanTisuLembut;
-        row.getCell(65).value = rawatan.cabutanSurgical;
-        row.getCell(66).value = rawatan.pembedahanKecilMulut;
-        if (i > 1) {
-          row.getCell(67).value = rawatan.crownBridgeBaru;
-          row.getCell(68).value = rawatan.crownBridgeSemula;
-          row.getCell(69).value = rawatan.postCoreBaru;
-          row.getCell(70).value = rawatan.postCoreSemula;
-          row.getCell(71).value = rawatan.prosthodontikPenuhDenturBaru;
-          row.getCell(72).value = rawatan.prosthodontikPenuhDenturSemula;
-          row.getCell(73).value = rawatan.jumlahPesakitBuatDenturPenuh;
-          row.getCell(74).value = rawatan.prosthodontikSeparaDenturBaru;
-          row.getCell(75).value = rawatan.prosthodontikSeparaDenturSemula;
-          row.getCell(76).value = rawatan.jumlahPesakitBuatDenturSepara;
-          row.getCell(77).value = rawatan.immediateDenture;
-          row.getCell(78).value = rawatan.pembaikanDenture;
-        }
-        row.getCell(79).value = rawatan.kesSelesai;
-        row.getCell(80).value = rawatan.xrayDiambil;
-        row.getCell(81).value = rawatan.pesakitDisaringOC;
+    for (const item of data[0][0].umumRawatan) {
+      switch (item._id) {
+        case 0:
+          rowNumber = 17;
+          break;
+        case 1:
+          rowNumber = 18;
+          break;
+        case 5:
+          rowNumber = 19;
+          break;
+        case 7:
+          rowNumber = 20;
+          break;
+        case 10:
+          rowNumber = 21;
+          break;
+        case 13:
+          rowNumber = 22;
+          break;
+        case 15:
+          rowNumber = 23;
+          break;
+        case 18:
+          rowNumber = 24;
+          break;
+        case 20:
+          rowNumber = 25;
+          break;
+        case 30:
+          rowNumber = 26;
+          break;
+        case 50:
+          rowNumber = 27;
+          break;
+        case 60:
+          rowNumber = 28;
+          break;
+        default:
+          continue;
       }
-      j++;
-      if (i === 11) {
-        j++;
+
+      const row = worksheet.getRow(rowNumber);
+
+      // rawatan
+      row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
+      row.getCell(29).value = item.sapuanFluorida;
+      if (item._id > 1) {
+        row.getCell(30).value = item.jumlahPesakitPrrJenis1;
+        row.getCell(31).value = item.jumlahGigiPrrJenis1;
+        row.getCell(32).value = item.jumlahPesakitDiBuatFs;
+        row.getCell(33).value = item.jumlahGigiDibuatFs;
       }
+      row.getCell(34).value = item.tampalanAntGdBaru;
+      row.getCell(35).value = item.tampalanAntGdSemula;
+      if (item._id > 1) {
+        row.getCell(36).value = item.tampalanAntGkBaru;
+        row.getCell(37).value = item.tampalanAntGkSemula;
+      }
+      row.getCell(38).value = item.tampalanPostGdBaru;
+      row.getCell(39).value = item.tampalanPostGdSemula;
+      if (item._id > 1) {
+        row.getCell(40).value = item.tampalanPostGkBaru;
+        row.getCell(41).value = item.tampalanPostGkSemula;
+      }
+      row.getCell(42).value = item.tampalanPostAmgGdBaru;
+      row.getCell(43).value = item.tampalanPostAmgGdSemula;
+      if (item._id > 1) {
+        row.getCell(44).value = item.tampalanPostAmgGkBaru;
+        row.getCell(45).value = item.tampalanPostAmgGkSemula;
+        row.getCell(46).value = item.inlayOnlayBaru;
+        row.getCell(47).value = item.inlayOnlaySemula;
+      }
+      // skipping cells
+      row.getCell(50).value = item.tampalanSementara;
+      row.getCell(51).value = item.cabutanGd;
+      row.getCell(52).value = item.cabutanGk;
+      row.getCell(53).value = item.komplikasiSelepasCabutan;
+      row.getCell(54).value = item.penskaleran;
+      row.getCell(55).value = item.rawatanPerioLain;
+      row.getCell(56).value = item.rawatanEndoAnterior;
+      row.getCell(57).value = item.rawatanEndoPremolar;
+      row.getCell(58).value = item.rawatanEndoMolar;
+      row.getCell(59).value = item.rawatanOrtho;
+      row.getCell(60).value = item.kesPerubatan;
+      row.getCell(61).value = item.abses;
+      row.getCell(62).value = item.kecederaanTulangMuka;
+      row.getCell(63).value = item.kecederaanGigi;
+      row.getCell(64).value = item.kecederaanTisuLembut;
+      row.getCell(65).value = item.cabutanSurgical;
+      row.getCell(66).value = item.pembedahanKecilMulut;
+      if (item._id > 1) {
+        row.getCell(67).value = item.crownBridgeBaru;
+        row.getCell(68).value = item.crownBridgeSemula;
+        row.getCell(69).value = item.postCoreBaru;
+        row.getCell(70).value = item.postCoreSemula;
+        row.getCell(71).value = item.prosthodontikPenuhDenturBaru;
+        row.getCell(72).value = item.prosthodontikPenuhDenturSemula;
+        row.getCell(73).value = item.jumlahPesakitBuatDenturPenuh;
+        row.getCell(74).value = item.prosthodontikSeparaDenturBaru;
+        row.getCell(75).value = item.prosthodontikSeparaDenturSemula;
+        row.getCell(76).value = item.jumlahPesakitBuatDenturSepara;
+        row.getCell(77).value = item.immediateDenture;
+        row.getCell(78).value = item.pembaikanDenture;
+      }
+      row.getCell(79).value = item.kesSelesai;
+      row.getCell(80).value = item.xrayDiambil;
+      row.getCell(81).value = item.pesakitDisaringOC;
+    }
+    for (const item of data[0][0].imPemeriksaan) {
+      const row = worksheet.getRow(30);
+
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(2).value = item.kedatanganTahunSemasaBaru;
+      row.getCell(4).value = item.jumlahd;
+      row.getCell(5).value = item.jumlahf;
+      row.getCell(6).value = item.jumlahx;
+      row.getCell(7).value = item.jumlahdfx;
+      row.getCell(8).value = item.jumlahD;
+      row.getCell(9).value = item.jumlahM;
+      row.getCell(10).value = item.jumlahF;
+      row.getCell(11).value = item.jumlahX;
+      row.getCell(12).value = item.jumlahDMFX;
+      row.getCell(13).value = item.jumlahMBK;
+      row.getCell(14).value = item.statusBebasKaries;
+      row.getCell(15).value = item.TPR;
+      row.getCell(16).value = item.skorBPEZero;
+      row.getCell(17).value = item.skorBPEMoreThanZero;
+      row.getCell(18).value = item.perluSapuanFluorida;
+      row.getCell(19).value = item.perluJumlahPesakitPrrJenis1;
+      row.getCell(20).value = item.perluJumlahGigiPrrJenis1;
+      row.getCell(21).value = item.perluJumlahPesakitFS;
+      row.getCell(22).value = item.perluJumlahGigiFS;
+      row.getCell(23).value = item.perluPenskaleran;
+      row.getCell(24).value = item.perluEndoAnterior;
+      row.getCell(25).value = item.perluEndoPremolar;
+      row.getCell(26).value = item.perluEndoMolar;
+      row.getCell(27).value = item.jumlahPerluDenturPenuh;
+      row.getCell(28).value = item.jumlahPerluDenturSepara;
+    }
+    for (const item of data[0][0].imRawatan) {
+      const row = worksheet.getRow(30);
+
+      row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
+      row.getCell(29).value = item.sapuanFluorida;
+      row.getCell(30).value = item.jumlahPesakitPrrJenis1;
+      row.getCell(31).value = item.jumlahGigiPrrJenis1;
+      row.getCell(32).value = item.jumlahPesakitDiBuatFs;
+      row.getCell(33).value = item.jumlahGigiDibuatFs;
+      row.getCell(34).value = item.tampalanAntGdBaru;
+      row.getCell(35).value = item.tampalanAntGdSemula;
+      row.getCell(36).value = item.tampalanAntGkBaru;
+      row.getCell(37).value = item.tampalanAntGkSemula;
+      row.getCell(38).value = item.tampalanPostGdBaru;
+      row.getCell(39).value = item.tampalanPostGdSemula;
+      row.getCell(40).value = item.tampalanPostGkBaru;
+      row.getCell(41).value = item.tampalanPostGkSemula;
+      row.getCell(42).value = item.tampalanPostAmgGdBaru;
+      row.getCell(43).value = item.tampalanPostAmgGdSemula;
+      row.getCell(44).value = item.tampalanPostAmgGkBaru;
+      row.getCell(45).value = item.tampalanPostAmgGkSemula;
+      row.getCell(46).value = item.inlayOnlayBaru;
+      row.getCell(47).value = item.inlayOnlaySemula;
+      // skipping cells
+      row.getCell(50).value = item.tampalanSementara;
+      row.getCell(51).value = item.cabutanGd;
+      row.getCell(52).value = item.cabutanGk;
+      row.getCell(53).value = item.komplikasiSelepasCabutan;
+      row.getCell(54).value = item.penskaleran;
+      row.getCell(55).value = item.rawatanPerioLain;
+      row.getCell(56).value = item.rawatanEndoAnterior;
+      row.getCell(57).value = item.rawatanEndoPremolar;
+      row.getCell(58).value = item.rawatanEndoMolar;
+      row.getCell(59).value = item.rawatanOrtho;
+      row.getCell(60).value = item.kesPerubatan;
+      row.getCell(61).value = item.abses;
+      row.getCell(62).value = item.kecederaanTulangMuka;
+      row.getCell(63).value = item.kecederaanGigi;
+      row.getCell(64).value = item.kecederaanTisuLembut;
+      row.getCell(65).value = item.cabutanSurgical;
+      row.getCell(66).value = item.pembedahanKecilMulut;
+      row.getCell(67).value = item.crownBridgeBaru;
+      row.getCell(68).value = item.crownBridgeSemula;
+      row.getCell(69).value = item.postCoreBaru;
+      row.getCell(70).value = item.postCoreSemula;
+      row.getCell(71).value = item.prosthodontikPenuhDenturBaru;
+      row.getCell(72).value = item.prosthodontikPenuhDenturSemula;
+      row.getCell(73).value = item.jumlahPesakitBuatDenturPenuh;
+      row.getCell(74).value = item.prosthodontikSeparaDenturBaru;
+      row.getCell(75).value = item.prosthodontikSeparaDenturSemula;
+      row.getCell(76).value = item.jumlahPesakitBuatDenturSepara;
+      row.getCell(77).value = item.immediateDenture;
+      row.getCell(78).value = item.pembaikanDenture;
+      row.getCell(79).value = item.kesSelesai;
+      row.getCell(80).value = item.xrayDiambil;
+      row.getCell(81).value = item.pesakitDisaringOC;
+    }
+    for (const item of data[0][0].okuPemeriksaan) {
+      const row = worksheet.getRow(31);
+
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(2).value = item.kedatanganTahunSemasaBaru;
+      row.getCell(4).value = item.jumlahd;
+      row.getCell(5).value = item.jumlahf;
+      row.getCell(6).value = item.jumlahx;
+      row.getCell(7).value = item.jumlahdfx;
+      row.getCell(8).value = item.jumlahD;
+      row.getCell(9).value = item.jumlahM;
+      row.getCell(10).value = item.jumlahF;
+      row.getCell(11).value = item.jumlahX;
+      row.getCell(12).value = item.jumlahDMFX;
+      row.getCell(13).value = item.jumlahMBK;
+      row.getCell(14).value = item.statusBebasKaries;
+      row.getCell(15).value = item.TPR;
+      row.getCell(16).value = item.skorBPEZero;
+      row.getCell(17).value = item.skorBPEMoreThanZero;
+      row.getCell(18).value = item.perluSapuanFluorida;
+      row.getCell(19).value = item.perluJumlahPesakitPrrJenis1;
+      row.getCell(20).value = item.perluJumlahGigiPrrJenis1;
+      row.getCell(21).value = item.perluJumlahPesakitFS;
+      row.getCell(22).value = item.perluJumlahGigiFS;
+      row.getCell(23).value = item.perluPenskaleran;
+      row.getCell(24).value = item.perluEndoAnterior;
+      row.getCell(25).value = item.perluEndoPremolar;
+      row.getCell(26).value = item.perluEndoMolar;
+      row.getCell(27).value = item.jumlahPerluDenturPenuh;
+      row.getCell(28).value = item.jumlahPerluDenturSepara;
+    }
+    for (const item of data[0][0].okuRawatan) {
+      const row = worksheet.getRow(31);
+
+      row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
+      row.getCell(29).value = item.sapuanFluorida;
+      row.getCell(30).value = item.jumlahPesakitPrrJenis1;
+      row.getCell(31).value = item.jumlahGigiPrrJenis1;
+      row.getCell(32).value = item.jumlahPesakitDiBuatFs;
+      row.getCell(33).value = item.jumlahGigiDibuatFs;
+      row.getCell(34).value = item.tampalanAntGdBaru;
+      row.getCell(35).value = item.tampalanAntGdSemula;
+      row.getCell(36).value = item.tampalanAntGkBaru;
+      row.getCell(37).value = item.tampalanAntGkSemula;
+      row.getCell(38).value = item.tampalanPostGdBaru;
+      row.getCell(39).value = item.tampalanPostGdSemula;
+      row.getCell(40).value = item.tampalanPostGkBaru;
+      row.getCell(41).value = item.tampalanPostGkSemula;
+      row.getCell(42).value = item.tampalanPostAmgGdBaru;
+      row.getCell(43).value = item.tampalanPostAmgGdSemula;
+      row.getCell(44).value = item.tampalanPostAmgGkBaru;
+      row.getCell(45).value = item.tampalanPostAmgGkSemula;
+      row.getCell(46).value = item.inlayOnlayBaru;
+      row.getCell(47).value = item.inlayOnlaySemula;
+      // skipping cells
+      row.getCell(50).value = item.tampalanSementara;
+      row.getCell(51).value = item.cabutanGd;
+      row.getCell(52).value = item.cabutanGk;
+      row.getCell(53).value = item.komplikasiSelepasCabutan;
+      row.getCell(54).value = item.penskaleran;
+      row.getCell(55).value = item.rawatanPerioLain;
+      row.getCell(56).value = item.rawatanEndoAnterior;
+      row.getCell(57).value = item.rawatanEndoPremolar;
+      row.getCell(58).value = item.rawatanEndoMolar;
+      row.getCell(59).value = item.rawatanOrtho;
+      row.getCell(60).value = item.kesPerubatan;
+      row.getCell(61).value = item.abses;
+      row.getCell(62).value = item.kecederaanTulangMuka;
+      row.getCell(63).value = item.kecederaanGigi;
+      row.getCell(64).value = item.kecederaanTisuLembut;
+      row.getCell(65).value = item.cabutanSurgical;
+      row.getCell(66).value = item.pembedahanKecilMulut;
+      row.getCell(67).value = item.crownBridgeBaru;
+      row.getCell(68).value = item.crownBridgeSemula;
+      row.getCell(69).value = item.postCoreBaru;
+      row.getCell(70).value = item.postCoreSemula;
+      row.getCell(71).value = item.prosthodontikPenuhDenturBaru;
+      row.getCell(72).value = item.prosthodontikPenuhDenturSemula;
+      row.getCell(73).value = item.jumlahPesakitBuatDenturPenuh;
+      row.getCell(74).value = item.prosthodontikSeparaDenturBaru;
+      row.getCell(75).value = item.prosthodontikSeparaDenturSemula;
+      row.getCell(76).value = item.jumlahPesakitBuatDenturSepara;
+      row.getCell(77).value = item.immediateDenture;
+      row.getCell(78).value = item.pembaikanDenture;
+      row.getCell(79).value = item.kesSelesai;
+      row.getCell(80).value = item.xrayDiambil;
+      row.getCell(81).value = item.pesakitDisaringOC;
+    }
+    for (const item of data[0][0].bwPemeriksaan) {
+      const row = worksheet.getRow(32);
+
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(2).value = item.kedatanganTahunSemasaBaru;
+      row.getCell(4).value = item.jumlahd;
+      row.getCell(5).value = item.jumlahf;
+      row.getCell(6).value = item.jumlahx;
+      row.getCell(7).value = item.jumlahdfx;
+      row.getCell(8).value = item.jumlahD;
+      row.getCell(9).value = item.jumlahM;
+      row.getCell(10).value = item.jumlahF;
+      row.getCell(11).value = item.jumlahX;
+      row.getCell(12).value = item.jumlahDMFX;
+      row.getCell(13).value = item.jumlahMBK;
+      row.getCell(14).value = item.statusBebasKaries;
+      row.getCell(15).value = item.TPR;
+      row.getCell(16).value = item.skorBPEZero;
+      row.getCell(17).value = item.skorBPEMoreThanZero;
+      row.getCell(18).value = item.perluSapuanFluorida;
+      row.getCell(19).value = item.perluJumlahPesakitPrrJenis1;
+      row.getCell(20).value = item.perluJumlahGigiPrrJenis1;
+      row.getCell(21).value = item.perluJumlahPesakitFS;
+      row.getCell(22).value = item.perluJumlahGigiFS;
+      row.getCell(23).value = item.perluPenskaleran;
+      row.getCell(24).value = item.perluEndoAnterior;
+      row.getCell(25).value = item.perluEndoPremolar;
+      row.getCell(26).value = item.perluEndoMolar;
+      row.getCell(27).value = item.jumlahPerluDenturPenuh;
+      row.getCell(28).value = item.jumlahPerluDenturSepara;
+    }
+    for (const item of data[0][0].bwRawatan) {
+      const row = worksheet.getRow(32);
+
+      row.getCell(3).value = item.kedatanganTahunSemasaUlangan;
+      row.getCell(29).value = item.sapuanFluorida;
+      row.getCell(30).value = item.jumlahPesakitPrrJenis1;
+      row.getCell(31).value = item.jumlahGigiPrrJenis1;
+      row.getCell(32).value = item.jumlahPesakitDiBuatFs;
+      row.getCell(33).value = item.jumlahGigiDibuatFs;
+      row.getCell(34).value = item.tampalanAntGdBaru;
+      row.getCell(35).value = item.tampalanAntGdSemula;
+      row.getCell(36).value = item.tampalanAntGkBaru;
+      row.getCell(37).value = item.tampalanAntGkSemula;
+      row.getCell(38).value = item.tampalanPostGdBaru;
+      row.getCell(39).value = item.tampalanPostGdSemula;
+      row.getCell(40).value = item.tampalanPostGkBaru;
+      row.getCell(41).value = item.tampalanPostGkSemula;
+      row.getCell(42).value = item.tampalanPostAmgGdBaru;
+      row.getCell(43).value = item.tampalanPostAmgGdSemula;
+      row.getCell(44).value = item.tampalanPostAmgGkBaru;
+      row.getCell(45).value = item.tampalanPostAmgGkSemula;
+      row.getCell(46).value = item.inlayOnlayBaru;
+      row.getCell(47).value = item.inlayOnlaySemula;
+      // skipping cells
+      row.getCell(50).value = item.tampalanSementara;
+      row.getCell(51).value = item.cabutanGd;
+      row.getCell(52).value = item.cabutanGk;
+      row.getCell(53).value = item.komplikasiSelepasCabutan;
+      row.getCell(54).value = item.penskaleran;
+      row.getCell(55).value = item.rawatanPerioLain;
+      row.getCell(56).value = item.rawatanEndoAnterior;
+      row.getCell(57).value = item.rawatanEndoPremolar;
+      row.getCell(58).value = item.rawatanEndoMolar;
+      row.getCell(59).value = item.rawatanOrtho;
+      row.getCell(60).value = item.kesPerubatan;
+      row.getCell(61).value = item.abses;
+      row.getCell(62).value = item.kecederaanTulangMuka;
+      row.getCell(63).value = item.kecederaanGigi;
+      row.getCell(64).value = item.kecederaanTisuLembut;
+      row.getCell(65).value = item.cabutanSurgical;
+      row.getCell(66).value = item.pembedahanKecilMulut;
+      row.getCell(67).value = item.crownBridgeBaru;
+      row.getCell(68).value = item.crownBridgeSemula;
+      row.getCell(69).value = item.postCoreBaru;
+      row.getCell(70).value = item.postCoreSemula;
+      row.getCell(71).value = item.prosthodontikPenuhDenturBaru;
+      row.getCell(72).value = item.prosthodontikPenuhDenturSemula;
+      row.getCell(73).value = item.jumlahPesakitBuatDenturPenuh;
+      row.getCell(74).value = item.prosthodontikSeparaDenturBaru;
+      row.getCell(75).value = item.prosthodontikSeparaDenturSemula;
+      row.getCell(76).value = item.jumlahPesakitBuatDenturSepara;
+      row.getCell(77).value = item.immediateDenture;
+      row.getCell(78).value = item.pembaikanDenture;
+      row.getCell(79).value = item.kesSelesai;
+      row.getCell(80).value = item.xrayDiambil;
+      row.getCell(81).value = item.pesakitDisaringOC;
+    }
+    for (const item of data[1][0].oplainRawatan) {
+      switch (item._id) {
+        case 0:
+          rowNumber = 17;
+          break;
+        case 1:
+          rowNumber = 18;
+          break;
+        case 5:
+          rowNumber = 19;
+          break;
+        case 7:
+          rowNumber = 20;
+          break;
+        case 10:
+          rowNumber = 21;
+          break;
+        case 13:
+          rowNumber = 22;
+          break;
+        case 15:
+          rowNumber = 23;
+          break;
+        case 18:
+          rowNumber = 24;
+          break;
+        case 20:
+          rowNumber = 25;
+          break;
+        case 30:
+          rowNumber = 26;
+          break;
+        case 50:
+          rowNumber = 27;
+          break;
+        case 60:
+          rowNumber = 28;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+
+      // rawatan
+      row.getCell(29).value += item.sapuanFluorida;
+      if (item._id > 1) {
+        row.getCell(30).value += item.jumlahPesakitPrrJenis1;
+        row.getCell(31).value += item.jumlahGigiPrrJenis1;
+        row.getCell(32).value += item.jumlahPesakitDiBuatFs;
+        row.getCell(33).value += item.jumlahGigiDibuatFs;
+      }
+      row.getCell(34).value += item.tampalanAntGdBaru;
+      row.getCell(35).value += item.tampalanAntGdSemula;
+      if (item._id > 1) {
+        row.getCell(36).value += item.tampalanAntGkBaru;
+        row.getCell(37).value += item.tampalanAntGkSemula;
+      }
+      row.getCell(38).value += item.tampalanPostGdBaru;
+      row.getCell(39).value += item.tampalanPostGdSemula;
+      if (item._id > 1) {
+        row.getCell(40).value += item.tampalanPostGkBaru;
+        row.getCell(41).value += item.tampalanPostGkSemula;
+      }
+      row.getCell(42).value += item.tampalanPostAmgGdBaru;
+      row.getCell(43).value += item.tampalanPostAmgGdSemula;
+      if (item._id > 1) {
+        row.getCell(44).value += item.tampalanPostAmgGkBaru;
+        row.getCell(45).value += item.tampalanPostAmgGkSemula;
+        row.getCell(46).value += item.inlayOnlayBaru;
+        row.getCell(47).value += item.inlayOnlaySemula;
+      }
+      // skipping cells
+      row.getCell(50).value += item.tampalanSementara;
+      row.getCell(51).value += item.cabutanGd;
+      row.getCell(52).value += item.cabutanGk;
+      row.getCell(53).value += item.komplikasiSelepasCabutan;
+      row.getCell(54).value += item.penskaleran;
+      row.getCell(55).value += item.rawatanPerioLain;
+      row.getCell(56).value += item.rawatanEndoAnterior;
+      row.getCell(57).value += item.rawatanEndoPremolar;
+      row.getCell(58).value += item.rawatanEndoMolar;
+      row.getCell(59).value += item.rawatanOrtho;
+      row.getCell(60).value += item.kesPerubatan;
+      row.getCell(61).value += item.abses;
+      row.getCell(62).value += item.kecederaanTulangMuka;
+      row.getCell(63).value += item.kecederaanGigi;
+      row.getCell(64).value += item.kecederaanTisuLembut;
+      row.getCell(65).value += item.cabutanSurgical;
+      row.getCell(66).value += item.pembedahanKecilMulut;
+      if (item._id > 1) {
+        row.getCell(67).value += item.crownBridgeBaru;
+        row.getCell(68).value += item.crownBridgeSemula;
+        row.getCell(69).value += item.postCoreBaru;
+        row.getCell(70).value += item.postCoreSemula;
+        row.getCell(71).value += item.prosthodontikPenuhDenturBaru;
+        row.getCell(72).value += item.prosthodontikPenuhDenturSemula;
+        row.getCell(73).value += item.jumlahPesakitBuatDenturPenuh;
+        row.getCell(74).value += item.prosthodontikSeparaDenturBaru;
+        row.getCell(75).value += item.prosthodontikSeparaDenturSemula;
+        row.getCell(76).value += item.jumlahPesakitBuatDenturSepara;
+        row.getCell(77).value += item.immediateDenture;
+        row.getCell(78).value += item.pembaikanDenture;
+      }
+      row.getCell(79).value += item.kesSelesai;
+      row.getCell(80).value += item.xrayDiambil;
+    }
+    for (const item of data[1][0].oplainIm) {
+      const row = worksheet.getRow(30);
+
+      row.getCell(29).value += item.sapuanFluorida;
+      row.getCell(30).value += item.jumlahPesakitPrrJenis1;
+      row.getCell(31).value += item.jumlahGigiPrrJenis1;
+      row.getCell(32).value += item.jumlahPesakitDiBuatFs;
+      row.getCell(33).value += item.jumlahGigiDibuatFs;
+      row.getCell(34).value += item.tampalanAntGdBaru;
+      row.getCell(35).value += item.tampalanAntGdSemula;
+      row.getCell(36).value += item.tampalanAntGkBaru;
+      row.getCell(37).value += item.tampalanAntGkSemula;
+      row.getCell(38).value += item.tampalanPostGdBaru;
+      row.getCell(39).value += item.tampalanPostGdSemula;
+      row.getCell(40).value += item.tampalanPostGkBaru;
+      row.getCell(41).value += item.tampalanPostGkSemula;
+      row.getCell(42).value += item.tampalanPostAmgGdBaru;
+      row.getCell(43).value += item.tampalanPostAmgGdSemula;
+      row.getCell(44).value += item.tampalanPostAmgGkBaru;
+      row.getCell(45).value += item.tampalanPostAmgGkSemula;
+      row.getCell(46).value += item.inlayOnlayBaru;
+      row.getCell(47).value += item.inlayOnlaySemula;
+      // skipping cells
+      row.getCell(50).value += item.tampalanSementara;
+      row.getCell(51).value += item.cabutanGd;
+      row.getCell(52).value += item.cabutanGk;
+      row.getCell(53).value += item.komplikasiSelepasCabutan;
+      row.getCell(54).value += item.penskaleran;
+      row.getCell(55).value += item.rawatanPerioLain;
+      row.getCell(56).value += item.rawatanEndoAnterior;
+      row.getCell(57).value += item.rawatanEndoPremolar;
+      row.getCell(58).value += item.rawatanEndoMolar;
+      row.getCell(59).value += item.rawatanOrtho;
+      row.getCell(60).value += item.kesPerubatan;
+      row.getCell(61).value += item.abses;
+      row.getCell(62).value += item.kecederaanTulangMuka;
+      row.getCell(63).value += item.kecederaanGigi;
+      row.getCell(64).value += item.kecederaanTisuLembut;
+      row.getCell(65).value += item.cabutanSurgical;
+      row.getCell(66).value += item.pembedahanKecilMulut;
+      row.getCell(67).value += item.crownBridgeBaru;
+      row.getCell(68).value += item.crownBridgeSemula;
+      row.getCell(69).value += item.postCoreBaru;
+      row.getCell(70).value += item.postCoreSemula;
+      row.getCell(71).value += item.prosthodontikPenuhDenturBaru;
+      row.getCell(72).value += item.prosthodontikPenuhDenturSemula;
+      row.getCell(73).value += item.jumlahPesakitBuatDenturPenuh;
+      row.getCell(74).value += item.prosthodontikSeparaDenturBaru;
+      row.getCell(75).value += item.prosthodontikSeparaDenturSemula;
+      row.getCell(76).value += item.jumlahPesakitBuatDenturSepara;
+      row.getCell(77).value += item.immediateDenture;
+      row.getCell(78).value += item.pembaikanDenture;
+      row.getCell(79).value += item.kesSelesai;
+      row.getCell(80).value += item.xrayDiambil;
+    }
+    for (const item of data[1][0].oplainOku) {
+      const row = worksheet.getRow(31);
+
+      row.getCell(29).value += item.sapuanFluorida;
+      row.getCell(30).value += item.jumlahPesakitPrrJenis1;
+      row.getCell(31).value += item.jumlahGigiPrrJenis1;
+      row.getCell(32).value += item.jumlahPesakitDiBuatFs;
+      row.getCell(33).value += item.jumlahGigiDibuatFs;
+      row.getCell(34).value += item.tampalanAntGdBaru;
+      row.getCell(35).value += item.tampalanAntGdSemula;
+      row.getCell(36).value += item.tampalanAntGkBaru;
+      row.getCell(37).value += item.tampalanAntGkSemula;
+      row.getCell(38).value += item.tampalanPostGdBaru;
+      row.getCell(39).value += item.tampalanPostGdSemula;
+      row.getCell(40).value += item.tampalanPostGkBaru;
+      row.getCell(41).value += item.tampalanPostGkSemula;
+      row.getCell(42).value += item.tampalanPostAmgGdBaru;
+      row.getCell(43).value += item.tampalanPostAmgGdSemula;
+      row.getCell(44).value += item.tampalanPostAmgGkBaru;
+      row.getCell(45).value += item.tampalanPostAmgGkSemula;
+      row.getCell(46).value += item.inlayOnlayBaru;
+      row.getCell(47).value += item.inlayOnlaySemula;
+      // skipping cells
+      row.getCell(50).value += item.tampalanSementara;
+      row.getCell(51).value += item.cabutanGd;
+      row.getCell(52).value += item.cabutanGk;
+      row.getCell(53).value += item.komplikasiSelepasCabutan;
+      row.getCell(54).value += item.penskaleran;
+      row.getCell(55).value += item.rawatanPerioLain;
+      row.getCell(56).value += item.rawatanEndoAnterior;
+      row.getCell(57).value += item.rawatanEndoPremolar;
+      row.getCell(58).value += item.rawatanEndoMolar;
+      row.getCell(59).value += item.rawatanOrtho;
+      row.getCell(60).value += item.kesPerubatan;
+      row.getCell(61).value += item.abses;
+      row.getCell(62).value += item.kecederaanTulangMuka;
+      row.getCell(63).value += item.kecederaanGigi;
+      row.getCell(64).value += item.kecederaanTisuLembut;
+      row.getCell(65).value += item.cabutanSurgical;
+      row.getCell(66).value += item.pembedahanKecilMulut;
+      row.getCell(67).value += item.crownBridgeBaru;
+      row.getCell(68).value += item.crownBridgeSemula;
+      row.getCell(69).value += item.postCoreBaru;
+      row.getCell(70).value += item.postCoreSemula;
+      row.getCell(71).value += item.prosthodontikPenuhDenturBaru;
+      row.getCell(72).value += item.prosthodontikPenuhDenturSemula;
+      row.getCell(73).value += item.jumlahPesakitBuatDenturPenuh;
+      row.getCell(74).value += item.prosthodontikSeparaDenturBaru;
+      row.getCell(75).value += item.prosthodontikSeparaDenturSemula;
+      row.getCell(76).value += item.jumlahPesakitBuatDenturSepara;
+      row.getCell(77).value += item.immediateDenture;
+      row.getCell(78).value += item.pembaikanDenture;
+      row.getCell(79).value += item.kesSelesai;
+      row.getCell(80).value += item.xrayDiambil;
+    }
+    for (const item of data[1][0].oplainBw) {
+      const row = worksheet.getRow(32);
+
+      row.getCell(29).value += item.sapuanFluorida;
+      row.getCell(30).value += item.jumlahPesakitPrrJenis1;
+      row.getCell(31).value += item.jumlahGigiPrrJenis1;
+      row.getCell(32).value += item.jumlahPesakitDiBuatFs;
+      row.getCell(33).value += item.jumlahGigiDibuatFs;
+      row.getCell(34).value += item.tampalanAntGdBaru;
+      row.getCell(35).value += item.tampalanAntGdSemula;
+      row.getCell(36).value += item.tampalanAntGkBaru;
+      row.getCell(37).value += item.tampalanAntGkSemula;
+      row.getCell(38).value += item.tampalanPostGdBaru;
+      row.getCell(39).value += item.tampalanPostGdSemula;
+      row.getCell(40).value += item.tampalanPostGkBaru;
+      row.getCell(41).value += item.tampalanPostGkSemula;
+      row.getCell(42).value += item.tampalanPostAmgGdBaru;
+      row.getCell(43).value += item.tampalanPostAmgGdSemula;
+      row.getCell(44).value += item.tampalanPostAmgGkBaru;
+      row.getCell(45).value += item.tampalanPostAmgGkSemula;
+      row.getCell(46).value += item.inlayOnlayBaru;
+      row.getCell(47).value += item.inlayOnlaySemula;
+      // skipping cells
+      row.getCell(50).value += item.tampalanSementara;
+      row.getCell(51).value += item.cabutanGd;
+      row.getCell(52).value += item.cabutanGk;
+      row.getCell(53).value += item.komplikasiSelepasCabutan;
+      row.getCell(54).value += item.penskaleran;
+      row.getCell(55).value += item.rawatanPerioLain;
+      row.getCell(56).value += item.rawatanEndoAnterior;
+      row.getCell(57).value += item.rawatanEndoPremolar;
+      row.getCell(58).value += item.rawatanEndoMolar;
+      row.getCell(59).value += item.rawatanOrtho;
+      row.getCell(60).value += item.kesPerubatan;
+      row.getCell(61).value += item.abses;
+      row.getCell(62).value += item.kecederaanTulangMuka;
+      row.getCell(63).value += item.kecederaanGigi;
+      row.getCell(64).value += item.kecederaanTisuLembut;
+      row.getCell(65).value += item.cabutanSurgical;
+      row.getCell(66).value += item.pembedahanKecilMulut;
+      row.getCell(67).value += item.crownBridgeBaru;
+      row.getCell(68).value += item.crownBridgeSemula;
+      row.getCell(69).value += item.postCoreBaru;
+      row.getCell(70).value += item.postCoreSemula;
+      row.getCell(71).value += item.prosthodontikPenuhDenturBaru;
+      row.getCell(72).value += item.prosthodontikPenuhDenturSemula;
+      row.getCell(73).value += item.jumlahPesakitBuatDenturPenuh;
+      row.getCell(74).value += item.prosthodontikSeparaDenturBaru;
+      row.getCell(75).value += item.prosthodontikSeparaDenturSemula;
+      row.getCell(76).value += item.jumlahPesakitBuatDenturSepara;
+      row.getCell(77).value += item.immediateDenture;
+      row.getCell(78).value += item.pembaikanDenture;
+      row.getCell(79).value += item.kesSelesai;
+      row.getCell(80).value += item.xrayDiambil;
     }
 
     // data pemeriksaan sekolah
@@ -2235,14 +3087,7 @@ const makePG207 = async (payload) => {
         row.getCell(13).value += item.jumlahMBK;
         row.getCell(14).value += item.statusBebasKaries;
         row.getCell(15).value += item.TPR;
-        if (
-          ![
-            'lima-enam',
-            'tujuh-sembilan',
-            'sepuluh-dua-belas',
-            'tiga-belas-empat-belas',
-          ].includes(item._id)
-        ) {
+        if (['lima-belas-tujuh-belas'].includes(item._id)) {
           row.getCell(16).value += item.skorBPEZero;
           row.getCell(17).value += item.skorBPEMoreThanZero;
         }
@@ -2288,90 +3133,9 @@ const makePG207 = async (payload) => {
       }
     }
 
-    // BUKAN data pilihan individu
-    j = 0;
-    if (!pilihanIndividu) {
-      for (let i = 0; i < data[4].length; i++) {
-        const [operatorLain] = data[4][i].queryOperatorLain || [];
-
-        if (operatorLain) {
-          const row = worksheet.getRow(17 + j);
-          // row.getCell(3).value += operatorLain.kedatanganTahunSemasaUlangan;
-          row.getCell(29).value += operatorLain.sapuanFluorida;
-          if (i > 1) {
-            row.getCell(30).value += operatorLain.jumlahPesakitPrrJenis1;
-            row.getCell(31).value += operatorLain.jumlahGigiPrrJenis1;
-            row.getCell(32).value += operatorLain.jumlahPesakitDiBuatFs;
-            row.getCell(33).value += operatorLain.jumlahGigiDibuatFs;
-          }
-          row.getCell(34).value += operatorLain.tampalanAntGdBaru;
-          row.getCell(35).value += operatorLain.tampalanAntGdSemula;
-          if (i > 1) {
-            row.getCell(36).value += operatorLain.tampalanAntGkBaru;
-            row.getCell(37).value += operatorLain.tampalanAntGkSemula;
-          }
-          row.getCell(38).value += operatorLain.tampalanPostGdBaru;
-          row.getCell(39).value += operatorLain.tampalanPostGdSemula;
-          if (i > 1) {
-            row.getCell(40).value += operatorLain.tampalanPostGkBaru;
-            row.getCell(41).value += operatorLain.tampalanPostGkSemula;
-          }
-          row.getCell(42).value += operatorLain.tampalanPostAmgGdBaru;
-          row.getCell(43).value += operatorLain.tampalanPostAmgGdSemula;
-          if (i > 1) {
-            row.getCell(44).value += operatorLain.tampalanPostAmgGkBaru;
-            row.getCell(45).value += operatorLain.tampalanPostAmgGkSemula;
-            row.getCell(46).value += operatorLain.inlayOnlayBaru;
-            row.getCell(47).value += operatorLain.inlayOnlaySemula;
-          }
-          // skipping cells
-          row.getCell(50).value += operatorLain.tampalanSementara;
-          row.getCell(51).value += operatorLain.cabutanGd;
-          row.getCell(52).value += operatorLain.cabutanGk;
-          row.getCell(53).value += operatorLain.komplikasiSelepasCabutan;
-          row.getCell(54).value += operatorLain.penskaleran;
-          row.getCell(55).value += operatorLain.rawatanPerioLain;
-          row.getCell(56).value += operatorLain.rawatanEndoAnterior;
-          row.getCell(57).value += operatorLain.rawatanEndoPremolar;
-          row.getCell(58).value += operatorLain.rawatanEndoMolar;
-          row.getCell(59).value += operatorLain.rawatanOrtho;
-          row.getCell(60).value += operatorLain.kesPerubatan;
-          row.getCell(61).value += operatorLain.abses;
-          row.getCell(62).value += operatorLain.kecederaanTulangMuka;
-          row.getCell(63).value += operatorLain.kecederaanGigi;
-          row.getCell(64).value += operatorLain.kecederaanTisuLembut;
-          row.getCell(65).value += operatorLain.cabutanSurgical;
-          row.getCell(66).value += operatorLain.pembedahanKecilMulut;
-          if (i > 1) {
-            row.getCell(67).value += operatorLain.crownBridgeBaru;
-            row.getCell(68).value += operatorLain.crownBridgeSemula;
-            row.getCell(69).value += operatorLain.postCoreBaru;
-            row.getCell(70).value += operatorLain.postCoreSemula;
-            row.getCell(71).value += operatorLain.prosthodontikPenuhDenturBaru;
-            row.getCell(72).value +=
-              operatorLain.prosthodontikPenuhDenturSemula;
-            row.getCell(73).value += operatorLain.jumlahPesakitBuatDenturPenuh;
-            row.getCell(74).value += operatorLain.prosthodontikSeparaDenturBaru;
-            row.getCell(75).value +=
-              operatorLain.prosthodontikSeparaDenturSemula;
-            row.getCell(76).value += operatorLain.jumlahPesakitBuatDenturSepara;
-            row.getCell(77).value += operatorLain.immediateDenture;
-            row.getCell(78).value += operatorLain.pembaikanDenture;
-          }
-          // row.getCell(79).value += operatorLain.kesSelesai;
-          row.getCell(80).value += operatorLain.xrayDiambil;
-          // row.getCell(81).value += operatorLain.pesakitDisaringOC;
-        }
-        j++;
-        if (i === 11) {
-          j++;
-        }
-      }
-    }
-
     // data skor bpe
     j = 0;
-    for (let i = 0; i < data[5].length; i++) {
+    for (let i = 0; i < data[4].length; i++) {
       const [skorBpe] = data[5][i].skorBpe || [];
 
       if (skorBpe) {
@@ -2388,7 +3152,7 @@ const makePG207 = async (payload) => {
     }
 
     // data kedatangan sekolah
-    for (const item of data[6]) {
+    for (const item of data[5]) {
       const rowNumber = rowNumbers[item._id];
       if (rowNumber !== undefined) {
         const row = worksheet.getRow(rowNumber);
@@ -2400,7 +3164,7 @@ const makePG207 = async (payload) => {
     }
 
     // data OKU sekolah pemeriksaan
-    for (const item of data[7]) {
+    for (const item of data[6]) {
       const row = worksheet.getRow(31);
       row.getCell(4).value += item.jumlahd;
       row.getCell(5).value += item.jumlahf;
@@ -2425,7 +3189,7 @@ const makePG207 = async (payload) => {
     }
 
     // data OKU sekolah rawatan
-    for (const item of data[8]) {
+    for (const item of data[7]) {
       const row = worksheet.getRow(31);
       row.getCell(29).value += item.sapuanFluorida;
       row.getCell(30).value += item.jumlahPesakitPrrJenis1;
@@ -2455,7 +3219,7 @@ const makePG207 = async (payload) => {
     }
 
     // data BW sekolah pemeriksaan
-    for (const item of data[9]) {
+    for (const item of data[8]) {
       const row = worksheet.getRow(32);
       row.getCell(4).value += item.jumlahd;
       row.getCell(5).value += item.jumlahf;
@@ -2480,7 +3244,7 @@ const makePG207 = async (payload) => {
     }
 
     // data BW sekolah rawatan
-    for (const item of data[10]) {
+    for (const item of data[9]) {
       const row = worksheet.getRow(32);
       row.getCell(29).value += item.sapuanFluorida;
       row.getCell(30).value += item.jumlahPesakitPrrJenis1;
@@ -2510,7 +3274,7 @@ const makePG207 = async (payload) => {
     }
 
     // data kedatangan OKU
-    for (const item of data[11]) {
+    for (const item of data[10]) {
       const row = worksheet.getRow(31);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
@@ -2519,7 +3283,7 @@ const makePG207 = async (payload) => {
     }
 
     // data kedatangan BW
-    for (const item of data[12]) {
+    for (const item of data[11]) {
       const row = worksheet.getRow(32);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
@@ -2528,7 +3292,7 @@ const makePG207 = async (payload) => {
     }
 
     // kes selesai sekolah
-    for (const item of data[13]) {
+    for (const item of data[12]) {
       const rowNumber = rowNumbers[item._id];
 
       if (rowNumber !== undefined) {
@@ -2538,13 +3302,13 @@ const makePG207 = async (payload) => {
     }
 
     // kes selesai sekolah oku
-    for (const item of data[14]) {
+    for (const item of data[13]) {
       const row = worksheet.getRow(31);
       row.getCell(79).value += item.kesSelesai;
     }
 
     // kes selesai sekolah bw
-    for (const item of data[15]) {
+    for (const item of data[14]) {
       const row = worksheet.getRow(32);
       row.getCell(79).value += item.kesSelesai;
     }
@@ -9499,7 +10263,7 @@ const makeDEWASAMUDA = async (payload) => {
 
     // sekolah
     for (let i = 0; i < 2; i++) {
-      const sekolahDM = data[1][0] || [];
+      const sekolahDM = data[1][0].sekolahAll[0] || [];
 
       if (sekolahDM) {
         if (i === 0) {
@@ -9549,7 +10313,7 @@ const makeDEWASAMUDA = async (payload) => {
     }
 
     for (let i = 0; i < 2; i++) {
-      const sekolahDM = data[2][0] || [];
+      const sekolahDM = data[2][0].sekolahAll[0] || [];
 
       if (sekolahDM) {
         if (i === 0) {
@@ -9559,6 +10323,160 @@ const makeDEWASAMUDA = async (payload) => {
         }
 
         const row = worksheet.getRow(rowNumber);
+
+        // rawatan
+        row.getCell(33).value += sekolahDM.sapuanFluorida;
+        row.getCell(34).value += sekolahDM.jumlahPesakitPrrJenis1;
+        row.getCell(35).value += sekolahDM.jumlahGigiPrrJenis1;
+        row.getCell(36).value += sekolahDM.jumlahPesakitDiBuatFs;
+        row.getCell(37).value += sekolahDM.jumlahGigiDibuatFs;
+        row.getCell(38).value += sekolahDM.tampalanAntGdBaru;
+        row.getCell(39).value += sekolahDM.tampalanAntGdSemula;
+        row.getCell(40).value += sekolahDM.tampalanAntGkBaru;
+        row.getCell(41).value += sekolahDM.tampalanAntGkSemula;
+        row.getCell(42).value += sekolahDM.tampalanPostGdBaru;
+        row.getCell(43).value += sekolahDM.tampalanPostGdSemula;
+        row.getCell(44).value += sekolahDM.tampalanPostGkBaru;
+        row.getCell(45).value += sekolahDM.tampalanPostGkSemula;
+        row.getCell(46).value += sekolahDM.tampalanPostAmgGdBaru;
+        row.getCell(47).value += sekolahDM.tampalanPostAmgGdSemula;
+        row.getCell(48).value += sekolahDM.tampalanPostAmgGkBaru;
+        row.getCell(49).value += sekolahDM.tampalanPostAmgGkSemula;
+        // skipping cells
+        row.getCell(52).value += sekolahDM.tampalanSementara;
+        row.getCell(53).value += sekolahDM.cabutanGd;
+        row.getCell(54).value += sekolahDM.cabutanGk;
+        // skipping cells
+        row.getCell(56).value += sekolahDM.penskaleran;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = data[1][0].sekolahOku[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(25);
+
+        // pemeriksaan
+        row.getCell(3).value += sekolahDM.kedatanganBaru;
+        row.getCell(4).value += sekolahDM.kedatanganUlangan;
+        row.getCell(5).value += sekolahDM.jumlahLelaki;
+        row.getCell(6).value += sekolahDM.jumlahPerempuan;
+        row.getCell(7).value += sekolahDM.jumlahd;
+        row.getCell(8).value += sekolahDM.jumlahf;
+        row.getCell(9).value += sekolahDM.jumlahx;
+        // row.getCell(10).value += sekolahDM.jumlahdfx;
+        row.getCell(11).value += sekolahDM.jumlahD;
+        row.getCell(12).value += sekolahDM.jumlahM;
+        row.getCell(13).value += sekolahDM.jumlahF;
+        row.getCell(14).value += sekolahDM.jumlahX;
+        // row.getCell(12).value += sekolahDM.jumlahDMFX;
+        row.getCell(16).value += sekolahDM.jumlahMBK;
+        row.getCell(17).value += sekolahDM.statusBebasKaries;
+        row.getCell(18).value += sekolahDM.jumlahTPRbiasa;
+        row.getCell(19).value += sekolahDM.skorBPE0;
+        row.getCell(20).value =
+          sekolahDM.skorBPE1 +
+          sekolahDM.skorBPE2 +
+          sekolahDM.skorBPE3 +
+          sekolahDM.skorBPE4;
+        row.getCell(22).value += sekolahDM.jumlahTSL;
+        row.getCell(22).value += sekolahDM.perluSapuanFluorida;
+        row.getCell(23).value += sekolahDM.perluJumlahPesakitPrrJenis1;
+        row.getCell(24).value += sekolahDM.perluJumlahGigiPrrJenis1;
+        row.getCell(25).value += sekolahDM.perluJumlahPesakitFS;
+        row.getCell(26).value += sekolahDM.perluJumlahGigiFS;
+        row.getCell(27).value += sekolahDM.perluPenskaleran;
+        // skipping cells
+        row.getCell(31).value += sekolahDM.perluDenturPenuh;
+        row.getCell(32).value += sekolahDM.perluDenturSepara;
+        // skipping cells
+        row.getCell(69).value += sekolahDM.kesSelesai;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = data[2][0].sekolahOku[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(25);
+
+        // rawatan
+        row.getCell(33).value += sekolahDM.sapuanFluorida;
+        row.getCell(34).value += sekolahDM.jumlahPesakitPrrJenis1;
+        row.getCell(35).value += sekolahDM.jumlahGigiPrrJenis1;
+        row.getCell(36).value += sekolahDM.jumlahPesakitDiBuatFs;
+        row.getCell(37).value += sekolahDM.jumlahGigiDibuatFs;
+        row.getCell(38).value += sekolahDM.tampalanAntGdBaru;
+        row.getCell(39).value += sekolahDM.tampalanAntGdSemula;
+        row.getCell(40).value += sekolahDM.tampalanAntGkBaru;
+        row.getCell(41).value += sekolahDM.tampalanAntGkSemula;
+        row.getCell(42).value += sekolahDM.tampalanPostGdBaru;
+        row.getCell(43).value += sekolahDM.tampalanPostGdSemula;
+        row.getCell(44).value += sekolahDM.tampalanPostGkBaru;
+        row.getCell(45).value += sekolahDM.tampalanPostGkSemula;
+        row.getCell(46).value += sekolahDM.tampalanPostAmgGdBaru;
+        row.getCell(47).value += sekolahDM.tampalanPostAmgGdSemula;
+        row.getCell(48).value += sekolahDM.tampalanPostAmgGkBaru;
+        row.getCell(49).value += sekolahDM.tampalanPostAmgGkSemula;
+        // skipping cells
+        row.getCell(52).value += sekolahDM.tampalanSementara;
+        row.getCell(53).value += sekolahDM.cabutanGd;
+        row.getCell(54).value += sekolahDM.cabutanGk;
+        // skipping cells
+        row.getCell(56).value += sekolahDM.penskaleran;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = data[1][0].sekolahOap[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(27);
+
+        // pemeriksaan
+        row.getCell(3).value += sekolahDM.kedatanganBaru;
+        row.getCell(4).value += sekolahDM.kedatanganUlangan;
+        row.getCell(5).value += sekolahDM.jumlahLelaki;
+        row.getCell(6).value += sekolahDM.jumlahPerempuan;
+        row.getCell(7).value += sekolahDM.jumlahd;
+        row.getCell(8).value += sekolahDM.jumlahf;
+        row.getCell(9).value += sekolahDM.jumlahx;
+        // row.getCell(10).value += sekolahDM.jumlahdfx;
+        row.getCell(11).value += sekolahDM.jumlahD;
+        row.getCell(12).value += sekolahDM.jumlahM;
+        row.getCell(13).value += sekolahDM.jumlahF;
+        row.getCell(14).value += sekolahDM.jumlahX;
+        // row.getCell(12).value += sekolahDM.jumlahDMFX;
+        row.getCell(16).value += sekolahDM.jumlahMBK;
+        row.getCell(17).value += sekolahDM.statusBebasKaries;
+        row.getCell(18).value += sekolahDM.jumlahTPRbiasa;
+        row.getCell(19).value += sekolahDM.skorBPE0;
+        row.getCell(20).value =
+          sekolahDM.skorBPE1 +
+          sekolahDM.skorBPE2 +
+          sekolahDM.skorBPE3 +
+          sekolahDM.skorBPE4;
+        row.getCell(22).value += sekolahDM.jumlahTSL;
+        row.getCell(22).value += sekolahDM.perluSapuanFluorida;
+        row.getCell(23).value += sekolahDM.perluJumlahPesakitPrrJenis1;
+        row.getCell(24).value += sekolahDM.perluJumlahGigiPrrJenis1;
+        row.getCell(25).value += sekolahDM.perluJumlahPesakitFS;
+        row.getCell(26).value += sekolahDM.perluJumlahGigiFS;
+        row.getCell(27).value += sekolahDM.perluPenskaleran;
+        // skipping cells
+        row.getCell(31).value += sekolahDM.perluDenturPenuh;
+        row.getCell(32).value += sekolahDM.perluDenturSepara;
+        // skipping cells
+        row.getCell(69).value += sekolahDM.kesSelesai;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = data[2][0].sekolahOap[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(27);
 
         // rawatan
         row.getCell(33).value += sekolahDM.sapuanFluorida;
@@ -10542,6 +11460,7 @@ const makeKOM = async (payload) => {
   } = payload;
   try {
     let data;
+    let dataDM;
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
@@ -10549,6 +11468,7 @@ const makeKOM = async (payload) => {
         break;
       default:
         data = await Helper.countKOM(payload);
+        dataDM = await Helper.countDEWASAMUDA(payload);
         break;
     }
     //
@@ -10764,6 +11684,241 @@ const makeKOM = async (payload) => {
       j++;
       if (i === 11 || i === 15) {
         j++;
+      }
+    }
+
+    // sekolah dari dewasa muda
+    for (let i = 0; i < 2; i++) {
+      const sekolahDM = dataDM[1][0].sekolahAll[0] || [];
+
+      if (sekolahDM) {
+        if (i === 0) {
+          rowNumber = 26;
+        } else {
+          rowNumber = 38;
+        }
+
+        const row = worksheet.getRow(rowNumber);
+
+        // pemeriksaan
+        row.getCell(3).value += sekolahDM.kedatanganBaru;
+        row.getCell(4).value += sekolahDM.kedatanganUlangan;
+        row.getCell(5).value += sekolahDM.jumlahd;
+        row.getCell(6).value += sekolahDM.jumlahf;
+        row.getCell(7).value += sekolahDM.jumlahx;
+        // row.getCell(10).value += sekolahDM.jumlahdfx;
+        row.getCell(9).value += sekolahDM.jumlahD;
+        row.getCell(10).value += sekolahDM.jumlahM;
+        row.getCell(11).value += sekolahDM.jumlahF;
+        row.getCell(12).value += sekolahDM.jumlahX;
+        // row.getCell(12).value += sekolahDM.jumlahDMFX;
+        row.getCell(14).value += sekolahDM.jumlahMBK;
+        row.getCell(15).value += sekolahDM.statusBebasKaries;
+        row.getCell(16).value += sekolahDM.jumlahTPRbiasa;
+        row.getCell(17).value += sekolahDM.skorBPE0;
+        row.getCell(18).value =
+          sekolahDM.skorBPE1 +
+          sekolahDM.skorBPE2 +
+          sekolahDM.skorBPE3 +
+          sekolahDM.skorBPE4;
+        row.getCell(19).value += sekolahDM.perluSapuanFluorida;
+        row.getCell(20).value += sekolahDM.perluJumlahPesakitPrrJenis1;
+        row.getCell(21).value += sekolahDM.perluJumlahGigiPrrJenis1;
+        row.getCell(22).value += sekolahDM.perluJumlahPesakitFS;
+        row.getCell(23).value += sekolahDM.perluJumlahGigiFS;
+        row.getCell(24).value += sekolahDM.perluPenskaleran;
+        // skipping cells
+        row.getCell(28).value += sekolahDM.perluDenturPenuh;
+        row.getCell(29).value += sekolahDM.perluDenturSepara;
+        // skipping cells
+        row.getCell(66).value += sekolahDM.kesSelesai;
+      }
+    }
+
+    for (let i = 0; i < 2; i++) {
+      const sekolahDM = dataDM[2][0].sekolahAll[0] || [];
+
+      if (sekolahDM) {
+        if (i === 0) {
+          rowNumber = 26;
+        } else {
+          rowNumber = 38;
+        }
+
+        const row = worksheet.getRow(rowNumber);
+
+        // rawatan
+        row.getCell(30).value += sekolahDM.sapuanFluorida;
+        row.getCell(31).value += sekolahDM.jumlahPesakitPrrJenis1;
+        row.getCell(32).value += sekolahDM.jumlahGigiPrrJenis1;
+        row.getCell(33).value += sekolahDM.jumlahPesakitDiBuatFs;
+        row.getCell(34).value += sekolahDM.jumlahGigiDibuatFs;
+        row.getCell(35).value += sekolahDM.tampalanAntGdBaru;
+        row.getCell(36).value += sekolahDM.tampalanAntGdSemula;
+        row.getCell(37).value += sekolahDM.tampalanAntGkBaru;
+        row.getCell(38).value += sekolahDM.tampalanAntGkSemula;
+        row.getCell(39).value += sekolahDM.tampalanPostGdBaru;
+        row.getCell(40).value += sekolahDM.tampalanPostGdSemula;
+        row.getCell(41).value += sekolahDM.tampalanPostGkBaru;
+        row.getCell(42).value += sekolahDM.tampalanPostGkSemula;
+        row.getCell(43).value += sekolahDM.tampalanPostAmgGdBaru;
+        row.getCell(44).value += sekolahDM.tampalanPostAmgGdSemula;
+        row.getCell(45).value += sekolahDM.tampalanPostAmgGkBaru;
+        row.getCell(46).value += sekolahDM.tampalanPostAmgGkSemula;
+        // skipping cells
+        row.getCell(49).value += sekolahDM.tampalanSementara;
+        row.getCell(50).value += sekolahDM.cabutanGd;
+        row.getCell(51).value += sekolahDM.cabutanGk;
+        // skipping cells
+        row.getCell(53).value += sekolahDM.penskaleran;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = dataDM[1][0].sekolahOku[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(34);
+
+        // pemeriksaan
+        row.getCell(3).value += sekolahDM.kedatanganBaru;
+        row.getCell(4).value += sekolahDM.kedatanganUlangan;
+        row.getCell(5).value += sekolahDM.jumlahd;
+        row.getCell(6).value += sekolahDM.jumlahf;
+        row.getCell(7).value += sekolahDM.jumlahx;
+        // row.getCell(10).value += sekolahDM.jumlahdfx;
+        row.getCell(9).value += sekolahDM.jumlahD;
+        row.getCell(10).value += sekolahDM.jumlahM;
+        row.getCell(11).value += sekolahDM.jumlahF;
+        row.getCell(12).value += sekolahDM.jumlahX;
+        // row.getCell(12).value += sekolahDM.jumlahDMFX;
+        row.getCell(14).value += sekolahDM.jumlahMBK;
+        row.getCell(15).value += sekolahDM.statusBebasKaries;
+        row.getCell(16).value += sekolahDM.jumlahTPRbiasa;
+        row.getCell(17).value += sekolahDM.skorBPE0;
+        row.getCell(18).value +=
+          sekolahDM.skorBPE1 +
+          sekolahDM.skorBPE2 +
+          sekolahDM.skorBPE3 +
+          sekolahDM.skorBPE4;
+        row.getCell(19).value += sekolahDM.perluSapuanFluorida;
+        row.getCell(20).value += sekolahDM.perluJumlahPesakitPrrJenis1;
+        row.getCell(21).value += sekolahDM.perluJumlahGigiPrrJenis1;
+        row.getCell(22).value += sekolahDM.perluJumlahPesakitFS;
+        row.getCell(23).value += sekolahDM.perluJumlahGigiFS;
+        row.getCell(24).value += sekolahDM.perluPenskaleran;
+        // skipping cells
+        row.getCell(28).value += sekolahDM.perluDenturPenuh;
+        row.getCell(29).value += sekolahDM.perluDenturSepara;
+        // skipping cells
+        row.getCell(66).value += sekolahDM.kesSelesai;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = dataDM[2][0].sekolahOku[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(34);
+
+        // rawatan
+        row.getCell(30).value += sekolahDM.sapuanFluorida;
+        row.getCell(31).value += sekolahDM.jumlahPesakitPrrJenis1;
+        row.getCell(32).value += sekolahDM.jumlahGigiPrrJenis1;
+        row.getCell(33).value += sekolahDM.jumlahPesakitDiBuatFs;
+        row.getCell(34).value += sekolahDM.jumlahGigiDibuatFs;
+        row.getCell(35).value += sekolahDM.tampalanAntGdBaru;
+        row.getCell(36).value += sekolahDM.tampalanAntGdSemula;
+        row.getCell(37).value += sekolahDM.tampalanAntGkBaru;
+        row.getCell(38).value += sekolahDM.tampalanAntGkSemula;
+        row.getCell(39).value += sekolahDM.tampalanPostGdBaru;
+        row.getCell(40).value += sekolahDM.tampalanPostGdSemula;
+        row.getCell(41).value += sekolahDM.tampalanPostGkBaru;
+        row.getCell(42).value += sekolahDM.tampalanPostGkSemula;
+        row.getCell(43).value += sekolahDM.tampalanPostAmgGdBaru;
+        row.getCell(44).value += sekolahDM.tampalanPostAmgGdSemula;
+        row.getCell(45).value += sekolahDM.tampalanPostAmgGkBaru;
+        row.getCell(46).value += sekolahDM.tampalanPostAmgGkSemula;
+        // skipping cells
+        row.getCell(49).value += sekolahDM.tampalanSementara;
+        row.getCell(50).value += sekolahDM.cabutanGd;
+        row.getCell(51).value += sekolahDM.cabutanGk;
+        // skipping cells
+        row.getCell(53).value += sekolahDM.penskaleran;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = data[1][0].sekolahOap[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(36);
+
+        // pemeriksaan
+        row.getCell(3).value += sekolahDM.kedatanganBaru;
+        row.getCell(4).value += sekolahDM.kedatanganUlangan;
+        row.getCell(5).value += sekolahDM.jumlahd;
+        row.getCell(6).value += sekolahDM.jumlahf;
+        row.getCell(7).value += sekolahDM.jumlahx;
+        // row.getCell(10).value += sekolahDM.jumlahdfx;
+        row.getCell(9).value += sekolahDM.jumlahD;
+        row.getCell(10).value += sekolahDM.jumlahM;
+        row.getCell(11).value += sekolahDM.jumlahF;
+        row.getCell(12).value += sekolahDM.jumlahX;
+        // row.getCell(12).value += sekolahDM.jumlahDMFX;
+        row.getCell(14).value += sekolahDM.jumlahMBK;
+        row.getCell(15).value += sekolahDM.statusBebasKaries;
+        row.getCell(16).value += sekolahDM.jumlahTPRbiasa;
+        row.getCell(17).value += sekolahDM.skorBPE0;
+        row.getCell(18).value +=
+          sekolahDM.skorBPE1 +
+          sekolahDM.skorBPE2 +
+          sekolahDM.skorBPE3 +
+          sekolahDM.skorBPE4;
+        row.getCell(19).value += sekolahDM.perluSapuanFluorida;
+        row.getCell(20).value += sekolahDM.perluJumlahPesakitPrrJenis1;
+        row.getCell(21).value += sekolahDM.perluJumlahGigiPrrJenis1;
+        row.getCell(22).value += sekolahDM.perluJumlahPesakitFS;
+        row.getCell(23).value += sekolahDM.perluJumlahGigiFS;
+        row.getCell(24).value += sekolahDM.perluPenskaleran;
+        // skipping cells
+        row.getCell(28).value += sekolahDM.perluDenturPenuh;
+        row.getCell(29).value += sekolahDM.perluDenturSepara;
+        // skipping cells
+        row.getCell(66).value += sekolahDM.kesSelesai;
+      }
+    }
+
+    for (let i = 0; i < 1; i++) {
+      const sekolahDM = data[2][0].sekolahOap[0] || [];
+
+      if (sekolahDM) {
+        const row = worksheet.getRow(36);
+
+        // rawatan
+        row.getCell(30).value += sekolahDM.sapuanFluorida;
+        row.getCell(31).value += sekolahDM.jumlahPesakitPrrJenis1;
+        row.getCell(32).value += sekolahDM.jumlahGigiPrrJenis1;
+        row.getCell(33).value += sekolahDM.jumlahPesakitDiBuatFs;
+        row.getCell(34).value += sekolahDM.jumlahGigiDibuatFs;
+        row.getCell(35).value += sekolahDM.tampalanAntGdBaru;
+        row.getCell(36).value += sekolahDM.tampalanAntGdSemula;
+        row.getCell(37).value += sekolahDM.tampalanAntGkBaru;
+        row.getCell(38).value += sekolahDM.tampalanAntGkSemula;
+        row.getCell(39).value += sekolahDM.tampalanPostGdBaru;
+        row.getCell(40).value += sekolahDM.tampalanPostGdSemula;
+        row.getCell(41).value += sekolahDM.tampalanPostGkBaru;
+        row.getCell(42).value += sekolahDM.tampalanPostGkSemula;
+        row.getCell(43).value += sekolahDM.tampalanPostAmgGdBaru;
+        row.getCell(44).value += sekolahDM.tampalanPostAmgGdSemula;
+        row.getCell(45).value += sekolahDM.tampalanPostAmgGkBaru;
+        row.getCell(46).value += sekolahDM.tampalanPostAmgGkSemula;
+        // skipping cells
+        row.getCell(49).value += sekolahDM.tampalanSementara;
+        row.getCell(50).value += sekolahDM.cabutanGd;
+        row.getCell(51).value += sekolahDM.cabutanGk;
+        // skipping cells
+        row.getCell(53).value += sekolahDM.penskaleran;
       }
     }
 
