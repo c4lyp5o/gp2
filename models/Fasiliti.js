@@ -159,7 +159,7 @@ const fasilitiSchema = new Schema({
     default: 'NOT APPLICABLE',
   },
   enrolmenInstitusi: {
-    // dah ada dalam Even model
+    // dah ada dalam Event model
     type: String,
     default: 'NOT APPLICABLE',
   },

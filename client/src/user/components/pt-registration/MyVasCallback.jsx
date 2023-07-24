@@ -16,15 +16,14 @@ export default function MyVasCallback() {
   useEffect(() => {
     if (code) {
       const getMyVasToken = async () => {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${kaunterToken}`,
-          },
-        };
         try {
           const response = await axios.get(
             `/api/v1/myvas/callback?code=${code}`,
-            config
+            {
+              headers: {
+                Authorization: `Bearer ${kaunterToken}`,
+              },
+            }
           );
           localStorage.setItem('myVasToken', response.data.myVasToken);
           localStorage.setItem('myVasIdToken', response.data.myVasIdToken);
@@ -33,7 +32,7 @@ export default function MyVasCallback() {
           navigate('/pendaftaran/daftar/kp/myvas');
         } catch (error) {
           console.log(error);
-          toast.error('Log masuk ke MyVas gagal');
+          toast.error('Log masuk ke MyVAS gagal');
           navigate('/pendaftaran/daftar/kp');
         }
       };
@@ -43,7 +42,7 @@ export default function MyVasCallback() {
 
   return (
     <div className='mt-20'>
-      <h1 className='animate-pulse text-user1 font-bold text-6xl'>
+      <h1 className='animate-pulse text-user1 font-bold text-4xl'>
         Mengesahkan log masuk ke MyVAS....
       </h1>
     </div>

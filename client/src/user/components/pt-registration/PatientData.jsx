@@ -337,7 +337,7 @@ export default function PatientData({
   if (queryingMyVas) {
     return (
       <div className='mt-20'>
-        <h1 className='animate-pulse text-user1 font-bold text-6xl'>
+        <h1 className='animate-pulse text-user1 font-bold text-4xl'>
           Sedang Mengambil Data Pesakit MyVAS....
         </h1>
       </div>

@@ -9,13 +9,8 @@ import mysejahtera from '../../../assets/MySejahtera.png';
 import moment from 'moment';
 
 export default function MyVas({ handleSubmitMyVas }) {
-  const { kaunterToken, myVasToken, navigate } = useGlobalUserAppContext();
-
-  const searchParamsic = new URLSearchParams(useLocation().search);
-  const nricParam = searchParamsic.get('nric');
-  const [patientId, setPatientId] = useState(
-    searchParamsic.get('nric') || 'AMI004'
-  );
+  const { kaunterToken, myVasToken, navigate, toast } =
+    useGlobalUserAppContext();
 
   const [appointmentList, setAppointmentList] = useState([]);
   const [findingAppointment, setFindingAppointment] = useState(false);
@@ -23,19 +18,14 @@ export default function MyVas({ handleSubmitMyVas }) {
   useEffect(() => {
     const fetchMyVasData = async () => {
       setFindingAppointment(true);
-      const config = {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${kaunterToken} ${
-            myVasToken ? myVasToken : ''
-          }`,
-        },
-      };
       try {
-        const response = await axios.get(
-          '/api/v1/myvas/appointment-list',
-          config
-        );
+        const response = await axios.get('/api/v1/myvas/appointment-list', {
+          headers: {
+            Authorization: `Bearer ${kaunterToken} ${
+              myVasToken ? myVasToken : ''
+            }`,
+          },
+        });
         if (
           response &&
           response.data.next_status &&
@@ -50,7 +40,9 @@ export default function MyVas({ handleSubmitMyVas }) {
         setAppointmentList(response.data.entry);
         setFindingAppointment(false);
       } catch (error) {
-        console.log(error);
+        toast.error('Log masuk ke MyVAS gagal');
+        setFindingAppointment(false);
+        navigate('/pendaftaran/daftar/kp');
       }
     };
     fetchMyVasData();

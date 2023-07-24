@@ -96,7 +96,6 @@ async function getAppointmentList(req, res) {
     method: 'get',
     maxBodyLength: Infinity,
     url: encodedUri,
-    // url: `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|${branchCode}&date=${dateFilter}`,
     headers: {
       Authorization: `Bearer ${arrayOfHeader[2]}`,
     },
@@ -138,7 +137,6 @@ async function getPatientDetails(req, res) {
     method: 'get',
     maxBodyLength: Infinity,
     url: encodedUri,
-    // url: `${process.env.MYVAS_API_PATIENT_DETAILS}?identifier=https://myvas.moh.gov.my/System/licence|${identifier}`,
     headers: {
       Authorization: `Bearer ${arrayOfHeader[2]}`,
     },
@@ -171,9 +169,9 @@ async function logOutMyVas(req, res) {
     await axios.get(
       `${process.env.MYVAS_AUTH_SERVER}${process.env.MYVAS_LOGOUT_ENDPOINT}?id_token_hint=${arrayOfHeader[3]}`
     );
-    return res.status(200).json({ msg: 'Berjaya log keluar MyVas' });
+    return res.status(200).json({ msg: 'Berjaya log keluar MyVAS' });
   } else {
-    return res.status(404).json({ msg: 'Sesi MyVas tidak wujud' });
+    return res.status(404).json({ msg: 'Sesi MyVAS tidak wujud' });
   }
 }
 
