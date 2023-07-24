@@ -54,7 +54,7 @@ export default function MyVas({ handleSubmitMyVas }) {
     );
     const patientIdentifier = foundPatient?.identifier[0].value;
     const patientname = foundPatient?.name[0].given[0];
-    const masaTemujanji = appointment.resource.start;
+    const timeslot = appointment.resource.start;
     return (
       <tbody className='bg-kaunter3'>
         <tr>
@@ -68,14 +68,14 @@ export default function MyVas({ handleSubmitMyVas }) {
             {patientIdentifier}
           </td>
           <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-            {moment(masaTemujanji).format('hh:mm A')}
+            {moment(timeslot).format('hh:mm A')}
           </td>
           <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-2'>
             <span
               className='bg-user1 text-userWhite px-2 py-1 rounded-md cursor-pointer m-3'
               onClick={() => {
-                handleSubmitMyVas(patientIdentifier, masaTemujanji);
-                navigate('/pendaftaran/daftar/kp/myvas/confirm');
+                handleSubmitMyVas(patientIdentifier, timeslot);
+                navigate('/pendaftaran/daftar/kp');
               }}
             >
               PILIH
