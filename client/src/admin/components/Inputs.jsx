@@ -3889,8 +3889,11 @@ export function InputEditEvent(props) {
                   const selectedKlinik = props.klinik.find(
                     (k) => k.kodFasiliti === e.target.value
                   );
-                  props.setKp(selectedKlinik.kp);
-                  props.setKodFasiliti(selectedKlinik.kodFasiliti);
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    createdByKp: selectedKlinik.kp,
+                    createdByKodFasiliti: selectedKlinik.kodFasiliti,
+                  });
                 }}
                 className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
               >
