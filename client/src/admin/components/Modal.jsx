@@ -437,6 +437,7 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
   const [tempat, setTempat] = useState('');
   //datepicker
   const [loading, setLoading] = useState(true);
+  const [addingData, setAddingData] = useState(false);
 
   const handleSubmit = async () => {
     setAddingData(true);
@@ -456,6 +457,7 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
         toast.error(`Data tidak berjaya ditambah`);
       }
       setShowAddModal(false);
+      setAddingData(false);
     });
   };
 
@@ -466,6 +468,8 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
     jenisEvent,
     setTempat,
     tempat,
+    addingData,
+    setAddingData,
     //
     setShowAddModal,
     handleSubmit,

@@ -349,6 +349,8 @@ const muatturunSenaraiPelajar = async (req, res) => {
 
   const { rujukan } = req.query;
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   // download murid rujukan
   if (rujukan === 'true') {
     const makeFile = () => {
@@ -381,10 +383,13 @@ const muatturunSenaraiPelajar = async (req, res) => {
       },
     };
 
-    const semuaPelajarSatuSekolah = await Sekolah.aggregate([
-      match_stage,
-      project_stage,
-    ]);
+    const semuaPelajarSatuSekolah = await Sekolah.find({
+      kodSekolah: kodSekolah,
+      sesiTakwimSekolah: sesiTakwim,
+      deleted: false,
+    }).select(
+      'nama naamSekolah tahunTingkatan kelasPelajar jantina umur keturunan warganegara'
+    );
     const semuaTahun = new Set(
       semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
     );
