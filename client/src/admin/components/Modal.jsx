@@ -556,6 +556,7 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
       case 'taska':
       case 'tadika':
         Data = {
+          ...Data,
           govKe: editedEntity.govKe,
           statusPerkhidmatan: editedEntity.statusPerkhidmatan,
         };
@@ -563,6 +564,7 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
       case 'sr':
       case 'sm':
         Data = {
+          ...Data,
           risikoSekolahPersis: editedEntity.risikoSekolahPersis,
           jenisPerkhidmatanSekolah: editedEntity.jenisPerkhidmatanSekolah,
           sekolahMmi: editedEntity.sekolahMmi,
