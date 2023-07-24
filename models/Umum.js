@@ -70,7 +70,7 @@ const UmumSchema = new mongoose.Schema(
     noBayaran3: { type: String, default: '' },
     noResit3: { type: String, default: '' },
     catatan: { type: String, default: '' },
-    myvasConsent: { type: Boolean, default: false },
+    myVasConsent: { type: Boolean, default: false },
     // kepp
     kepp: { type: Boolean, default: false },
     kedatanganKepp: { type: String, default: '' },

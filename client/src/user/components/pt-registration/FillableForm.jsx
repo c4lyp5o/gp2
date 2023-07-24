@@ -64,8 +64,11 @@ export default function FillableForm({
   const [kkKdAll, setKkKdAll] = useState([]);
   const [taskaTadikaAll, setTaskaTadikaAll] = useState([]);
 
-  // for confirmation modal
+  // confirmation modal
   const [confirmData, setConfirmData] = useState({});
+
+  // modal MyVAS
+  const [showModalMyVas, setShowModalMyVas] = useState(false);
 
   // core
   const [kedatangan, setKedatangan] = useState('');
@@ -118,7 +121,7 @@ export default function FillableForm({
   const [noBayaran3, setNoBayaran3] = useState('');
   const [noResit3, setNoResit3] = useState('');
   const [catatan, setCatatan] = useState('');
-  const [myvasConsent, setMyvasConsent] = useState(true);
+  const [myVasConsent, setMyVasConsent] = useState(true);
 
   // kepp
   const [kepp, setKepp] = useState(false);
@@ -186,9 +189,6 @@ export default function FillableForm({
   const [waktuTemujanjiDT, setWaktuTemujanjiDT] = useState(
     moment(dateToday, moment.ISO_8601).toDate()
   );
-
-  // MyVAS
-  const [showModalMyVas, setShowModalMyVas] = useState(false);
 
   const TarikhKedatangan = () => {
     let disabled = false;
@@ -639,7 +639,7 @@ export default function FillableForm({
               noBayaran3,
               noResit3,
               catatan,
-              myvasConsent,
+              myVasConsent,
               // kepp
               kepp,
               kedatanganKepp,
@@ -749,7 +749,7 @@ export default function FillableForm({
               noBayaran3,
               noResit3,
               catatan,
-              myvasConsent,
+              myVasConsent,
               // kepp
               kepp,
               kedatanganKepp,
@@ -856,7 +856,7 @@ export default function FillableForm({
       setNoBayaran3('');
       setNoResit3('');
       setCatatan('');
-      setMyvasConsent(true);
+      setMyVasConsent(true);
       // kepp
       setKepp(false);
       setKedatanganKepp('');
@@ -1222,7 +1222,7 @@ export default function FillableForm({
           setNoBayaran3(data.singlePersonKaunter.noBayaran3);
           setNoResit3(data.singlePersonKaunter.noResit3);
           setCatatan(data.singlePersonKaunter.catatan);
-          setMyvasConsent(data.singlePersonKaunter.myvasConsent);
+          setMyVasConsent(data.singlePersonKaunter.myVasConsent);
           // kepp
           setKepp(data.singlePersonKaunter.kepp);
           setKedatanganKepp(data.singlePersonKaunter.kedatanganKepp);
@@ -3634,9 +3634,9 @@ export default function FillableForm({
                     name='myvas-consent'
                     id='myvas-consent'
                     value='myvas-consent'
-                    checked={myvasConsent}
+                    checked={myVasConsent}
                     onChange={() => {
-                      setMyvasConsent(!myvasConsent);
+                      setMyVasConsent(!myVasConsent);
                     }}
                     className='mr-2 w-6 h-6 my-1'
                   />
