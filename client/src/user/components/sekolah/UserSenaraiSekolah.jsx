@@ -518,7 +518,7 @@ function UserSekolahList() {
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           <span>
                             {percentageCalc(
-                              kiraKedatanganBaru(
+                              kiraKesSelesai(
                                 allPersonSekolahs,
                                 singleNamaSekolah
                               ),

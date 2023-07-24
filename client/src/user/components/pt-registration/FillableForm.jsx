@@ -251,7 +251,7 @@ export default function FillableForm({
   //   return values;
   // };
   const howOldAreYouMyFriendtahunV2 = (date) => {
-    const years = moment(dateToday, moment.ISO_8601).diff(
+    const years = moment(tarikhKedatangan, moment.ISO_8601).diff(
       moment(date),
       'years'
     );
@@ -270,7 +270,8 @@ export default function FillableForm({
   // };
   const howOldAreYouMyFriendbulanV2 = (date) => {
     const months =
-      moment(dateToday, moment.ISO_8601).diff(moment(date), 'months') % 12;
+      moment(tarikhKedatangan, moment.ISO_8601).diff(moment(date), 'months') %
+      12;
     return months;
   };
 
@@ -287,13 +288,14 @@ export default function FillableForm({
   // };
   const howOldAreYouMyFrienddaysV2 = (date) => {
     const duration = moment.duration(
-      moment(dateToday, moment.ISO_8601).diff(moment(date))
+      moment(tarikhKedatangan, moment.ISO_8601).diff(moment(date))
     );
     const days = duration.days();
     // guarding days to always return 0 if birthday month & day same as dateToday
     if (
-      moment(dateToday, moment.ISO_8601).month() === moment(date).month() &&
-      moment(dateToday, moment.ISO_8601).date() === moment(date).date()
+      moment(tarikhKedatangan, moment.ISO_8601).month() ===
+        moment(date).month() &&
+      moment(tarikhKedatangan, moment.ISO_8601).date() === moment(date).date()
     ) {
       return 0;
     }

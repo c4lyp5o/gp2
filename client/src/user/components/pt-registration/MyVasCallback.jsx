@@ -21,28 +21,31 @@ export default function MyVasCallback() {
             Authorization: `Bearer ${kaunterToken}`,
           },
         };
-        await axios
-          .get(`/api/v1/myvas/callback?code=${code}`, config)
-          .then((res) => {
-            localStorage.setItem('myVasToken', res.data.myVasToken);
-            localStorage.setItem('myVasIdToken', res.data.myVasIdToken);
-            setMyVasToken(res.data.myVasToken);
-            setMyVasIdToken(res.data.myVasIdToken);
-            navigate('/pendaftaran/daftar/kp/myvas');
-          })
-          .catch((err) => {
-            navigate('/pendaftaran/daftar/kp');
-            toast.error('Log masuk ke MyVas gagal');
-            console.log(err);
-          });
+        try {
+          const response = await axios.get(
+            `/api/v1/myvas/callback?code=${code}`,
+            config
+          );
+          localStorage.setItem('myVasToken', response.data.myVasToken);
+          localStorage.setItem('myVasIdToken', response.data.myVasIdToken);
+          setMyVasToken(response.data.myVasToken);
+          setMyVasIdToken(response.data.myVasIdToken);
+          navigate('/pendaftaran/daftar/kp/myvas');
+        } catch (error) {
+          console.log(error);
+          toast.error('Log masuk ke MyVas gagal');
+          navigate('/pendaftaran/daftar/kp');
+        }
       };
       getMyVasToken();
     }
   }, []);
 
   return (
-    <>
-      <div></div>
-    </>
+    <div className='mt-20'>
+      <h1 className='animate-pulse text-user1 font-bold text-6xl'>
+        Mengesahkan log masuk ke MyVAS....
+      </h1>
+    </div>
   );
 }
