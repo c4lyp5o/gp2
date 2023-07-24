@@ -567,58 +567,23 @@ const getParams206207sekolah = (payload) => {
 const getParamsPgpr201 = (payload) => {
   const { negeri, daerah, klinik } = payload;
 
-  const byKp = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByKodFasiliti: { $eq: klinik },
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
+  const params = {
+    tarikhKedatangan: dateModifier(payload),
+    deleted: false,
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
 
-  const byDaerah = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      createdByDaerah: { $eq: daerah },
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
+  if (negeri !== 'all') {
+    params.createdByNegeri = { $eq: negeri };
+  }
+  if (daerah !== 'all') {
+    params.createdByDaerah = { $eq: daerah };
+  }
+  if (klinik !== 'all') {
+    params.createdByKodFasiliti = { $eq: klinik };
+  }
 
-  const byNegeri = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
-
-  const satuMalaysia = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
-
-  if (negeri === 'all') {
-    return satuMalaysia(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    return byNegeri(payload);
-  }
+  return params;
 };
 const getParamsPGS201 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
@@ -1309,11 +1274,15 @@ const getParamsOperatorLain = [
   {
     $project: {
       _id: 0,
+      tarikhKedatangan: 1,
       umur: 1,
       ibuMengandung: 1,
       orangKurangUpaya: 1,
       kumpulanEtnik: 1,
+      jenisProgram: 1,
+      menggunakanKPBMPB: 1,
       rawatanOperatorLain: 1,
+      kategoriInstitusi: 1,
     },
   },
   {
