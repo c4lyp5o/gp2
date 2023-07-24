@@ -14,11 +14,6 @@ export default function MyVasModalConfirm({
   const handleCheckMyVas = (e) => {
     e.preventDefault();
     handleDataPassMyVas(jenisIc, kumpulanEtnik, daerahAlamat);
-    // setConfirmData({
-    //   ...confirmData,
-    //   kumpulanEtnik: myVasPassData.keturunan,
-    //   daerahAlamat: myVasPassData.daerah,
-    // });
     setShowModalMyVas(false);
   };
 
