@@ -918,10 +918,8 @@ export default function FillableForm({
       setWaktuTemujanjiDT(moment(masaTemujanji).toDate());
       setJenisIc('mykad-mykid');
       setIc(patientDataFromMyVas.resource.identifier[0].value);
-      setNomborTelefon(
-        patientDataFromMyVas.resource.telecom[0].value &&
-          patientDataFromMyVas.resource.telecom[0].value
-      );
+      patientDataFromMyVas.resource.telecom &&
+        setNomborTelefon(patientDataFromMyVas.resource.telecom[0].value);
       setNama(
         patientDataFromMyVas.resource.name[0].given[0] &&
           patientDataFromMyVas.resource.name[0].given[0]
@@ -946,6 +944,8 @@ export default function FillableForm({
       setUmur(tahun);
       setUmurBulan(bulan);
       setUmurHari(hari);
+      patientDataFromMyVas.resource.address[0].line[0] &&
+        setAlamat(patientDataFromMyVas.resource.address[0].line[0]);
       setPoskodAlamat(
         patientDataFromMyVas.resource.address[0].postalCode &&
           patientDataFromMyVas.resource.address[0].postalCode
@@ -961,7 +961,7 @@ export default function FillableForm({
           patientDataFromMyVas.resource.identifier[0].value &&
           patientDataFromMyVas.resource.identifier[0].value,
         nomborTelefon:
-          patientDataFromMyVas.resource.telecom[0].value &&
+          patientDataFromMyVas.resource.telecom &&
           patientDataFromMyVas.resource.telecom[0].value,
         nama:
           patientDataFromMyVas.resource.name[0].given[0] &&
@@ -973,6 +973,9 @@ export default function FillableForm({
         umur: tahun,
         umurBulan: bulan,
         umurHari: hari,
+        alamat:
+          patientDataFromMyVas.resource.address[0].line[0] &&
+          patientDataFromMyVas.resource.address[0].line[0],
         poskodAlamat:
           patientDataFromMyVas.resource.address[0].postalCode &&
           patientDataFromMyVas.resource.address[0].postalCode,

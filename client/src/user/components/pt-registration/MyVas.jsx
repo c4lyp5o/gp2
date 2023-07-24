@@ -16,19 +16,13 @@ export default function MyVas({ handleSubmitMyVas }) {
   const [patientId, setPatientId] = useState(
     searchParamsic.get('nric') || 'AMI004'
   );
-  const [txtName, setTxtName] = useState('');
-  const [txtPhone, setTxtPhone] = useState('');
-  const [txtGender, setTxtGender] = useState('');
-  const [txtDOB, setTxtDOB] = useState('');
-  const [txtPostcode, setTxtPostcode] = useState('');
-  const [txtAddress1, setTxtAddress1] = useState('');
-  const [txtAddress2, setTxtAddress2] = useState('');
-  const [txtCity, setTxtCity] = useState('');
 
   const [appointmentList, setAppointmentList] = useState([]);
+  const [findingAppointment, setFindingAppointment] = useState(false);
 
   useEffect(() => {
     const fetchMyVasData = async () => {
+      setFindingAppointment(true);
       const config = {
         withCredentials: true,
         headers: {
@@ -54,6 +48,7 @@ export default function MyVas({ handleSubmitMyVas }) {
           }
         }
         setAppointmentList(response.data.entry);
+        setFindingAppointment(false);
       } catch (error) {
         console.log(error);
       }
@@ -67,28 +62,28 @@ export default function MyVas({ handleSubmitMyVas }) {
     );
     const patientIdentifier = foundPatient?.identifier[0].value;
     const patientname = foundPatient?.name[0].given[0];
-    const timeslot = appointment.resource.start;
+    const masaTemujanji = appointment.resource.start;
     return (
       <tbody className='bg-kaunter3'>
         <tr>
           <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
             {index + 1}
           </td>
-          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
+          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 uppercase'>
             {patientname}
           </td>
-          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1  md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
+          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
             {patientIdentifier}
           </td>
-          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 w-60'>
-            {moment(timeslot).format('hh:mm A')}
+          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+            {moment(masaTemujanji).format('hh:mm A')}
           </td>
-          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-2 w-60'>
+          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-2'>
             <span
               className='bg-user1 text-userWhite px-2 py-1 rounded-md cursor-pointer m-3'
               onClick={() => {
-                handleSubmitMyVas(patientIdentifier, timeslot);
-                navigate('/pendaftaran/daftar/kp');
+                handleSubmitMyVas(patientIdentifier, masaTemujanji);
+                navigate('/pendaftaran/daftar/kp/myvas/confirm');
               }}
             >
               PILIH
@@ -101,7 +96,7 @@ export default function MyVas({ handleSubmitMyVas }) {
 
   return (
     <>
-      <div className=' bg-userWhite z-20 overflow-y-auto rounded-md'>
+      <div className=' bg-userWhite z-20 overflow-y-auto rounded-md px-24 pb-4'>
         <div className='flex justify-end'>
           <span
             onClick={() => {
@@ -118,39 +113,78 @@ export default function MyVas({ handleSubmitMyVas }) {
             alt='MySejahtera Logo'
             className='w-20 h-20 m-1 mr-5'
           />
-          MyVas
+          MyVAS
         </div>
         <div className='my-4 mb-1 text-2xl font-semibold'>
           <h1> Senarai Temujanji Hari Ini </h1>
         </div>
-        <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2 px-24'>
-          <table className='table-auto rounded-md'>
+        <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2'>
+          <table className='table-auto'>
             <thead className='text-userWhite bg-kaunter2 rounded-t-md'>
               <tr>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                   BIL
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
                   NAMA
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
                   KAD PENGENALAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-60'>
                   MASA TEMUJANJI
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-60'>
                   PILIHAN
                 </th>
               </tr>
             </thead>
-            {appointmentList.map((appointment, index) => (
-              <AppointmentList
-                key={index}
-                appointment={appointment}
-                index={index}
-              />
-            ))}
+            {findingAppointment ? (
+              <tbody className='bg-kaunter3'>
+                <tr>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
+                  </td>
+                </tr>
+              </tbody>
+            ) : (
+              appointmentList.map((appointment, index) => (
+                <AppointmentList
+                  key={index}
+                  appointment={appointment}
+                  index={index}
+                />
+              ))
+            )}
           </table>
         </div>
       </div>
