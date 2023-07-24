@@ -3782,6 +3782,7 @@ const outputReq211 = {
         {
           $or: [
             { $eq: ['$jantina', 'lelaki'] },
+            { $eq: ['$jantina', null] }, // sementara waktu
             { $eq: ['$jantina', ''] }, // sementara waktu
           ],
         },
@@ -3808,15 +3809,9 @@ const outputReq211 = {
       $cond: [
         {
           $or: [
-            {
-              $eq: ['$kumpulanEtnik', 'melayu'],
-            },
-            {
-              $eq: ['$kumpulanEtnik', null],
-            },
-            {
-              $eq: ['$kumpulanEtnik', ''],
-            },
+            { $eq: ['$kumpulanEtnik', 'melayu'] },
+            { $eq: ['$kumpulanEtnik', null] }, // sementara waktu
+            { $eq: ['$kumpulanEtnik', ''] }, // sementara waktu
           ],
         },
         1,
