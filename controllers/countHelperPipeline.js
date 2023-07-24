@@ -3782,6 +3782,7 @@ const outputReq211 = {
         {
           $or: [
             { $eq: ['$jantina', 'lelaki'] },
+            { $eq: ['$jantina', null] }, // sementara waktu
             { $eq: ['$jantina', ''] }, // sementara waktu
           ],
         },
@@ -3808,15 +3809,9 @@ const outputReq211 = {
       $cond: [
         {
           $or: [
-            {
-              $eq: ['$kumpulanEtnik', 'melayu'],
-            },
-            {
-              $eq: ['$kumpulanEtnik', null],
-            },
-            {
-              $eq: ['$kumpulanEtnik', ''],
-            },
+            { $eq: ['$kumpulanEtnik', 'melayu'] },
+            { $eq: ['$kumpulanEtnik', null] }, // sementara waktu
+            { $eq: ['$kumpulanEtnik', ''] }, // sementara waktu
           ],
         },
         1,
@@ -4177,7 +4172,11 @@ const groupPG214 = {
     $sum: {
       $cond: [
         {
-          $eq: ['$kumpulanEtnik', 'melayu'],
+          $or: [
+            { $eq: ['$kumpulanEtnik', 'melayu'] },
+            { $eq: ['$kumpulanEtnik', null] }, // sementara waktu
+            { $eq: ['$kumpulanEtnik', ''] }, // sementara waktu
+          ],
         },
         1,
         0,
@@ -4364,7 +4363,11 @@ const groupPG214 = {
     $sum: {
       $cond: [
         {
-          $eq: ['$jantina', 'lelaki'],
+          $or: [
+            { $eq: ['$jantina', 'lelaki'] },
+            { $eq: ['$jantina', null] }, // sementara waktu
+            { $eq: ['$jantina', ''] }, // sementara waktu
+          ],
         },
         1,
         0,
@@ -5975,18 +5978,6 @@ const groupPemeriksaanBiasa = {
             {
               $and: [
                 { $lt: ['$umur', 1] },
-                {
-                  $eq: [
-                    '$yaTidakPesakitMempunyaiGigi',
-                    'tidak-pesakit-mempunyai-gigi',
-                  ],
-                },
-              ],
-            },
-            {
-              $and: [
-                { $gte: ['$umur', 1] },
-                { $lte: ['$umur', 17] },
                 {
                   $eq: [
                     '$yaTidakPesakitMempunyaiGigi',
