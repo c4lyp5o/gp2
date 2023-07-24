@@ -67,9 +67,6 @@ export default function FillableForm({
   // for confirmation modal
   const [confirmData, setConfirmData] = useState({});
 
-  //for MyVas modal
-  const [showMyVas, setShowMyVas] = useState(false);
-
   // core
   const [kedatangan, setKedatangan] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
@@ -81,6 +78,7 @@ export default function FillableForm({
   const waktuSelesaiDaftar = useRef(null);
   const [temujanji, setTemujanji] = useState(false);
   const [waktuTemujanji, setWaktuTemujanji] = useState('');
+  const [myVasIsTrue, setMyVasIsTrue] = useState(false);
   const [oncall, setOncall] = useState(false);
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
@@ -188,9 +186,8 @@ export default function FillableForm({
     moment(dateToday, moment.ISO_8601).toDate()
   );
 
-  // MyVas
+  // MyVAS
   const [showModalMyVas, setShowModalMyVas] = useState(false);
-  const [myVasIsTrue, setMyVasIsTrue] = useState(false);
 
   const TarikhKedatangan = () => {
     let disabled = false;
@@ -819,6 +816,7 @@ export default function FillableForm({
       setWaktuSampai('');
       setTemujanji(false);
       setWaktuTemujanji('');
+      setMyVasIsTrue(false);
       setOncall(false);
       setNama('');
       setJenisIc('');
@@ -909,6 +907,7 @@ export default function FillableForm({
     }
   }, [jenisFasiliti, showForm, patientDataFromMyVas]);
 
+  // MyVAS stuff
   useEffect(() => {
     if (dariMyVas) {
       setShowModalMyVas(true);
