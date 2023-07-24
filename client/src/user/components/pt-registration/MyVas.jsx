@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { FaWindowClose } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -9,7 +7,7 @@ import mysejahtera from '../../../assets/MySejahtera.png';
 import moment from 'moment';
 
 export default function MyVas({ handleSubmitMyVas }) {
-  const { kaunterToken, myVasToken, navigate, toast } =
+  const { kaunterToken, myVasToken, navigate, destroyMyVasSessionOnly, toast } =
     useGlobalUserAppContext();
 
   const [appointmentList, setAppointmentList] = useState([]);
@@ -42,6 +40,7 @@ export default function MyVas({ handleSubmitMyVas }) {
       } catch (error) {
         toast.error('Log masuk ke MyVAS gagal');
         setFindingAppointment(false);
+        destroyMyVasSessionOnly();
         navigate('/pendaftaran/daftar/kp');
       }
     };

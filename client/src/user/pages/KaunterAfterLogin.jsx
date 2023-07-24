@@ -22,6 +22,7 @@ function KaunterAfterLogin() {
     myVasIdToken,
     navigate,
     catchAxiosErrorAndLogout,
+    destroyMyVasSessionOnly,
     refetchDateTime,
     setRefetchDateTime,
     ToastContainer,
@@ -73,7 +74,9 @@ function KaunterAfterLogin() {
       setQueryingMyVas(false);
     } catch (error) {
       toast.error('Log masuk ke MyVAS gagal');
+      setDariMyVas(false);
       setQueryingMyVas(false);
+      destroyMyVasSessionOnly();
       navigate('/pendaftaran/daftar/kp');
     }
   };
