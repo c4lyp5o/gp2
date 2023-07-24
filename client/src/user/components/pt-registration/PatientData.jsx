@@ -320,9 +320,6 @@ export default function PatientData({
       setIsLoading(false);
     } catch (error) {
       console.log(error);
-      // toast.error(
-      //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-patientdata-reloadData'
-      // );
     }
   };
 
@@ -340,9 +337,8 @@ export default function PatientData({
   if (queryingMyVas) {
     return (
       <div className='mt-20'>
-        {/* <Spinner /> */}
         <h1 className='animate-pulse text-user1 font-bold text-6xl'>
-          Sedang Mengambil Data....
+          Sedang Mengambil Data Pesakit MyVAS....
         </h1>
       </div>
     );
