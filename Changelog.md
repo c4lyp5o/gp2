@@ -4,7 +4,7 @@
 
 - Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
 
-### 18/7/2023 (v2.1.4)
+### 24/7/2023 (v2.1.4)
 
 #### Added
 
@@ -13,6 +13,7 @@
 #### Changed
 
 - Tarikh paling awal untuk pendaftaran telah ditetapkan pada tarikh 01/01/2023
+- Umur sebenar adalah mengikut tarikh kedatangan
 
 #### Fixed
 
