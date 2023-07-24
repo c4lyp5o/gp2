@@ -4172,7 +4172,11 @@ const groupPG214 = {
     $sum: {
       $cond: [
         {
-          $eq: ['$kumpulanEtnik', 'melayu'],
+          $or: [
+            { $eq: ['$kumpulanEtnik', 'melayu'] },
+            { $eq: ['$kumpulanEtnik', null] }, // sementara waktu
+            { $eq: ['$kumpulanEtnik', ''] }, // sementara waktu
+          ],
         },
         1,
         0,
@@ -4359,7 +4363,11 @@ const groupPG214 = {
     $sum: {
       $cond: [
         {
-          $eq: ['$jantina', 'lelaki'],
+          $or: [
+            { $eq: ['$jantina', 'lelaki'] },
+            { $eq: ['$jantina', null] }, // sementara waktu
+            { $eq: ['$jantina', ''] }, // sementara waktu
+          ],
         },
         1,
         0,
