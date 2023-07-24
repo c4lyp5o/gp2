@@ -106,7 +106,7 @@ function KaunterAfterLogin() {
     }, 1000 * 60 * (parseInt(import.meta.env.VITE_LOGOUT_TIME_PENDAFTARAN) / 2));
 
     const kickerNumber = setTimeout(() => {
-      logout();
+      logOut();
     }, 1000 * 60 * parseInt(import.meta.env.VITE_LOGOUT_TIME_PENDAFTARAN));
 
     setKickerNoti(kickerNotiNumber);
@@ -121,7 +121,7 @@ function KaunterAfterLogin() {
     setTimer(real);
   };
 
-  const logout = async () => {
+  const logOut = async () => {
     clearTimeout(kicker);
     clearTimeout(kickerNoti);
     try {
@@ -171,7 +171,7 @@ function KaunterAfterLogin() {
       <KaunterHeaderLoggedIn
         namaKlinik={createdByKp}
         timer={timer}
-        logout={logout}
+        logOut={logOut}
         kickerNumber={kicker}
         kickerNotiNumber={kickerNoti}
       />
