@@ -43,9 +43,8 @@ function KaunterAfterLogin() {
 
   const kickerNotiId = useRef();
 
-  const handleSubmitMyVas = async (patientId, timeslot) => {
+  const handleSubmitMyVas = async (identifier, timeslot) => {
     setQueryingMyVas(true);
-    const nodejs_patient_details = '/api/v1/myvas/patient-details?nric=';
     const config = {
       withCredentials: true,
       headers: {
@@ -53,7 +52,7 @@ function KaunterAfterLogin() {
       },
     };
     await axios
-      .get(`${nodejs_patient_details}${patientId}`, config)
+      .get(`/api/v1/myvas/patient-details?identifier=${identifier}`, config)
       .then((res) => {
         if (
           res &&
