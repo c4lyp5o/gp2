@@ -87,7 +87,7 @@ async function getAppointmentList(req, res) {
   const branchCode = currentFasilitiKp[0].kodFasiliti;
   const dateFilter = moment().format('YYYY-MM-DD');
 
-  const encodedUrl = encodeURIComponent(
+  const encodedUri = encodeURI(
     `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|${branchCode}&date=${dateFilter}`
   );
 
@@ -95,7 +95,8 @@ async function getAppointmentList(req, res) {
     withCredentials: true,
     method: 'get',
     maxBodyLength: Infinity,
-    url: `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|${branchCode}&date=${dateFilter}`,
+    url: encodedUri,
+    // url: `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|${branchCode}&date=${dateFilter}`,
     headers: {
       Authorization: `Bearer ${arrayOfHeader[2]}`,
     },
@@ -125,7 +126,7 @@ async function getPatientDetails(req, res) {
 
   const identifier = req.query.identifier;
 
-  const encodedUrl = encodeURIComponent(
+  const encodedUri = encodeURI(
     `${process.env.MYVAS_API_PATIENT_DETAILS}?identifier=https://myvas.moh.gov.my/System/licence|${identifier}`
   );
 
@@ -133,7 +134,8 @@ async function getPatientDetails(req, res) {
     withCredentials: true,
     method: 'get',
     maxBodyLength: Infinity,
-    url: `${process.env.MYVAS_API_PATIENT_DETAILS}?identifier=https://myvas.moh.gov.my/System/licence|${identifier}`,
+    url: encodedUri,
+    // url: `${process.env.MYVAS_API_PATIENT_DETAILS}?identifier=https://myvas.moh.gov.my/System/licence|${identifier}`,
     headers: {
       Authorization: `Bearer ${arrayOfHeader[2]}`,
     },
