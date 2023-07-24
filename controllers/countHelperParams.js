@@ -122,6 +122,32 @@ const ultimateCutoffPromosiEdition = (payload) => {
   const mula = moment(tarikhMula).format('MM-DD');
   const akhir = moment(tarikhAkhir).format('MM-DD');
 
+  if (mula === '01-01' && akhir === '06-30') {
+    return {
+      $expr: {
+        $and: [
+          {
+            $not: {
+              $gt: [
+                '$updatedAt',
+                {
+                  $dateFromParts: {
+                    year: {
+                      $year: '$updatedAt',
+                    },
+                    month: 7,
+                    day: 6,
+                    hour: 16,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    };
+  }
+
   if (mula === '01-01' && akhir === '12-31') {
     return {
       $expr: {
