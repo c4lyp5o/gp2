@@ -80,12 +80,16 @@ async function getAppointmentList(req, res) {
     `https://gpass.nocturnal.quest/api/getfs?negeri=${req.user.negeri}&daerah=${req.user.daerah}`
   );
 
-  const currentFasilitiKp = allFasilitiKp.filter((el) => {
-    return el.kodFasilitiGiret === req.user.kodFasiliti;
+  const currentFasilitiKp = allFasilitiKp.filter((f) => {
+    return f.kodFasilitiGiret === req.user.kodFasiliti;
   });
 
-  const branchCode = encodeURIComponent(currentFasilitiKp[0].kodFasiliti);
-  const dateFilter = encodeURIComponent(moment().format('YYYY-MM-DD'));
+  const branchCode = currentFasilitiKp[0].kodFasiliti;
+  const dateFilter = moment().format('YYYY-MM-DD');
+
+  const encodedUrl = encodeURIComponent(
+    `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|${branchCode}&date=${dateFilter}`
+  );
 
   const config = {
     withCredentials: true,
@@ -103,8 +107,9 @@ async function getAppointmentList(req, res) {
     const response = await axios.request(config);
     return res.status(200).json(response.data);
   } catch (error) {
-//    redirectToAuth(req, res);
+    // redirectToAuth(req, res);
     console.log(error);
+    res.status(500).json({ msg: 'Problem MyVAS APPT' });
     return;
   }
 }
@@ -118,22 +123,31 @@ async function getPatientDetails(req, res) {
   const authHeader = req.headers.authorization;
   const arrayOfHeader = authHeader.split(' ');
 
-  const nric = req.query.nric;
+  const identifier = req.query.identifier;
+
+  const encodedUrl = encodeURIComponent(
+    `${process.env.MYVAS_API_PATIENT_DETAILS}?identifier=https://myvas.moh.gov.my/System/licence|${identifier}`
+  );
 
   const config = {
     withCredentials: true,
     method: 'get',
     maxBodyLength: Infinity,
-    url: `${process.env.MYVAS_API_PATIENT_DETAILS}?identifier=https://myvas.moh.gov.my/System/licence|${nric}`,
+    url: `${process.env.MYVAS_API_PATIENT_DETAILS}?identifier=https://myvas.moh.gov.my/System/licence|${identifier}`,
     headers: {
       Authorization: `Bearer ${arrayOfHeader[2]}`,
     },
   };
+
+  console.log(config.url);
+
   try {
     const response = await axios.request(config);
     return res.status(200).json(response.data);
   } catch (error) {
-    redirectToAuth(req, res);
+    // redirectToAuth(req, res);
+    console.log(error);
+    res.status(500).json({ msg: 'Problem MyVAS PT DETAILS' });
     return;
   }
 }

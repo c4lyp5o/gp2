@@ -27,8 +27,6 @@ export default function MyVas({ handleSubmitMyVas }) {
 
   const [appointmentList, setAppointmentList] = useState([]);
 
-  const nodejs_patient = '/api/v1/myvas/appointment-list';
-
   useEffect(() => {
     const fetchMyVasData = async () => {
       const config = {
@@ -39,20 +37,26 @@ export default function MyVas({ handleSubmitMyVas }) {
           }`,
         },
       };
-      await axios.get(`${nodejs_patient}`, config).then((res) => {
+      try {
+        const response = await axios.get(
+          '/api/v1/myvas/appointment-list',
+          config
+        );
         if (
-          res &&
-          res.data.next_status &&
-          res.data.next_status >= 400 &&
-          res.data.next_status <= 599
+          response &&
+          response.data.next_status &&
+          response.data.next_status >= 400 &&
+          response.data.next_status <= 599
         ) {
-          if (res.data.redirect_uri) {
-            window.location.href = res.data.redirect_uri;
+          if (response.data.redirect_uri) {
+            window.location.href = response.data.redirect_uri;
             return;
           }
         }
-        setAppointmentList(res.data.entry);
-      });
+        setAppointmentList(response.data.entry);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchMyVasData();
   }, []);
