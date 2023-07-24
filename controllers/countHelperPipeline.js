@@ -5982,18 +5982,6 @@ const groupPemeriksaanBiasa = {
               $and: [
                 { $gte: ['$umur', 1] },
                 { $lte: ['$umur', 17] },
-                {
-                  $eq: [
-                    '$yaTidakPesakitMempunyaiGigi',
-                    'tidak-pesakit-mempunyai-gigi',
-                  ],
-                },
-              ],
-            },
-            {
-              $and: [
-                { $gte: ['$umur', 1] },
-                { $lte: ['$umur', 17] },
                 { $eq: ['$adaDesidusPemeriksaanUmum', true] },
                 { $eq: ['$adaKekalPemeriksaanUmum', false] },
                 { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
