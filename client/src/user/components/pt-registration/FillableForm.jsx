@@ -67,9 +67,6 @@ export default function FillableForm({
   // for confirmation modal
   const [confirmData, setConfirmData] = useState({});
 
-  //for MyVas modal
-  const [showMyVas, setShowMyVas] = useState(false);
-
   // core
   const [kedatangan, setKedatangan] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
@@ -191,6 +188,7 @@ export default function FillableForm({
   // MyVas
   const [showModalMyVas, setShowModalMyVas] = useState(false);
   const [myVasIsTrue, setMyVasIsTrue] = useState(false);
+  const [myvasConsent, setMyvasConsent] = useState(true);
 
   const TarikhKedatangan = () => {
     let disabled = false;
@@ -641,6 +639,7 @@ export default function FillableForm({
               noBayaran3,
               noResit3,
               catatan,
+              myvasConsent,
               // kepp
               kepp,
               kedatanganKepp,
@@ -750,6 +749,7 @@ export default function FillableForm({
               noBayaran3,
               noResit3,
               catatan,
+              myvasConsent,
               // kepp
               kepp,
               kedatanganKepp,
@@ -855,6 +855,7 @@ export default function FillableForm({
       setNoBayaran3('');
       setNoResit3('');
       setCatatan('');
+      setMyvasConsent(true);
       // kepp
       setKepp(false);
       setKedatanganKepp('');
@@ -1219,6 +1220,7 @@ export default function FillableForm({
           setNoBayaran3(data.singlePersonKaunter.noBayaran3);
           setNoResit3(data.singlePersonKaunter.noResit3);
           setCatatan(data.singlePersonKaunter.catatan);
+          setMyvasConsent(data.singlePersonKaunter.myvasConsent);
           // kepp
           setKepp(data.singlePersonKaunter.kepp);
           setKedatanganKepp(data.singlePersonKaunter.kedatanganKepp);
@@ -3562,7 +3564,7 @@ export default function FillableForm({
                   </article>
                 )} */}
               </div>
-              <div className='flex flex-row justify-center'>
+              <div className='flex flex-row justify-center place-items-center'>
                 <span
                   onClick={() => {
                     if (jenisFasiliti === 'projek-komuniti-lain') {
@@ -3621,6 +3623,29 @@ export default function FillableForm({
                     Tambah Data
                   </button>
                 )}
+                <span
+                  title='Kebenaran berkongsi maklumat MySejahtera'
+                  className='m-2 w-60 px-1.5 py-1 normal-case rounded transition-all flex flex-row items-center'
+                >
+                  <input
+                    type='checkbox'
+                    name='myvas-consent'
+                    id='myvas-consent'
+                    value='myvas-consent'
+                    checked={myvasConsent}
+                    onChange={() => {
+                      setMyvasConsent(!myvasConsent);
+                    }}
+                    className='mr-2 w-6 h-6 my-1'
+                  />
+                  <label
+                    htmlFor='myvas-consent'
+                    className='inline-flex text-xs text-left'
+                  >
+                    Pesakit bersetuju untuk berkongsi beberapa maklumat terpilih
+                    dengan aplikasi MySejahtera
+                  </label>
+                </span>
               </div>
             </form>
             {showModalMyVas && (
