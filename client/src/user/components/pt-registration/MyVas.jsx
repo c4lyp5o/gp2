@@ -88,7 +88,7 @@ export default function MyVas({ handleSubmitMyVas }) {
 
   return (
     <>
-      <div className=' bg-userWhite z-20 overflow-y-auto rounded-md px-24 pb-4'>
+      <div className=' bg-userWhite z-20 overflow-y-auto rounded-md px-5 lg:px-24 pb-4'>
         <div className='flex justify-end'>
           <span
             onClick={() => {
@@ -114,7 +114,7 @@ export default function MyVas({ handleSubmitMyVas }) {
           <table className='table-auto'>
             <thead className='text-userWhite bg-kaunter2 rounded-t-md'>
               <tr>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 lg:w-40'>
                   BIL
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
@@ -123,10 +123,10 @@ export default function MyVas({ handleSubmitMyVas }) {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
                   KAD PENGENALAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-60'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 lg:w-60'>
                   MASA TEMUJANJI
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-60'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 lg:w-60'>
                   PILIHAN
                 </th>
               </tr>
