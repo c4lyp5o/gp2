@@ -568,6 +568,7 @@ const getParams206207sekolah = (payload) => {
   if (pilihanIndividu) {
     delete params.createdByNegeri;
     delete params.createdByDaerah;
+    delete params.kodFasilitiHandler;
   }
 
   return params;
@@ -1301,8 +1302,13 @@ const getParamsPKAP = (payload) => {
   return params;
 };
 
-// operator lain punya hal
+// operator lain punya hal kegunaan 206 207
 const getParamsOperatorLain = [
+  {
+    $match: {
+      rawatanDibuatOperatorLain: true,
+    },
+  },
   {
     $unwind: {
       path: '$rawatanOperatorLain',
@@ -1312,12 +1318,23 @@ const getParamsOperatorLain = [
   {
     $project: {
       _id: 0,
+      umur: 1,
+      ibuMengandung: 1,
+      orangKurangUpaya: 1,
+      kumpulanEtnik: 1,
       rawatanOperatorLain: 1,
     },
   },
   {
     $replaceRoot: {
-      newRoot: '$rawatanOperatorLain',
+      newRoot: {
+        $mergeObjects: ['$$ROOT', '$rawatanOperatorLain'],
+      },
+    },
+  },
+  {
+    $project: {
+      rawatanOperatorLain: 0,
     },
   },
 ];
