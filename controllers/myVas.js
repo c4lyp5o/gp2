@@ -108,7 +108,10 @@ async function getAppointmentList(req, res) {
     const response = await axios.request(config);
     return res.status(200).json(response.data);
   } catch (error) {
-    // redirectToAuth(req, res);
+    if (error.response.status === 401) {
+      redirectToAuth(req, res);
+      return;
+    }
     console.log(error);
     res.status(500).json({ msg: 'Problem MyVAS APPT' });
     return;
@@ -147,7 +150,10 @@ async function getPatientDetails(req, res) {
     const response = await axios.request(config);
     return res.status(200).json(response.data);
   } catch (error) {
-    // redirectToAuth(req, res);
+    if (error.response.status === 401) {
+      redirectToAuth(req, res);
+      return;
+    }
     console.log(error);
     res.status(500).json({ msg: 'Problem MyVAS PT DETAILS' });
     return;
