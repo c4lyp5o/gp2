@@ -1936,30 +1936,30 @@ const pipelineTod = (payload) => {
       },
     },
     {
-      $lookup: {
-        from: 'fasilitis',
-        localField: 'kodFasilitiTaskaTadika',
-        foreignField: 'kodTastad',
-        as: 'fasiliti_data',
-      },
-    },
-    {
-      $unwind: '$fasiliti_data',
-    },
-    {
-      $addFields: {
-        kodTastad: '$fasiliti_data.kodTastad',
-        statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
-      },
-    },
-    {
-      $project: {
-        fasiliti_data: 0,
-      },
-    },
-    {
       $facet: {
         baru_taska: [
+          {
+            $lookup: {
+              from: 'fasilitis',
+              localField: 'kodFasilitiTaskaTadika',
+              foreignField: 'kodTastad',
+              as: 'fasiliti_data',
+            },
+          },
+          {
+            $unwind: '$fasiliti_data',
+          },
+          {
+            $addFields: {
+              kodTastad: '$fasiliti_data.kodTastad',
+              statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
+            },
+          },
+          {
+            $project: {
+              fasiliti_data: 0,
+            },
+          },
           {
             $match: {
               kedatangan: 'baru-kedatangan',
@@ -1974,6 +1974,28 @@ const pipelineTod = (payload) => {
           groupBaruTod,
         ],
         baru_tadika: [
+          {
+            $lookup: {
+              from: 'fasilitis',
+              localField: 'kodFasilitiTaskaTadika',
+              foreignField: 'kodTastad',
+              as: 'fasiliti_data',
+            },
+          },
+          {
+            $unwind: '$fasiliti_data',
+          },
+          {
+            $addFields: {
+              kodTastad: '$fasiliti_data.kodTastad',
+              statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
+            },
+          },
+          {
+            $project: {
+              fasiliti_data: 0,
+            },
+          },
           {
             $match: {
               kedatangan: 'baru-kedatangan',
@@ -2019,6 +2041,28 @@ const pipelineTod = (payload) => {
         ],
         baruUlangan_taska: [
           {
+            $lookup: {
+              from: 'fasilitis',
+              localField: 'kodFasilitiTaskaTadika',
+              foreignField: 'kodTastad',
+              as: 'fasiliti_data',
+            },
+          },
+          {
+            $unwind: '$fasiliti_data',
+          },
+          {
+            $addFields: {
+              kodTastad: '$fasiliti_data.kodTastad',
+              statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
+            },
+          },
+          {
+            $project: {
+              fasiliti_data: 0,
+            },
+          },
+          {
             $match: {
               kedatangan: 'ulangan-kedatangan',
               jenisFasiliti: 'taska-tadika',
@@ -2031,6 +2075,28 @@ const pipelineTod = (payload) => {
           groupBuTod,
         ],
         baruUlangan_tadika: [
+          {
+            $lookup: {
+              from: 'fasilitis',
+              localField: 'kodFasilitiTaskaTadika',
+              foreignField: 'kodTastad',
+              as: 'fasiliti_data',
+            },
+          },
+          {
+            $unwind: '$fasiliti_data',
+          },
+          {
+            $addFields: {
+              kodTastad: '$fasiliti_data.kodTastad',
+              statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
+            },
+          },
+          {
+            $project: {
+              fasiliti_data: 0,
+            },
+          },
           {
             $match: {
               kedatangan: 'ulangan-kedatangan',
@@ -3548,6 +3614,149 @@ const id203AllOAP = {
         },
       ],
       default: 'Unknown',
+    },
+  },
+};
+
+// ni untuk pgpr201
+const outputReqPgpr201 = {
+  jumlahReten: { $sum: 1 },
+  statusReten: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$statusReten', 'reten salah'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  count: { $sum: 1 },
+  jumlahAGumur1517: {
+    $sum: '$umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+  },
+  //
+  jumlahAGumur1819: {
+    $sum: '$umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+  },
+  //
+  jumlahAGumur2029: {
+    $sum: '$umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+  },
+  //
+  jumlahAGumur3049: {
+    $sum: '$umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+  },
+  //
+  jumlahAGumur5059: {
+    $sum: '$umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+  },
+  //
+  jumlahAGumur60KeAtas: {
+    $sum: '$umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+  },
+  //
+  jumlahLawatanKeRumah: {
+    $sum: {
+      $cond: [
+        {
+          $eq: [
+            '$lawatanKeRumahPromosiUmum',
+            'ya-lawatan-ke-rumah-promosi-umum',
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahNasihatPergigianIndividu: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$plakGigiNasihatPergigianIndividuPromosiUmum', true],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahNasihatKesihatanOral: {
+    $sum: {
+      $cond: [
+        {
+          $eq: [
+            '$penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum',
+            true,
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahNasihatPemakanan: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$dietPemakananNasihatPergigianIndividuPromosiUmum', true],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahNasihatKanserMulut: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kanserMulutNasihatPergigianIndividuPromosiUmum', true],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahKedayan: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'kedayan'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahIban: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'iban'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  //
+  jumlahBidayuh: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$kumpulanEtnik', 'bidayuh'],
+        },
+        1,
+        0,
+      ],
     },
   },
 };
@@ -10448,6 +10657,7 @@ module.exports = {
   id203OAP,
   id203AllKPSKPB,
   id203AllOAP,
+  outputReqPgpr201,
   outputReq211,
   groupPG214,
   groupSekolah,
