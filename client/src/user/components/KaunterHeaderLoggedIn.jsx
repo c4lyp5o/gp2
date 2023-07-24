@@ -1,4 +1,5 @@
 import { FaUserCircle, FaFingerprint } from 'react-icons/fa';
+import { RiLoginCircleFill } from 'react-icons/ri';
 import { useEffect, useState, useRef } from 'react';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
@@ -33,6 +34,19 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
       document.removeEventListener('mousedown', tutupProfil);
     };
   });
+
+  //make decode jwt token for myVasToken
+  const decodeToken = (token) => {
+    if (!token) return null;
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    const decodedToken = JSON.parse(window.atob(base64));
+    return decodedToken;
+  };
+
+  //then decode myVasToken and get email
+  const decodedToken = decodeToken(myVasToken);
+  const myVasEmail = decodedToken && decodedToken.email;
 
   // refetch identity & datetime on tab focus
   useEffect(() => {
@@ -69,7 +83,11 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
               {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
                 import.meta.env.VITE_ENV === 'DEV') &&
               myVasToken ? (
-                <div className='text-user7 font-bold'>MyVAS</div>
+                <div className='text-userWhite flex items-center justify-end relative normal-case'>
+                  <b className='mr-1'>MyVas : </b> {myVasEmail}
+                  <RiLoginCircleFill className='text-user7 text-lg animate-ping absolute right-1 text-opacity-50' />
+                  <RiLoginCircleFill className='text-lg text-user7' />
+                </div>
               ) : null}
             </div>
             <button
