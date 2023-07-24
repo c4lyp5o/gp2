@@ -35,16 +35,26 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
     };
   });
 
-  //make decode jwt token for myVasToken
+  // function to decode jwt token for myVasToken
   const decodeToken = (token) => {
-    if (!token) return null;
+    if (!token) {
+      return null;
+    }
     const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    const decodedToken = JSON.parse(window.atob(base64));
-    return decodedToken;
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const decodedToken = decodeURIComponent(
+      window
+        .atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
+    return JSON.parse(decodedToken);
   };
 
-  //then decode myVasToken and get email
+  // decode myVasToken and get the email
   const decodedToken = decodeToken(myVasToken);
   const myVasEmail = decodedToken && decodedToken.email;
 
