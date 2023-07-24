@@ -4,6 +4,23 @@
 
 - Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
 
+### 24/7/2023 (v2.1.4)
+
+#### Added
+
+- Penambahan reten baru KPI FS yang membawa maksud Peratus Keberhasilan Aplikasi Fissure Sealant Pada Gigi Yang Dikenal Pasti
+
+#### Changed
+
+- Tarikh paling awal untuk pendaftaran telah ditetapkan pada tarikh 01/01/2023
+- Umur sebenar adalah mengikut tarikh kedatangan
+
+#### Fixed
+
+- Reten yang dijana menggunakan pilihan token, hanya akan keluar sehingga 11.59 pm 6hb bulan berikutnya.
+- Memperkemas dan membaikpulih semua reten-reten yang terdapat di peringkat Pentadbir
+- Bilangan murid yang diberi FV kini dipaparkan di ruangan pengesahan di modul sekolah
+
 ### 6/7/2023 (v2.1.3)
 
 #### Added
