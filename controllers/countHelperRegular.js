@@ -1504,6 +1504,7 @@ const countPG207 = async (payload) => {
               kedatangan: 'baru-kedatangan',
               umur: { $gte: 7 },
               ibuMengandung: true,
+              bookingIM: 'ya-booking-im',
             },
           },
           {
@@ -1518,6 +1519,8 @@ const countPG207 = async (payload) => {
             $match: {
               umur: { $gte: 7 },
               ibuMengandung: true,
+              bookingIM: 'ya-booking-im',
+              mengandungDahGravida: 'mengandung-dah-gravida',
             },
           },
           {
