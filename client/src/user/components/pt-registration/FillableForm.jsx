@@ -48,12 +48,10 @@ export default function FillableForm({
 }) {
   const {
     kaunterToken,
-    myVasToken,
     navigate,
     Dictionary,
     dateToday,
     masterDatePicker,
-    masterDatetime,
     formatTime,
     toast,
   } = useGlobalUserAppContext();
