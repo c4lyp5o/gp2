@@ -77,7 +77,12 @@ app.disable('x-powered-by');
 app.use(express.static(root));
 
 app.use(express.json({ limit: '50mb' }));
-app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: false,
+  })
+);
 app.use(
   mongoSanitize({
     replaceWith: '_',
