@@ -79,8 +79,10 @@ app.use(express.static(root));
 app.use(express.json({ limit: '50mb' }));
 app.use(
   helmet({
-    crossOriginResourcePolicy: { policy: 'cross-origin' },
     contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    strictTransportSecurity: false,
+    xPoweredBy: false,
   })
 );
 app.use(
