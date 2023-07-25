@@ -6,9 +6,6 @@ const app = express();
 const path = require('path');
 const { logger } = require('./logs/logger');
 
-// cron job
-// const startETL = require('./jobs/ETL');
-
 // security packages
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -203,11 +200,3 @@ const start = async () => {
 };
 
 start();
-// .then(() => {
-//   if (process.env.BUILD_ENV === 'production') {
-//     startETL();
-//     logger.info(
-//       '[server] Server has started, starting ETL... Warp drives engaged!'
-//     );
-//   }
-// });
