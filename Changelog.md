@@ -20,6 +20,7 @@
 - Reten yang dijana menggunakan pilihan token, hanya akan keluar sehingga 11.59 pm 6hb bulan berikutnya.
 - Memperkemas dan membaikpulih semua reten-reten yang terdapat di peringkat Pentadbir
 - Bilangan murid yang diberi FV kini dipaparkan di ruangan pengesahan di modul sekolah
+- Pembetulan bagi kiraan peratus liputan sekolah dalam jadual senarai sekolah
 
 ### 6/7/2023 (v2.1.3)
 
