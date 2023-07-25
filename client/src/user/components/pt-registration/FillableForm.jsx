@@ -121,8 +121,9 @@ export default function FillableForm({
   const [noResit3, setNoResit3] = useState('');
   const [catatan, setCatatan] = useState('');
   const [myVasConsent, setMyVasConsent] = useState(
-    import.meta.env.VITE_ENV === 'UNSTABLE' ||
-      import.meta.env.VITE_ENV === 'DEV'
+    (import.meta.env.VITE_ENV === 'UNSTABLE' ||
+      import.meta.env.VITE_ENV === 'DEV') &&
+      jenisFasiliti === 'kp'
       ? true
       : false
   );
@@ -861,8 +862,9 @@ export default function FillableForm({
       setNoResit3('');
       setCatatan('');
       setMyVasConsent(
-        import.meta.env.VITE_ENV === 'UNSTABLE' ||
-          import.meta.env.VITE_ENV === 'DEV'
+        (import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV') &&
+          jenisFasiliti === 'kp'
           ? true
           : false
       );
