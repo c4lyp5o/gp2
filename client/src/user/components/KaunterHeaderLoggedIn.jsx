@@ -93,10 +93,10 @@ function KaunterHeaderLoggedIn({ namaKlinik, logOut, timer }) {
               {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
                 import.meta.env.VITE_ENV === 'DEV') &&
               myVasToken ? (
-                <div className='text-userWhite flex items-center justify-end relative normal-case'>
+                <div className='text-userWhite flex items-center justify-end relative normal-case text-sm'>
                   <b className='mr-1'>MyVas : </b> {myVasEmail}
-                  <RiLoginCircleFill className='text-user7 text-lg animate-ping absolute right-1 text-opacity-50' />
-                  <RiLoginCircleFill className='text-lg text-user7' />
+                  <RiLoginCircleFill className='text-user7 text-lg animate-ping absolute right-1 top-1 text-opacity-50' />
+                  <RiLoginCircleFill className='text-lg text-user7 mt-1' />
                 </div>
               ) : null}
             </div>
@@ -127,6 +127,13 @@ function KaunterHeaderLoggedIn({ namaKlinik, logOut, timer }) {
                   <b>pendaftaran : </b>
                   {namaKlinik}
                 </p>
+                {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                  import.meta.env.VITE_ENV === 'DEV') &&
+                myVasToken ? (
+                  <div className='flex flex-col text-sm relative normal-case'>
+                    <b className='mr-1'>MyVas : </b> {myVasEmail}
+                  </div>
+                ) : null}
               </div>
               <button
                 type='button'
