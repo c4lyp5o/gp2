@@ -107,7 +107,7 @@ export default function MyVas({ handleSubmitMyVas }) {
           MyVAS
         </div>
         <div className='my-4 mb-1 text-2xl font-semibold'>
-          <h1> Senarai Temujanji Hari Ini </h1>
+          <h1> Senarai Janji Temu Hari Ini </h1>
         </div>
         <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2'>
           <table className='table-auto'>
