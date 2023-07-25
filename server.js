@@ -73,10 +73,6 @@ const root = path.join(__dirname, 'client', 'dist');
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
 
-// for use in deployment
-app.use(express.static(root));
-
-app.use(express.json({ limit: '50mb' }));
 app.use(
   helmet({
     contentSecurityPolicy: false,
@@ -85,11 +81,19 @@ app.use(
     xPoweredBy: false,
   })
 );
+app.use(async function (req, res, next) {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+});
 app.use(
   mongoSanitize({
     replaceWith: '_',
   })
 );
+app.use(express.json({ limit: '50mb' }));
+
+// for use in deployment
+app.use(express.static(root));
 
 // getting date & time from the server because it shouldn't rely on the client to have correct date & time
 app.use('/api/v1/getdate', getdate);
