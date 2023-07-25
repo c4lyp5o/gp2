@@ -24,7 +24,8 @@ const {
   getParamsBp,
   getParamsBPE,
   getParamsTOD,
-  getParamsOperatorLain,
+  getParamsOplainP1,
+  getParamsOplainP2,
 } = require('./countHelperParams');
 const {
   // pipeline
@@ -61,7 +62,7 @@ const {
   groupKesSelesaiSekolahOKUBW,
 } = require('./countHelperPipeline');
 
-//Reten Kaunter
+// Reten Kaunter
 const countPG101A = async (payload) => {
   const { daerah, klinik, tarikhMula, tarikhAkhir, jenisReten } = payload;
 
@@ -516,21 +517,15 @@ const countPG206 = async (payload) => {
     {
       $match: {
         ...ultimateCutoff(payload),
-        tarikhKedatangan: {
-          $gte: payload.tarikhMula,
-          $lte: payload.tarikhAkhir,
-        },
-        statusKehadiran: false,
-        deleted: false,
-        statusReten: { $in: ['telah diisi', 'reten salah'] },
+        ...getParamsOplainP1(payload),
       },
     },
-    ...getParamsOperatorLain,
+    ...getParamsOplainP2,
     {
       $match: {
-        createdByMdcMdtb: payload.pilihanIndividu
-          ? payload.pilihanIndividu
-          : { $regex: /^mdtb/i },
+        ...(payload.pilihanIndividu
+          ? { createdByMdcMdtb: payload.pilihanIndividu }
+          : { createdByMdcMdtb: { $regex: /^mdtb/i } }),
       },
     },
     {
@@ -1597,21 +1592,15 @@ const countPG207 = async (payload) => {
     {
       $match: {
         ...ultimateCutoff(payload),
-        tarikhKedatangan: {
-          $gte: payload.tarikhMula,
-          $lte: payload.tarikhAkhir,
-        },
-        statusKehadiran: false,
-        deleted: false,
-        statusReten: { $in: ['telah diisi', 'reten salah'] },
+        ...getParamsOplainP1(payload),
       },
     },
-    ...getParamsOperatorLain,
+    ...getParamsOplainP2,
     {
       $match: {
-        createdByMdcMdtb: payload.pilihanIndividu
-          ? payload.pilihanIndividu
-          : { $regex: /^(?!mdtb).*$/i },
+        ...(payload.pilihanIndividu
+          ? { createdByMdcMdtb: payload.pilihanIndividu }
+          : { createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i } }),
       },
     },
     {
@@ -2992,7 +2981,7 @@ const countPGPR201 = async (payload) => {
         },
       ],
       opLain: [
-        ...getParamsOperatorLain,
+        ...getParamsOplainP2,
         {
           $bucket: {
             groupBy: '$umur',
@@ -5296,7 +5285,6 @@ const countFS = async (payload) => {
 
 // Reten Promosi
 const countPGPro01 = async (payload) => {
-  //PGPRO01 Pind.2 - 2022 - FFR
   const match_stage = {
     $match: {
       ...getParamsPgPro(payload),
@@ -5455,11 +5443,10 @@ const countPGPro01 = async (payload) => {
     },
   };
 
-  // run aggregate
   try {
     const pipeline = [match_stage, group_stage];
-    const data = await Promosi.aggregate(pipeline);
-    return data;
+    const PGPro01 = await Promosi.aggregate(pipeline);
+    return PGPro01;
   } catch (error) {
     errorRetenLogger.error(
       `Error mengira reten: ${payload.jenisReten}. ${error}`

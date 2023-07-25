@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+- Integrasi bersama MyVAS di Modul Pendaftaran bagi submodul Klinik Pergigian
 - Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
 
 ### 24/7/2023 (v2.1.4)
@@ -12,22 +13,26 @@
 
 #### Changed
 
-- Tarikh paling awal untuk pendaftaran telah ditetapkan pada tarikh 01/01/2023
-- Umur sebenar adalah mengikut tarikh kedatangan
+- Umur sebenar adalah mengikut tarikh kedatangan ketika mendaftarkan pesakit di modul Pendaftaran
 
 #### Fixed
 
 - Reten yang dijana menggunakan pilihan token, hanya akan keluar sehingga 11.59 pm 6hb bulan berikutnya.
-- Memperkemas dan membaikpulih semua reten-reten yang terdapat di peringkat Pentadbir
-- Bilangan murid yang diberi FV kini dipaparkan di ruangan pengesahan di modul sekolah
-- Pembetulan bagi kiraan peratus liputan sekolah dalam jadual senarai sekolah
+- Memperkemas dan membaikpulih semua reten-reten yang terdapat di semua peringkat Pentadbir
+- Membetulkan semua konfirmasi sebelum menghantar pemeriksaan & rawatan sekolah
+- Membetulkan paparan lihat semula rawatan sekolah
+- Pembetulan kiraan peratus liputan & peratus selesai di jadual rumusan status sekolah
+
+#### Removed
+
+- Menutup pemilihan sekolah Pendidikan Khas ketika mengemaskini sekolah rendah & sekolah rendah di modul Pentadbir bagi peringkat Pentadbir Daerah
 
 ### 6/7/2023 (v2.1.3)
 
 #### Added
 
 - Penambahan fungsi pelajar Tingkatan 1 hanya untuk sekolah Maktab Rendah Sains Mara
-- Sekolah KKI kini boleh ditetapkan di butang kemaskini Sekolah Rendah dan Sekolah Menengah di Modul Pentadbir bagi peringkat Pentadbir Daerah
+- Sekolah Pendidikan Khas kini boleh ditetapkan di butang kemaskini Sekolah Rendah dan Sekolah Menengah di Modul Pentadbir bagi peringkat Pentadbir Daerah
 - Penambahan pilihan Tadika/Sekolah Menengah/Sekolah Menengah MMI/Semua Sekolah untuk reten PGS201, BEGIN, CPPC1 dan CPPC2
 - Penambahan sub program dalam pengemaskinian program komuniti dia Modul Pentadbir bagi peringkat Pentadbir Klinik
 - Enrolmen bagi taska dan tadika ditambah bagi Murid Berkeperluan Khas, Murid OA/Penan, jumlah Murid Enggan dan jumlah Murid Tidak Hadir ketika mengemaskini taska tadika di Modul Pentadbir bagi peringkat Pentadbir Klinik
@@ -47,6 +52,7 @@
 - Pembetulan bagi senarai nama pelajar yang dimuat turun di senarai sekolah kepada 'Tiada Maklumat' bagi pelajar yang tiada maklumat warganegara
 - Pengisian SM di borang pemeriksaan sekolah hanya untuk pelajar Darjah 4, 5, 6 dan KHAS sahaja bagi sekolah yang bukan sekolah Pendidikan Khas
 - Boleh mengisi bahagian promosi bagi borang rawatan pelajar sekolah sekiranya pelajar enggan atau tidak hadir
+- Tidak boleh memilih tarikh kedatangan kurang daripada 1 Januari 2023 di modul Pendaftaran semasa mendaftarkan pesakit
 
 ### 12/6/2023 (v2.1.2)
 
