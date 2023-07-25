@@ -7,6 +7,8 @@ import KaunterNavbar from '../components/KaunterNavbar';
 import KaunterHeaderLoggedIn from '../components/KaunterHeaderLoggedIn';
 import KaunterLanding from '../components/KaunterLanding';
 import Kaunter from '../components/Kaunter';
+import MyVas from '../components/pt-registration/MyVas';
+import MyVasCallback from '../components/pt-registration/MyVasCallback';
 import KaunterDaftarPesakit from '../components/KaunterDaftarPesakit';
 import KaunterLoggedInNotFound from './KaunterLoggedInNotFound';
 import KaunterFooter from '../components/KaunterFooter';
@@ -16,8 +18,11 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 function KaunterAfterLogin() {
   const {
     kaunterToken,
+    myVasToken,
+    myVasIdToken,
     navigate,
     catchAxiosErrorAndLogout,
+    destroyMyVasSessionOnly,
     refetchDateTime,
     setRefetchDateTime,
     ToastContainer,
@@ -32,7 +37,49 @@ function KaunterAfterLogin() {
   const [kicker, setKicker] = useState(null);
   const [kickerNoti, setKickerNoti] = useState(null);
 
+  const [patientDataFromMyVas, setPatientDataFromMyVas] = useState({});
+  const [dariMyVas, setDariMyVas] = useState(false);
+  const [masaTemujanji, setMasaTemujanji] = useState('');
+  const [queryingMyVas, setQueryingMyVas] = useState(false);
+
   const kickerNotiId = useRef();
+
+  const handleSubmitMyVas = async (identifier, timeslot) => {
+    setQueryingMyVas(true);
+    try {
+      const response = await axios.get(
+        `/api/v1/myvas/patient-details?identifier=${identifier}`,
+        {
+          headers: {
+            Authorization: `Bearer ${kaunterToken} ${
+              myVasToken ? myVasToken : ''
+            }`,
+          },
+        }
+      );
+      if (
+        response &&
+        response.data.next_status &&
+        response.data.next_status >= 400 &&
+        response.data.next_status <= 599
+      ) {
+        if (response.data.redirect_uri) {
+          window.location.href = response.data.redirect_uri;
+          return;
+        }
+      }
+      setPatientDataFromMyVas(response.data.entry[0]);
+      setMasaTemujanji(timeslot);
+      setDariMyVas(true);
+      setQueryingMyVas(false);
+    } catch (error) {
+      toast.error('Log masuk ke MyVAS gagal');
+      setDariMyVas(false);
+      setQueryingMyVas(false);
+      destroyMyVasSessionOnly();
+      navigate('/pendaftaran/daftar/kp');
+    }
+  };
 
   const logOutNotiSystem = () => {
     const notifyLogOut = () =>
@@ -62,7 +109,7 @@ function KaunterAfterLogin() {
     }, 1000 * 60 * (parseInt(import.meta.env.VITE_LOGOUT_TIME_PENDAFTARAN) / 2));
 
     const kickerNumber = setTimeout(() => {
-      logout();
+      logOut();
     }, 1000 * 60 * parseInt(import.meta.env.VITE_LOGOUT_TIME_PENDAFTARAN));
 
     setKickerNoti(kickerNotiNumber);
@@ -77,11 +124,23 @@ function KaunterAfterLogin() {
     setTimer(real);
   };
 
-  const logout = () => {
+  const logOut = async () => {
     clearTimeout(kicker);
     clearTimeout(kickerNoti);
-    catchAxiosErrorAndLogout();
-    navigate('/pendaftaran');
+    try {
+      await axios.get('/api/v1/myvas/logout', {
+        headers: {
+          Authorization: `Bearer ${kaunterToken} ${
+            myVasToken ? myVasToken : ''
+          } ${myVasIdToken ? myVasIdToken : ''}`,
+        },
+      });
+      catchAxiosErrorAndLogout();
+      navigate('/pendaftaran');
+    } catch (error) {
+      catchAxiosErrorAndLogout();
+      navigate('/pendaftaran');
+    }
   };
 
   useEffect(() => {
@@ -115,7 +174,7 @@ function KaunterAfterLogin() {
       <KaunterHeaderLoggedIn
         namaKlinik={createdByKp}
         timer={timer}
-        logout={logout}
+        logOut={logOut}
         kickerNumber={kicker}
         kickerNotiNumber={kickerNoti}
       />
@@ -132,9 +191,24 @@ function KaunterAfterLogin() {
                 createdByKp={createdByKp}
                 createdByDaerah={createdByDaerah}
                 createdByNegeri={createdByNegeri}
+                dariMyVas={dariMyVas}
+                setDariMyVas={setDariMyVas}
+                patientDataFromMyVas={patientDataFromMyVas}
+                masaTemujanji={masaTemujanji}
+                queryingMyVas={queryingMyVas}
               />
             }
           />
+          {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
+            <>
+              <Route
+                path='kp/myvas'
+                element={<MyVas handleSubmitMyVas={handleSubmitMyVas} />}
+              />
+              <Route path='kp/callback' element={<MyVasCallback />} />
+            </>
+          ) : null}
           <Route
             path='kk-kd'
             element={

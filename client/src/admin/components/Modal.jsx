@@ -105,39 +105,46 @@ const AddModal = ({
 
   const handleSubmit = async () => {
     setAddingData(true);
-    if (FType === 'pp' || FType === 'jp') {
-      if (
-        !carianNama ||
-        noPpJp === 'Tiada pegawai dijumpai' ||
-        noPpJp === 'Tiada juruterapi pergigian dijumpai'
-      ) {
-        toast.error('Tiada nama');
-        setAddingData(false);
-        return;
-      }
-      if (!regNumber) {
-        toast.error('Klik pada butang cari');
-        setAddingData(false);
-        return;
-      }
-      if (!EmailValidator(email)) {
-        toast.error('Email tidak sah');
-        setAddingData(false);
-        return;
-      }
+    switch (FType) {
+      case 'pp':
+      case 'jp':
+        if (
+          !carianNama ||
+          noPpJp === 'Tiada pegawai dijumpai' ||
+          noPpJp === 'Tiada juruterapi pergigian dijumpai'
+        ) {
+          toast.error('Tiada nama');
+          setAddingData(false);
+          return;
+        }
+        if (!regNumber) {
+          toast.error('Klik pada butang cari');
+          setAddingData(false);
+          return;
+        }
+        if (!EmailValidator(email)) {
+          toast.error('Email tidak sah');
+          setAddingData(false);
+          return;
+        }
+        break;
+      case 'sr':
+      case 'sm':
+        if (!carianNama) {
+          toast.error('Tiada nama sekolah');
+          setAddingData(false);
+          return;
+        }
+        if (!kodSekolah) {
+          toast.error('Klik pada butang cari');
+          setAddingData(false);
+          return;
+        }
+        break;
+      default:
+        break;
     }
-    if (FType === 'sr' || FType === 'sm') {
-      if (!carianNama) {
-        toast.error('Tiada nama sekolah');
-        setAddingData(false);
-        return;
-      }
-      if (!kodSekolah) {
-        toast.error('Klik pada butang cari');
-        setAddingData(false);
-        return;
-      }
-    }
+    // start build data
     let Data = {};
     Data = {
       ...Data,
@@ -146,98 +153,105 @@ const AddModal = ({
       kodFasilitiHandler: kodFasiliti,
       statusPerkhidmatan: 'active',
     };
-    if (FType === 'kp') {
-      Data = {
-        kp: name,
-        accountType: 'kpUser',
-        email: email,
-        statusRoleKlinik: role,
-        statusPerkhidmatan: statusPerkhidmatan,
-        kodFasiliti: kodFasiliti,
-      };
-    }
-    if (FType === 'pp') {
-      Data = {
-        nama: name,
-        email,
-        statusPegawai: 'pp',
-        mdcNumber: regNumber,
-        gred,
-        kpSkrg: kp,
-        kodFasiliti,
-        role,
-        rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
-        roleMediaSosialKlinik: currentRoleMediaSosialKlinik.current.checked,
-        activationStatus: true,
-      };
-    }
-    if (FType === 'jp') {
-      Data = {
-        nama: name,
-        email,
-        statusPegawai: 'jp',
-        mdtbNumber: regNumber,
-        gred,
-        kpSkrg: kp,
-        kodFasiliti,
-        role,
-        rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
-        roleMediaSosialKlinik: currentRoleMediaSosialKlinik.current.checked,
-        activationStatus: true,
-      };
-    }
-    if (FType === 'kkiakd') {
-      Data = {
-        ...Data,
-        kodKkiaKd: kodKkiaKd,
-      };
-    }
-    if (FType === 'taska' || FType === 'tadika') {
-      const kodTastadSebenar = `${FType.substring(0, 3).toUpperCase()}-${
-        DictionaryHurufNegeri[negeri]
-      }${kodTastadTengah}-${
-        govKe === 'Kerajaan' ? 'K' : 'S'
-      }${kodTastadHujung}`;
-      Data = {
-        ...Data,
-        kodTastad: kodTastadSebenar,
-        alamatTastad: alamatTastad,
-        // enrolmenTastad: enrolmenTastad, //enrolmentTastad ditetapkan di Pentadbir Klinik
-        govKe: govKe,
-      };
-    }
-    if (FType === 'sr' || FType === 'sm') {
-      Data = {
-        ...Data,
-        idInstitusi: idInstitusi,
-        kodSekolah: kodSekolah,
-        risikoSekolahPersis: risiko,
-        jenisPerkhidmatanSekolah,
-      };
-    }
-    if (FType === 'kpb' || FType === 'mpb') {
-      const jenisKPBMPBCapitalized = subJenisKPBMPB
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-      Data = {
-        ...Data,
-        subJenisKPBMPB: jenisKPBMPBCapitalized,
-      };
-    }
-    if (FType === 'program') {
-      Data = {
-        nama: name,
-        jenisEvent,
-        createdByKp: kp,
-        createdByKodFasiliti: kodFasiliti,
-        kategoriInstitusi,
-        // modPenyampaianPerkhidmatan: modPenyampaian,
-        // tarikhStart,
-        // tarikhEnd,
-        tempat,
-        assignedByDaerah: true,
-      };
+    switch (FType) {
+      case 'kp':
+        Data = {
+          kp: name,
+          accountType: 'kpUser',
+          email: email,
+          statusRoleKlinik: role,
+          statusPerkhidmatan: statusPerkhidmatan,
+          kodFasiliti: kodFasiliti,
+        };
+        break;
+      case 'pp':
+        Data = {
+          nama: name,
+          email,
+          statusPegawai: 'pp',
+          mdcNumber: regNumber,
+          gred,
+          kpSkrg: kp,
+          kodFasiliti,
+          role,
+          rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
+          roleMediaSosialKlinik: currentRoleMediaSosialKlinik.current.checked,
+          activationStatus: true,
+        };
+        break;
+      case 'jp':
+        Data = {
+          nama: name,
+          email,
+          statusPegawai: 'jp',
+          mdtbNumber: regNumber,
+          gred,
+          kpSkrg: kp,
+          kodFasiliti,
+          role,
+          rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
+          roleMediaSosialKlinik: currentRoleMediaSosialKlinik.current.checked,
+          activationStatus: true,
+        };
+        break;
+      case 'kkiakd':
+        Data = {
+          ...Data,
+          kodKkiaKd: kodKkiaKd,
+        };
+        break;
+      case 'taska':
+      case 'tadika':
+        const kodTastadSebenar = `${FType.substring(0, 3).toUpperCase()}-${
+          DictionaryHurufNegeri[negeri]
+        }${kodTastadTengah}-${
+          govKe === 'Kerajaan' ? 'K' : 'S'
+        }${kodTastadHujung}`;
+        Data = {
+          ...Data,
+          kodTastad: kodTastadSebenar,
+          alamatTastad: alamatTastad,
+          // enrolmenTastad: enrolmenTastad, //enrolmentTastad ditetapkan di Pentadbir Klinik
+          govKe: govKe,
+        };
+        break;
+      case 'sr':
+      case 'sm':
+        Data = {
+          ...Data,
+          idInstitusi: idInstitusi,
+          kodSekolah: kodSekolah,
+          risikoSekolahPersis: risiko,
+          jenisPerkhidmatanSekolah,
+        };
+        break;
+      case 'kpb':
+      case 'mpb':
+        const jenisKPBMPBCapitalized = subJenisKPBMPB
+          .split(' ')
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+        Data = {
+          ...Data,
+          subJenisKPBMPB: jenisKPBMPBCapitalized,
+        };
+        break;
+      case 'program':
+        Data = {
+          nama: name,
+          jenisEvent,
+          createdByKp: kp,
+          createdByKodFasiliti: kodFasiliti,
+          kategoriInstitusi,
+          // modPenyampaianPerkhidmatan: modPenyampaian,
+          // tarikhStart,
+          // tarikhEnd,
+          tempat,
+          assignedByDaerah: true,
+        };
+        break;
+      default:
+        break;
     }
     createData(FType, Data).then((res) => {
       if (res.status === 200) {
@@ -423,8 +437,10 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
   const [tempat, setTempat] = useState('');
   //datepicker
   const [loading, setLoading] = useState(true);
+  const [addingData, setAddingData] = useState(false);
 
   const handleSubmit = async () => {
+    setAddingData(true);
     let Data = {};
     if (FType === 'program') {
       Data = {
@@ -441,6 +457,7 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
         toast.error(`Data tidak berjaya ditambah`);
       }
       setShowAddModal(false);
+      setAddingData(false);
     });
   };
 
@@ -451,6 +468,8 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
     jenisEvent,
     setTempat,
     tempat,
+    addingData,
+    setAddingData,
     //
     setShowAddModal,
     handleSubmit,
@@ -507,7 +526,7 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
     }, 500);
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     let Data = {};
     Data = {
       ...Data,
@@ -516,55 +535,55 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
       kodFasilitiHandler: editedEntity.kodFasilitiHandler,
       statusPerkhidmatan: editedEntity.statusPerkhidmatan,
     };
-    if (FType === 'pp' || FType === 'jp') {
-      Data = {
-        // nama: currentName.current,
-        email: editedEntity.email,
-        gred: editedEntity.gred,
-        kpSkrg: editedEntity.kpSkrg,
-        kodFasiliti: editedEntity.kodFasiliti,
-        role: editedEntity.role,
-        rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
-        roleMediaSosialKlinik: currentRoleMediaSosialKlinik.current.checked,
-      };
-    }
-    if (FType === 'kp') {
-      // if (currentRole.current === '') {
-      //   currentRole.current = 'klinik';
-      // }
-      Data = {
-        // nama: currentName.current,
-        // statusRoleKlinik: currentRole.current,
-        statusPerkhidmatan: editedEntity.statusPerkhidmatan,
-      };
-    }
-    if (FType === 'taska' || FType === 'tadika') {
-      Data = {
-        ...Data,
-        govKe: editedEntity.govKe,
-        statusPerkhidmatan: editedEntity.statusPerkhidmatan,
-      };
-    }
-    if (FType === 'sr' || FType === 'sm') {
-      Data = {
-        ...Data,
-        risikoSekolahPersis: editedEntity.risikoSekolahPersis,
-        jenisPerkhidmatanSekolah: editedEntity.jenisPerkhidmatanSekolah,
-        sekolahMmi: editedEntity.sekolahMmi,
-        sekolahKki: editedEntity.sekolahKki,
-        statusFMRSekolah: editedEntity.statusFMRSekolah,
-        statusPerkhidmatan: editedEntity.statusPerkhidmatan,
-      };
-    }
-    if (FType === 'program') {
-      Data = {
-        jenisEvent: editedEntity.jenisEvent,
-        kategoriInstitusi: editedEntity.kategoriInstitusi,
-        nama: editedEntity.nama,
-        tempat: editedEntity.tempat,
-        createdByKp: editedEntity.createdByKp,
-        createdByKodFasiliti: editedEntity.createdByKodFasiliti,
-      };
+    switch (FType) {
+      case 'pp':
+      case 'jp':
+        Data = {
+          email: editedEntity.email,
+          gred: editedEntity.gred,
+          kpSkrg: editedEntity.kpSkrg,
+          kodFasiliti: editedEntity.kodFasiliti,
+          role: editedEntity.role,
+          rolePromosiKlinik: currentRolePromosiKlinik.current.checked,
+          roleMediaSosialKlinik: currentRoleMediaSosialKlinik.current.checked,
+        };
+        break;
+      case 'kp':
+        Data = {
+          statusPerkhidmatan: editedEntity.statusPerkhidmatan,
+        };
+        break;
+      case 'taska':
+      case 'tadika':
+        Data = {
+          ...Data,
+          govKe: editedEntity.govKe,
+          statusPerkhidmatan: editedEntity.statusPerkhidmatan,
+        };
+        break;
+      case 'sr':
+      case 'sm':
+        Data = {
+          ...Data,
+          risikoSekolahPersis: editedEntity.risikoSekolahPersis,
+          jenisPerkhidmatanSekolah: editedEntity.jenisPerkhidmatanSekolah,
+          sekolahMmi: editedEntity.sekolahMmi,
+          statusFMRSekolah: editedEntity.statusFMRSekolah,
+          statusPerkhidmatan: editedEntity.statusPerkhidmatan,
+        };
+        break;
+      case 'program':
+        Data = {
+          jenisEvent: editedEntity.jenisEvent,
+          kategoriInstitusi: editedEntity.kategoriInstitusi,
+          nama: editedEntity.nama,
+          tempat: editedEntity.tempat,
+          createdByKp: editedEntity.createdByKp,
+          createdByKodFasiliti: editedEntity.createdByKodFasiliti,
+        };
+        break;
+      default:
+        break;
     }
     updateData(FType, id, Data).then((res) => {
       toast.info(`Data berjaya dikemaskini`);

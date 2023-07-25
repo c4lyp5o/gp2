@@ -1,4 +1,212 @@
 const moment = require('moment');
+
+//BISMILLAH ALLAH BAGI ILHAM
+const ultimateCutoff = (payload) => {
+  const { tarikhMula, tarikhAkhir } = payload;
+
+  const mula = moment(tarikhMula).format('MM-DD');
+  const akhir = moment(tarikhAkhir).format('MM-DD');
+
+  if (mula === '01-01' && akhir === '06-30') {
+    return {
+      $expr: {
+        $and: [
+          {
+            $not: {
+              $gt: [
+                '$updatedAt',
+                {
+                  $dateFromParts: {
+                    year: {
+                      $year: '$createdAt',
+                    },
+                    month: 7,
+                    day: 6,
+                    hour: 16,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    };
+  }
+
+  if (mula === '01-01' && akhir === '12-31') {
+    return {
+      $expr: {
+        $not: {
+          $gt: [
+            '$updatedAt',
+            {
+              $dateFromParts: {
+                year: {
+                  $year: '$createdAt',
+                },
+                month: 12,
+                day: 31,
+                hour: 23,
+                minute: 59,
+              },
+            },
+          ],
+        },
+      },
+    };
+  }
+
+  return {
+    $expr: {
+      $and: [
+        {
+          $not: {
+            $gt: [
+              '$createdAt',
+              {
+                $dateFromParts: {
+                  year: {
+                    $year: {
+                      $toDate: '$tarikhKedatangan',
+                    },
+                  },
+                  month: {
+                    $add: [
+                      {
+                        $month: {
+                          $toDate: '$tarikhKedatangan',
+                        },
+                      },
+                      1,
+                    ],
+                  },
+                  day: 6,
+                  hour: 16,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $not: {
+            $gt: [
+              '$updatedAt',
+              {
+                $dateFromParts: {
+                  year: {
+                    $year: '$createdAt',
+                  },
+                  month: {
+                    $add: [
+                      {
+                        $month: '$createdAt',
+                      },
+                      1,
+                    ],
+                  },
+                  day: 6,
+                  hour: 16,
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
+};
+
+const ultimateCutoffPromosiEdition = (payload) => {
+  const { tarikhMula, tarikhAkhir } = payload;
+
+  const mula = moment(tarikhMula).format('MM-DD');
+  const akhir = moment(tarikhAkhir).format('MM-DD');
+
+  if (mula === '01-01' && akhir === '06-30') {
+    return {
+      $expr: {
+        $and: [
+          {
+            $not: {
+              $gt: [
+                '$updatedAt',
+                {
+                  $dateFromParts: {
+                    year: {
+                      $year: '$updatedAt',
+                    },
+                    month: 7,
+                    day: 6,
+                    hour: 16,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    };
+  }
+
+  if (mula === '01-01' && akhir === '12-31') {
+    return {
+      $expr: {
+        $not: {
+          $gt: [
+            '$updatedAt',
+            {
+              $dateFromParts: {
+                year: {
+                  $year: '$updatedAt',
+                },
+                month: 12,
+                day: 31,
+                hour: 23,
+                minute: 59,
+              },
+            },
+          ],
+        },
+      },
+    };
+  }
+
+  return {
+    $expr: {
+      $and: [
+        {
+          $not: {
+            $gt: [
+              '$updatedAt',
+              {
+                $dateFromParts: {
+                  year: {
+                    $year: {
+                      $toDate: '$tarikhAkhir',
+                    },
+                  },
+                  month: {
+                    $add: [
+                      {
+                        $month: {
+                          $toDate: '$tarikhAkhir',
+                        },
+                      },
+                      1,
+                    ],
+                  },
+                  day: 6,
+                  hour: 16,
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
+};
+
 // PARAMS LIVES HERE
 // countHelperRegular params
 const getParams101 = (payload, reten) => {
@@ -269,70 +477,27 @@ const getParams211 = (payload, reten) => {
 const getParams214 = (payload) => {
   const { negeri, daerah, klinik } = payload;
 
-  const byKp = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByKodFasiliti: { $eq: klinik },
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
+  const params = {
+    tarikhKedatangan: dateModifier(payload),
+    umur: { $gte: 59 },
+    deleted: false,
+    statusKehadiran: false,
+    oncall: { $in: [false, null] },
   };
 
-  const byDaerah = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      createdByDaerah: { $eq: daerah },
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
-  };
-
-  const byNegeri = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
-  };
-
-  const satuMalaysia = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      // jenisFasiliti: 'kp',
-      kedatangan: 'baru-kedatangan',
-      deleted: false,
-      statusKehadiran: false,
-      oncall: { $in: [false, null] },
-    };
-    return params;
-  };
-
-  switch (true) {
-    case negeri === 'all':
-      return satuMalaysia(payload);
-    case daerah !== 'all' && klinik !== 'all':
-      return byKp(payload);
-    case daerah !== 'all' && klinik === 'all':
-      return byDaerah(payload);
-    case daerah === 'all':
-      return byNegeri(payload);
-    default:
-      return null;
+  if (negeri !== 'all') {
+    params.createdByNegeri = { $eq: negeri };
   }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = { $eq: daerah };
+  }
+
+  if (klinik !== 'all') {
+    params.createdByKodFasiliti = { $eq: klinik };
+  }
+
+  return params;
 };
 const getParams206 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
@@ -398,125 +563,84 @@ const getParams207 = (payload) => {
 
   return params;
 };
+const getParams206207sekolah = (payload) => {
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
+
+  const params = {
+    jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+  };
+
+  if (negeri !== 'all') {
+    params.createdByNegeri = negeri;
+  }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = daerah;
+  }
+
+  if (klinik !== 'all') {
+    params.kodFasilitiHandler = klinik;
+  }
+
+  if (pilihanIndividu) {
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.kodFasilitiHandler;
+  }
+
+  return params;
+};
 const getParamsPgpr201 = (payload) => {
   const { negeri, daerah, klinik } = payload;
 
-  const byKp = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByKodFasiliti: { $eq: klinik },
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
+  const params = {
+    tarikhKedatangan: dateModifier(payload),
+    deleted: false,
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
 
-  const byDaerah = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      createdByDaerah: { $eq: daerah },
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
+  if (negeri !== 'all') {
+    params.createdByNegeri = { $eq: negeri };
+  }
+  if (daerah !== 'all') {
+    params.createdByDaerah = { $eq: daerah };
+  }
+  if (klinik !== 'all') {
+    params.createdByKodFasiliti = { $eq: klinik };
+  }
 
-  const byNegeri = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
-
-  const satuMalaysia = () => {
-    let params = {
-      tarikhKedatangan: dateModifier(payload),
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
-
-  if (negeri === 'all') {
-    return satuMalaysia(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    return byNegeri(payload);
-  }
+  return params;
 };
 const getParamsPGS201 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
-  const byPegawai = () => {
-    let params = {
-      createdByMdcMdtb: pilihanIndividu,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
+  const params = {
+    createdByMdcMdtb: pilihanIndividu,
+    createdByKodFasiliti: klinik,
+    createdByNegeri: negeri,
+    createdByDaerah: daerah,
+    statusKehadiran: false,
+    deleted: false,
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
 
-  const byKp = () => {
-    let params = {
-      createdByKodFasiliti: klinik,
-      // createdByMdcMdtb: { $regex: /mdtb/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
-
-  const byDaerah = () => {
-    let params = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      // createdByMdcMdtb: { $regex: /mdtb/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
-
-  const byNegeri = () => {
-    let params = {
-      createdByNegeri: negeri,
-      // createdByMdcMdtb: { $regex: /mdtb/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
-
-  if (pilihanIndividu) {
-    return byPegawai(payload);
+  if (!pilihanIndividu) {
+    delete params.createdByMdcMdtb;
   }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
+
+  if (negeri === 'all' || negeri === '-') {
+    delete params.createdByNegeri;
   }
-  if ((daerah !== 'all' || daerah !== '-') && klinik === 'all') {
-    return byDaerah(payload);
-  }
+
   if (daerah === 'all' || daerah === '-') {
-    return byNegeri(payload);
+    delete params.createdByDaerah;
   }
+
+  if (klinik === 'all') {
+    delete params.createdByKodFasiliti;
+  }
+
+  return params;
 };
 const getParamsPGS203 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
@@ -1005,6 +1129,7 @@ const getParamsTOD = (payload) => {
   const params = {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
+    tahunDaftar: new Date().getFullYear(),
     deleted: false,
     statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
@@ -1022,9 +1147,9 @@ const getParamsTOD = (payload) => {
   }
 
   if (pilihanIndividu) {
-    delete param.createdByNegeri;
-    delete param.createdByDaerah;
-    delete param.createdByKodFasiliti;
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.createdByKodFasiliti;
     params.createdByMdcMdtb = pilihanIndividu;
   }
 
@@ -1159,8 +1284,44 @@ const getParamsPKAP = (payload) => {
   return params;
 };
 
-// operator lain punya hal
-const getParamsOperatorLain = [
+// operator lain punya hal kegunaan 206 207
+const getParamsOplainP1 = (payload) => {
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
+
+  const params = {
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
+    deleted: false,
+    tarikhKedatangan: dateModifier(payload),
+    statusKehadiran: false,
+    oncall: { $in: [false, null] },
+  };
+
+  if (negeri !== 'all') {
+    params.createdByNegeri = negeri;
+  }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = daerah;
+  }
+
+  if (klinik !== 'all') {
+    params.createdByKodFasiliti = klinik;
+  }
+
+  if (pilihanIndividu) {
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.createdByKodFasiliti;
+  }
+
+  return params;
+};
+const getParamsOplainP2 = [
+  {
+    $match: {
+      rawatanDibuatOperatorLain: true,
+    },
+  },
   {
     $unwind: {
       path: '$rawatanOperatorLain',
@@ -1170,12 +1331,27 @@ const getParamsOperatorLain = [
   {
     $project: {
       _id: 0,
+      tarikhKedatangan: 1,
+      umur: 1,
+      ibuMengandung: 1,
+      orangKurangUpaya: 1,
+      kumpulanEtnik: 1,
+      jenisProgram: 1,
+      menggunakanKPBMPB: 1,
       rawatanOperatorLain: 1,
+      kategoriInstitusi: 1,
     },
   },
   {
     $replaceRoot: {
-      newRoot: '$rawatanOperatorLain',
+      newRoot: {
+        $mergeObjects: ['$$ROOT', '$rawatanOperatorLain'],
+      },
+    },
+  },
+  {
+    $project: {
+      rawatanOperatorLain: 0,
     },
   },
 ];
@@ -1221,12 +1397,16 @@ const dateModifier = (payload) => {
 };
 
 module.exports = {
+  // bismillah
+  ultimateCutoff,
+  ultimateCutoffPromosiEdition,
   // countHelper regular
   getParams101,
   getParams211,
   getParams214,
   getParams206,
   getParams207,
+  getParams206207sekolah,
   getParamsPgpr201,
   getParamsPGS201,
   getParamsPGS203,
@@ -1243,7 +1423,8 @@ module.exports = {
   getParamsUTCRTC,
   getParamsPKAP,
   // misc
-  getParamsOperatorLain,
+  getParamsOplainP1,
+  getParamsOplainP2,
   placeModifier,
   dateModifier,
 };

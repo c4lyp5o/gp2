@@ -50,6 +50,8 @@ function UserFormSekolahPemeriksaan() {
   const [tidakHadirPemeriksaan, setTidakHadirPemeriksaan] = useState('');
   const [padamPemeriksaan, setPadamPemeriksaan] = useState(false);
   const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
+  const [adaCleftLip, setAdaCleftLip] = useState(false);
+  const [rujukCleftLip, setRujukCleftLip] = useState(false);
   const [yaTidakSediaAdaStatusDenture, setYaTidakSediaAdaStatusDenture] =
     useState('');
   const [separaPenuhAtasSediaAdaDenture, setSeparaPenuhAtasSediaAdaDenture] =
@@ -65,8 +67,6 @@ function UserFormSekolahPemeriksaan() {
   const [kebersihanMulutOralHygiene, setKebersihanMulutOralHygiene] =
     useState('');
   const [skorBpeOralHygiene, setSkorBpeOralHygiene] = useState('');
-  const [saringanKanserMulutOralHygiene, setSaringanKanserMulutOralHygiene] =
-    useState(false);
   const [skorGisMulutOralHygiene, setSkorGisMulutOralHygiene] = useState('');
   const [perluPenskaleranOralHygiene, setPerluPenskaleranOralHygiene] =
     useState(false);
@@ -81,19 +81,27 @@ function UserFormSekolahPemeriksaan() {
   const [sumDMFXDesidus, setSumDMFXDesidus] = useState(0);
   const [adaKekal, setAdaKekal] = useState(false);
   const [dAdaGigiKekal, setDAdaGigiKekal] = useState(0);
+  const [classID, setClassID] = useState(0);
+  const [classIID, setClassIID] = useState(0);
+  const [sumClassD, setSumClassD] = useState(0);
   const [mAdaGigiKekal, setMAdaGigiKekal] = useState(0);
   const [fAdaGigiKekal, setFAdaGigiKekal] = useState(0);
+  const [classIF, setClassIF] = useState(0);
+  const [classIIF, setClassIIF] = useState(0);
+  const [sumClassF, setSumClassF] = useState(0);
   const [eAdaGigiKekal, setEAdaGigiKekal] = useState(0);
   const [xAdaGigiKekal, setXAdaGigiKekal] = useState(0);
   const [sumDMFXKekal, setSumDMFXKekal] = useState(0);
   const [jumlahFaktorRisiko, setJumlahFaktorRisiko] = useState('');
   const [penandaRisikoKaries, setPenandaRisikoKaries] = useState('');
-  const [adaCleftLip, setAdaCleftLip] = useState(false);
-  const [rujukCleftLip, setRujukCleftLip] = useState(false);
   const [kecederaanGigiAnteriorTrauma, setKecederaanGigiAnteriorTrauma] =
     useState(false);
   const [tisuLembutTrauma, setTisuLembutTrauma] = useState(false);
   const [tisuKerasTrauma, setTisuKerasTrauma] = useState(false);
+  const [
+    yaTidakPesakitMempunyaiSealanfisur,
+    setYaTidakPesakitMempunyaiSealanfisur,
+  ] = useState('');
   const [gicBilanganFsDibuat3TahunLepas, setGicBilanganFsDibuat3TahunLepas] =
     useState(0);
   const [
@@ -125,36 +133,17 @@ function UserFormSekolahPemeriksaan() {
     setXBilanganFsDibuat3TahunLepasTerjadi,
   ] = useState(0);
   const [toothSurfaceLoss, setToothSurfaceLoss] = useState(false);
-  const [classID, setClassID] = useState(0);
-  const [classIID, setClassIID] = useState(0);
-  const [sumClassD, setSumClassD] = useState(0);
-  const [classIF, setClassIF] = useState(0);
-  const [classIIF, setClassIIF] = useState(0);
-  const [sumClassF, setSumClassF] = useState(0);
   const [baruJumlahGigiKekalPerluFs, setBaruJumlahGigiKekalPerluFs] =
     useState(0);
   const [sumPerluFs, setSumPerluFs] = useState(0);
-  const [baruJumlahMuridPerluFs, setBaruJumlahMuridPerluFs] = useState(false);
   const [baruJumlahGigiKekalPerluFv, setBaruJumlahGigiKekalPerluFv] =
     useState(0);
-  const [semulaJumlahGigiKekalPerluFv, setSemulaJumlahGigiKekalPerluFv] =
-    useState(0);
   const [sumPerluFv, setSumPerluFv] = useState(0);
-  const [baruJumlahMuridPerluFv, setBaruJumlahMuridPerluFv] = useState(false);
-  const [semulaJumlahMuridPerluFv, setSemulaJumlahMuridPerluFv] = useState(0);
   const [
     baruJumlahGigiKekalPerluPrrJenis1,
     setBaruJumlahGigiKekalPerluPrrJenis1,
   ] = useState(0);
-  const [
-    semulaJumlahGigiKekalPerluPrrJenis1,
-    setSemulaJumlahGigiKekalPerluPrrJenis1,
-  ] = useState(0);
   const [sumPerluPrr, setSumPerluPrr] = useState(0);
-  const [baruJumlahMuridPerluPrrJenis1, setBaruJumlahMuridPerluPrrJenis1] =
-    useState(false);
-  const [semulaJumlahMuridPerluPrrJenis1, setSemulaJumlahMuridPerluPrrJenis1] =
-    useState(0);
   const [
     yaTidakSilverDiamineFluoridePerluSapuan,
     setYaTidakSilverDiamineFluoridePerluSapuan,
@@ -210,16 +199,15 @@ function UserFormSekolahPemeriksaan() {
   const [sumGigiDesidus, setSumGigiDesidus] = useState(0);
   const [sumGigiKekal, setSumGigiKekal] = useState(0);
   const [sumGigiKekalE, setSumGigiKekalE] = useState(0);
+  //kotak
+  const [melaksanakanSaringanMerokok, setMelaksanakanSaringanMerokok] =
+    useState('');
+  const [statusM, setStatusM] = useState('');
+  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
+  const [bersediaDirujuk, setBersediaDirujuk] = useState('');
   //kes selesai
   const [kesSelesai, setKesSelesai] = useState('');
   const [kesSelesaiIcdas, setKesSelesaiIcdas] = useState('');
-  //kotak
-  const [statusM, setStatusM] = useState('');
-  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
-  const [melaksanakanSaringanMerokok, setMelaksanakanSaringanMerokok] =
-    useState('');
-  const [bersediaDirujuk, setBersediaDirujuk] = useState('');
-  const [noTelMuridKotak, setNoTelMuridKotak] = useState('');
 
   // datepicker issue
   const [tarikhPemeriksaanSemasaDP, setTarikhPemeriksaanSemasaDP] =
@@ -360,12 +348,12 @@ function UserFormSekolahPemeriksaan() {
   // calculate total perlu FV
   useEffect(() => {
     setSumPerluFv(parseInt(baruJumlahGigiKekalPerluFv));
-  }, [baruJumlahGigiKekalPerluFv, semulaJumlahGigiKekalPerluFv]);
+  }, [baruJumlahGigiKekalPerluFv]);
 
   // calculate total perlu PRR
   useEffect(() => {
     setSumPerluPrr(parseInt(baruJumlahGigiKekalPerluPrrJenis1));
-  }, [baruJumlahGigiKekalPerluPrrJenis1, semulaJumlahGigiKekalPerluPrrJenis1]);
+  }, [baruJumlahGigiKekalPerluPrrJenis1]);
 
   //calculate gigi desidus
   useEffect(() => {
@@ -428,14 +416,6 @@ function UserFormSekolahPemeriksaan() {
 
   //reset value
   useEffect(() => {
-    if (yaTidakSediaAdaStatusDenture === 'tidak-sedia-ada-status-denture') {
-      setSeparaPenuhAtasSediaAdaDenture('');
-      setSeparaPenuhBawahSediaAdaDenture('');
-    }
-    if (yaTidakPerluStatusDenture === 'tidak-perlu-status-denture') {
-      setSeparaPenuhAtasPerluDenture('');
-      setSeparaPenuhBawahPerluDenture('');
-    }
     if (!adaDesidus) {
       setDAdaGigiDesidus(0);
       setFAdaGigiDesidus(0);
@@ -448,43 +428,7 @@ function UserFormSekolahPemeriksaan() {
       setEAdaGigiKekal(0);
       setXAdaGigiKekal(0);
     }
-  }, [
-    yaTidakSediaAdaStatusDenture,
-    yaTidakPerluStatusDenture,
-    adaDesidus,
-    adaKekal,
-  ]);
-
-  //cond bila tidak ada gigi and reset value
-  // useEffect(() => {
-  //   if (yaTidakPesakitMempunyaiGigi === 'tidak-pesakit-mempunyai-gigi') {
-  //     setCondTiadaGigi(true);
-  //     setAdaKekal(false);
-  //     setDAdaGigiKekal(0);
-  //     setClassID(0);
-  //     setClassIID(0);
-  //     setMAdaGigiKekal(0);
-  //     setFAdaGigiKekal(0);
-  //     setClassIF(0);
-  //     setClassIIF(0);
-  //     setXAdaGigiKekal(0);
-  //     setEAdaGigiKekal(0);
-  //     setAdaDesidus(false);
-  //     setDAdaGigiDesidus(0);
-  //     setSmAdaGigiDesidus(0);
-  //     setFAdaGigiDesidus(0);
-  //     setXAdaGigiDesidus(0);
-  //   }
-  //   if (yaTidakPesakitMempunyaiGigi === 'ya-pesakit-mempunyai-gigi') {
-  //     setCondTiadaGigi(false);
-  //     setKebersihanMulutOralHygiene('');
-  //     setStatusPeriodontium('');
-  //     setSkorGisMulutOralHygiene('');
-  //     setSkorBpeOralHygiene('');
-  //     setPerluPenskaleranOralHygiene(false);
-  //     setJumlahFaktorRisiko('');
-  //   }
-  // }, [yaTidakPesakitMempunyaiGigi]);
+  }, [adaDesidus, adaKekal]);
 
   useEffect(() => {
     if (statusPeriodontium === 'gis-status-periodontium') {
@@ -562,6 +506,12 @@ function UserFormSekolahPemeriksaan() {
           setPenggunaanKPBMPB(
             data.personSekolahWithPopulate.pemeriksaanSekolah.penggunaanKPBMPB
           );
+          setAdaCleftLip(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.adaCleftLip
+          );
+          setRujukCleftLip(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.rujukCleftLip
+          );
           setYaTidakSediaAdaStatusDenture(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .yaTidakSediaAdaStatusDenture
@@ -592,10 +542,6 @@ function UserFormSekolahPemeriksaan() {
           );
           setSkorBpeOralHygiene(
             data.personSekolahWithPopulate.pemeriksaanSekolah.skorBpeOralHygiene
-          );
-          setSaringanKanserMulutOralHygiene(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .saringanKanserMulutOralHygiene
           );
           setSkorGisMulutOralHygiene(
             data.personSekolahWithPopulate.pemeriksaanSekolah
@@ -633,11 +579,19 @@ function UserFormSekolahPemeriksaan() {
           setDAdaGigiKekal(
             data.personSekolahWithPopulate.pemeriksaanSekolah.dAdaGigiKekal
           );
+          setClassID(data.personSekolahWithPopulate.pemeriksaanSekolah.classID);
+          setClassIID(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.classIID
+          );
           setMAdaGigiKekal(
             data.personSekolahWithPopulate.pemeriksaanSekolah.mAdaGigiKekal
           );
           setFAdaGigiKekal(
             data.personSekolahWithPopulate.pemeriksaanSekolah.fAdaGigiKekal
+          );
+          setClassIF(data.personSekolahWithPopulate.pemeriksaanSekolah.classIF);
+          setClassIIF(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.classIIF
           );
           setEAdaGigiKekal(
             data.personSekolahWithPopulate.pemeriksaanSekolah.eAdaGigiKekal
@@ -652,12 +606,6 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .penandaRisikoKaries
           );
-          setAdaCleftLip(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.adaCleftLip
-          );
-          setRujukCleftLip(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.rujukCleftLip
-          );
           setKecederaanGigiAnteriorTrauma(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .kecederaanGigiAnteriorTrauma
@@ -667,6 +615,10 @@ function UserFormSekolahPemeriksaan() {
           );
           setTisuKerasTrauma(
             data.personSekolahWithPopulate.pemeriksaanSekolah.tisuKerasTrauma
+          );
+          setYaTidakPesakitMempunyaiSealanfisur(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .yaTidakPesakitMempunyaiSealanfisur
           );
           setGicBilanganFsDibuat3TahunLepas(
             data.personSekolahWithPopulate.pemeriksaanSekolah
@@ -703,53 +655,17 @@ function UserFormSekolahPemeriksaan() {
           setToothSurfaceLoss(
             data.personSekolahWithPopulate.pemeriksaanSekolah.toothSurfaceLoss
           );
-          setClassID(data.personSekolahWithPopulate.pemeriksaanSekolah.classID);
-          setClassIID(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.classIID
-          );
-          setClassIF(data.personSekolahWithPopulate.pemeriksaanSekolah.classIF);
-          setClassIIF(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.classIIF
-          );
           setBaruJumlahGigiKekalPerluFs(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .baruJumlahGigiKekalPerluFs
-          );
-          setBaruJumlahMuridPerluFs(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .baruJumlahMuridPerluFs
           );
           setBaruJumlahGigiKekalPerluFv(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .baruJumlahGigiKekalPerluFv
           );
-          setSemulaJumlahGigiKekalPerluFv(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .semulaJumlahGigiKekalPerluFv
-          );
-          setBaruJumlahMuridPerluFv(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .baruJumlahMuridPerluFv
-          );
-          setSemulaJumlahMuridPerluFv(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .semulaJumlahMuridPerluFv
-          );
           setBaruJumlahGigiKekalPerluPrrJenis1(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .baruJumlahGigiKekalPerluPrrJenis1
-          );
-          setSemulaJumlahGigiKekalPerluPrrJenis1(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .semulaJumlahGigiKekalPerluPrrJenis1
-          );
-          setBaruJumlahMuridPerluPrrJenis1(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .baruJumlahMuridPerluPrrJenis1
-          );
-          setSemulaJumlahMuridPerluPrrJenis1(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .semulaJumlahMuridPerluPrrJenis1
           );
           setYaTidakSilverDiamineFluoridePerluSapuan(
             data.personSekolahWithPopulate.pemeriksaanSekolah
@@ -803,20 +719,17 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
           );
+          setMelaksanakanSaringanMerokok(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .melaksanakanSaringanMerokok
+          );
           setStatusM(data.personSekolahWithPopulate.pemeriksaanSekolah.statusM);
           setMenerimaNasihatRingkas(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .menerimaNasihatRingkas
           );
-          setMelaksanakanSaringanMerokok(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .melaksanakanSaringanMerokok
-          );
           setBersediaDirujuk(
             data.personSekolahWithPopulate.pemeriksaanSekolah.bersediaDirujuk
-          );
-          setNoTelMuridKotak(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.noTelMuridKotak
           );
           setKesSelesai(
             data.personSekolahWithPopulate.pemeriksaanSekolah.kesSelesai
@@ -899,7 +812,7 @@ function UserFormSekolahPemeriksaan() {
       setKesSelesai(e);
       setConfirmData({
         ...confirmData,
-        kesSelesai: e.target.value,
+        kesSelesai: e,
       });
     } catch (error) {
       console.error('Error occurred during validation:', error);
@@ -967,7 +880,7 @@ function UserFormSekolahPemeriksaan() {
       setKesSelesaiIcdas(e);
       setConfirmData({
         ...confirmData,
-        kesSelesaiIcdas: e.target.value,
+        kesSelesaiIcdas: e,
       });
     } catch (error) {
       console.error('Error occurred during validation:', error);
@@ -1130,6 +1043,8 @@ function UserFormSekolahPemeriksaan() {
               tarikhPemeriksaanSemasa,
               menggunakanKPBMPB,
               penggunaanKPBMPB,
+              adaCleftLip,
+              rujukCleftLip,
               yaTidakSediaAdaStatusDenture,
               separaPenuhAtasSediaAdaDenture,
               separaPenuhBawahSediaAdaDenture,
@@ -1138,7 +1053,6 @@ function UserFormSekolahPemeriksaan() {
               separaPenuhBawahPerluDenture,
               kebersihanMulutOralHygiene,
               skorBpeOralHygiene,
-              saringanKanserMulutOralHygiene,
               skorGisMulutOralHygiene,
               perluPenskaleranOralHygiene,
               statusPeriodontium,
@@ -1150,17 +1064,20 @@ function UserFormSekolahPemeriksaan() {
               smAdaGigiDesidus,
               adaKekal,
               dAdaGigiKekal,
+              classID,
+              classIID,
               mAdaGigiKekal,
               fAdaGigiKekal,
+              classIF,
+              classIIF,
               eAdaGigiKekal,
               xAdaGigiKekal,
               jumlahFaktorRisiko,
               penandaRisikoKaries,
-              adaCleftLip,
-              rujukCleftLip,
               kecederaanGigiAnteriorTrauma,
               tisuLembutTrauma,
               tisuKerasTrauma,
+              yaTidakPesakitMempunyaiSealanfisur,
               gicBilanganFsDibuat3TahunLepas,
               resinBilanganFsDibuat3TahunLepas,
               lainLainBilanganFsDibuat3TahunLepas,
@@ -1170,20 +1087,9 @@ function UserFormSekolahPemeriksaan() {
               eBilanganFsDibuat3TahunLepasTerjadi,
               xBilanganFsDibuat3TahunLepasTerjadi,
               toothSurfaceLoss,
-              classID,
-              classIID,
-              classIF,
-              classIIF,
               baruJumlahGigiKekalPerluFs,
-              baruJumlahMuridPerluFs,
               baruJumlahGigiKekalPerluFv,
-              semulaJumlahGigiKekalPerluFv,
-              baruJumlahMuridPerluFv,
-              semulaJumlahMuridPerluFv,
               baruJumlahGigiKekalPerluPrrJenis1,
-              semulaJumlahGigiKekalPerluPrrJenis1,
-              baruJumlahMuridPerluPrrJenis1,
-              semulaJumlahMuridPerluPrrJenis1,
               yaTidakSilverDiamineFluoridePerluSapuan,
               baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
               semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
@@ -1197,11 +1103,10 @@ function UserFormSekolahPemeriksaan() {
               semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
               baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
               semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+              melaksanakanSaringanMerokok,
               statusM,
               menerimaNasihatRingkas,
-              melaksanakanSaringanMerokok,
               bersediaDirujuk,
-              noTelMuridKotak,
               kesSelesai,
               kesSelesaiIcdas,
             },
@@ -2147,6 +2052,8 @@ function UserFormSekolahPemeriksaan() {
                                     yaTidakSediaAdaStatusDenture:
                                       e.target.value,
                                   });
+                                  setSeparaPenuhAtasSediaAdaDenture('');
+                                  setSeparaPenuhBawahSediaAdaDenture('');
                                 }}
                                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                               />
@@ -2360,6 +2267,8 @@ function UserFormSekolahPemeriksaan() {
                                     ...confirmData,
                                     yaTidakPerluStatusDenture: e.target.value,
                                   });
+                                  setSeparaPenuhAtasPerluDenture('');
+                                  setSeparaPenuhBawahPerluDenture('');
                                 }}
                                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                               />
@@ -2527,7 +2436,7 @@ function UserFormSekolahPemeriksaan() {
                     <article className=' border border-userBlack pl-3 p-2 rounded-md grid grid-cols-2 gap-2 auto-rows-min'>
                       <div className='flex flex-row items-center pl-5 col-span-2'>
                         <h4 className='font-bold'>
-                          Pesakit Mempunyai Gigi Desidus/Kekal?
+                          Murid Mempunyai Gigi Desidus/Kekal?
                           <span className='text-user6'>*</span>
                         </h4>
                         <div className='flex items-center justify-center ml-2'>
@@ -3451,6 +3360,271 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                       </article>
                     )}
+                    <article className='grid grid-cols-2 lg:col-span-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                      <div className='flex flex-row items-center pl-5 col-span-2'>
+                        <h4 className='font-bold'>
+                          Murid mempunyai sealan fisur yang dibuat 3 tahun
+                          lepas?
+                          <span className='text-user6'>*</span>
+                        </h4>
+                        <div className='flex items-center justify-center ml-2'>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='pesakit-mempunyai-sealanfisur'
+                            id='ya-pesakit-mempunyai-sealanfisur'
+                            value='ya-pesakit-mempunyai-sealanfisur'
+                            checked={
+                              yaTidakPesakitMempunyaiSealanfisur ===
+                              'ya-pesakit-mempunyai-sealanfisur'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setYaTidakPesakitMempunyaiSealanfisur(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ya-pesakit-mempunyai-sealanfisur'
+                            className='m-2 text-sm font-m'
+                          >
+                            Ya
+                          </label>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='pesakit-mempunyai-sealanfisur'
+                            id='tidak-pesakit-mempunyai-sealanfisur'
+                            value='tidak-pesakit-mempunyai-sealanfisur'
+                            checked={
+                              yaTidakPesakitMempunyaiSealanfisur ===
+                              'tidak-pesakit-mempunyai-sealanfisur'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setYaTidakPesakitMempunyaiSealanfisur(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tidak-pesakit-mempunyai-sealanfisur'
+                            className='m-2 text-sm font-m'
+                          >
+                            Tidak
+                          </label>
+                        </div>
+                      </div>
+                      {yaTidakPesakitMempunyaiSealanfisur ===
+                        'ya-pesakit-mempunyai-sealanfisur' && (
+                        <div className='border border-userBlack rounded-md m-1 grid lg:grid-cols-3 auto-rows-min'>
+                          <h4 className='font-bold flex flex-row pl-5 text-left lg:col-span-3 p-1'>
+                            Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun
+                            Lepas
+                          </h4>
+                          <div className='flex flex-row pl-5 items-center mt-2'>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                              id='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                              value={gicBilanganFsDibuat3TahunLepas}
+                              onChange={(e) => {
+                                setGicBilanganFsDibuat3TahunLepas(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  gicBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <p className='text-sm font-m '>GIC</p>
+                          </div>
+                          <div className='flex flex-row pl-5 items-center mt-2'>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                              id='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                              value={resinBilanganFsDibuat3TahunLepas}
+                              onChange={(e) => {
+                                setResinBilanganFsDibuat3TahunLepas(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  resinBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <p className='text-sm font-m '>Resin</p>
+                          </div>
+                          <div className='flex flex-row pl-5 items-center mt-2'>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                              id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                              value={lainLainBilanganFsDibuat3TahunLepas}
+                              onChange={(e) => {
+                                setLainLainBilanganFsDibuat3TahunLepas(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  lainLainBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <p className='text-sm font-m '>Lain-lain</p>
+                          </div>
+                        </div>
+                      )}
+                      {yaTidakPesakitMempunyaiSealanfisur ===
+                        'ya-pesakit-mempunyai-sealanfisur' && (
+                        <div className='border border-userBlack rounded-md m-1 grid md:grid-cols-3'>
+                          <h4 className='font-bold flex flex-row text-left pl-3 col-span-2 md:col-span-3 p-1'>
+                            Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun
+                            Lepas Berubah Menjadi Seperti Di Bawah :
+                          </h4>
+                          <div className='flex flex-row pl-5 items-center'>
+                            <p className='text-sm font-m '>D: </p>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={dBilanganFsDibuat3TahunLepasTerjadi}
+                              onChange={(e) => {
+                                setDBilanganFsDibuat3TahunLepasTerjadi(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  dBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div className='flex flex-row pl-5 items-center'>
+                            <p className='text-sm font-m '>M: </p>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={mBilanganFsDibuat3TahunLepasTerjadi}
+                              onChange={(e) => {
+                                setMBilanganFsDibuat3TahunLepasTerjadi(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  mBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div className='flex flex-row pl-5 items-center'>
+                            <p className='text-sm font-m '>F: </p>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={fBilanganFsDibuat3TahunLepasTerjadi}
+                              onChange={(e) => {
+                                setFBilanganFsDibuat3TahunLepasTerjadi(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  fBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div className='flex flex-row pl-5 items-center'>
+                            <p className='text-sm font-m '>X: </p>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={xBilanganFsDibuat3TahunLepasTerjadi}
+                              onChange={(e) => {
+                                setXBilanganFsDibuat3TahunLepasTerjadi(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  xBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div className='flex flex-row pl-5 items-center'>
+                            <p className='text-sm font-m '>E: </p>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={eBilanganFsDibuat3TahunLepasTerjadi}
+                              onChange={(e) => {
+                                setEBilanganFsDibuat3TahunLepasTerjadi(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  eBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </article>
                     <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
                       <div className='grid grid-cols-1 lg:grid-cols-2'>
@@ -3528,195 +3702,6 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                       </div>
                     </article>
-                    <article className='grid grid-cols-3 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5 text-left col-span-3'>
-                        Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
-                      </h4>
-                      <div className='flex flex-row pl-5 items-center mt-2'>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='gic-bilangan-fs-dibuat-3-tahun-lepas'
-                          id='gic-bilangan-fs-dibuat-3-tahun-lepas'
-                          value={gicBilanganFsDibuat3TahunLepas}
-                          onChange={(e) => {
-                            setGicBilanganFsDibuat3TahunLepas(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              gicBilanganFsDibuat3TahunLepas: e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
-                        />
-                        <p className='text-sm font-m '>GIC</p>
-                      </div>
-                      <div className='flex flex-row pl-5 items-center mt-2'>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='resin-bilangan-fs-dibuat-3-tahun-lepas'
-                          id='resin-bilangan-fs-dibuat-3-tahun-lepas'
-                          value={resinBilanganFsDibuat3TahunLepas}
-                          onChange={(e) => {
-                            setResinBilanganFsDibuat3TahunLepas(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              resinBilanganFsDibuat3TahunLepas: e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
-                        />
-                        <p className='text-sm font-m '>Resin</p>
-                      </div>
-                      <div className='flex flex-row pl-5 items-center mt-2'>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
-                          id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
-                          value={lainLainBilanganFsDibuat3TahunLepas}
-                          onChange={(e) => {
-                            setLainLainBilanganFsDibuat3TahunLepas(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              lainLainBilanganFsDibuat3TahunLepas:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
-                        />
-                        <p className='text-sm font-m '>Lain-lain</p>
-                      </div>
-                    </article>
-                    <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row text-left pl-3 col-span-2 md:col-span-3'>
-                        Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
-                        Berubah Menjadi Seperti Di Bawah :
-                      </h4>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>D: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={dBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setDBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              dBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>M: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={mBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setMBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              mBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>F: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={fBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setFBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              fBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>X: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={xBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setXBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              xBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>E: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={eBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setEBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              eBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                    </article>
                     <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row col-span-2  pb-2 pl-5'>
                         Kehilangan Permukaan Gigi (TSL)
@@ -3780,31 +3765,6 @@ function UserFormSekolahPemeriksaan() {
                             {sumGigiKekalE}
                           </span>
                         </div>
-                        {/* <div className='flex flex-row items-center pl-11 col-span-2'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='baru-jumlah-murid-perlu-fs'
-                            id='baru-jumlah-murid-perlu-fs'
-                            checked={baruJumlahMuridPerluFs}
-                            onChange={() => {
-                              setBaruJumlahMuridPerluFs(
-                                !baruJumlahMuridPerluFs
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahMuridPerluFs: !baruJumlahMuridPerluFs,
-                              });
-                            }}
-                            className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
-                          />
-                          <label
-                            htmlFor='baru-jumlah-murid-perlu-fs'
-                            className='text-sm font-m'
-                          >
-                            murid perlu pengapan fisur
-                          </label>
-                        </div> */}
                         <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
                           <input
                             disabled={isDisabled}
@@ -3857,31 +3817,6 @@ function UserFormSekolahPemeriksaan() {
                             {sumGigiKekalE}
                           </span>
                         </h4>
-                        {/* <div className='flex flex-row items-center pl-11 col-span-2 pb-2'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='baru-jumlah-murid-perlu-fv'
-                            id='baru-jumlah-murid-perlu-fv'
-                            checked={baruJumlahMuridPerluFv}
-                            onChange={() => {
-                              setBaruJumlahMuridPerluFv(
-                                !baruJumlahMuridPerluFv
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahMuridPerluFv: !baruJumlahMuridPerluFv,
-                              });
-                            }}
-                            className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
-                          />
-                          <label
-                            htmlFor='baru-jumlah-murid-perlu-fv'
-                            className='text-sm font-m'
-                          >
-                            murid perlu Sapuan Fluorida(FV)
-                          </label>
-                        </div> */}
                         <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
                           <input
                             disabled={isDisabled}
@@ -3932,32 +3867,6 @@ function UserFormSekolahPemeriksaan() {
                             {sumGigiKekalE}
                           </span>
                         </div>
-                        {/* <div className='flex flex-row items-center pl-11 col-span-2'>
-                          
-                          <label
-                            htmlFor='baru-jumlah-murid-perlu-prr-jenis-1'
-                            className='text-sm font-m'
-                          >
-                            murid perlu resin Pencegahan Jenis 1 (PRR Type I)
-                          </label><input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='baru-jumlah-murid-perlu-prr-jenis-1'
-                            id='baru-jumlah-murid-perlu-prr-jenis-1'
-                            checked={baruJumlahMuridPerluPrrJenis1}
-                            onChange={() => {
-                              setBaruJumlahMuridPerluPrrJenis1(
-                                !baruJumlahMuridPerluPrrJenis1
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahMuridPerluPrrJenis1:
-                                  !baruJumlahMuridPerluPrrJenis1,
-                              });
-                            }}
-                            className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
-                          />
-                        </div> */}
                         <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
                           <input
                             disabled={isDisabled}
