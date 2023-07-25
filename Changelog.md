@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+- Integrasi bersama MyVAS di Modul Pendaftaran bagi submodul Klinik Pergigian
 - Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
 
 ### 24/7/2023 (v2.1.4)
@@ -18,9 +19,10 @@
 #### Fixed
 
 - Reten yang dijana menggunakan pilihan token, hanya akan keluar sehingga 11.59 pm 6hb bulan berikutnya.
-- Memperkemas dan membaikpulih semua reten-reten yang terdapat di peringkat Pentadbir
-- Bilangan murid yang diberi FV kini dipaparkan di ruangan pengesahan di modul sekolah
-- Pembetulan bagi kiraan peratus liputan sekolah dalam jadual senarai sekolah
+- Memperkemas dan membaikpulih semua reten-reten yang terdapat di semua peringkat Pentadbir
+- Membetulkan semua konfirmasi sebelum menghantar pemeriksaan & rawatan sekolah
+- Membetulkan paparan lihat semula rawatan sekolah
+- Pembetulan kiraan peratus liputan & peratus selesai di jadual rumusan status sekolah
 
 ### 6/7/2023 (v2.1.3)
 
