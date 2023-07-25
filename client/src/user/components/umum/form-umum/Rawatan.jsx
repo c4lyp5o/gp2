@@ -2161,86 +2161,88 @@ export default function Rawatan(props) {
                             className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
                         </div>
-                        <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md lg:col-span-2'>
-                          <h4 className='font-semibold flex flex-row pl-3 lg:col-span-2'>
-                            rawatan semula di KEPP
-                          </h4>
-                          <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
-                            <label
-                              htmlFor='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
-                              className='text-sm font-m m-1 justify-start text-left pl-3'
-                            >
-                              anterior :
-                            </label>
-                            <input
-                              disabled={isDisabled}
-                              min='0'
-                              max='12'
-                              type='number'
-                              name='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
-                              id='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
-                              value={
-                                props.jumlahAnteriorRawatanSemulaKeppRawatanUmum
-                              }
-                              onChange={(e) => {
-                                props.setJumlahAnteriorRawatanSemulaKeppRawatanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
-                            <label
-                              htmlFor='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
-                              className='text-sm font-m m-1 justify-start text-left pl-3'
-                            >
-                              premolar :
-                            </label>
-                            <input
-                              disabled={isDisabled}
-                              min='0'
-                              max='8'
-                              type='number'
-                              name='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
-                              id='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
-                              value={
-                                props.jumlahPremolarRawatanSemulaKeppRawatanUmum
-                              }
-                              onChange={(e) => {
-                                props.setJumlahPremolarRawatanSemulaKeppRawatanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
-                            <label
-                              htmlFor='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
-                              className='text-sm font-m m-1 justify-start text-left pl-3'
-                            >
-                              molar :
-                            </label>
-                            <input
-                              disabled={isDisabled}
-                              min='0'
-                              max='12'
-                              type='number'
-                              name='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
-                              id='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
-                              value={
-                                props.jumlahMolarRawatanSemulaKeppRawatanUmum
-                              }
-                              onChange={(e) => {
-                                props.setJumlahMolarRawatanSemulaKeppRawatanUmum(
-                                  e.target.value
-                                );
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                        </article>
+                        {props.singlePersonUmum.kepp === true && (
+                          <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md lg:col-span-2'>
+                            <h4 className='font-semibold flex flex-row pl-3 lg:col-span-2'>
+                              rawatan semula di KEPP
+                            </h4>
+                            <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
+                              <label
+                                htmlFor='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
+                                className='text-sm font-m m-1 justify-start text-left pl-3'
+                              >
+                                anterior :
+                              </label>
+                              <input
+                                disabled={isDisabled}
+                                min='0'
+                                max='12'
+                                type='number'
+                                name='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
+                                id='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
+                                value={
+                                  props.jumlahAnteriorRawatanSemulaKeppRawatanUmum
+                                }
+                                onChange={(e) => {
+                                  props.setJumlahAnteriorRawatanSemulaKeppRawatanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
+                              <label
+                                htmlFor='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
+                                className='text-sm font-m m-1 justify-start text-left pl-3'
+                              >
+                                premolar :
+                              </label>
+                              <input
+                                disabled={isDisabled}
+                                min='0'
+                                max='8'
+                                type='number'
+                                name='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
+                                id='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
+                                value={
+                                  props.jumlahPremolarRawatanSemulaKeppRawatanUmum
+                                }
+                                onChange={(e) => {
+                                  props.setJumlahPremolarRawatanSemulaKeppRawatanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
+                              <label
+                                htmlFor='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
+                                className='text-sm font-m m-1 justify-start text-left pl-3'
+                              >
+                                molar :
+                              </label>
+                              <input
+                                disabled={isDisabled}
+                                min='0'
+                                max='12'
+                                type='number'
+                                name='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
+                                id='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
+                                value={
+                                  props.jumlahMolarRawatanSemulaKeppRawatanUmum
+                                }
+                                onChange={(e) => {
+                                  props.setJumlahMolarRawatanSemulaKeppRawatanUmum(
+                                    e.target.value
+                                  );
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                          </article>
+                        )}
                         <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min lg:col-span-2'>
                           <h4 className='font-semibold flex flex-row pl-3'>
                             kes rujuk Unit Pakar Pergigian Restoratif

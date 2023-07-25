@@ -98,6 +98,10 @@ function UserFormSekolahPemeriksaan() {
     useState(false);
   const [tisuLembutTrauma, setTisuLembutTrauma] = useState(false);
   const [tisuKerasTrauma, setTisuKerasTrauma] = useState(false);
+  const [
+    yaTidakPesakitMempunyaiSealanfisur,
+    setYaTidakPesakitMempunyaiSealanfisur,
+  ] = useState('');
   const [gicBilanganFsDibuat3TahunLepas, setGicBilanganFsDibuat3TahunLepas] =
     useState(0);
   const [
@@ -612,6 +616,10 @@ function UserFormSekolahPemeriksaan() {
           setTisuKerasTrauma(
             data.personSekolahWithPopulate.pemeriksaanSekolah.tisuKerasTrauma
           );
+          setYaTidakPesakitMempunyaiSealanfisur(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .yaTidakPesakitMempunyaiSealanfisur
+          );
           setGicBilanganFsDibuat3TahunLepas(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .gicBilanganFsDibuat3TahunLepas
@@ -1069,6 +1077,7 @@ function UserFormSekolahPemeriksaan() {
               kecederaanGigiAnteriorTrauma,
               tisuLembutTrauma,
               tisuKerasTrauma,
+              yaTidakPesakitMempunyaiSealanfisur,
               gicBilanganFsDibuat3TahunLepas,
               resinBilanganFsDibuat3TahunLepas,
               lainLainBilanganFsDibuat3TahunLepas,
@@ -2427,7 +2436,7 @@ function UserFormSekolahPemeriksaan() {
                     <article className=' border border-userBlack pl-3 p-2 rounded-md grid grid-cols-2 gap-2 auto-rows-min'>
                       <div className='flex flex-row items-center pl-5 col-span-2'>
                         <h4 className='font-bold'>
-                          Pesakit Mempunyai Gigi Desidus/Kekal?
+                          Murid Mempunyai Gigi Desidus/Kekal?
                           <span className='text-user6'>*</span>
                         </h4>
                         <div className='flex items-center justify-center ml-2'>
@@ -3351,6 +3360,271 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                       </article>
                     )}
+                    <article className='grid grid-cols-2 lg:col-span-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                      <div className='flex flex-row items-center pl-5 col-span-2'>
+                        <h4 className='font-bold'>
+                          Murid mempunyai sealan fisur yang dibuat 3 tahun
+                          lepas?
+                          <span className='text-user6'>*</span>
+                        </h4>
+                        <div className='flex items-center justify-center ml-2'>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='pesakit-mempunyai-sealanfisur'
+                            id='ya-pesakit-mempunyai-sealanfisur'
+                            value='ya-pesakit-mempunyai-sealanfisur'
+                            checked={
+                              yaTidakPesakitMempunyaiSealanfisur ===
+                              'ya-pesakit-mempunyai-sealanfisur'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setYaTidakPesakitMempunyaiSealanfisur(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ya-pesakit-mempunyai-sealanfisur'
+                            className='m-2 text-sm font-m'
+                          >
+                            Ya
+                          </label>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='pesakit-mempunyai-sealanfisur'
+                            id='tidak-pesakit-mempunyai-sealanfisur'
+                            value='tidak-pesakit-mempunyai-sealanfisur'
+                            checked={
+                              yaTidakPesakitMempunyaiSealanfisur ===
+                              'tidak-pesakit-mempunyai-sealanfisur'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setYaTidakPesakitMempunyaiSealanfisur(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tidak-pesakit-mempunyai-sealanfisur'
+                            className='m-2 text-sm font-m'
+                          >
+                            Tidak
+                          </label>
+                        </div>
+                      </div>
+                      {yaTidakPesakitMempunyaiSealanfisur ===
+                        'ya-pesakit-mempunyai-sealanfisur' && (
+                        <div className='border border-userBlack rounded-md m-1 grid lg:grid-cols-3 auto-rows-min'>
+                          <h4 className='font-bold flex flex-row pl-5 text-left lg:col-span-3 p-1'>
+                            Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun
+                            Lepas
+                          </h4>
+                          <div className='flex flex-row pl-5 items-center mt-2'>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                              id='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                              value={gicBilanganFsDibuat3TahunLepas}
+                              onChange={(e) => {
+                                setGicBilanganFsDibuat3TahunLepas(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  gicBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <p className='text-sm font-m '>GIC</p>
+                          </div>
+                          <div className='flex flex-row pl-5 items-center mt-2'>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                              id='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                              value={resinBilanganFsDibuat3TahunLepas}
+                              onChange={(e) => {
+                                setResinBilanganFsDibuat3TahunLepas(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  resinBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <p className='text-sm font-m '>Resin</p>
+                          </div>
+                          <div className='flex flex-row pl-5 items-center mt-2'>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                              id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                              value={lainLainBilanganFsDibuat3TahunLepas}
+                              onChange={(e) => {
+                                setLainLainBilanganFsDibuat3TahunLepas(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  lainLainBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <p className='text-sm font-m '>Lain-lain</p>
+                          </div>
+                        </div>
+                      )}
+                      {yaTidakPesakitMempunyaiSealanfisur ===
+                        'ya-pesakit-mempunyai-sealanfisur' && (
+                        <div className='border border-userBlack rounded-md m-1 grid md:grid-cols-3'>
+                          <h4 className='font-bold flex flex-row text-left pl-3 col-span-2 md:col-span-3 p-1'>
+                            Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun
+                            Lepas Berubah Menjadi Seperti Di Bawah :
+                          </h4>
+                          <div className='flex flex-row pl-5 items-center'>
+                            <p className='text-sm font-m '>D: </p>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={dBilanganFsDibuat3TahunLepasTerjadi}
+                              onChange={(e) => {
+                                setDBilanganFsDibuat3TahunLepasTerjadi(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  dBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div className='flex flex-row pl-5 items-center'>
+                            <p className='text-sm font-m '>M: </p>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={mBilanganFsDibuat3TahunLepasTerjadi}
+                              onChange={(e) => {
+                                setMBilanganFsDibuat3TahunLepasTerjadi(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  mBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div className='flex flex-row pl-5 items-center'>
+                            <p className='text-sm font-m '>F: </p>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={fBilanganFsDibuat3TahunLepasTerjadi}
+                              onChange={(e) => {
+                                setFBilanganFsDibuat3TahunLepasTerjadi(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  fBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div className='flex flex-row pl-5 items-center'>
+                            <p className='text-sm font-m '>X: </p>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={xBilanganFsDibuat3TahunLepasTerjadi}
+                              onChange={(e) => {
+                                setXBilanganFsDibuat3TahunLepasTerjadi(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  xBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                          <div className='flex flex-row pl-5 items-center'>
+                            <p className='text-sm font-m '>E: </p>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={eBilanganFsDibuat3TahunLepasTerjadi}
+                              onChange={(e) => {
+                                setEBilanganFsDibuat3TahunLepasTerjadi(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  eBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </article>
                     <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
                       <div className='grid grid-cols-1 lg:grid-cols-2'>
@@ -3426,195 +3700,6 @@ function UserFormSekolahPemeriksaan() {
                             kecederaan tulang muka
                           </label>
                         </div>
-                      </div>
-                    </article>
-                    <article className='grid grid-cols-3 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5 text-left col-span-3'>
-                        Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
-                      </h4>
-                      <div className='flex flex-row pl-5 items-center mt-2'>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='gic-bilangan-fs-dibuat-3-tahun-lepas'
-                          id='gic-bilangan-fs-dibuat-3-tahun-lepas'
-                          value={gicBilanganFsDibuat3TahunLepas}
-                          onChange={(e) => {
-                            setGicBilanganFsDibuat3TahunLepas(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              gicBilanganFsDibuat3TahunLepas: e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
-                        />
-                        <p className='text-sm font-m '>GIC</p>
-                      </div>
-                      <div className='flex flex-row pl-5 items-center mt-2'>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='resin-bilangan-fs-dibuat-3-tahun-lepas'
-                          id='resin-bilangan-fs-dibuat-3-tahun-lepas'
-                          value={resinBilanganFsDibuat3TahunLepas}
-                          onChange={(e) => {
-                            setResinBilanganFsDibuat3TahunLepas(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              resinBilanganFsDibuat3TahunLepas: e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
-                        />
-                        <p className='text-sm font-m '>Resin</p>
-                      </div>
-                      <div className='flex flex-row pl-5 items-center mt-2'>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
-                          id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
-                          value={lainLainBilanganFsDibuat3TahunLepas}
-                          onChange={(e) => {
-                            setLainLainBilanganFsDibuat3TahunLepas(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              lainLainBilanganFsDibuat3TahunLepas:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
-                        />
-                        <p className='text-sm font-m '>Lain-lain</p>
-                      </div>
-                    </article>
-                    <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row text-left pl-3 col-span-2 md:col-span-3'>
-                        Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
-                        Berubah Menjadi Seperti Di Bawah :
-                      </h4>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>D: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={dBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setDBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              dBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>M: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={mBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setMBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              mBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>F: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={fBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setFBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              fBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>X: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={xBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setXBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              xBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>E: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={eBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setEBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              eBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
                       </div>
                     </article>
                     <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
