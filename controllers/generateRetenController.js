@@ -10403,7 +10403,7 @@ const makeDEWASAMUDA = async (payload) => {
     }
 
     // oplain
-    for (const item of data[1][0].umumOplain) {
+    for (const item of data[0][0].umumOplain) {
       switch (item._id) {
         case 20:
           rowNumber = 20;
@@ -10460,7 +10460,7 @@ const makeDEWASAMUDA = async (payload) => {
       row.getCell(69).value += item.kesSelesai;
       row.getCell(70).value += item.xrayDiambil;
     }
-    for (const item of data[1][0].imOplain) {
+    for (const item of data[0][0].imOplain) {
       const row = worksheet.getRow(24);
 
       row.getCell(33).value += item.sapuanFluorida;
@@ -10503,7 +10503,7 @@ const makeDEWASAMUDA = async (payload) => {
       row.getCell(69).value += item.kesSelesai;
       row.getCell(70).value += item.xrayDiambil;
     }
-    for (const item of data[1][0].okuOplain) {
+    for (const item of data[0][0].okuOplain) {
       const row = worksheet.getRow(25);
 
       row.getCell(33).value += item.sapuanFluorida;
@@ -10546,7 +10546,7 @@ const makeDEWASAMUDA = async (payload) => {
       row.getCell(69).value += item.kesSelesai;
       row.getCell(70).value += item.xrayDiambil;
     }
-    for (const item of data[1][0].bwOplain) {
+    for (const item of data[0][0].bwOplain) {
       const row = worksheet.getRow(26);
 
       row.getCell(33).value += item.sapuanFluorida;
@@ -10589,7 +10589,7 @@ const makeDEWASAMUDA = async (payload) => {
       row.getCell(69).value += item.kesSelesai;
       row.getCell(70).value += item.xrayDiambil;
     }
-    for (const item of data[1][0].oapOplain) {
+    for (const item of data[0][0].oapOplain) {
       const row = worksheet.getRow(27);
 
       row.getCell(33).value += item.sapuanFluorida;
@@ -10632,7 +10632,7 @@ const makeDEWASAMUDA = async (payload) => {
       row.getCell(69).value += item.kesSelesai;
       row.getCell(70).value += item.xrayDiambil;
     }
-    for (const item of data[1][0].kpbMpbOplain) {
+    for (const item of data[0][0].kpbMpbOplain) {
       const row = worksheet.getRow(28);
 
       row.getCell(33).value += item.sapuanFluorida;
@@ -10675,7 +10675,7 @@ const makeDEWASAMUDA = async (payload) => {
       row.getCell(69).value += item.kesSelesai;
       row.getCell(70).value += item.xrayDiambil;
     }
-    for (const item of data[1][0].institusiOplain) {
+    for (const item of data[0][0].institusiOplain) {
       switch (item._id) {
         case 'kolej-komuniti':
           rowNumber = 30;
@@ -10808,7 +10808,7 @@ const makeDEWASAMUDA = async (payload) => {
 
     // isi data pemeriksaan
     for (let i = 0; i < 2; i++) {
-      const sekolahDM = data[2][0].sekolahAll[0] || {};
+      const sekolahDM = data[1][0].sekolahAll[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         const rowNumber = i === 0 ? 20 : 29;
@@ -10816,14 +10816,14 @@ const makeDEWASAMUDA = async (payload) => {
       }
     }
     for (let i = 0; i < 1; i++) {
-      const sekolahDM = data[2][0].sekolahOku[0] || {};
+      const sekolahDM = data[1][0].sekolahOku[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         updateDataSekolahPemeriksaan(sekolahDM, 25);
       }
     }
     for (let i = 0; i < 1; i++) {
-      const sekolahDM = data[2][0].sekolahOap[0] || {};
+      const sekolahDM = data[1][0].sekolahOap[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         updateDataSekolahPemeriksaan(sekolahDM, 27);
@@ -10832,7 +10832,7 @@ const makeDEWASAMUDA = async (payload) => {
 
     // isi data rawatan
     for (let i = 0; i < 2; i++) {
-      const sekolahDM = data[3][0].sekolahAll[0] || {};
+      const sekolahDM = data[2][0].sekolahAll[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         const rowNumber = i === 0 ? 20 : 29;
@@ -10840,14 +10840,14 @@ const makeDEWASAMUDA = async (payload) => {
       }
     }
     for (let i = 0; i < 1; i++) {
-      const sekolahDM = data[3][0].sekolahOku[0] || {};
+      const sekolahDM = data[2][0].sekolahOku[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         updateDataSekolahRawatan(sekolahDM, 25);
       }
     }
     for (let i = 0; i < 1; i++) {
-      const sekolahDM = data[3][0].sekolahOap[0] || {};
+      const sekolahDM = data[2][0].sekolahOap[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         updateDataSekolahRawatan(sekolahDM, 27);
@@ -10949,7 +10949,6 @@ const makeOAP = async (payload) => {
     if (data.length === 0) {
       return 'No data found';
     }
-    // return data;
     //
     if (klinik !== 'all') {
       const currentKlinik = await User.findOne({
@@ -10975,128 +10974,437 @@ const makeOAP = async (payload) => {
     //
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
+    let rowNumber;
 
-    let j = 0;
-
-    for (let i = 0; i < data[0].length; i++) {
-      const [pemeriksaan] = data[0][i].queryOAPPemeriksaan || [];
-
-      if (pemeriksaan) {
-        const row = worksheet.getRow(20 + j);
-        jumlahReten += pemeriksaan.jumlahReten;
-        jumlahRetenSalah += pemeriksaan.statusReten;
-        row.getCell(3).value = pemeriksaan.kedatanganTahunSemasaBaru;
-        row.getCell(5).value = pemeriksaan.jumlahd;
-        row.getCell(6).value = pemeriksaan.jumlahf;
-        row.getCell(7).value = pemeriksaan.jumlahx;
-        // skipping cells
-        if (i > 1) {
-          row.getCell(9).value = pemeriksaan.jumlahD;
-          row.getCell(10).value = pemeriksaan.jumlahM;
-          row.getCell(11).value = pemeriksaan.jumlahF;
-          row.getCell(12).value = pemeriksaan.jumlahX;
-        }
-        // skipping cells
-        row.getCell(14).value = pemeriksaan.jumlahMBK;
-        if (i > 1) {
-          row.getCell(15).value = pemeriksaan.statusBebasKaries;
-        }
-        row.getCell(16).value = pemeriksaan.TPR;
-        if (i > 5) {
-          row.getCell(17).value = pemeriksaan.skorBPEZero;
-          row.getCell(18).value = pemeriksaan.skorBPEMoreThanZero;
-        }
-        row.getCell(19).value = pemeriksaan.adaTSL;
-        row.getCell(20).value = pemeriksaan.perluSapuanFluorida;
-        if (i > 1) {
-          row.getCell(21).value = pemeriksaan.perluJumlahPesakitPrrJenis1;
-          row.getCell(22).value = pemeriksaan.perluJumlahGigiPrrJenis1;
-          row.getCell(23).value = pemeriksaan.perluJumlahPesakitFS;
-          row.getCell(24).value = pemeriksaan.perluJumlahGigiFS;
-        }
-        row.getCell(25).value = pemeriksaan.perluPenskaleran;
-        if (i > 1) {
-          row.getCell(26).value = pemeriksaan.perluEndoAnterior;
-          row.getCell(27).value = pemeriksaan.perluEndoPremolar;
-          row.getCell(28).value = pemeriksaan.perluEndoMolar;
-          row.getCell(29).value = pemeriksaan.jumlahPerluDenturPenuh;
-          row.getCell(30).value = pemeriksaan.jumlahPerluDenturSepara;
-        }
+    const writePemeriksaan = (row, item, jumlahReten, jumlahRetenSalah) => {
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(3).value = item.kedatanganTahunSemasaBaru;
+      row.getCell(5).value = item.jumlahd;
+      row.getCell(6).value = item.jumlahf;
+      row.getCell(7).value = item.jumlahx;
+      // skipping cells
+      row.getCell(9).value = item.jumlahD;
+      row.getCell(10).value = item.jumlahM;
+      row.getCell(11).value = item.jumlahF;
+      row.getCell(12).value = item.jumlahX;
+      // skipping cells
+      row.getCell(14).value = item.jumlahMBK;
+      row.getCell(15).value = item.statusBebasKaries;
+      row.getCell(16).value = item.TPR;
+      row.getCell(17).value = item.skorBPEZero;
+      row.getCell(18).value = item.skorBPEMoreThanZero;
+      row.getCell(19).value = item.adaTSL;
+      row.getCell(20).value = item.perluSapuanFluorida;
+      row.getCell(21).value = item.perluJumlahPesakitPrrJenis1;
+      row.getCell(22).value = item.perluJumlahGigiPrrJenis1;
+      row.getCell(23).value = item.perluJumlahPesakitFS;
+      row.getCell(24).value = item.perluJumlahGigiFS;
+      row.getCell(25).value = item.perluPenskaleran;
+      row.getCell(26).value = item.perluEndoAnterior;
+      row.getCell(27).value = item.perluEndoPremolar;
+      row.getCell(28).value = item.perluEndoMolar;
+      row.getCell(29).value = item.jumlahPerluDenturPenuh;
+      row.getCell(30).value = item.jumlahPerluDenturSepara;
+    };
+    const writeRawatan = (row, item, type) => {
+      if (type !== 'opl') {
+        row.getCell(4).value = item.kedatanganTahunSemasaUlangan;
+        row.getCell(83).value = item.pesakitDisaringOC;
       }
-      j++;
-      if (i === 11) {
-        j++;
+      row.getCell(31).value = item.sapuanFluorida;
+      row.getCell(32).value = item.jumlahPesakitPrrJenis1;
+      row.getCell(33).value = item.jumlahGigiPrrJenis1;
+      row.getCell(34).value = item.jumlahPesakitDiBuatFs;
+      row.getCell(35).value = item.jumlahGigiDibuatFs;
+      row.getCell(36).value = item.tampalanAntGdBaru;
+      row.getCell(37).value = item.tampalanAntGdSemula;
+      row.getCell(38).value = item.tampalanAntGkBaru;
+      row.getCell(39).value = item.tampalanAntGkSemula;
+      row.getCell(40).value = item.tampalanPostGdBaru;
+      row.getCell(41).value = item.tampalanPostGdSemula;
+      row.getCell(42).value = item.tampalanPostGkBaru;
+      row.getCell(43).value = item.tampalanPostGkSemula;
+      row.getCell(44).value = item.tampalanPostAmgGdBaru;
+      row.getCell(45).value = item.tampalanPostAmgGdSemula;
+      row.getCell(46).value = item.tampalanPostAmgGkBaru;
+      row.getCell(47).value = item.tampalanPostAmgGkSemula;
+      row.getCell(48).value = item.inlayOnlayBaru;
+      row.getCell(49).value = item.inlayOnlaySemula;
+      // skipping cells
+      row.getCell(52).value = item.tampalanSementara;
+      row.getCell(53).value = item.cabutanGd;
+      row.getCell(54).value = item.cabutanGk;
+      row.getCell(55).value = item.komplikasiSelepasCabutan;
+      row.getCell(56).value = item.penskaleran;
+      row.getCell(57).value = item.rawatanPerioLain;
+      row.getCell(58).value = item.rawatanEndoAnterior;
+      row.getCell(59).value = item.rawatanEndoPremolar;
+      row.getCell(60).value = item.rawatanEndoMolar;
+      row.getCell(61).value = item.rawatanOrtho;
+      row.getCell(62).value = item.kesPerubatan;
+      row.getCell(63).value = item.abses;
+      row.getCell(64).value = item.kecederaanTulangMuka;
+      row.getCell(65).value = item.kecederaanGigi;
+      row.getCell(66).value = item.kecederaanTisuLembut;
+      row.getCell(67).value = item.cabutanSurgical;
+      row.getCell(68).value = item.pembedahanKecilMulut;
+      row.getCell(69).value = item.crownBridgeBaru;
+      row.getCell(70).value = item.crownBridgeSemula;
+      row.getCell(71).value = item.postCoreBaru;
+      row.getCell(72).value = item.postCoreSemula;
+      row.getCell(73).value = item.prosthodontikPenuhDenturBaru;
+      row.getCell(74).value = item.prosthodontikPenuhDenturSemula;
+      row.getCell(75).value = item.jumlahPesakitBuatDenturPenuh;
+      row.getCell(76).value = item.prosthodontikSeparaDenturBaru;
+      row.getCell(77).value = item.prosthodontikSeparaDenturSemula;
+      row.getCell(78).value = item.jumlahPesakitBuatDenturSepara;
+      row.getCell(79).value = item.immediateDenture;
+      row.getCell(80).value = item.pembaikanDenture;
+      row.getCell(81).value = item.kesSelesai;
+      row.getCell(82).value = item.xrayDiambil;
+    };
+
+    // umum
+    for (const item of data[0].umumPemeriksaan) {
+      switch (item._id) {
+        case 0:
+          rowNumber = 20;
+          break;
+        case 1:
+          rowNumber = 21;
+          break;
+        case 5:
+          rowNumber = 22;
+          break;
+        case 7:
+          rowNumber = 23;
+          break;
+        case 10:
+          rowNumber = 24;
+          break;
+        case 13:
+          rowNumber = 25;
+          break;
+        case 15:
+          rowNumber = 26;
+          break;
+        case 18:
+          rowNumber = 27;
+          break;
+        case 20:
+          rowNumber = 28;
+          break;
+        case 30:
+          rowNumber = 29;
+          break;
+        case 50:
+          rowNumber = 30;
+          break;
+        case 60:
+          rowNumber = 31;
+          break;
+        case 60:
+          rowNumber = 32;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(3).value = item.kedatanganTahunSemasaBaru;
+      row.getCell(5).value = item.jumlahd;
+      row.getCell(6).value = item.jumlahf;
+      row.getCell(7).value = item.jumlahx;
+      // skipping cells
+      if (item._id > 4) {
+        row.getCell(9).value = item.jumlahD;
+        row.getCell(10).value = item.jumlahM;
+        row.getCell(11).value = item.jumlahF;
+        row.getCell(12).value = item.jumlahX;
+      }
+      // skipping cells
+      row.getCell(14).value = item.jumlahMBK;
+      if (item._id > 4) {
+        row.getCell(15).value = item.statusBebasKaries;
+      }
+      row.getCell(16).value = item.TPR;
+      if (item._id > 14) {
+        row.getCell(17).value = item.skorBPEZero;
+        row.getCell(18).value = item.skorBPEMoreThanZero;
+      }
+      row.getCell(19).value = item.adaTSL;
+      row.getCell(20).value = item.perluSapuanFluorida;
+      if (item._id > 4) {
+        row.getCell(21).value = item.perluJumlahPesakitPrrJenis1;
+        row.getCell(22).value = item.perluJumlahGigiPrrJenis1;
+        row.getCell(23).value = item.perluJumlahPesakitFS;
+        row.getCell(24).value = item.perluJumlahGigiFS;
+      }
+      row.getCell(25).value = item.perluPenskaleran;
+      row.getCell(26).value = item.perluEndoAnterior;
+      row.getCell(27).value = item.perluEndoPremolar;
+      row.getCell(28).value = item.perluEndoMolar;
+      if (item._id > 4) {
+        row.getCell(29).value = item.jumlahPerluDenturPenuh;
+        row.getCell(30).value = item.jumlahPerluDenturSepara;
       }
     }
-
-    j = 0;
-    for (let i = 0; i < data[1].length; i++) {
-      const [rawatan] = data[1][i].queryOAPRawatan || [];
-
-      if (rawatan) {
-        const row = worksheet.getRow(20 + j);
-        // rawatan
-        row.getCell(4).value = rawatan.kedatanganTahunSemasaUlangan;
-        row.getCell(31).value = rawatan.sapuanFluorida;
-        row.getCell(32).value = rawatan.jumlahPesakitPrrJenis1;
-        row.getCell(33).value = rawatan.jumlahGigiPrrJenis1;
-        row.getCell(34).value = rawatan.jumlahPesakitDiBuatFs;
-        row.getCell(35).value = rawatan.jumlahGigiDibuatFs;
-
-        for (let k = 36; k <= 49; k++) {
-          if (i > 1) {
-            row.getCell(k).value =
-              rawatan[
-                `tampalan${k === 44 ? 'PostAmg' : k < 44 ? 'AntGd' : 'PostGk'}${
-                  k % 2 === 0 ? 'Baru' : 'Semula'
-                }`
-              ];
-          }
-        }
-
-        row.getCell(52).value = rawatan.tampalanSementara;
-        row.getCell(53).value = rawatan.cabutanGd;
-        row.getCell(54).value = rawatan.cabutanGk;
-        row.getCell(55).value = rawatan.komplikasiSelepasCabutan;
-        row.getCell(56).value = rawatan.penskaleran;
-        row.getCell(57).value = rawatan.rawatanPerioLain;
-        row.getCell(58).value = rawatan.rawatanEndoAnterior;
-        row.getCell(59).value = rawatan.rawatanEndoPremolar;
-        row.getCell(60).value = rawatan.rawatanEndoMolar;
-        row.getCell(61).value = rawatan.rawatanOrtho;
-        row.getCell(62).value = rawatan.kesPerubatan;
-        row.getCell(63).value = rawatan.abses;
-        row.getCell(64).value = rawatan.kecederaanTulangMuka;
-        row.getCell(65).value = rawatan.kecederaanGigi;
-        row.getCell(66).value = rawatan.kecederaanTisuLembut;
-        row.getCell(67).value = rawatan.cabutanSurgical;
-        row.getCell(68).value = rawatan.pembedahanKecilMulut;
-
-        for (let k = 69; k <= 72; k++) {
-          if (i > 1) {
-            row.getCell(k).value =
-              rawatan[k % 2 === 1 ? 'crownBridgeSemula' : 'crownBridgeBaru'];
-          }
-        }
-
-        if (i > 1) {
-          row.getCell(73).value = rawatan.prosthodontikPenuhDenturBaru;
-          row.getCell(74).value = rawatan.prosthodontikPenuhDenturSemula;
-          row.getCell(75).value = rawatan.jumlahPesakitBuatDenturPenuh;
-          row.getCell(76).value = rawatan.prosthodontikSeparaDenturBaru;
-          row.getCell(77).value = rawatan.prosthodontikSeparaDenturSemula;
-          row.getCell(78).value = rawatan.jumlahPesakitBuatDenturSepara;
-          row.getCell(79).value = rawatan.immediateDenture;
-          row.getCell(80).value = rawatan.pembaikanDenture;
-        }
-        row.getCell(81).value = rawatan.kesSelesai;
-        row.getCell(82).value = rawatan.xrayDiambil;
-        row.getCell(83).value = rawatan.pesakitDisaringOC;
+    for (const item of data[0].umumRawatan) {
+      switch (item._id) {
+        case 0:
+          rowNumber = 20;
+          break;
+        case 1:
+          rowNumber = 21;
+          break;
+        case 5:
+          rowNumber = 22;
+          break;
+        case 7:
+          rowNumber = 23;
+          break;
+        case 10:
+          rowNumber = 24;
+          break;
+        case 13:
+          rowNumber = 25;
+          break;
+        case 15:
+          rowNumber = 26;
+          break;
+        case 18:
+          rowNumber = 27;
+          break;
+        case 20:
+          rowNumber = 28;
+          break;
+        case 30:
+          rowNumber = 29;
+          break;
+        case 50:
+          rowNumber = 30;
+          break;
+        case 60:
+          rowNumber = 31;
+          break;
+        case 60:
+          rowNumber = 32;
+          break;
+        default:
+          continue;
       }
-      j++;
-      if (i === 11) {
-        j++;
+
+      const row = worksheet.getRow(rowNumber);
+
+      row.getCell(4).value = item.kedatanganTahunSemasaUlangan;
+      row.getCell(31).value = item.sapuanFluorida;
+      if (item._id > 4) {
+        row.getCell(32).value = item.jumlahPesakitPrrJenis1;
+        row.getCell(33).value = item.jumlahGigiPrrJenis1;
+        row.getCell(34).value = item.jumlahPesakitDiBuatFs;
+        row.getCell(35).value = item.jumlahGigiDibuatFs;
       }
+      row.getCell(36).value = item.tampalanAntGdBaru;
+      row.getCell(37).value = item.tampalanAntGdSemula;
+      if (item._id > 4) {
+        row.getCell(38).value = item.tampalanAntGkBaru;
+        row.getCell(39).value = item.tampalanAntGkSemula;
+      }
+      row.getCell(40).value = item.tampalanPostGdBaru;
+      row.getCell(41).value = item.tampalanPostGdSemula;
+      if (item._id > 4) {
+        row.getCell(42).value = item.tampalanPostGkBaru;
+        row.getCell(43).value = item.tampalanPostGkSemula;
+      }
+      row.getCell(44).value = item.tampalanPostAmgGdBaru;
+      row.getCell(45).value = item.tampalanPostAmgGdSemula;
+      if (item._id > 4) {
+        row.getCell(46).value = item.tampalanPostAmgGkBaru;
+        row.getCell(47).value = item.tampalanPostAmgGkSemula;
+        row.getCell(48).value = item.inlayOnlayBaru;
+        row.getCell(49).value = item.inlayOnlaySemula;
+      }
+      // skipping cells
+      row.getCell(52).value = item.tampalanSementara;
+      row.getCell(53).value = item.cabutanGd;
+      row.getCell(54).value = item.cabutanGk;
+      row.getCell(55).value = item.komplikasiSelepasCabutan;
+      row.getCell(56).value = item.penskaleran;
+      row.getCell(57).value = item.rawatanPerioLain;
+      row.getCell(58).value = item.rawatanEndoAnterior;
+      row.getCell(59).value = item.rawatanEndoPremolar;
+      row.getCell(60).value = item.rawatanEndoMolar;
+      row.getCell(61).value = item.rawatanOrtho;
+      row.getCell(62).value = item.kesPerubatan;
+      row.getCell(63).value = item.abses;
+      row.getCell(64).value = item.kecederaanTulangMuka;
+      row.getCell(65).value = item.kecederaanGigi;
+      row.getCell(66).value = item.kecederaanTisuLembut;
+      row.getCell(67).value = item.cabutanSurgical;
+      row.getCell(68).value = item.pembedahanKecilMulut;
+      //
+      if (item._id > 4) {
+        row.getCell(69).value = item.crownBridgeBaru;
+        row.getCell(70).value = item.crownBridgeSemula;
+        row.getCell(71).value = item.postCoreBaru;
+        row.getCell(72).value = item.postCoreSemula;
+        row.getCell(73).value = item.prosthodontikPenuhDenturBaru;
+        row.getCell(74).value = item.prosthodontikPenuhDenturSemula;
+        row.getCell(75).value = item.jumlahPesakitBuatDenturPenuh;
+        row.getCell(76).value = item.prosthodontikSeparaDenturBaru;
+        row.getCell(77).value = item.prosthodontikSeparaDenturSemula;
+        row.getCell(78).value = item.jumlahPesakitBuatDenturSepara;
+        row.getCell(79).value = item.immediateDenture;
+        row.getCell(80).value = item.pembaikanDenture;
+      }
+      row.getCell(81).value = item.kesSelesai;
+      row.getCell(82).value = item.xrayDiambil;
+      row.getCell(83).value = item.pesakitDisaringOC;
+    }
+
+    // pemeriksaan selain umum
+    for (const item of data[0].imPemeriksaan) {
+      const row = worksheet.getRow(33);
+      writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
+    }
+    for (const item of data[0].okuPemeriksaan) {
+      const row = worksheet.getRow(34);
+      writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
+    }
+
+    // rawatan selain umum
+    for (const item of data[0].imRawatan) {
+      const row = worksheet.getRow(33);
+      writeRawatan(row, item);
+    }
+    for (const item of data[0].okuRawatan) {
+      const row = worksheet.getRow(34);
+      writeRawatan(row, item);
+    }
+
+    // op lain
+    for (const item of data[0].umumOplain) {
+      switch (item._id) {
+        case 0:
+          rowNumber = 20;
+          break;
+        case 1:
+          rowNumber = 21;
+          break;
+        case 5:
+          rowNumber = 22;
+          break;
+        case 7:
+          rowNumber = 23;
+          break;
+        case 10:
+          rowNumber = 24;
+          break;
+        case 13:
+          rowNumber = 25;
+          break;
+        case 15:
+          rowNumber = 26;
+          break;
+        case 18:
+          rowNumber = 27;
+          break;
+        case 20:
+          rowNumber = 28;
+          break;
+        case 30:
+          rowNumber = 29;
+          break;
+        case 50:
+          rowNumber = 30;
+          break;
+        case 60:
+          rowNumber = 31;
+          break;
+        case 60:
+          rowNumber = 32;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+
+      row.getCell(30).value += item.sapuanFluorida;
+      row.getCell(31).value = item.sapuanFluorida;
+      if (item._id > 4) {
+        row.getCell(32).value = item.jumlahPesakitPrrJenis1;
+        row.getCell(33).value = item.jumlahGigiPrrJenis1;
+        row.getCell(34).value = item.jumlahPesakitDiBuatFs;
+        row.getCell(35).value = item.jumlahGigiDibuatFs;
+      }
+      row.getCell(36).value = item.tampalanAntGdBaru;
+      row.getCell(37).value = item.tampalanAntGdSemula;
+      if (item._id > 4) {
+        row.getCell(38).value = item.tampalanAntGkBaru;
+        row.getCell(39).value = item.tampalanAntGkSemula;
+      }
+      row.getCell(40).value = item.tampalanPostGdBaru;
+      row.getCell(41).value = item.tampalanPostGdSemula;
+      if (item._id > 4) {
+        row.getCell(42).value = item.tampalanPostGkBaru;
+        row.getCell(43).value = item.tampalanPostGkSemula;
+      }
+      row.getCell(44).value = item.tampalanPostAmgGdBaru;
+      row.getCell(45).value = item.tampalanPostAmgGdSemula;
+      if (item._id > 4) {
+        row.getCell(46).value = item.tampalanPostAmgGkBaru;
+        row.getCell(47).value = item.tampalanPostAmgGkSemula;
+        row.getCell(48).value = item.inlayOnlayBaru;
+        row.getCell(49).value = item.inlayOnlaySemula;
+      }
+      // skipping cells
+      row.getCell(52).value = item.tampalanSementara;
+      row.getCell(53).value = item.cabutanGd;
+      row.getCell(54).value = item.cabutanGk;
+      row.getCell(55).value = item.komplikasiSelepasCabutan;
+      row.getCell(56).value = item.penskaleran;
+      row.getCell(57).value = item.rawatanPerioLain;
+      row.getCell(58).value = item.rawatanEndoAnterior;
+      row.getCell(59).value = item.rawatanEndoPremolar;
+      row.getCell(60).value = item.rawatanEndoMolar;
+      row.getCell(61).value = item.rawatanOrtho;
+      row.getCell(62).value = item.kesPerubatan;
+      row.getCell(63).value = item.abses;
+      row.getCell(64).value = item.kecederaanTulangMuka;
+      row.getCell(65).value = item.kecederaanGigi;
+      row.getCell(66).value = item.kecederaanTisuLembut;
+      row.getCell(67).value = item.cabutanSurgical;
+      row.getCell(68).value = item.pembedahanKecilMulut;
+      //
+      if (item._id > 4) {
+        row.getCell(69).value = item.crownBridgeBaru;
+        row.getCell(70).value = item.crownBridgeSemula;
+        row.getCell(71).value = item.postCoreBaru;
+        row.getCell(72).value = item.postCoreSemula;
+        row.getCell(73).value = item.prosthodontikPenuhDenturBaru;
+        row.getCell(74).value = item.prosthodontikPenuhDenturSemula;
+        row.getCell(75).value = item.jumlahPesakitBuatDenturPenuh;
+        row.getCell(76).value = item.prosthodontikSeparaDenturBaru;
+        row.getCell(77).value = item.prosthodontikSeparaDenturSemula;
+        row.getCell(78).value = item.jumlahPesakitBuatDenturSepara;
+        row.getCell(79).value = item.immediateDenture;
+        row.getCell(80).value = item.pembaikanDenture;
+      }
+      row.getCell(81).value = item.kesSelesai;
+      row.getCell(82).value = item.xrayDiambil;
+    }
+    for (const item of data[0].imOplain) {
+      const row = worksheet.getRow(33);
+      writeRawatan(row, item, 'opl');
+    }
+    for (const item of data[0].okuOplain) {
+      const row = worksheet.getRow(34);
+      writeRawatan(row, item, 'opl');
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
@@ -11879,7 +12187,7 @@ const makeKOM = async (payload) => {
     };
 
     // umum
-    for (const item of data[0][0].umumPemeriksaan) {
+    for (const item of data[0].umumPemeriksaan) {
       switch (item._id) {
         case 0:
           rowNumber = 20;
@@ -11965,7 +12273,7 @@ const makeKOM = async (payload) => {
         row.getCell(29).value = item.jumlahPerluDenturSepara;
       }
     }
-    for (const item of data[0][0].umumRawatan) {
+    for (const item of data[0].umumRawatan) {
       switch (item._id) {
         case 0:
           rowNumber = 20;
@@ -12065,99 +12373,99 @@ const makeKOM = async (payload) => {
     }
 
     // pemeriksaan selain umum
-    for (const item of data[0][0].imPemeriksaan) {
+    for (const item of data[0].imPemeriksaan) {
       const row = worksheet.getRow(33);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0][0].okuPemeriksaan) {
+    for (const item of data[0].okuPemeriksaan) {
       const row = worksheet.getRow(34);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0][0].bwPemeriksaan) {
+    for (const item of data[0].bwPemeriksaan) {
       const row = worksheet.getRow(35);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0][0].oapPemeriksaan) {
+    for (const item of data[0].oapPemeriksaan) {
       const row = worksheet.getRow(36);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0][0].dmPemeriksaan) {
+    for (const item of data[0].dmPemeriksaan) {
       const row = worksheet.getRow(38);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0][0].pkapPemeriksaan) {
+    for (const item of data[0].pkapPemeriksaan) {
       const row = worksheet.getRow(39);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0][0].pprPemeriksaan) {
+    for (const item of data[0].pprPemeriksaan) {
       const row = worksheet.getRow(40);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0][0].ppkpsPemeriksaan) {
+    for (const item of data[0].ppkpsPemeriksaan) {
       const row = worksheet.getRow(41);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0][0].ikkPemeriksaan) {
+    for (const item of data[0].ikkPemeriksaan) {
       const row = worksheet.getRow(42);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0][0].iwePemeriksaan) {
+    for (const item of data[0].iwePemeriksaan) {
       const row = worksheet.getRow(43);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0][0].kpbMpbPemeriksaan) {
+    for (const item of data[0].kpbMpbPemeriksaan) {
       const row = worksheet.getRow(44);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
 
     // rawatan
-    for (const item of data[0][0].imRawatan) {
+    for (const item of data[0].imRawatan) {
       const row = worksheet.getRow(33);
       writeRawatan(row, item);
     }
-    for (const item of data[0][0].okuRawatan) {
+    for (const item of data[0].okuRawatan) {
       const row = worksheet.getRow(34);
       writeRawatan(row, item);
     }
-    for (const item of data[0][0].bwRawatan) {
+    for (const item of data[0].bwRawatan) {
       const row = worksheet.getRow(35);
       writeRawatan(row, item);
     }
-    for (const item of data[0][0].oapRawatan) {
+    for (const item of data[0].oapRawatan) {
       const row = worksheet.getRow(36);
       writeRawatan(row, item);
     }
-    for (const item of data[0][0].dmRawatan) {
+    for (const item of data[0].dmRawatan) {
       const row = worksheet.getRow(38);
       writeRawatan(row, item);
     }
-    for (const item of data[0][0].pkapRawatan) {
+    for (const item of data[0].pkapRawatan) {
       const row = worksheet.getRow(39);
       writeRawatan(row, item);
     }
-    for (const item of data[0][0].pprRawatan) {
+    for (const item of data[0].pprRawatan) {
       const row = worksheet.getRow(40);
       writeRawatan(row, item);
     }
-    for (const item of data[0][0].ppkpsRawatan) {
+    for (const item of data[0].ppkpsRawatan) {
       const row = worksheet.getRow(41);
       writeRawatan(row, item);
     }
-    for (const item of data[0][0].ikkRawatan) {
+    for (const item of data[0].ikkRawatan) {
       const row = worksheet.getRow(42);
       writeRawatan(row, item);
     }
-    for (const item of data[0][0].iweRawatan) {
+    for (const item of data[0].iweRawatan) {
       const row = worksheet.getRow(43);
       writeRawatan(row, item);
     }
-    for (const item of data[0][0].kpbMpbRawatan) {
+    for (const item of data[0].kpbMpbRawatan) {
       const row = worksheet.getRow(44);
       writeRawatan(row, item);
     }
 
     // op lain
-    for (const item of data[1][0].umumOplain) {
+    for (const item of data[0].umumOplain) {
       switch (item._id) {
         case 0:
           rowNumber = 20;
@@ -12253,47 +12561,47 @@ const makeKOM = async (payload) => {
       row.getCell(66).value += item.kesSelesai;
       row.getCell(67).value += item.xrayDiambil;
     }
-    for (const item of data[1][0].imOplain) {
+    for (const item of data[0].imOplain) {
       const row = worksheet.getRow(33);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[1][0].okuOplain) {
+    for (const item of data[0].okuOplain) {
       const row = worksheet.getRow(34);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[1][0].bwOplain) {
+    for (const item of data[0].bwOplain) {
       const row = worksheet.getRow(35);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[1][0].oapOplain) {
+    for (const item of data[0].oapOplain) {
       const row = worksheet.getRow(36);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[1][0].dmOplain) {
+    for (const item of data[0].dmOplain) {
       const row = worksheet.getRow(38);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[1][0].pkapOplain) {
+    for (const item of data[0].pkapOplain) {
       const row = worksheet.getRow(39);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[1][0].pprOplain) {
+    for (const item of data[0].pprOplain) {
       const row = worksheet.getRow(40);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[1][0].ppkpsOplain) {
+    for (const item of data[0].ppkpsOplain) {
       const row = worksheet.getRow(41);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[1][0].ikkOplain) {
+    for (const item of data[0].ikkOplain) {
       const row = worksheet.getRow(42);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[1][0].iweOplain) {
+    for (const item of data[0].iweOplain) {
       const row = worksheet.getRow(43);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[1][0].kpbMpbOplain) {
+    for (const item of data[0].kpbMpbOplain) {
       const row = worksheet.getRow(44);
       writeRawatan(row, item, 'opl');
     }
@@ -12358,7 +12666,7 @@ const makeKOM = async (payload) => {
 
     // isi data pemeriksaan
     for (let i = 0; i < 2; i++) {
-      const sekolahDM = dataDM[2][0].sekolahAll[0] || {};
+      const sekolahDM = dataDM[1][0].sekolahAll[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         const rowNumber = i === 0 ? 26 : 38;
@@ -12366,14 +12674,14 @@ const makeKOM = async (payload) => {
       }
     }
     for (let i = 0; i < 1; i++) {
-      const sekolahDM = dataDM[2][0].sekolahOku[0] || {};
+      const sekolahDM = dataDM[1][0].sekolahOku[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         updateDataSekolahPemeriksaan(sekolahDM, 36);
       }
     }
     for (let i = 0; i < 1; i++) {
-      const sekolahDM = dataDM[2][0].sekolahOap[0] || {};
+      const sekolahDM = dataDM[1][0].sekolahOap[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         updateDataSekolahPemeriksaan(sekolahDM, 36);
@@ -12382,7 +12690,7 @@ const makeKOM = async (payload) => {
 
     // isi data rawatan
     for (let i = 0; i < 2; i++) {
-      const sekolahDM = dataDM[3][0].sekolahAll[0] || {};
+      const sekolahDM = dataDM[2][0].sekolahAll[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         const rowNumber = i === 0 ? 26 : 38;
@@ -12390,14 +12698,14 @@ const makeKOM = async (payload) => {
       }
     }
     for (let i = 0; i < 1; i++) {
-      const sekolahDM = dataDM[3][0].sekolahOku[0] || {};
+      const sekolahDM = dataDM[2][0].sekolahOku[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         updateDataSekolahRawatan(sekolahDM, 36);
       }
     }
     for (let i = 0; i < 1; i++) {
-      const sekolahDM = dataDM[3][0].sekolahOap[0] || {};
+      const sekolahDM = dataDM[2][0].sekolahOap[0] || {};
 
       if (Object.values(sekolahDM).some((val) => val !== 0)) {
         updateDataSekolahRawatan(sekolahDM, 36);
