@@ -860,7 +860,12 @@ export default function FillableForm({
       setNoBayaran3('');
       setNoResit3('');
       setCatatan('');
-      setMyVasConsent(true);
+      setMyVasConsent(
+        import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV'
+          ? true
+          : false
+      );
       // kepp
       setKepp(false);
       setKedatanganKepp('');
@@ -931,9 +936,7 @@ export default function FillableForm({
         : 'lelaki';
     setTemujanji(true);
     setWaktuTemujanji(timeString);
-    (import.meta.env.VITE_ENV === 'UNSTABLE' ||
-      import.meta.env.VITE_ENV === 'DEV') &&
-      setMyVasIsTrue(true);
+    setMyVasIsTrue(true);
     setWaktuTemujanjiDT(moment(masaTemujanji).toDate());
     setJenisIc(jiMyvas);
     setIc(patientDataFromMyVas.resource.identifier[0].value);
