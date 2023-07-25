@@ -6445,7 +6445,7 @@ const makePGS203 = async (payload) => {
       row.getCell(62).value += item.kesSelesai;
     }
 
-    // sekolah
+    // rawatan sekolah
     for (const item of data[5][0].dataKPSKPB) {
       switch (item._id) {
         case 'prasekolah':
