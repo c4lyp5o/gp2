@@ -1286,7 +1286,7 @@ const getParamsPKAP = (payload) => {
 
 // operator lain punya hal kegunaan 206 207
 const getParamsOplainP1 = (payload) => {
-  const { negeri, daerah, klinik } = payload;
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const params = {
     statusReten: { $in: ['telah diisi', 'reten salah'] },
@@ -1306,6 +1306,12 @@ const getParamsOplainP1 = (payload) => {
 
   if (klinik !== 'all') {
     params.createdByKodFasiliti = klinik;
+  }
+
+  if (pilihanIndividu) {
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.createdByKodFasiliti;
   }
 
   return params;
