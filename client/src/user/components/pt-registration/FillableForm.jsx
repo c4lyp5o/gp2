@@ -120,7 +120,12 @@ export default function FillableForm({
   const [noBayaran3, setNoBayaran3] = useState('');
   const [noResit3, setNoResit3] = useState('');
   const [catatan, setCatatan] = useState('');
-  const [myVasConsent, setMyVasConsent] = useState(true);
+  const [myVasConsent, setMyVasConsent] = useState(
+    import.meta.env.VITE_ENV === 'UNSTABLE' ||
+      import.meta.env.VITE_ENV === 'DEV'
+      ? true
+      : false
+  );
 
   // kepp
   const [kepp, setKepp] = useState(false);
@@ -926,7 +931,9 @@ export default function FillableForm({
         : 'lelaki';
     setTemujanji(true);
     setWaktuTemujanji(timeString);
-    setMyVasIsTrue(true);
+    (import.meta.env.VITE_ENV === 'UNSTABLE' ||
+      import.meta.env.VITE_ENV === 'DEV') &&
+      setMyVasIsTrue(true);
     setWaktuTemujanjiDT(moment(masaTemujanji).toDate());
     setJenisIc(jiMyvas);
     setIc(patientDataFromMyVas.resource.identifier[0].value);
@@ -3624,29 +3631,33 @@ export default function FillableForm({
                     Tambah Data
                   </button>
                 )}
-                <span
-                  title='Kebenaran berkongsi maklumat MySejahtera'
-                  className='m-2 w-60 px-1.5 py-1 normal-case rounded transition-all flex flex-row items-center'
-                >
-                  <input
-                    type='checkbox'
-                    name='myvas-consent'
-                    id='myvas-consent'
-                    value='myvas-consent'
-                    checked={myVasConsent}
-                    onChange={() => {
-                      setMyVasConsent(!myVasConsent);
-                    }}
-                    className='mr-2 w-6 h-6 my-1'
-                  />
-                  <label
-                    htmlFor='myvas-consent'
-                    className='inline-flex text-xs text-left'
-                  >
-                    Pesakit bersetuju untuk berkongsi beberapa maklumat terpilih
-                    dengan aplikasi MySejahtera
-                  </label>
-                </span>
+                {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                  import.meta.env.VITE_ENV === 'DEV') &&
+                  jenisFasiliti === 'kp' && (
+                    <span
+                      title='Kebenaran berkongsi maklumat MySejahtera'
+                      className='m-2 w-60 px-1.5 py-1 normal-case rounded transition-all flex flex-row items-center'
+                    >
+                      <input
+                        type='checkbox'
+                        name='myvas-consent'
+                        id='myvas-consent'
+                        value='myvas-consent'
+                        checked={myVasConsent}
+                        onChange={() => {
+                          setMyVasConsent(!myVasConsent);
+                        }}
+                        className='mr-2 w-6 h-6 my-1'
+                      />
+                      <label
+                        htmlFor='myvas-consent'
+                        className='inline-flex text-xs text-left'
+                      >
+                        Pesakit bersetuju untuk berkongsi beberapa maklumat
+                        terpilih dengan aplikasi MySejahtera
+                      </label>
+                    </span>
+                  )}
               </div>
             </form>
             {showModalMyVas && (
