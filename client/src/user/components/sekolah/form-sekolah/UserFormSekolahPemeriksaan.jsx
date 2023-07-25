@@ -50,6 +50,8 @@ function UserFormSekolahPemeriksaan() {
   const [tidakHadirPemeriksaan, setTidakHadirPemeriksaan] = useState('');
   const [padamPemeriksaan, setPadamPemeriksaan] = useState(false);
   const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
+  const [adaCleftLip, setAdaCleftLip] = useState(false);
+  const [rujukCleftLip, setRujukCleftLip] = useState(false);
   const [yaTidakSediaAdaStatusDenture, setYaTidakSediaAdaStatusDenture] =
     useState('');
   const [separaPenuhAtasSediaAdaDenture, setSeparaPenuhAtasSediaAdaDenture] =
@@ -65,8 +67,6 @@ function UserFormSekolahPemeriksaan() {
   const [kebersihanMulutOralHygiene, setKebersihanMulutOralHygiene] =
     useState('');
   const [skorBpeOralHygiene, setSkorBpeOralHygiene] = useState('');
-  const [saringanKanserMulutOralHygiene, setSaringanKanserMulutOralHygiene] =
-    useState(false);
   const [skorGisMulutOralHygiene, setSkorGisMulutOralHygiene] = useState('');
   const [perluPenskaleranOralHygiene, setPerluPenskaleranOralHygiene] =
     useState(false);
@@ -81,15 +81,19 @@ function UserFormSekolahPemeriksaan() {
   const [sumDMFXDesidus, setSumDMFXDesidus] = useState(0);
   const [adaKekal, setAdaKekal] = useState(false);
   const [dAdaGigiKekal, setDAdaGigiKekal] = useState(0);
+  const [classID, setClassID] = useState(0);
+  const [classIID, setClassIID] = useState(0);
+  const [sumClassD, setSumClassD] = useState(0);
   const [mAdaGigiKekal, setMAdaGigiKekal] = useState(0);
   const [fAdaGigiKekal, setFAdaGigiKekal] = useState(0);
+  const [classIF, setClassIF] = useState(0);
+  const [classIIF, setClassIIF] = useState(0);
+  const [sumClassF, setSumClassF] = useState(0);
   const [eAdaGigiKekal, setEAdaGigiKekal] = useState(0);
   const [xAdaGigiKekal, setXAdaGigiKekal] = useState(0);
   const [sumDMFXKekal, setSumDMFXKekal] = useState(0);
   const [jumlahFaktorRisiko, setJumlahFaktorRisiko] = useState('');
   const [penandaRisikoKaries, setPenandaRisikoKaries] = useState('');
-  const [adaCleftLip, setAdaCleftLip] = useState(false);
-  const [rujukCleftLip, setRujukCleftLip] = useState(false);
   const [kecederaanGigiAnteriorTrauma, setKecederaanGigiAnteriorTrauma] =
     useState(false);
   const [tisuLembutTrauma, setTisuLembutTrauma] = useState(false);
@@ -125,36 +129,17 @@ function UserFormSekolahPemeriksaan() {
     setXBilanganFsDibuat3TahunLepasTerjadi,
   ] = useState(0);
   const [toothSurfaceLoss, setToothSurfaceLoss] = useState(false);
-  const [classID, setClassID] = useState(0);
-  const [classIID, setClassIID] = useState(0);
-  const [sumClassD, setSumClassD] = useState(0);
-  const [classIF, setClassIF] = useState(0);
-  const [classIIF, setClassIIF] = useState(0);
-  const [sumClassF, setSumClassF] = useState(0);
   const [baruJumlahGigiKekalPerluFs, setBaruJumlahGigiKekalPerluFs] =
     useState(0);
   const [sumPerluFs, setSumPerluFs] = useState(0);
-  const [baruJumlahMuridPerluFs, setBaruJumlahMuridPerluFs] = useState(false);
   const [baruJumlahGigiKekalPerluFv, setBaruJumlahGigiKekalPerluFv] =
     useState(0);
-  const [semulaJumlahGigiKekalPerluFv, setSemulaJumlahGigiKekalPerluFv] =
-    useState(0);
   const [sumPerluFv, setSumPerluFv] = useState(0);
-  const [baruJumlahMuridPerluFv, setBaruJumlahMuridPerluFv] = useState(false);
-  const [semulaJumlahMuridPerluFv, setSemulaJumlahMuridPerluFv] = useState(0);
   const [
     baruJumlahGigiKekalPerluPrrJenis1,
     setBaruJumlahGigiKekalPerluPrrJenis1,
   ] = useState(0);
-  const [
-    semulaJumlahGigiKekalPerluPrrJenis1,
-    setSemulaJumlahGigiKekalPerluPrrJenis1,
-  ] = useState(0);
   const [sumPerluPrr, setSumPerluPrr] = useState(0);
-  const [baruJumlahMuridPerluPrrJenis1, setBaruJumlahMuridPerluPrrJenis1] =
-    useState(false);
-  const [semulaJumlahMuridPerluPrrJenis1, setSemulaJumlahMuridPerluPrrJenis1] =
-    useState(0);
   const [
     yaTidakSilverDiamineFluoridePerluSapuan,
     setYaTidakSilverDiamineFluoridePerluSapuan,
@@ -210,16 +195,15 @@ function UserFormSekolahPemeriksaan() {
   const [sumGigiDesidus, setSumGigiDesidus] = useState(0);
   const [sumGigiKekal, setSumGigiKekal] = useState(0);
   const [sumGigiKekalE, setSumGigiKekalE] = useState(0);
+  //kotak
+  const [melaksanakanSaringanMerokok, setMelaksanakanSaringanMerokok] =
+    useState('');
+  const [statusM, setStatusM] = useState('');
+  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
+  const [bersediaDirujuk, setBersediaDirujuk] = useState('');
   //kes selesai
   const [kesSelesai, setKesSelesai] = useState('');
   const [kesSelesaiIcdas, setKesSelesaiIcdas] = useState('');
-  //kotak
-  const [statusM, setStatusM] = useState('');
-  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
-  const [melaksanakanSaringanMerokok, setMelaksanakanSaringanMerokok] =
-    useState('');
-  const [bersediaDirujuk, setBersediaDirujuk] = useState('');
-  const [noTelMuridKotak, setNoTelMuridKotak] = useState('');
 
   // datepicker issue
   const [tarikhPemeriksaanSemasaDP, setTarikhPemeriksaanSemasaDP] =
@@ -360,12 +344,12 @@ function UserFormSekolahPemeriksaan() {
   // calculate total perlu FV
   useEffect(() => {
     setSumPerluFv(parseInt(baruJumlahGigiKekalPerluFv));
-  }, [baruJumlahGigiKekalPerluFv, semulaJumlahGigiKekalPerluFv]);
+  }, [baruJumlahGigiKekalPerluFv]);
 
   // calculate total perlu PRR
   useEffect(() => {
     setSumPerluPrr(parseInt(baruJumlahGigiKekalPerluPrrJenis1));
-  }, [baruJumlahGigiKekalPerluPrrJenis1, semulaJumlahGigiKekalPerluPrrJenis1]);
+  }, [baruJumlahGigiKekalPerluPrrJenis1]);
 
   //calculate gigi desidus
   useEffect(() => {
@@ -428,14 +412,6 @@ function UserFormSekolahPemeriksaan() {
 
   //reset value
   useEffect(() => {
-    if (yaTidakSediaAdaStatusDenture === 'tidak-sedia-ada-status-denture') {
-      setSeparaPenuhAtasSediaAdaDenture('');
-      setSeparaPenuhBawahSediaAdaDenture('');
-    }
-    if (yaTidakPerluStatusDenture === 'tidak-perlu-status-denture') {
-      setSeparaPenuhAtasPerluDenture('');
-      setSeparaPenuhBawahPerluDenture('');
-    }
     if (!adaDesidus) {
       setDAdaGigiDesidus(0);
       setFAdaGigiDesidus(0);
@@ -448,43 +424,7 @@ function UserFormSekolahPemeriksaan() {
       setEAdaGigiKekal(0);
       setXAdaGigiKekal(0);
     }
-  }, [
-    yaTidakSediaAdaStatusDenture,
-    yaTidakPerluStatusDenture,
-    adaDesidus,
-    adaKekal,
-  ]);
-
-  //cond bila tidak ada gigi and reset value
-  // useEffect(() => {
-  //   if (yaTidakPesakitMempunyaiGigi === 'tidak-pesakit-mempunyai-gigi') {
-  //     setCondTiadaGigi(true);
-  //     setAdaKekal(false);
-  //     setDAdaGigiKekal(0);
-  //     setClassID(0);
-  //     setClassIID(0);
-  //     setMAdaGigiKekal(0);
-  //     setFAdaGigiKekal(0);
-  //     setClassIF(0);
-  //     setClassIIF(0);
-  //     setXAdaGigiKekal(0);
-  //     setEAdaGigiKekal(0);
-  //     setAdaDesidus(false);
-  //     setDAdaGigiDesidus(0);
-  //     setSmAdaGigiDesidus(0);
-  //     setFAdaGigiDesidus(0);
-  //     setXAdaGigiDesidus(0);
-  //   }
-  //   if (yaTidakPesakitMempunyaiGigi === 'ya-pesakit-mempunyai-gigi') {
-  //     setCondTiadaGigi(false);
-  //     setKebersihanMulutOralHygiene('');
-  //     setStatusPeriodontium('');
-  //     setSkorGisMulutOralHygiene('');
-  //     setSkorBpeOralHygiene('');
-  //     setPerluPenskaleranOralHygiene(false);
-  //     setJumlahFaktorRisiko('');
-  //   }
-  // }, [yaTidakPesakitMempunyaiGigi]);
+  }, [adaDesidus, adaKekal]);
 
   useEffect(() => {
     if (statusPeriodontium === 'gis-status-periodontium') {
@@ -562,6 +502,12 @@ function UserFormSekolahPemeriksaan() {
           setPenggunaanKPBMPB(
             data.personSekolahWithPopulate.pemeriksaanSekolah.penggunaanKPBMPB
           );
+          setAdaCleftLip(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.adaCleftLip
+          );
+          setRujukCleftLip(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.rujukCleftLip
+          );
           setYaTidakSediaAdaStatusDenture(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .yaTidakSediaAdaStatusDenture
@@ -592,10 +538,6 @@ function UserFormSekolahPemeriksaan() {
           );
           setSkorBpeOralHygiene(
             data.personSekolahWithPopulate.pemeriksaanSekolah.skorBpeOralHygiene
-          );
-          setSaringanKanserMulutOralHygiene(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .saringanKanserMulutOralHygiene
           );
           setSkorGisMulutOralHygiene(
             data.personSekolahWithPopulate.pemeriksaanSekolah
@@ -633,11 +575,19 @@ function UserFormSekolahPemeriksaan() {
           setDAdaGigiKekal(
             data.personSekolahWithPopulate.pemeriksaanSekolah.dAdaGigiKekal
           );
+          setClassID(data.personSekolahWithPopulate.pemeriksaanSekolah.classID);
+          setClassIID(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.classIID
+          );
           setMAdaGigiKekal(
             data.personSekolahWithPopulate.pemeriksaanSekolah.mAdaGigiKekal
           );
           setFAdaGigiKekal(
             data.personSekolahWithPopulate.pemeriksaanSekolah.fAdaGigiKekal
+          );
+          setClassIF(data.personSekolahWithPopulate.pemeriksaanSekolah.classIF);
+          setClassIIF(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.classIIF
           );
           setEAdaGigiKekal(
             data.personSekolahWithPopulate.pemeriksaanSekolah.eAdaGigiKekal
@@ -651,12 +601,6 @@ function UserFormSekolahPemeriksaan() {
           setPenandaRisikoKaries(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .penandaRisikoKaries
-          );
-          setAdaCleftLip(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.adaCleftLip
-          );
-          setRujukCleftLip(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.rujukCleftLip
           );
           setKecederaanGigiAnteriorTrauma(
             data.personSekolahWithPopulate.pemeriksaanSekolah
@@ -703,53 +647,17 @@ function UserFormSekolahPemeriksaan() {
           setToothSurfaceLoss(
             data.personSekolahWithPopulate.pemeriksaanSekolah.toothSurfaceLoss
           );
-          setClassID(data.personSekolahWithPopulate.pemeriksaanSekolah.classID);
-          setClassIID(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.classIID
-          );
-          setClassIF(data.personSekolahWithPopulate.pemeriksaanSekolah.classIF);
-          setClassIIF(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.classIIF
-          );
           setBaruJumlahGigiKekalPerluFs(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .baruJumlahGigiKekalPerluFs
-          );
-          setBaruJumlahMuridPerluFs(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .baruJumlahMuridPerluFs
           );
           setBaruJumlahGigiKekalPerluFv(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .baruJumlahGigiKekalPerluFv
           );
-          setSemulaJumlahGigiKekalPerluFv(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .semulaJumlahGigiKekalPerluFv
-          );
-          setBaruJumlahMuridPerluFv(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .baruJumlahMuridPerluFv
-          );
-          setSemulaJumlahMuridPerluFv(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .semulaJumlahMuridPerluFv
-          );
           setBaruJumlahGigiKekalPerluPrrJenis1(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .baruJumlahGigiKekalPerluPrrJenis1
-          );
-          setSemulaJumlahGigiKekalPerluPrrJenis1(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .semulaJumlahGigiKekalPerluPrrJenis1
-          );
-          setBaruJumlahMuridPerluPrrJenis1(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .baruJumlahMuridPerluPrrJenis1
-          );
-          setSemulaJumlahMuridPerluPrrJenis1(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .semulaJumlahMuridPerluPrrJenis1
           );
           setYaTidakSilverDiamineFluoridePerluSapuan(
             data.personSekolahWithPopulate.pemeriksaanSekolah
@@ -803,20 +711,17 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
           );
+          setMelaksanakanSaringanMerokok(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .melaksanakanSaringanMerokok
+          );
           setStatusM(data.personSekolahWithPopulate.pemeriksaanSekolah.statusM);
           setMenerimaNasihatRingkas(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .menerimaNasihatRingkas
           );
-          setMelaksanakanSaringanMerokok(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .melaksanakanSaringanMerokok
-          );
           setBersediaDirujuk(
             data.personSekolahWithPopulate.pemeriksaanSekolah.bersediaDirujuk
-          );
-          setNoTelMuridKotak(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.noTelMuridKotak
           );
           setKesSelesai(
             data.personSekolahWithPopulate.pemeriksaanSekolah.kesSelesai
@@ -1130,6 +1035,8 @@ function UserFormSekolahPemeriksaan() {
               tarikhPemeriksaanSemasa,
               menggunakanKPBMPB,
               penggunaanKPBMPB,
+              adaCleftLip,
+              rujukCleftLip,
               yaTidakSediaAdaStatusDenture,
               separaPenuhAtasSediaAdaDenture,
               separaPenuhBawahSediaAdaDenture,
@@ -1138,7 +1045,6 @@ function UserFormSekolahPemeriksaan() {
               separaPenuhBawahPerluDenture,
               kebersihanMulutOralHygiene,
               skorBpeOralHygiene,
-              saringanKanserMulutOralHygiene,
               skorGisMulutOralHygiene,
               perluPenskaleranOralHygiene,
               statusPeriodontium,
@@ -1150,14 +1056,16 @@ function UserFormSekolahPemeriksaan() {
               smAdaGigiDesidus,
               adaKekal,
               dAdaGigiKekal,
+              classID,
+              classIID,
               mAdaGigiKekal,
               fAdaGigiKekal,
+              classIF,
+              classIIF,
               eAdaGigiKekal,
               xAdaGigiKekal,
               jumlahFaktorRisiko,
               penandaRisikoKaries,
-              adaCleftLip,
-              rujukCleftLip,
               kecederaanGigiAnteriorTrauma,
               tisuLembutTrauma,
               tisuKerasTrauma,
@@ -1170,20 +1078,9 @@ function UserFormSekolahPemeriksaan() {
               eBilanganFsDibuat3TahunLepasTerjadi,
               xBilanganFsDibuat3TahunLepasTerjadi,
               toothSurfaceLoss,
-              classID,
-              classIID,
-              classIF,
-              classIIF,
               baruJumlahGigiKekalPerluFs,
-              baruJumlahMuridPerluFs,
               baruJumlahGigiKekalPerluFv,
-              semulaJumlahGigiKekalPerluFv,
-              baruJumlahMuridPerluFv,
-              semulaJumlahMuridPerluFv,
               baruJumlahGigiKekalPerluPrrJenis1,
-              semulaJumlahGigiKekalPerluPrrJenis1,
-              baruJumlahMuridPerluPrrJenis1,
-              semulaJumlahMuridPerluPrrJenis1,
               yaTidakSilverDiamineFluoridePerluSapuan,
               baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
               semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
@@ -1197,11 +1094,10 @@ function UserFormSekolahPemeriksaan() {
               semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
               baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
               semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+              melaksanakanSaringanMerokok,
               statusM,
               menerimaNasihatRingkas,
-              melaksanakanSaringanMerokok,
               bersediaDirujuk,
-              noTelMuridKotak,
               kesSelesai,
               kesSelesaiIcdas,
             },
@@ -2147,6 +2043,8 @@ function UserFormSekolahPemeriksaan() {
                                     yaTidakSediaAdaStatusDenture:
                                       e.target.value,
                                   });
+                                  setSeparaPenuhAtasSediaAdaDenture('');
+                                  setSeparaPenuhBawahSediaAdaDenture('');
                                 }}
                                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                               />
@@ -2360,6 +2258,8 @@ function UserFormSekolahPemeriksaan() {
                                     ...confirmData,
                                     yaTidakPerluStatusDenture: e.target.value,
                                   });
+                                  setSeparaPenuhAtasPerluDenture('');
+                                  setSeparaPenuhBawahPerluDenture('');
                                 }}
                                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                               />
@@ -3780,31 +3680,6 @@ function UserFormSekolahPemeriksaan() {
                             {sumGigiKekalE}
                           </span>
                         </div>
-                        {/* <div className='flex flex-row items-center pl-11 col-span-2'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='baru-jumlah-murid-perlu-fs'
-                            id='baru-jumlah-murid-perlu-fs'
-                            checked={baruJumlahMuridPerluFs}
-                            onChange={() => {
-                              setBaruJumlahMuridPerluFs(
-                                !baruJumlahMuridPerluFs
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahMuridPerluFs: !baruJumlahMuridPerluFs,
-                              });
-                            }}
-                            className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
-                          />
-                          <label
-                            htmlFor='baru-jumlah-murid-perlu-fs'
-                            className='text-sm font-m'
-                          >
-                            murid perlu pengapan fisur
-                          </label>
-                        </div> */}
                         <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
                           <input
                             disabled={isDisabled}
@@ -3857,31 +3732,6 @@ function UserFormSekolahPemeriksaan() {
                             {sumGigiKekalE}
                           </span>
                         </h4>
-                        {/* <div className='flex flex-row items-center pl-11 col-span-2 pb-2'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='baru-jumlah-murid-perlu-fv'
-                            id='baru-jumlah-murid-perlu-fv'
-                            checked={baruJumlahMuridPerluFv}
-                            onChange={() => {
-                              setBaruJumlahMuridPerluFv(
-                                !baruJumlahMuridPerluFv
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahMuridPerluFv: !baruJumlahMuridPerluFv,
-                              });
-                            }}
-                            className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
-                          />
-                          <label
-                            htmlFor='baru-jumlah-murid-perlu-fv'
-                            className='text-sm font-m'
-                          >
-                            murid perlu Sapuan Fluorida(FV)
-                          </label>
-                        </div> */}
                         <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
                           <input
                             disabled={isDisabled}
@@ -3932,32 +3782,6 @@ function UserFormSekolahPemeriksaan() {
                             {sumGigiKekalE}
                           </span>
                         </div>
-                        {/* <div className='flex flex-row items-center pl-11 col-span-2'>
-                          
-                          <label
-                            htmlFor='baru-jumlah-murid-perlu-prr-jenis-1'
-                            className='text-sm font-m'
-                          >
-                            murid perlu resin Pencegahan Jenis 1 (PRR Type I)
-                          </label><input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='baru-jumlah-murid-perlu-prr-jenis-1'
-                            id='baru-jumlah-murid-perlu-prr-jenis-1'
-                            checked={baruJumlahMuridPerluPrrJenis1}
-                            onChange={() => {
-                              setBaruJumlahMuridPerluPrrJenis1(
-                                !baruJumlahMuridPerluPrrJenis1
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahMuridPerluPrrJenis1:
-                                  !baruJumlahMuridPerluPrrJenis1,
-                              });
-                            }}
-                            className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
-                          />
-                        </div> */}
                         <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
                           <input
                             disabled={isDisabled}

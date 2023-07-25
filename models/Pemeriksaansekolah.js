@@ -58,6 +58,14 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       default: '',
     },
     // pemeriksaan -------------------------------------------------------
+    adaCleftLip: {
+      type: Boolean,
+      default: false,
+    },
+    rujukCleftLip: {
+      type: Boolean,
+      default: false,
+    },
     yaTidakSediaAdaStatusDenture: {
       type: String,
       default: '',
@@ -89,10 +97,6 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
     skorBpeOralHygiene: {
       type: String,
       default: '',
-    },
-    saringanKanserMulutOralHygiene: {
-      type: Boolean,
-      default: false,
     },
     skorGisMulutOralHygiene: {
       type: String,
@@ -143,12 +147,32 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    classID: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    classIID: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     mAdaGigiKekal: {
       type: Number,
       min: 0,
       default: 0,
     },
     fAdaGigiKekal: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    classIF: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    classIIF: {
       type: Number,
       min: 0,
       default: 0,
@@ -170,18 +194,6 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
     penandaRisikoKaries: {
       type: String,
       default: '',
-    },
-    adaCleftLip: {
-      type: Boolean,
-      default: false,
-    },
-    rujukCleftLip: {
-      type: Boolean,
-      default: false,
-    },
-    toothSurfaceLossTrauma: {
-      type: Boolean,
-      default: false,
     },
     kecederaanGigiAnteriorTrauma: {
       type: Boolean,
@@ -239,47 +251,8 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    classID: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    classIID: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    classIF: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    classIIF: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
     // perlu dibuat --------------------------------------------------------
     baruJumlahGigiKekalPerluFs: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    semulaJumlahGigiKekalPerluFs: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    jumlahGigiFsGagal: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    baruJumlahMuridPerluFs: {
-      type: Boolean,
-      default: false,
-    },
-    semulaJumlahMuridPerluFs: {
       type: Number,
       min: 0,
       default: 0,
@@ -289,39 +262,12 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    semulaJumlahGigiKekalPerluFv: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    baruJumlahMuridPerluFv: {
-      type: Boolean,
-      default: false,
-    },
-    semulaJumlahMuridPerluFv: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
     baruJumlahGigiKekalPerluPrrJenis1: {
       type: Number,
       min: 0,
       default: 0,
     },
-    semulaJumlahGigiKekalPerluPrrJenis1: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
-    baruJumlahMuridPerluPrrJenis1: {
-      type: Boolean,
-      default: false,
-    },
-    semulaJumlahMuridPerluPrrJenis1: {
-      type: Number,
-      min: 0,
-      default: 0,
-    },
+    // akan digunakan nanti
     yaTidakSilverDiamineFluoridePerluSapuan: {
       type: String,
       default: '',
@@ -386,6 +332,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    melaksanakanSaringanMerokok: {
+      type: String,
+      default: '',
+    },
     statusM: {
       type: String,
       default: '',
@@ -394,15 +344,7 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    melaksanakanSaringanMerokok: {
-      type: String,
-      default: '',
-    },
     bersediaDirujuk: {
-      type: String,
-      default: '',
-    },
-    noTelMuridKotak: {
       type: String,
       default: '',
     },
