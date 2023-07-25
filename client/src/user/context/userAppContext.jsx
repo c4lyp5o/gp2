@@ -485,6 +485,27 @@ function UserAppProvider({ children }) {
     setMyVasIdToken(null);
   };
 
+  const destroyMyVasSessionOnly = async () => {
+    try {
+      await axios.get('/api/v1/myvas/logout', {
+        headers: {
+          Authorization: `Bearer ${kaunterToken} ${
+            myVasToken ? myVasToken : ''
+          } ${myVasIdToken ? myVasIdToken : ''}`,
+        },
+      });
+      localStorage.removeItem('myVasToken');
+      localStorage.removeItem('myVasIdToken');
+      setMyVasToken(null);
+      setMyVasIdToken(null);
+    } catch (error) {
+      localStorage.removeItem('myVasToken');
+      localStorage.removeItem('myVasIdToken');
+      setMyVasToken(null);
+      setMyVasIdToken(null);
+    }
+  };
+
   return (
     <UserAppContext.Provider
       value={{
@@ -516,6 +537,7 @@ function UserAppProvider({ children }) {
         loginUser,
         loginKaunter,
         catchAxiosErrorAndLogout,
+        destroyMyVasSessionOnly,
         useParams,
         dateToday,
         dateYesterday,
