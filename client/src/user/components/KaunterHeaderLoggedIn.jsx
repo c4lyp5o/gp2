@@ -1,4 +1,5 @@
 import { FaUserCircle, FaFingerprint } from 'react-icons/fa';
+import { RiLoginCircleFill } from 'react-icons/ri';
 import { useEffect, useState, useRef } from 'react';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
@@ -6,7 +7,7 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 import { ConfirmModalForLogOut } from '../../admin/components/Confirmation';
 import CountdownTimer from '../../admin/context/countdownTimer';
 
-function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
+function KaunterHeaderLoggedIn({ namaKlinik, logOut, timer }) {
   const {
     kaunterToken,
     setKaunterToken,
@@ -34,6 +35,29 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
     };
   });
 
+  // function to decode jwt token for myVasToken
+  const decodeToken = (token) => {
+    if (!token) {
+      return null;
+    }
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const decodedToken = decodeURIComponent(
+      window
+        .atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
+    return JSON.parse(decodedToken);
+  };
+
+  // decode myVasToken and get the email
+  const decodedToken = decodeToken(myVasToken);
+  const myVasEmail = decodedToken && decodedToken.email;
+
   // refetch identity & datetime on tab focus
   useEffect(() => {
     const refetchIdentityDatetime = () => {
@@ -57,7 +81,7 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
   }, []);
 
   return (
-    <ConfirmModalForLogOut callbackFunction={logout}>
+    <ConfirmModalForLogOut callbackFunction={logOut}>
       {(confirm) => (
         <div className='absolute top-10 right-5 ' ref={profilRef}>
           <div className='hidden lg:flex w-auto h-10 items-center justify-center capitalize text-kaunterWhite text-xs'>
@@ -69,13 +93,17 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
               {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
                 import.meta.env.VITE_ENV === 'DEV') &&
               myVasToken ? (
-                <div className='text-user7 font-bold'>MyVAS</div>
+                <div className='text-userWhite flex items-center justify-end relative normal-case text-sm'>
+                  <b className='mr-1'>MyVas : </b> {myVasEmail}
+                  <RiLoginCircleFill className='text-user7 text-lg animate-ping absolute right-1 top-1 text-opacity-50' />
+                  <RiLoginCircleFill className='text-lg text-user7 mt-1' />
+                </div>
               ) : null}
             </div>
             <button
               type='button'
               className='mt-5 mb-5 p-1 text-user2 bg-kaunter3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-kaunter4 transition-all'
-              onClick={confirm(logout)}
+              onClick={confirm(logOut)}
               data-cy='logout-pendaftaran'
             >
               <FaFingerprint className='inline-flex mr-1' />
@@ -99,11 +127,18 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
                   <b>pendaftaran : </b>
                   {namaKlinik}
                 </p>
+                {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                  import.meta.env.VITE_ENV === 'DEV') &&
+                myVasToken ? (
+                  <div className='flex flex-col text-sm relative normal-case'>
+                    <b className='mr-1'>MyVas : </b> {myVasEmail}
+                  </div>
+                ) : null}
               </div>
               <button
                 type='button'
                 className='my-2 p-1 text-user2 bg-kaunter3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-kaunter4 transition-all'
-                onClick={confirm(logout)}
+                onClick={confirm(logOut)}
               >
                 <FaFingerprint className='m-1 inline-flex' />
                 LOG KELUAR

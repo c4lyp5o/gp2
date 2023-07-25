@@ -22,6 +22,7 @@ function KaunterAfterLogin() {
     myVasIdToken,
     navigate,
     catchAxiosErrorAndLogout,
+    destroyMyVasSessionOnly,
     refetchDateTime,
     setRefetchDateTime,
     ToastContainer,
@@ -45,33 +46,39 @@ function KaunterAfterLogin() {
 
   const handleSubmitMyVas = async (identifier, timeslot) => {
     setQueryingMyVas(true);
-    const config = {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${kaunterToken} ${myVasToken ? myVasToken : ''}`,
-      },
-    };
-    await axios
-      .get(`/api/v1/myvas/patient-details?identifier=${identifier}`, config)
-      .then((res) => {
-        if (
-          res &&
-          res.data.next_status &&
-          res.data.next_status >= 400 &&
-          res.data.next_status <= 599
-        ) {
-          if (res.data.redirect_uri) {
-            window.location.href = res.data.redirect_uri;
-            return;
-          }
+    try {
+      const response = await axios.get(
+        `/api/v1/myvas/patient-details?identifier=${identifier}`,
+        {
+          headers: {
+            Authorization: `Bearer ${kaunterToken} ${
+              myVasToken ? myVasToken : ''
+            }`,
+          },
         }
-        toast.success('Pesakit berjaya ditarik', { autoClose: 2000 });
-        const patientData = res.data.entry[0];
-        setPatientDataFromMyVas(patientData);
-        setMasaTemujanji(timeslot);
-        setDariMyVas(true);
-        setQueryingMyVas(false);
-      });
+      );
+      if (
+        response &&
+        response.data.next_status &&
+        response.data.next_status >= 400 &&
+        response.data.next_status <= 599
+      ) {
+        if (response.data.redirect_uri) {
+          window.location.href = response.data.redirect_uri;
+          return;
+        }
+      }
+      setPatientDataFromMyVas(response.data.entry[0]);
+      setMasaTemujanji(timeslot);
+      setDariMyVas(true);
+      setQueryingMyVas(false);
+    } catch (error) {
+      toast.error('Log masuk ke MyVAS gagal');
+      setDariMyVas(false);
+      setQueryingMyVas(false);
+      destroyMyVasSessionOnly();
+      navigate('/pendaftaran/daftar/kp');
+    }
   };
 
   const logOutNotiSystem = () => {
@@ -102,7 +109,7 @@ function KaunterAfterLogin() {
     }, 1000 * 60 * (parseInt(import.meta.env.VITE_LOGOUT_TIME_PENDAFTARAN) / 2));
 
     const kickerNumber = setTimeout(() => {
-      logout();
+      logOut();
     }, 1000 * 60 * parseInt(import.meta.env.VITE_LOGOUT_TIME_PENDAFTARAN));
 
     setKickerNoti(kickerNotiNumber);
@@ -117,19 +124,17 @@ function KaunterAfterLogin() {
     setTimer(real);
   };
 
-  const logout = async () => {
+  const logOut = async () => {
     clearTimeout(kicker);
     clearTimeout(kickerNoti);
-    const config = {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${kaunterToken} ${
-          myVasToken ? myVasToken : ''
-        } ${myVasIdToken ? myVasIdToken : ''}`,
-      },
-    };
     try {
-      await axios.get('/api/v1/myvas/logout', config);
+      await axios.get('/api/v1/myvas/logout', {
+        headers: {
+          Authorization: `Bearer ${kaunterToken} ${
+            myVasToken ? myVasToken : ''
+          } ${myVasIdToken ? myVasIdToken : ''}`,
+        },
+      });
       catchAxiosErrorAndLogout();
       navigate('/pendaftaran');
     } catch (error) {
@@ -169,7 +174,7 @@ function KaunterAfterLogin() {
       <KaunterHeaderLoggedIn
         namaKlinik={createdByKp}
         timer={timer}
-        logout={logout}
+        logOut={logOut}
         kickerNumber={kicker}
         kickerNotiNumber={kickerNoti}
       />
