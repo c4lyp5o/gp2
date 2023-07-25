@@ -1285,7 +1285,32 @@ const getParamsPKAP = (payload) => {
 };
 
 // operator lain punya hal kegunaan 206 207
-const getParamsOperatorLain = [
+const getParamsOplainP1 = (payload) => {
+  const { negeri, daerah, klinik } = payload;
+
+  const params = {
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
+    deleted: false,
+    tarikhKedatangan: dateModifier(payload),
+    statusKehadiran: false,
+    oncall: { $in: [false, null] },
+  };
+
+  if (negeri !== 'all') {
+    params.createdByNegeri = negeri;
+  }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = daerah;
+  }
+
+  if (klinik !== 'all') {
+    params.createdByKodFasiliti = klinik;
+  }
+
+  return params;
+};
+const getParamsOplainP2 = [
   {
     $match: {
       rawatanDibuatOperatorLain: true,
@@ -1392,7 +1417,8 @@ module.exports = {
   getParamsUTCRTC,
   getParamsPKAP,
   // misc
-  getParamsOperatorLain,
+  getParamsOplainP1,
+  getParamsOplainP2,
   placeModifier,
   dateModifier,
 };

@@ -1,7 +1,7 @@
 const {
   ultimateCutoff,
   getParamsTOD,
-  getParamsOperatorLain,
+  getParamsOplainP2,
 } = require('./countHelperParams');
 
 // the mother of all pipeline sekolah
@@ -2147,7 +2147,7 @@ const pipelineTod = (payload) => {
               },
             },
           },
-          ...getParamsOperatorLain,
+          ...getParamsOplainP2,
           groupBuTod,
         ],
         opLain_tadika: [
@@ -2161,7 +2161,7 @@ const pipelineTod = (payload) => {
               },
             },
           },
-          ...getParamsOperatorLain,
+          ...getParamsOplainP2,
           groupBuTod,
         ],
         opLain_kkia: [
@@ -2171,7 +2171,7 @@ const pipelineTod = (payload) => {
               jenisFasiliti: 'kk-kd',
             },
           },
-          ...getParamsOperatorLain,
+          ...getParamsOplainP2,
           groupBuTod,
         ],
         opLain_op: [
@@ -2181,7 +2181,7 @@ const pipelineTod = (payload) => {
               jenisFasiliti: 'kp',
             },
           },
-          ...getParamsOperatorLain,
+          ...getParamsOplainP2,
           groupBuTod,
         ],
         opLain_outreach: [
@@ -2191,7 +2191,7 @@ const pipelineTod = (payload) => {
               jenisFasiliti: 'projek-komuniti-lain',
             },
           },
-          ...getParamsOperatorLain,
+          ...getParamsOplainP2,
           groupBuTod,
         ],
       },
@@ -6250,6 +6250,17 @@ const groupPemeriksaanBiasa = {
             },
             { $ne: ['$engganBpeImplan', true] },
           ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  adaTSL: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$toothSurfaceLossTraumaPemeriksaanUmum', true],
         },
         1,
         0,
