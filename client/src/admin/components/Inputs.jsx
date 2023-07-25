@@ -748,6 +748,8 @@ export function InputKlinik(props) {
                     required
                     className='form-checkbox text-user3'
                     type='radio'
+                    id='role'
+                    name='perananKlinikPergigian'
                     value='kepp'
                     onChange={(e) =>
                       props.setRole(e.target.value.toLowerCase())
@@ -763,6 +765,8 @@ export function InputKlinik(props) {
                     required
                     className='form-checkbox text-user2'
                     type='radio'
+                    id='role'
+                    name='perananKlinikPergigian'
                     value='utc'
                     onChange={(e) =>
                       props.setRole(e.target.value.toLowerCase())
@@ -778,6 +782,8 @@ export function InputKlinik(props) {
                     required
                     className='form-checkbox text-user2'
                     type='radio'
+                    id='role'
+                    name='perananKlinikPergigian'
                     value='rtc'
                     onChange={(e) => props.setRole(e.target.value)}
                   />
@@ -791,6 +797,8 @@ export function InputKlinik(props) {
                     required
                     className='form-checkbox text-user2'
                     type='radio'
+                    id='role'
+                    name='perananKlinikPergigian'
                     value='klinik'
                     onChange={(e) => props.setRole(e.target.value)}
                   />
@@ -812,6 +820,8 @@ export function InputKlinik(props) {
                     required
                     className='form-checkbox text-user3'
                     type='radio'
+                    id='statusactive'
+                    name='statusKp'
                     value='active'
                     onChange={(e) =>
                       props.setStatusPerkhidmatan(e.target.value)
@@ -827,6 +837,8 @@ export function InputKlinik(props) {
                     required
                     className='form-checkbox text-user2'
                     type='radio'
+                    id='statusinactive'
+                    name='statusKp'
                     value='non-active'
                     onChange={(e) =>
                       props.setStatusPerkhidmatan(e.target.value)
@@ -957,6 +969,8 @@ export function InputKkiakd(props) {
                     required
                     className='form-checkbox text-user3'
                     type='radio'
+                    id='statusactive'
+                    name='status'
                     value='active'
                     onChange={(e) =>
                       props.setStatusPerkhidmatan(e.target.value)
@@ -972,6 +986,8 @@ export function InputKkiakd(props) {
                     required
                     className='form-checkbox text-user2'
                     type='radio'
+                    id='statusinactive'
+                    name='status'
                     value='non-active'
                     onChange={(e) =>
                       props.setStatusPerkhidmatan(e.target.value)
@@ -2447,7 +2463,8 @@ export function InputEditKkiakd(props) {
                         : false
                     }
                     type='radio'
-                    name='statusAktif'
+                    id='statusactive'
+                    name='status'
                     value='active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -2469,7 +2486,8 @@ export function InputEditKkiakd(props) {
                         : false
                     }
                     type='radio'
-                    name='statusTidakAktif'
+                    id='statusinactive'
+                    name='status'
                     value='non-active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -2961,7 +2979,8 @@ export function InputEditSR(props) {
                         : false
                     }
                     type='radio'
-                    name='statusAktif'
+                    id='statusactive'
+                    name='status'
                     value='active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -2983,7 +3002,8 @@ export function InputEditSR(props) {
                         : false
                     }
                     type='radio'
-                    name='statusTidakAktif'
+                    id='statusinactive'
+                    name='status'
                     value='non-active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -3240,7 +3260,8 @@ export function InputEditSM(props) {
                         : false
                     }
                     type='radio'
-                    name='statusAktif'
+                    id='statusactive'
+                    name='status'
                     value='active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -3262,7 +3283,8 @@ export function InputEditSM(props) {
                         : false
                     }
                     type='radio'
-                    name='statusTidakAktif'
+                    id='statusinactive'
+                    name='status'
                     value='non-active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -3370,7 +3392,8 @@ export function InputEditKPBMPB(props) {
                         : false
                     }
                     type='radio'
-                    name='statusAktif'
+                    id='statusactive'
+                    name='status'
                     value='active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -3392,7 +3415,8 @@ export function InputEditKPBMPB(props) {
                         : false
                     }
                     type='radio'
-                    name='statusTidakAktif'
+                    id='statusinactive'
+                    name='status'
                     value='non-active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -3526,7 +3550,8 @@ export function InputEditTastad(props) {
                         : false
                     }
                     type='radio'
-                    name='statusAktif'
+                    id='statusactive'
+                    name='statusAktifTidakAktif'
                     value='active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -3549,7 +3574,8 @@ export function InputEditTastad(props) {
                         : false
                     }
                     type='radio'
-                    name='statusTidakAktif'
+                    id='statusinactive'
+                    name='statusAktifTidakAktif'
                     value='non-active'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -3863,8 +3889,11 @@ export function InputEditEvent(props) {
                   const selectedKlinik = props.klinik.find(
                     (k) => k.kodFasiliti === e.target.value
                   );
-                  props.setKp(selectedKlinik.kp);
-                  props.setKodFasiliti(selectedKlinik.kodFasiliti);
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    createdByKp: selectedKlinik.kp,
+                    createdByKodFasiliti: selectedKlinik.kodFasiliti,
+                  });
                 }}
                 className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
               >

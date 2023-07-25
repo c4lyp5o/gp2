@@ -6,10 +6,7 @@ const app = express();
 const path = require('path');
 const { logger } = require('./logs/logger');
 
-// cron job
-// const startETL = require('./jobs/ETL');
-
-// security package
+// security packages
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 
@@ -45,6 +42,9 @@ const kohortFMR = require('./routes/kohortFMR');
 // kaunter
 const kaunter = require('./routes/kaunter');
 
+// MyVAS import
+const myVas = require('./routes/myVas');
+
 // admin import
 const adminAPI = require('./routes/adminAPI');
 
@@ -73,16 +73,27 @@ const root = path.join(__dirname, 'client', 'dist');
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
 
-// for use in deployment
-app.use(express.static(root));
-
-app.use(express.json({ limit: '50mb' }));
-app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    strictTransportSecurity: false,
+    xPoweredBy: false,
+  })
+);
+app.use(async function (req, res, next) {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+});
 app.use(
   mongoSanitize({
     replaceWith: '_',
   })
 );
+app.use(express.json({ limit: '50mb' }));
+
+// for use in deployment
+app.use(express.static(root));
 
 // getting date & time from the server because it shouldn't rely on the client to have correct date & time
 app.use('/api/v1/getdate', getdate);
@@ -145,6 +156,9 @@ app.use('/api/v1/kohort/fmr', authCheck, kohortFMR);
 // kaunter route
 app.use('/api/v1/kaunter', authCheck, kaunter);
 
+// MyVAS route
+app.use('/api/v1/myvas', myVas);
+
 // admin route
 app.use('/api/v1/superadmin', adminAPI);
 
@@ -197,11 +211,3 @@ const start = async () => {
 };
 
 start();
-// .then(() => {
-//   if (process.env.BUILD_ENV === 'production') {
-//     startETL();
-//     logger.info(
-//       '[server] Server has started, starting ETL... Warp drives engaged!'
-//     );
-//   }
-// });

@@ -141,6 +141,7 @@ export default function PatientData({
   showPilihanProgram,
   setShowPilihanProgram,
   kp,
+  queryingMyVas,
 }) {
   const {
     kaunterToken,
@@ -319,9 +320,6 @@ export default function PatientData({
       setIsLoading(false);
     } catch (error) {
       console.log(error);
-      // toast.error(
-      //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-patientdata-reloadData'
-      // );
     }
   };
 
@@ -336,7 +334,17 @@ export default function PatientData({
     defaultTimer,
   };
 
-  if (!showForm && !showPilihanProgram) {
+  if (queryingMyVas) {
+    return (
+      <div className='mt-20'>
+        <h1 className='animate-pulse text-user1 font-bold text-4xl'>
+          Sedang Mengambil Data Pesakit MyVAS....
+        </h1>
+      </div>
+    );
+  }
+
+  if (!showForm && !showPilihanProgram && !queryingMyVas) {
     return (
       <>
         <div className='py-3'>

@@ -2220,6 +2220,7 @@ export default function Pemeriksaan(props) {
                           className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         >
                           <option value=''></option>
+                          <option value='tiada'>- (Tidak Berkaitan)</option>
                           <option value='0'>0</option>
                           <option value='1'>1</option>
                           <option value='2'>2</option>
@@ -2354,131 +2355,137 @@ export default function Pemeriksaan(props) {
                 {props.statusKehadiran === false &&
                 props.singlePersonUmum.umur >= 15 /*&&
                 props.singlePersonUmum.jenisProgram !== 'incremental' */ ? (
-                  <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  <article className='grid grid-cols-1 gap-3 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                       Pengurusan Penyakit dan kondisi periodontium serta
                       peri-implan pergigian
                     </h4>
-                    <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
-                      <label
-                        htmlFor='punca-rujukan'
-                        className='text-left justify-start items-center text-sm pl-3'
-                      >
-                        pesakit mempunyai rujukan T2DM (
-                        <i> Type II Diabetes Mellitus</i> ) ?
-                        {props.singlePersonUmum.kedatangan ===
-                          'baru-kedatangan' && (
-                          <span className='text-user6'>*</span>
-                        )}
-                      </label>
-                      <select
-                        disabled={isDisabled}
-                        required={
-                          props.singlePersonUmum.kedatangan ===
-                          'baru-kedatangan'
-                            ? true
-                            : false
-                        }
-                        name='punca-rujukan'
-                        id='punca-rujukan'
-                        value={props.puncaRujukan}
-                        onChange={(e) => {
-                          props.setPuncaRujukan(e.target.value);
-                        }}
-                        className='outline outline-1 outline-userBlack w-full text-sm font-m'
-                      >
-                        <option value=''>Pilih</option>
-                        <option value='klinik-kesihatan'>
-                          Ya Dari Klinik Kesihatan
-                        </option>
-                        <option value='lain-lain'>
-                          Ya Dari Selain Klinik Kesihatan
-                        </option>
-                        <option value='tiada'>Tiada</option>
-                      </select>
-                      <label
-                        htmlFor='faktor-risiko-bpe'
-                        className='text-left flex justify-start items-start text-sm pl-3'
-                      >
-                        Pesakit Mempunyai Faktor Risiko
-                      </label>
-                      <div>
-                        <div className='flex flex-col'>
-                          <div className='flex flex-row items-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='checkbox'
-                              name='diabetes-faktor-risiko-bpe'
-                              id='diabetes-faktor-risiko-bpe'
-                              value='diabetes-faktor-risiko-bpe'
-                              checked={
-                                props.diabetesFaktorRisikoBpe ? true : false
-                              }
-                              onChange={() => {
-                                props.setDiabetesFaktorRisikoBpe(
-                                  !props.diabetesFaktorRisikoBpe
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='diabetes-faktor-risiko-bpe'
-                              className='m-1 text-sm font-m'
-                            >
-                              Diabetes
-                            </label>
-                          </div>
-                          <div className='flex flex-row items-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='checkbox'
-                              name='perokok-faktor-risiko-bpe'
-                              id='perokok-faktor-risiko-bpe'
-                              value='perokok-faktor-risiko-bpe'
-                              checked={
-                                props.perokokFaktorRisikoBpe ? true : false
-                              }
-                              onChange={() => {
-                                props.setPerokokFaktorRisikoBpe(
-                                  !props.perokokFaktorRisikoBpe
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='perokok-faktor-risiko-bpe'
-                              className='m-1 text-sm font-m'
-                            >
-                              Perokok
-                            </label>
-                          </div>
-                          <div className='flex flex-row items-center'>
-                            <input
-                              disabled={isDisabled}
-                              type='checkbox'
-                              name='lain-lain-faktor-risiko-bpe'
-                              id='lain-lain-faktor-risiko-bpe'
-                              value='lain-lain-faktor-risiko-bpe'
-                              checked={
-                                props.lainLainFaktorRisikoBpe ? true : false
-                              }
-                              onChange={() => {
-                                props.setLainLainFaktorRisikoBpe(
-                                  !props.lainLainFaktorRisikoBpe
-                                );
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='lain-lain-faktor-risiko-bpe'
-                              className='m-1 text-sm font-m'
-                            >
-                              Lain-lain
-                              <FaInfoCircle
-                                className='ml-2 text-xl text-userBlack inline-flex'
-                                title='contohnya seperti hormone-related (Eg: pregnancy), penyakit kardiovaskular, penyakit respiratori seperti pneumonia, stres, osteoporosis, rheumatoid arthritis, obesiti, dementia dan chronic kidney disease.'
+                    <article className='grid grid-cols-2  gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
+                      <div className='px-2 relative'>
+                        <label
+                          htmlFor='punca-rujukan'
+                          className='text-left flex justify-start whitespace-pre-wrap text-sm'
+                        >
+                          <span>
+                            pesakit mempunyai rujukan T2DM (
+                            <i> Type II Diabetes Mellitus</i> ) ?
+                            {props.singlePersonUmum.kedatangan ===
+                              'baru-kedatangan' && (
+                              <span className='text-user6 font-bold'>*</span>
+                            )}
+                          </span>
+                        </label>
+                        <select
+                          disabled={isDisabled}
+                          required={
+                            props.singlePersonUmum.kedatangan ===
+                            'baru-kedatangan'
+                              ? true
+                              : false
+                          }
+                          name='punca-rujukan'
+                          id='punca-rujukan'
+                          value={props.puncaRujukan}
+                          onChange={(e) => {
+                            props.setPuncaRujukan(e.target.value);
+                          }}
+                          className='outline outline-1 outline-userBlack w-full text-sm font-m px-2 py-1 my-1'
+                        >
+                          <option value=''>Pilih</option>
+                          <option value='klinik-kesihatan'>
+                            Ya Dari Klinik Kesihatan
+                          </option>
+                          <option value='lain-lain'>
+                            Ya Dari Selain Klinik Kesihatan
+                          </option>
+                          <option value='tiada'>Tiada</option>
+                        </select>
+                      </div>
+                      <div className='px-2'>
+                        <label
+                          htmlFor='faktor-risiko-bpe'
+                          className='text-left flex justify-start items-start text-sm'
+                        >
+                          Pesakit Mempunyai Faktor Risiko
+                        </label>
+                        <div>
+                          <div className='flex flex-col'>
+                            <div className='flex flex-row items-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='checkbox'
+                                name='diabetes-faktor-risiko-bpe'
+                                id='diabetes-faktor-risiko-bpe'
+                                value='diabetes-faktor-risiko-bpe'
+                                checked={
+                                  props.diabetesFaktorRisikoBpe ? true : false
+                                }
+                                onChange={() => {
+                                  props.setDiabetesFaktorRisikoBpe(
+                                    !props.diabetesFaktorRisikoBpe
+                                  );
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                               />
-                            </label>
+                              <label
+                                htmlFor='diabetes-faktor-risiko-bpe'
+                                className='m-1 text-sm font-m'
+                              >
+                                Diabetes
+                              </label>
+                            </div>
+                            <div className='flex flex-row items-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='checkbox'
+                                name='perokok-faktor-risiko-bpe'
+                                id='perokok-faktor-risiko-bpe'
+                                value='perokok-faktor-risiko-bpe'
+                                checked={
+                                  props.perokokFaktorRisikoBpe ? true : false
+                                }
+                                onChange={() => {
+                                  props.setPerokokFaktorRisikoBpe(
+                                    !props.perokokFaktorRisikoBpe
+                                  );
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='perokok-faktor-risiko-bpe'
+                                className='m-1 text-sm font-m'
+                              >
+                                Perokok
+                              </label>
+                            </div>
+                            <div className='flex flex-row items-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='checkbox'
+                                name='lain-lain-faktor-risiko-bpe'
+                                id='lain-lain-faktor-risiko-bpe'
+                                value='lain-lain-faktor-risiko-bpe'
+                                checked={
+                                  props.lainLainFaktorRisikoBpe ? true : false
+                                }
+                                onChange={() => {
+                                  props.setLainLainFaktorRisikoBpe(
+                                    !props.lainLainFaktorRisikoBpe
+                                  );
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='lain-lain-faktor-risiko-bpe'
+                                className='m-1 text-sm font-m'
+                              >
+                                Lain-lain
+                                <FaInfoCircle
+                                  className='ml-2 text-xl text-userBlack inline-flex'
+                                  title='contohnya seperti hormone-related (Eg: pregnancy), penyakit kardiovaskular, penyakit respiratori seperti pneumonia, stres, osteoporosis, rheumatoid arthritis, obesiti, dementia dan chronic kidney disease.'
+                                />
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>

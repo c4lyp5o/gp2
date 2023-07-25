@@ -19,6 +19,9 @@ const storageFasilitiRelief = localStorage.getItem('fasilitiRelief');
 
 const storageKaunterToken = localStorage.getItem('kaunterToken');
 
+const storageMyVasToken = localStorage.getItem('myVasToken');
+const storageMyVasIdToken = localStorage.getItem('myVasIdToken');
+
 // format 24 hour time to 12 hour
 function formatTime(timeString) {
   const [hourString, minute] = timeString.split(':');
@@ -121,8 +124,10 @@ const percentageCalc = (numerator, denominator) => {
   if (numerator === 0 && denominator === 0) {
     return 0;
   }
-  // one decimal place
-  return Math.round((numerator / denominator) * 1000) / 10;
+  // two decimal place
+  const numberLong = (numerator / denominator) * 100;
+  const twoDecimalPlace = numberLong.toFixed(2);
+  return twoDecimalPlace;
 };
 
 // wip ----------
@@ -311,6 +316,7 @@ function UserAppProvider({ children }) {
   const [datePastTwoDays, setDatePastTwoDays] = useState('');
   const [refetchDateTime, setRefetchDateTime] = useState(false);
 
+  // pengguna
   const [userToken, setUserToken] = useState(storageUserToken);
   const [username, setUsername] = useState(storageUsername);
   const [userinfo, setUserinfo] = useState(JSON.parse(storageUserinfo));
@@ -319,7 +325,12 @@ function UserAppProvider({ children }) {
   );
   const [fasilitiRelief, setFasilitiRelief] = useState(storageFasilitiRelief);
 
+  // pendaftaran
   const [kaunterToken, setKaunterToken] = useState(storageKaunterToken);
+
+  // MyVAS
+  const [myVasToken, setMyVasToken] = useState(storageMyVasToken);
+  const [myVasIdToken, setMyVasIdToken] = useState(storageMyVasIdToken);
 
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
   const [isLoginError, setIsLoginError] = useState(false);
@@ -462,12 +473,37 @@ function UserAppProvider({ children }) {
     localStorage.removeItem('reliefUserToken');
     localStorage.removeItem('fasilitiRelief');
     localStorage.removeItem('kaunterToken');
+    localStorage.removeItem('myVasToken');
+    localStorage.removeItem('myVasIdToken');
     setUserToken(null);
     setUsername(null);
     setUserinfo(null);
     setReliefUserToken(null);
     setFasilitiRelief(null);
     setKaunterToken(null);
+    setMyVasToken(null);
+    setMyVasIdToken(null);
+  };
+
+  const destroyMyVasSessionOnly = async () => {
+    try {
+      await axios.get('/api/v1/myvas/logout', {
+        headers: {
+          Authorization: `Bearer ${kaunterToken} ${
+            myVasToken ? myVasToken : ''
+          } ${myVasIdToken ? myVasIdToken : ''}`,
+        },
+      });
+      localStorage.removeItem('myVasToken');
+      localStorage.removeItem('myVasIdToken');
+      setMyVasToken(null);
+      setMyVasIdToken(null);
+    } catch (error) {
+      localStorage.removeItem('myVasToken');
+      localStorage.removeItem('myVasIdToken');
+      setMyVasToken(null);
+      setMyVasIdToken(null);
+    }
   };
 
   return (
@@ -485,6 +521,10 @@ function UserAppProvider({ children }) {
         setFasilitiRelief,
         kaunterToken,
         setKaunterToken,
+        myVasToken,
+        setMyVasToken,
+        myVasIdToken,
+        setMyVasIdToken,
         loginErrorMessage,
         isLoginError,
         displayLoginForm,
@@ -497,6 +537,7 @@ function UserAppProvider({ children }) {
         loginUser,
         loginKaunter,
         catchAxiosErrorAndLogout,
+        destroyMyVasSessionOnly,
         useParams,
         dateToday,
         dateYesterday,
