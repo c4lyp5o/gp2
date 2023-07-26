@@ -45,7 +45,7 @@ export default function MyVasModalConfirm({
                 className={`${
                   jenisIc
                     ? 'border-user1 focus:ring-1 focus:ring-user1'
-                    : 'border-user9 focus:ring-1 focus:ring-user9'
+                    : 'border-user9 focus:ring-1 focus:ring-user9 bg-user9 bg-opacity-10'
                 } appearance-none text-sm w-full px-2 py-1 text-user1 border rounded-lg shadow-sm focus:outline-none  focus:border-transparent`}
                 value={jenisIc}
                 onChange={(e) => {
@@ -67,7 +67,7 @@ export default function MyVasModalConfirm({
             <div className='relative'>
               <label
                 htmlFor='noIc'
-                className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                className='text-sm text-left text-user1 flex rounded-md'
               >
                 No. Kad Pengenalan
               </label>
@@ -77,7 +77,7 @@ export default function MyVasModalConfirm({
                 name='noIc'
                 id='noIc'
                 placeholder=' '
-                className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent bg-user1 bg-opacity-10'
                 value={patientDataFromMyVas.resource.identifier[0].value}
               />
             </div>
@@ -94,7 +94,7 @@ export default function MyVasModalConfirm({
                 name='nama'
                 id='nama'
                 placeholder=' '
-                className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent bg-user1 bg-opacity-10'
                 value={patientDataFromMyVas.resource.name[0].given[0]}
               />
             </div>
@@ -108,13 +108,13 @@ export default function MyVasModalConfirm({
           <div className='grid grid-cols-2 gap-2'>
             <span
               onClick={() => setShowModalMyVasConfirm(false)}
-              className='text-user1 rounded-md py-1 cursor-pointer'
+              className='text-user1 rounded-md py-1 cursor-pointer hover:bg-user1 hover:bg-opacity-60 hover:text-kaunterWhite shadow-md'
             >
               Batal
             </span>
             <button
               type='submit'
-              className='bg-kaunter2 text-kaunterWhite rounded-md py-1 cursor-pointer hover:bg-kaunter3 hover:text-user1'
+              className='bg-kaunter2 text-kaunterWhite rounded-md py-1 cursor-pointer hover:bg-kaunter3 hover:text-user1 shadow-md'
             >
               Sahkan
             </button>
