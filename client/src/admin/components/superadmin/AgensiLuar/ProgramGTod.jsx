@@ -55,45 +55,45 @@ export default function ProgramGTod() {
     <>
       <div className='grid grid-cols-1 lg:grid-cols-[1fr_7fr] gap-5 mt-4 relative'>
         <div className='hidden lg:block'>
-          <div className='py-6 px-3 bg-admin3 shadow-md rounded-md flex justify-center'>
-            <button
-              className='outline-none focus:outline-none flex items-center flex-col'
-              onClick={() => {
-                setShowForm(true);
-                setShowTable(false);
-                setShowFormPemeriksaan(false);
-                setIdGTod('');
-                setSingleAgensiLuarGTod(null);
-              }}
-            >
+          <div
+            onClick={() => {
+              setShowForm(true);
+              setShowTable(false);
+              setShowFormPemeriksaan(false);
+              setIdGTod('');
+              setSingleAgensiLuarGTod(null);
+            }}
+            className='py-6 px-3 bg-admin3 shadow-md rounded-md flex justify-center cursor-pointer'
+          >
+            <span className='outline-none focus:outline-none flex items-center flex-col'>
               <BsPlusCircleDotted className='text-8xl text-adminWhite font-semibold' />
               <span className=' text-adminWhite font-semibold text-sm mt-2'>
                 Tambah
               </span>
-            </button>
+            </span>
           </div>
-          <div className='py-6 px-3 bg-admin3 shadow-md rounded-md flex justify-center mt-5'>
-            <button
-              className='outline-none focus:outline-none flex items-center flex-col'
-              onClick={() => {
-                setShowTable(true);
-                setShowForm(false);
-                setShowFormPemeriksaan(false);
-              }}
-            >
+          <div
+            onClick={() => {
+              setShowTable(true);
+              setShowForm(false);
+              setShowFormPemeriksaan(false);
+            }}
+            className='py-6 px-3 bg-admin3 shadow-md rounded-md flex justify-center mt-5 cursor-pointer'
+          >
+            <span className='outline-none focus:outline-none flex items-center flex-col'>
               <BsTable className='text-8xl text-adminWhite font-semibold' />
               <span className=' text-adminWhite font-semibold text-sm mt-2'>
                 Senarai
               </span>
-            </button>
+            </span>
           </div>
         </div>
         <div className='auto-rows-min flex flex-col px-10'>
-          <div className='flex items-center justify-start pb-5'>
-            <h1 className='text-3xl px-11 font-bold'>Program G-Tod</h1>
-          </div>
           {showTable && (
             <>
+              <div className='flex items-center justify-start pb-5'>
+                <h1 className='text-3xl px-11 font-bold'>Program G-Tod</h1>
+              </div>
               <div className='overflow-x-auto text-sm rounded-md h-min max-w-max '>
                 <table className='table-auto'>
                   <thead className='text-adminWhite bg-admin3'>
@@ -122,127 +122,152 @@ export default function ProgramGTod() {
                     </tr>
                   </thead>
                   <tbody className='bg-admin4'>
-                    {tableGtod?.map((agensi, idx) => (
-                      <tr key={agensi._id}>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {idx + 1}
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {' '}
-                          {agensi.jenisAgensiLuar}
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {' '}
-                          {agensi.namaAgensiLuar}
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {' '}
-                          {agensi.namaTaskaTadika}
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          {' '}
-                          {agensi.alamatTaskaTadika}
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                          <span className='flex items-center justify-center space-x-1'>
-                            <button
-                              className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
-                              onClick={() => {
-                                setIdGTod(agensi._id);
-                                setShowForm(true);
-                                setShowTable(false);
-                              }}
-                            >
-                              Kemaskini
-                            </button>
-                            <button
-                              id={agensi._id}
-                              className='px-2 py-1 bg-user9 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
-                              onClick={() => {
-                                setShowModalDelete(true);
-                                setIdGTod(agensi._id);
-                              }}
-                            >
-                              Hapus
-                            </button>
-                          </span>
-                        </td>
-                        <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 '>
-                          <span className='flex items-center justify-center space-x-1'>
-                            {agensi.pemeriksaanAgensiLuar1 && (
+                    {tableGtod ? (
+                      tableGtod.map((agensi, idx) => (
+                        <tr key={agensi._id}>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {idx + 1}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {agensi.jenisAgensiLuar}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {agensi.namaAgensiLuar}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {agensi.namaTaskaTadika}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            {agensi.alamatTaskaTadika}
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                            <span className='flex items-center justify-center space-x-1'>
                               <button
-                                className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
+                                className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
                                 onClick={() => {
                                   setIdGTod(agensi._id);
-                                  setPemeriksaanSatu(
-                                    agensi.pemeriksaanAgensiLuar1
-                                  );
-                                  setShowFormPemeriksaan(true);
+                                  setShowForm(true);
                                   setShowTable(false);
                                 }}
                               >
-                                Lawatan 1
+                                Kemaskini
                               </button>
-                            )}
-                            {agensi.pemeriksaanAgensiLuar2 ? (
                               <button
-                                className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
+                                id={agensi._id}
+                                className='px-2 py-1 bg-user9 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
                                 onClick={() => {
+                                  setShowModalDelete(true);
                                   setIdGTod(agensi._id);
-                                  setPemeriksaanDua(
-                                    agensi.pemeriksaanAgensiLuar2
-                                  );
-                                  setShowFormPemeriksaan(true);
-                                  setShowTable(false);
                                 }}
                               >
-                                Lawatan 2
+                                Hapus
                               </button>
-                            ) : (
-                              <button
-                                className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs flex flex-row items-center'
-                                onClick={() => {
-                                  setIdGTod(agensi._id);
-                                  setShowFormPemeriksaan(true);
-                                  setShowTable(false);
-                                  setPemeriksaanSatu(null);
-                                  setPemeriksaanDua(null);
-                                }}
-                              >
-                                <BsPlusCircleDotted className='mr-1' /> Lawatan
-                              </button>
-                            )}
-                          </span>
+                            </span>
+                          </td>
+                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 '>
+                            <span className='flex items-center justify-center space-x-1'>
+                              {agensi.pemeriksaanAgensiLuar1 && (
+                                <button
+                                  className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
+                                  onClick={() => {
+                                    setIdGTod(agensi._id);
+                                    setPemeriksaanSatu(
+                                      agensi.pemeriksaanAgensiLuar1
+                                    );
+                                    setShowFormPemeriksaan(true);
+                                    setShowTable(false);
+                                  }}
+                                >
+                                  Lawatan 1
+                                </button>
+                              )}
+                              {agensi.pemeriksaanAgensiLuar2 ? (
+                                <button
+                                  className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
+                                  onClick={() => {
+                                    setIdGTod(agensi._id);
+                                    setPemeriksaanDua(
+                                      agensi.pemeriksaanAgensiLuar2
+                                    );
+                                    setShowFormPemeriksaan(true);
+                                    setShowTable(false);
+                                  }}
+                                >
+                                  Lawatan 2
+                                </button>
+                              ) : (
+                                <button
+                                  className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs flex flex-row items-center'
+                                  onClick={() => {
+                                    setIdGTod(agensi._id);
+                                    setShowFormPemeriksaan(true);
+                                    setShowTable(false);
+                                    setPemeriksaanSatu(null);
+                                    setPemeriksaanDua(null);
+                                  }}
+                                >
+                                  <BsPlusCircleDotted className='mr-1' />{' '}
+                                  Lawatan
+                                </button>
+                              )}
+                            </span>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan='7' className='text-center py-2'>
+                          Tiada Data
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
             </>
           )}
           {showForm && (
-            <FormTambahProgramGtod
-              singleAgensiLuarGTod={singleAgensiLuarGTod}
-              setSingleAgensiLuarGTod={setSingleAgensiLuarGTod}
-              setShowForm={setShowForm}
-              setShowTable={setShowTable}
-              idGTod={idGTod}
-              reloadState={reloadState}
-              setReloadState={setReloadState}
-            />
+            <>
+              <div className='flex items-center justify-start pb-5'>
+                <h1 className='text-3xl px-11 font-bold'>
+                  {idGTod ? 'Kemaskini Program G-Tod' : 'Tambah Program G-Tod'}
+                </h1>
+              </div>
+              <FormTambahProgramGtod
+                singleAgensiLuarGTod={singleAgensiLuarGTod}
+                setSingleAgensiLuarGTod={setSingleAgensiLuarGTod}
+                setShowForm={setShowForm}
+                setShowTable={setShowTable}
+                idGTod={idGTod}
+                reloadState={reloadState}
+                setReloadState={setReloadState}
+              />
+            </>
           )}
           {showFormPemeriksaan && (
-            <FormPemeriksaanProgramGtod
-              singleAgensiLuarGTod={singleAgensiLuarGTod}
-              idGTod={idGTod}
-              setShowFormPemeriksaan={setShowFormPemeriksaan}
-              setShowTable={setShowTable}
-              pemeriksaanSatu={pemeriksaanSatu}
-              pemeriksaanDua={pemeriksaanDua}
-              reloadState={reloadState}
-              setReloadState={setReloadState}
-            />
+            <>
+              <div className='flex items-center justify-start pb-5'>
+                <h1 className='text-3xl px-11 font-bold'>
+                  {pemeriksaanSatu
+                    ? 'Lawatan Pertama'
+                    : pemeriksaanDua
+                    ? 'Lawatan Kedua'
+                    : 'Tambah Lawatan'}
+                </h1>
+              </div>
+              <FormPemeriksaanProgramGtod
+                singleAgensiLuarGTod={singleAgensiLuarGTod}
+                idGTod={idGTod}
+                setShowFormPemeriksaan={setShowFormPemeriksaan}
+                setShowTable={setShowTable}
+                pemeriksaanSatu={pemeriksaanSatu}
+                setPemeriksaanSatu={setPemeriksaanSatu}
+                pemeriksaanDua={pemeriksaanDua}
+                setPemeriksaanDua={setPemeriksaanDua}
+                reloadState={reloadState}
+                setReloadState={setReloadState}
+              />
+            </>
           )}
         </div>
       </div>
