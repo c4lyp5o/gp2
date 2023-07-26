@@ -22,7 +22,6 @@ import Datetime from 'react-datetime';
 
 import Confirmation from './Confirmation';
 
-import mysejahtera from '../../../assets/MySejahtera.png';
 import MyVasModal from './MyVasModalConfirm';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
@@ -48,7 +47,6 @@ export default function FillableForm({
 }) {
   const {
     kaunterToken,
-    navigate,
     Dictionary,
     dateToday,
     masterDatePicker,
@@ -1498,6 +1496,7 @@ export default function FillableForm({
                       </div>
                       <div className='flex justify-start my-2'>
                         <input
+                          disabled={dariMyVas ? true : false}
                           type='checkbox'
                           name='temujanji'
                           id='temujanji'
@@ -1571,6 +1570,7 @@ export default function FillableForm({
                               inputProps={{
                                 required: true,
                                 readOnly: true,
+                                disabled: dariMyVas ? true : false,
                                 className:
                                   'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
                               }}
@@ -1593,7 +1593,7 @@ export default function FillableForm({
                     <div className='relative w-full md:w-56'>
                       <select
                         required
-                        disabled={editId ? true : false}
+                        disabled={editId || dariMyVas ? true : false}
                         id='pengenalan'
                         name='pengenalan'
                         value={jenisIc}
@@ -1642,29 +1642,10 @@ export default function FillableForm({
                       <span>
                         <FaCaretSquareDown className='absolute top-4 right-2 text-kaunter3' />
                       </span>
-                      {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
-                        import.meta.env.VITE_ENV === 'DEV') &&
-                      jenisFasiliti === 'kp' &&
-                      !editId ? (
-                        <span
-                          onClick={() => {
-                            setDariMyVas(false);
-                            navigate('/pendaftaran/daftar/kp/myvas');
-                          }}
-                          className='absolute -right-24 top-2 bg-user1 text-userWhite rounded-md text-sm px-1.5 py-1 hover:bg-user3 hover:text-userBlack cursor-pointer flex items-center'
-                        >
-                          <img
-                            src={mysejahtera}
-                            alt='MySejahtera Logo'
-                            className='w-6 h-6 inline-block mr-1'
-                          />
-                          MyVAS
-                        </span>
-                      ) : null}
                     </div>
                     {jenisIc === 'mykad-mykid' && (
                       <input
-                        disabled={editId ? true : false}
+                        disabled={editId || dariMyVas ? true : false}
                         required
                         type='text'
                         name='ic'
@@ -1689,7 +1670,7 @@ export default function FillableForm({
                       jenisIc !== '' && (
                         <div className='flex flex-row items-center'>
                           <input
-                            disabled={editId ? true : false}
+                            disabled={editId || dariMyVas ? true : false}
                             required
                             type='text'
                             name='ic'
@@ -1879,6 +1860,7 @@ export default function FillableForm({
                   <div className='relative w-full'>
                     <input
                       required={jenisIc === 'birth-of' ? false : true}
+                      disabled={dariMyVas ? true : false}
                       type='text'
                       id='nama-umum'
                       name='nama-umum'
