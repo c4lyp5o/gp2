@@ -2552,12 +2552,8 @@ const id201Biasa = {
         {
           case: {
             $and: [
-              {
-                $eq: ['$umur', 5],
-              },
-              {
-                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
-              },
+              { $eq: ['$umur', 5] },
+              { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
             ],
           },
           then: 'prasek-5tahun',
@@ -2565,12 +2561,8 @@ const id201Biasa = {
         {
           case: {
             $and: [
-              {
-                $eq: ['$umur', 6],
-              },
-              {
-                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
-              },
+              { $eq: ['$umur', 6] },
+              { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
             ],
           },
           then: 'prasek-6tahun',
@@ -2578,12 +2570,8 @@ const id201Biasa = {
         {
           case: {
             $and: [
-              {
-                $eq: ['$umur', 7],
-              },
-              {
-                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
-              },
+              { $eq: ['$umur', 7] },
+              { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
             ],
           },
           then: 'prasek-7tahun',
@@ -3611,6 +3599,143 @@ const id203AllOAP = {
             ],
           },
           then: 'tingkatan-all-oap',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+
+// id data dan enrolmen ppim03
+const idPPIM03All = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'D1'] },
+            ],
+          },
+          then: 'darjah1',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'D2'] },
+            ],
+          },
+          then: 'darjah2',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'D3'] },
+            ],
+          },
+          then: 'darjah3',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'D4'] },
+            ],
+          },
+          then: 'darjah4',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'D5'] },
+            ],
+          },
+          then: 'darjah5',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'D6'] },
+            ],
+          },
+          then: 'darjah6',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
+              { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+            ],
+          },
+          then: 'kki-sr',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'T1'] },
+            ],
+          },
+          then: 'tingkatan1',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'T2'] },
+            ],
+          },
+          then: 'tingkatan2',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'T3'] },
+            ],
+          },
+          then: 'tingkatan3',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'T4'] },
+            ],
+          },
+          then: 'tingkatan4',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'T5'] },
+            ],
+          },
+          then: 'tingkatan5',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'tidak-sekolah-kki'] },
+              { $eq: ['$tahunTingkatan', 'P'] },
+            ],
+          },
+          then: 'peralihan',
+        },
+        {
+          case: {
+            $and: [
+              { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
+              { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
+            ],
+          },
+          then: 'kki-sm',
         },
       ],
       default: 'Unknown',
@@ -6369,6 +6494,27 @@ const groupPemeriksaanBiasa = {
                 '$separaPenuhBawahPerluDenturePemeriksaanUmum',
                 'separa-bawah-perlu-denture-pemeriksaan-umum',
               ],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  pesakitDisaringOC: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $eq: [
+                '$disaringProgramKanserMulutPemeriksaanUmum',
+                'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+              ],
+            },
+            {
+              $ne: ['$kumpulanEtnik', 'bukan warganegara'],
             },
           ],
         },
@@ -10659,6 +10805,7 @@ module.exports = {
   id203OAP,
   id203AllKPSKPB,
   id203AllOAP,
+  idPPIM03All,
   outputReqPgpr201,
   outputReq211,
   groupPG214,

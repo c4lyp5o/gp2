@@ -10,10 +10,11 @@
 #### Added
 
 - Penambahan reten baru KPI FS yang membawa maksud Peratus Keberhasilan Aplikasi Fissure Sealant Pada Gigi Yang Dikenal Pasti
+- Memaparkan kolum TARIKH SEKOLAH SELESAI RETEN di laman rumusan status sekolah
 
 #### Changed
 
-- Umur sebenar adalah mengikut tarikh kedatangan ketika mendaftarkan pesakit di modul Pendaftaran
+- Umur sebenar adalah mengikut tarikh kedatangan ketika mendaftarkan pesakit di modul Pendaftaran (internal only)
 
 #### Fixed
 
@@ -21,7 +22,7 @@
 - Memperkemas dan membaikpulih semua reten-reten yang terdapat di semua peringkat Pentadbir
 - Membetulkan semua konfirmasi sebelum menghantar pemeriksaan & rawatan sekolah
 - Membetulkan paparan lihat semula rawatan sekolah
-- Pembetulan kiraan peratus liputan & peratus selesai di jadual rumusan status sekolah
+- Pembetulan kiraan peratus liputan & peratus selesai di laman rumusan status sekolah
 
 #### Removed
 

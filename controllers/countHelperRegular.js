@@ -47,6 +47,7 @@ const {
   id203OAP,
   id203AllKPSKPB,
   id203AllOAP,
+  idPPIM03All,
   outputReqPgpr201,
   outputReq211,
   groupPG214,
@@ -3008,6 +3009,84 @@ const countPGPR201 = async (payload) => {
     throw new Error(error);
   }
 };
+const countPGPR201CustomIM = async (payload) => {
+  const main_switch = {
+    $match: {
+      ...getParamsPgpr201(payload),
+      ...ultimateCutoff(payload),
+      ibuMengandung: true,
+      bookingIM: 'ya-booking-im',
+    },
+  };
+
+  const facet_stage = {
+    $facet: {
+      biasa: [
+        {
+          $bucket: {
+            groupBy: '$umur',
+            boundaries: [7, 10, 13, 15, 18, 20, 30, 50, 60, 150],
+            default: 'Other',
+            output: {
+              ...outputReqPgpr201,
+            },
+          },
+        },
+      ],
+      ibuMengandung: [
+        {
+          $match: {
+            ibuMengandung: true,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            ...outputReqPgpr201,
+          },
+        },
+      ],
+      orangKurangUpaya: [
+        {
+          $match: {
+            orangKurangUpaya: true,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            ...outputReqPgpr201,
+          },
+        },
+      ],
+      opLain: [
+        ...getParamsOplainP2,
+        {
+          $bucket: {
+            groupBy: '$umur',
+            boundaries: [7, 10, 13, 15, 18, 20, 30, 50, 60, 150],
+            default: 'Other',
+            output: {
+              ...outputReqPgpr201,
+            },
+          },
+        },
+      ],
+    },
+  };
+
+  try {
+    const pipeline = [main_switch, facet_stage];
+    const PGPR201CUSTOMIM = await Umum.aggregate(pipeline);
+
+    return PGPR201CUSTOMIM;
+  } catch (error) {
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
+    );
+    throw new Error(error);
+  }
+};
 
 // Reten Sekolah
 const countPGS201 = async (payload) => {
@@ -4171,6 +4250,7 @@ const countPGS203 = async (payload) => {
       $addFields: {
         govKe: '$fasiliti_data.govKe',
         kodTastad: '$fasiliti_data.kodTastad',
+        statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
       },
     },
     {
@@ -4182,6 +4262,7 @@ const countPGS203 = async (payload) => {
       $match: {
         govKe: 'Kerajaan',
         kodTastad: { $regex: /tad/i },
+        statusPerkhidmatan: 'active',
       },
     },
   ];
@@ -4242,6 +4323,7 @@ const countPGS203 = async (payload) => {
       $addFields: {
         govKe: '$fasiliti_data.govKe',
         kodTastad: '$fasiliti_data.kodTastad',
+        statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
       },
     },
     {
@@ -4253,6 +4335,7 @@ const countPGS203 = async (payload) => {
       $match: {
         govKe: 'Swasta',
         kodTastad: { $regex: /tad/i },
+        statusPerkhidmatan: 'active',
       },
     },
   ];
@@ -6141,403 +6224,447 @@ const countPPIM03 = async (payload) => {
       },
     },
     {
-      $lookup: {
-        from: 'sekolahs',
-        localField: 'kodSekolah',
-        foreignField: 'kodSekolah',
-        as: 'result',
-        pipeline: [
+      $facet: {
+        dataSekolah: [
+          {
+            $lookup: {
+              from: 'sekolahs',
+              localField: 'kodSekolah',
+              foreignField: 'kodSekolah',
+              as: 'result',
+              pipeline: [
+                {
+                  $match: {
+                    deleted: false,
+                    pemeriksaanSekolah: {
+                      $ne: null,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+          {
+            $unwind: {
+              path: '$result',
+              preserveNullAndEmptyArrays: false,
+            },
+          },
+          {
+            $lookup: {
+              from: 'pemeriksaansekolahs',
+              localField: 'result.pemeriksaanSekolah',
+              foreignField: '_id',
+              as: 'pemeriksaan',
+            },
+          },
+          {
+            $unwind: {
+              path: '$pemeriksaan',
+              preserveNullAndEmptyArrays: false,
+            },
+          },
+          {
+            $addFields: {
+              jantina: '$result.jantina',
+              keturunan: '$result.keturunan',
+              tahunTingkatan: '$result.tahunTingkatan',
+              statusMerokok: '$pemeriksaan.statusM',
+            },
+          },
           {
             $match: {
-              pemeriksaanSekolah: {
-                $ne: null,
+              statusMerokok: {
+                $ne: '',
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              jantina: 1,
+              keturunan: 1,
+              tahunTingkatan: 1,
+              sekolahKki: 1,
+              statusMerokok: 1,
+              statusKotak: 1,
+              elektronikVapeKotak: 1,
+              shishaKotak: 1,
+              lainLainKotak: 1,
+              tarikhIntervensi1: 1,
+              tarikhIntervensi2: 1,
+              tarikhIntervensi3: 1,
+              tarikhQ: 1,
+              rujukGuruKaunseling: 1,
+              statusSelepas6Bulan: 1,
+            },
+          },
+          {
+            $group: {
+              ...idPPIM03All,
+              bilPerokokSemasaLelakiMelayu: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'perokok-semasa'],
+                        },
+                        {
+                          $eq: ['$jantina', 'LELAKI'],
+                        },
+                        {
+                          $eq: ['$keturunan', 'MELAYU'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilPerokokSemasaLelakiCina: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'perokok-semasa'],
+                        },
+                        {
+                          $eq: ['$jantina', 'LELAKI'],
+                        },
+                        {
+                          $eq: ['$keturunan', 'CINA'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilPerokokSemasaLelakiIndia: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'perokok-semasa'],
+                        },
+                        {
+                          $eq: ['$jantina', 'LELAKI'],
+                        },
+                        {
+                          $eq: ['$keturunan', 'INDIA'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilPerokokSemasaLelakiLainlain: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'perokok-semasa'],
+                        },
+                        {
+                          $eq: ['$jantina', 'LELAKI'],
+                        },
+                        {
+                          $ne: ['$keturunan', 'MELAYU'],
+                        },
+                        {
+                          $ne: ['$keturunan', 'CINA'],
+                        },
+                        {
+                          $ne: ['$keturunan', 'INDIA'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilPerokokSemasaPerempuanMelayu: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'perokok-semasa'],
+                        },
+                        {
+                          $eq: ['$jantina', 'PEREMPUAN'],
+                        },
+                        {
+                          $eq: ['$keturunan', 'MELAYU'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilPerokokSemasaPerempuanCina: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'perokok-semasa'],
+                        },
+                        {
+                          $eq: ['$jantina', 'PEREMPUAN'],
+                        },
+                        {
+                          $eq: ['$keturunan', 'CINA'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilPerokokSemasaPerempuanMelayu: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'perokok-semasa'],
+                        },
+                        {
+                          $eq: ['$jantina', 'PEREMPUAN'],
+                        },
+                        {
+                          $eq: ['$keturunan', 'INDIA'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilPerokokSemasaPerempuanLainlain: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'perokok-semasa'],
+                        },
+                        {
+                          $eq: ['$jantina', 'PEREMPUAN'],
+                        },
+                        {
+                          $ne: ['$keturunan', 'MELAYU'],
+                        },
+                        {
+                          $ne: ['$keturunan', 'CINA'],
+                        },
+                        {
+                          $ne: ['$keturunan', 'INDIA'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilBekasPerokokLelaki: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'bekas-perokok'],
+                        },
+                        {
+                          $eq: ['$jantina', 'LELAKI'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilBekasPerokokPerempuan: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'bekas-perokok'],
+                        },
+                        {
+                          $eq: ['$jantina', 'PEREMPUAN'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilPerokokPasifLelaki: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'perokok-pasif'],
+                        },
+                        {
+                          $eq: ['$jantina', 'LELAKI'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilPerokokPasifPerempuan: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'perokok-pasif'],
+                        },
+                        {
+                          $eq: ['$jantina', 'PEREMPUAN'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilBukanPerokokLelaki: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'bukan-perokok'],
+                        },
+                        {
+                          $eq: ['$jantina', 'LELAKI'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilBukanPerokokPerempuan: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'bukan-perokok'],
+                        },
+                        {
+                          $eq: ['$jantina', 'PEREMPUAN'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilDalamIntervensiLelaki: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'dalam-intervensi'],
+                        },
+                        {
+                          $eq: ['$jantina', 'LELAKI'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilDalamIntervensiPerempuan: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$statusMerokok', 'dalam-intervensi'],
+                        },
+                        {
+                          $eq: ['$jantina', 'PEREMPUAN'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
               },
             },
           },
         ],
-      },
-    },
-    {
-      $unwind: {
-        path: '$result',
-        preserveNullAndEmptyArrays: false,
-      },
-    },
-    {
-      $lookup: {
-        from: 'pemeriksaansekolahs',
-        localField: 'result.pemeriksaanSekolah',
-        foreignField: '_id',
-        as: 'pemeriksaan',
-      },
-    },
-    {
-      $unwind: {
-        path: '$pemeriksaan',
-        preserveNullAndEmptyArrays: false,
-      },
-    },
-    {
-      $addFields: {
-        jantina: '$result.jantina',
-        keturunan: '$result.keturunan',
-        tahunTingkatan: '$result.tahunTingkatan',
-        statusMerokok: '$pemeriksaan.statusM',
-      },
-    },
-    {
-      $match: {
-        statusMerokok: {
-          $ne: '',
-        },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        jantina: 1,
-        keturunan: 1,
-        tahunTingkatan: 1,
-        statusMerokok: 1,
-        statusKotak: 1,
-        elektronikVapeKotak: 1,
-        shishaKotak: 1,
-        lainLainKotak: 1,
-        tarikhIntervensi1: 1,
-        tarikhIntervensi2: 1,
-        tarikhIntervensi3: 1,
-        tarikhQ: 1,
-        rujukGuruKaunseling: 1,
-        statusSelepas6Bulan: 1,
-      },
-    },
-    {
-      $group: {
-        _id: '$tahunTingkatan',
-        bilPerokokSemasaLelakiMelayu: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
+        dataEnrolmen: [
+          {
+            $lookup: {
+              from: 'sekolahs',
+              localField: 'kodSekolah',
+              foreignField: 'kodSekolah',
+              as: 'result',
+              pipeline: [
+                {
+                  $match: {
+                    deleted: false,
                   },
-                  {
-                    $eq: ['$jantina', 'LELAKI'],
-                  },
-                  {
-                    $eq: ['$keturunan', 'MELAYU'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
+                },
+              ],
+            },
           },
-        },
-        bilPerokokSemasaLelakiCina: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
-                  {
-                    $eq: ['$jantina', 'LELAKI'],
-                  },
-                  {
-                    $eq: ['$keturunan', 'CINA'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
+          {
+            $unwind: '$result',
           },
-        },
-        bilPerokokSemasaLelakiIndia: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
-                  {
-                    $eq: ['$jantina', 'LELAKI'],
-                  },
-                  {
-                    $eq: ['$keturunan', 'INDIA'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
+          {
+            $project: {
+              _id: 0,
+              jenisFasiliti: 1,
+              sekolahKki: 1,
+              tahunTingkatan: '$result.tahunTingkatan',
+            },
           },
-        },
-        bilPerokokSemasaLelakiLainlain: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
-                  {
-                    $eq: ['$jantina', 'LELAKI'],
-                  },
-                  {
-                    $ne: ['$keturunan', 'MELAYU'],
-                  },
-                  {
-                    $ne: ['$keturunan', 'CINA'],
-                  },
-                  {
-                    $ne: ['$keturunan', 'INDIA'],
-                  },
-                ],
+          {
+            $group: {
+              ...idPPIM03All,
+              jumlah: {
+                $sum: 1,
               },
-              1,
-              0,
-            ],
+            },
           },
-        },
-        bilPerokokSemasaPerempuanMelayu: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
-                  {
-                    $eq: ['$jantina', 'PEREMPUAN'],
-                  },
-                  {
-                    $eq: ['$keturunan', 'MELAYU'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilPerokokSemasaPerempuanCina: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
-                  {
-                    $eq: ['$jantina', 'PEREMPUAN'],
-                  },
-                  {
-                    $eq: ['$keturunan', 'CINA'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilPerokokSemasaPerempuanMelayu: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
-                  {
-                    $eq: ['$jantina', 'PEREMPUAN'],
-                  },
-                  {
-                    $eq: ['$keturunan', 'INDIA'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilPerokokSemasaPerempuanLainlain: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
-                  {
-                    $eq: ['$jantina', 'PEREMPUAN'],
-                  },
-                  {
-                    $ne: ['$keturunan', 'MELAYU'],
-                  },
-                  {
-                    $ne: ['$keturunan', 'CINA'],
-                  },
-                  {
-                    $ne: ['$keturunan', 'INDIA'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilBekasPerokokLelaki: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'bekas-perokok'],
-                  },
-                  {
-                    $eq: ['$jantina', 'LELAKI'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilBekasPerokokPerempuan: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'bekas-perokok'],
-                  },
-                  {
-                    $eq: ['$jantina', 'PEREMPUAN'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilPerokokPasifLelaki: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-pasif'],
-                  },
-                  {
-                    $eq: ['$jantina', 'LELAKI'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilPerokokPasifPerempuan: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-pasif'],
-                  },
-                  {
-                    $eq: ['$jantina', 'PEREMPUAN'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilBukanPerokokLelaki: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'bukan-perokok'],
-                  },
-                  {
-                    $eq: ['$jantina', 'LELAKI'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilBukanPerokokPerempuan: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'bukan-perokok'],
-                  },
-                  {
-                    $eq: ['$jantina', 'PEREMPUAN'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilDalamIntervensiLelaki: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'dalam-intervensi'],
-                  },
-                  {
-                    $eq: ['$jantina', 'LELAKI'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        bilDalamIntervensiPerempuan: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$statusMerokok', 'dalam-intervensi'],
-                  },
-                  {
-                    $eq: ['$jantina', 'PEREMPUAN'],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
+        ],
       },
     },
   ]);
@@ -9063,6 +9190,7 @@ module.exports = {
   countPG206,
   countPG207,
   countPGPR201,
+  countPGPR201CustomIM,
   countPGS201,
   countPGS203,
   countPGPro01,
