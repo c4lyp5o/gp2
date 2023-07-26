@@ -6377,6 +6377,27 @@ const groupPemeriksaanBiasa = {
       ],
     },
   },
+  pesakitDisaringOC: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $eq: [
+                '$disaringProgramKanserMulutPemeriksaanUmum',
+                'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+              ],
+            },
+            {
+              $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
 };
 
 const groupRawatanBiasa = {

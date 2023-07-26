@@ -2576,6 +2576,7 @@ const makePG207 = async (payload) => {
         row.getCell(27).value = item.jumlahPerluDenturPenuh;
         row.getCell(28).value = item.jumlahPerluDenturSepara;
       }
+      row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].umumRawatan) {
       switch (item._id) {
@@ -2684,7 +2685,7 @@ const makePG207 = async (payload) => {
       }
       row.getCell(79).value = item.kesSelesai;
       row.getCell(80).value = item.xrayDiambil;
-      row.getCell(81).value = item.pesakitDisaringOC;
+      // row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].imPemeriksaan) {
       const row = worksheet.getRow(30);
@@ -2717,6 +2718,7 @@ const makePG207 = async (payload) => {
       row.getCell(26).value = item.perluEndoMolar;
       row.getCell(27).value = item.jumlahPerluDenturPenuh;
       row.getCell(28).value = item.jumlahPerluDenturSepara;
+      row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].imRawatan) {
       const row = worksheet.getRow(30);
@@ -2773,7 +2775,7 @@ const makePG207 = async (payload) => {
       row.getCell(78).value = item.pembaikanDenture;
       row.getCell(79).value = item.kesSelesai;
       row.getCell(80).value = item.xrayDiambil;
-      row.getCell(81).value = item.pesakitDisaringOC;
+      // row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].okuPemeriksaan) {
       const row = worksheet.getRow(31);
@@ -2806,6 +2808,7 @@ const makePG207 = async (payload) => {
       row.getCell(26).value = item.perluEndoMolar;
       row.getCell(27).value = item.jumlahPerluDenturPenuh;
       row.getCell(28).value = item.jumlahPerluDenturSepara;
+      row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].okuRawatan) {
       const row = worksheet.getRow(31);
@@ -2862,7 +2865,7 @@ const makePG207 = async (payload) => {
       row.getCell(78).value = item.pembaikanDenture;
       row.getCell(79).value = item.kesSelesai;
       row.getCell(80).value = item.xrayDiambil;
-      row.getCell(81).value = item.pesakitDisaringOC;
+      // row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].bwPemeriksaan) {
       const row = worksheet.getRow(32);
@@ -2895,6 +2898,7 @@ const makePG207 = async (payload) => {
       row.getCell(26).value = item.perluEndoMolar;
       row.getCell(27).value = item.jumlahPerluDenturPenuh;
       row.getCell(28).value = item.jumlahPerluDenturSepara;
+      row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].bwRawatan) {
       const row = worksheet.getRow(32);
@@ -2951,7 +2955,7 @@ const makePG207 = async (payload) => {
       row.getCell(78).value = item.pembaikanDenture;
       row.getCell(79).value = item.kesSelesai;
       row.getCell(80).value = item.xrayDiambil;
-      row.getCell(81).value = item.pesakitDisaringOC;
+      // row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[1][0].oplainRawatan) {
       switch (item._id) {
