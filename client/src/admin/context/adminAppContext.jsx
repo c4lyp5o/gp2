@@ -799,6 +799,12 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan Pendidikan Kesihatan Pergigian Oleh Juruterapi Pergigian/Pegawai Pergigian',
     },
     {
+      kod: 'PGPR201 Pind. 1/2022-CUSTOM-IM',
+      kodRingkas: 'PGPR201-CUSTOM-IM',
+      deskripsi:
+        'Laporan Bulanan Pendidikan Kesihatan Pergigian Oleh Juruterapi Pergigian/Pegawai Pergigian Bagi Pesakit Ibu Mengandung',
+    },
+    {
       kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
       kodRingkas: 'PGPRO01',
       deskripsi:
