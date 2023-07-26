@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 import {
   BsFillCircleFill,
   BsFillCheckCircleFill,
@@ -83,13 +84,6 @@ function UserSekolahList() {
       return;
     }
     if (modalSelesaiSekolah) {
-      let mdcMdtbNum = '';
-      if (!userinfo.mdtbNumber) {
-        mdcMdtbNum = userinfo.mdcNumber;
-      }
-      if (!userinfo.mdcNumber) {
-        mdcMdtbNum = userinfo.mdtbNumber;
-      }
       await toast
         .promise(
           axios.patch(
@@ -362,6 +356,9 @@ function UserSekolahList() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
                   TINDAKAN
                 </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
+                  TARIKH SEKOLAH SELESAI RETEN
+                </th>
               </tr>
             </thead>
             {isLoading ? (
@@ -402,6 +399,9 @@ function UserSekolahList() {
                       </>
                     )}
                   </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
@@ -439,6 +439,9 @@ function UserSekolahList() {
                       </>
                     )}
                   </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
@@ -475,6 +478,9 @@ function UserSekolahList() {
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                       </>
                     )}
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
                 </tr>
               </tbody>
@@ -741,6 +747,13 @@ function UserSekolahList() {
                               </>
                             )}
                           </div>
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                          {singleNamaSekolah.tarikhSekolahSelesaiReten
+                            ? moment(
+                                singleNamaSekolah.tarikhSekolahSelesaiReten
+                              ).format('DD/MM/YYYY')
+                            : null}
                         </td>
                       </tr>
                     );

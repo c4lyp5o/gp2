@@ -677,7 +677,7 @@ const ModalGenerateAdHoc = (props) => {
                 )}
                 {pilihanRetenTasTadSekolah && (
                   <>
-                    <div className='grid grid-cols-5 gap-2 my-2'>
+                    <div className='grid grid-cols-3 gap-2 my-2'>
                       <label
                         htmlFor='tadika'
                         className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
@@ -750,7 +750,7 @@ const ModalGenerateAdHoc = (props) => {
                         />
                         <span>Sekolah Menengah</span>
                       </label>
-                      <label
+                      {/* <label
                         htmlFor='semua-sekolah-menengah-mmi'
                         className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
                           props.jenisFasiliti === 'semua sekolah menengah mmi'
@@ -799,7 +799,7 @@ const ModalGenerateAdHoc = (props) => {
                           className='hidden'
                         />
                         <span>Semua</span>
-                      </label>
+                      </label> */}
                     </div>
                     {props.jenisFasiliti &&
                       (props.jenisFasiliti === 'tadika' ||

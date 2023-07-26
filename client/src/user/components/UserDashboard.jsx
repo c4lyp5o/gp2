@@ -19,7 +19,7 @@ function UserDashboard() {
 
   return (
     <>
-      <div className='h-full p-3 overflow-y-auto'>
+      {/* <div className='h-full p-3 overflow-y-auto'>
         <div className='text-lg text-user9 font-bold'>
           STATISTIK INI MASIH DALAM PEMBANGUNAN
         </div>
@@ -320,6 +320,10 @@ function UserDashboard() {
             ini hanya untuk analisa pencapaian semasa sahaja
           </span>
         </p>
+      </div> */}
+      <div className='justify-center items-center text-xl font-semibold mt-10 space-y-5 normal-case'>
+        <h1>Selamat datang ke modul Pengguna</h1>
+        <p>Sila pilih fungsi di bar sisi</p>
       </div>
     </>
   );
