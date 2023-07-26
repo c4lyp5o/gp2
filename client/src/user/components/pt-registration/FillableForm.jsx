@@ -22,7 +22,7 @@ import Datetime from 'react-datetime';
 
 import Confirmation from './Confirmation';
 
-import MyVasModal from './MyVasModalConfirm';
+import MyVasModalConfirm from './MyVasModalConfirm';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -63,7 +63,7 @@ export default function FillableForm({
   const [confirmData, setConfirmData] = useState({});
 
   // modal MyVAS
-  const [showModalMyVas, setShowModalMyVas] = useState(false);
+  const [showModalMyVasConfirm, setShowModalMyVasConfirm] = useState(false);
 
   // core
   const [kedatangan, setKedatangan] = useState('');
@@ -921,11 +921,11 @@ export default function FillableForm({
   // MyVAS stuff
   useEffect(() => {
     if (dariMyVas) {
-      setShowModalMyVas(true);
+      setShowModalMyVasConfirm(true);
     }
   }, [dariMyVas]);
 
-  const handleDataPassMyVas = (jiMyvas, keMyvas, daMyvas) => {
+  const handleDataPassMyVas = (jiMyvas) => {
     const timeString = moment(masaTemujanji).format('HH:mm');
     const jantinaMyvas =
       patientDataFromMyVas.resource.gender &&
@@ -964,10 +964,8 @@ export default function FillableForm({
     setUmur(tahun);
     setUmurBulan(bulan);
     setUmurHari(hari);
-    setKumpulanEtnik(keMyvas);
     patientDataFromMyVas.resource.address[0].line[0] &&
       setAlamat(patientDataFromMyVas.resource.address[0].line[0]);
-    setDaerahAlamat(daMyvas);
     setPoskodAlamat(
       patientDataFromMyVas.resource.address[0].postalCode &&
         patientDataFromMyVas.resource.address[0].postalCode
@@ -996,11 +994,9 @@ export default function FillableForm({
       umur: tahun,
       umurBulan: bulan,
       umurHari: hari,
-      kumpulanEtnik: keMyvas,
       alamat:
         patientDataFromMyVas.resource.address[0].line[0] &&
         patientDataFromMyVas.resource.address[0].line[0],
-      daerahAlamat: daMyvas,
       poskodAlamat:
         patientDataFromMyVas.resource.address[0].postalCode &&
         patientDataFromMyVas.resource.address[0].postalCode,
@@ -3645,9 +3641,9 @@ export default function FillableForm({
                   )}
               </div>
             </form>
-            {showModalMyVas && (
-              <MyVasModal
-                setShowModalMyVas={setShowModalMyVas}
+            {showModalMyVasConfirm && (
+              <MyVasModalConfirm
+                setShowModalMyVasConfirm={setShowModalMyVasConfirm}
                 patientDataFromMyVas={patientDataFromMyVas}
                 handleDataPassMyVas={handleDataPassMyVas}
               />

@@ -1,31 +1,27 @@
 import React, { useState } from 'react';
-import moment from 'moment';
-import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function MyVasModalConfirm({
   patientDataFromMyVas,
-  setShowModalMyVas,
+  setShowModalMyVasConfirm,
   handleDataPassMyVas,
 }) {
   const [jenisIc, setJenisIc] = useState('');
-  const [kumpulanEtnik, setKumpulanEtnik] = useState('');
-  const [daerahAlamat, setDaerahAlamat] = useState('');
 
-  const handleCheckMyVas = (e) => {
+  const handleConfirmMyVas = (e) => {
     e.preventDefault();
-    handleDataPassMyVas(jenisIc, kumpulanEtnik, daerahAlamat);
-    setShowModalMyVas(false);
+    handleDataPassMyVas(jenisIc);
+    setShowModalMyVasConfirm(false);
   };
 
   return (
     <>
       <div className='absolute z-20 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto p-2'>
         <form
-          onSubmit={handleCheckMyVas}
+          onSubmit={handleConfirmMyVas}
           className='px-2 grid grid-cols-1 space-y-8'
         >
           <h1 className='text-base uppercase font-bold text-center text-user1 bg-userWhite py-2 mb-2 border-b-2 border-user1'>
-            Sila Pastikan Semua Maklumat Adalah Betul
+            Sila Pastikan Semua Maklumat MyVAS Ini Adalah Betul
           </h1>
           <div className='space-y-2'>
             <div className='relative'>
@@ -105,13 +101,13 @@ export default function MyVasModalConfirm({
           </div>
           <p className='text-justify font-semibold text-user1 text-sm row-span-2 normal-case'>
             <b className='text-user9'>***</b>
-            Sebahagian maklumat pesakit telah ditarik dari data MyVAS. Sila
-            sahkan maklumat tersebut (ubah sekiranya perlu) dan tambah maklumat
+            Sebahagian maklumat pesakit telah diambil dari MyVAS. Sila sahkan
+            maklumat tersebut (ubah sekiranya perlu) dan tambah maklumat
             pendaftaran lain yang diperlukan
           </p>
           <div className='grid grid-cols-2 gap-2'>
             <span
-              onClick={() => setShowModalMyVas(false)}
+              onClick={() => setShowModalMyVasConfirm(false)}
               className='text-user1 rounded-md py-1 cursor-pointer'
             >
               Batal
@@ -126,7 +122,7 @@ export default function MyVasModalConfirm({
         </form>
       </div>
       <div
-        onClick={() => setShowModalMyVas(false)}
+        onClick={() => setShowModalMyVasConfirm(false)}
         className='absolute inset-0 bg-user1 opacity-75 z-10'
       />
     </>

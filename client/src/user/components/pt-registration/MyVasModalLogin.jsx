@@ -17,7 +17,7 @@ export default function MyVasModalLogin({ setShowModalMyVasLogin }) {
           MyVAS
         </div>
         <h1 className='text-center text-base font-semibold normal-case px-5'>
-          Sila log masuk menggunakan akaun MyVAS anda terlebih dahulu untuk
+          Sila LOG MASUK menggunakan akaun MyVAS anda terlebih dahulu untuk
           mengakses senarai janji temu hari ini
         </h1>
         <div>
