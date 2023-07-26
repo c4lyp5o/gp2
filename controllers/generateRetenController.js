@@ -4019,6 +4019,284 @@ const makePGPR201 = async (payload) => {
     excelMakerError(jenisReten);
   }
 };
+const makePGPR201CustomIM = async (payload) => {
+  logger.info(
+    '[generateRetenController/makePGPR201CustomIM] makePGPR201CustomIM'
+  );
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
+  try {
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query).sort({
+          createdAt: -1,
+        });
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countPGPR201CustomIM(payload);
+        break;
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({
+        kodFasiliti: klinik,
+      });
+      klinik = currentKlinik.kp;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PGPR 201_2023.xlsx'
+    );
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('PGPR201 Pin.1.2022');
+    //
+    const monthName = moment(bulan ? bulan : tarikhMula).format('MMMM');
+    const yearNow = moment(new Date()).format('YYYY');
+
+    worksheet.getCell('D6').value = monthName;
+    worksheet.getCell('G6').value = yearNow;
+
+    worksheet.getCell('C10').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell('C9').value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('C8').value = `${negeri.toUpperCase()}`;
+
+    worksheet.getCell('I1').value = 'PGPR 201 (Pind. 1/2022) - CUST-IM';
+
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+
+    for (const item of data[0].biasa) {
+      let rowNumber;
+
+      switch (item._id) {
+        case 0:
+          rowNumber = 17;
+          break;
+        case 1:
+          rowNumber = 18;
+          break;
+        case 5:
+          rowNumber = 19;
+          break;
+        case 7:
+          rowNumber = 20;
+          break;
+        case 10:
+          rowNumber = 21;
+          break;
+        case 13:
+          rowNumber = 22;
+          break;
+        case 15:
+          rowNumber = 23;
+          break;
+        case 18:
+          rowNumber = 24;
+          break;
+        case 20:
+          rowNumber = 25;
+          break;
+        case 30:
+          rowNumber = 26;
+          break;
+        case 50:
+          rowNumber = 27;
+          break;
+        case 60:
+          rowNumber = 28;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      worksheet.getCell('B23').value += item.jumlahAGumur1517;
+      worksheet.getCell('B24').value += item.jumlahAGumur1819;
+      worksheet.getCell('B25').value += item.jumlahAGumur2029;
+      worksheet.getCell('B26').value += item.jumlahAGumur3049;
+      worksheet.getCell('B27').value += item.jumlahAGumur5059;
+      worksheet.getCell('B28').value += item.jumlahAGumur60KeAtas;
+      row.getCell(3).value = item.jumlahLawatanKeRumah;
+      row.getCell(4).value = item.jumlahNasihatPergigianIndividu;
+      row.getCell(5).value = item.jumlahNasihatKesihatanOral;
+      row.getCell(6).value = item.jumlahNasihatPemakanan;
+      row.getCell(7).value = item.jumlahNasihatKanserMulut;
+    }
+
+    for (const item of data[0].ibuMengandung) {
+      const row = worksheet.getRow(30);
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(3).value = item.jumlahLawatanKeRumah;
+      row.getCell(4).value = item.jumlahNasihatPergigianIndividu;
+      row.getCell(5).value = item.jumlahNasihatKesihatanOral;
+      row.getCell(6).value = item.jumlahNasihatPemakanan;
+      row.getCell(7).value = item.jumlahNasihatKanserMulut;
+    }
+
+    for (const item of data[0].orangKurangUpaya) {
+      const row = worksheet.getRow(31);
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      row.getCell(3).value = item.jumlahLawatanKeRumah;
+      row.getCell(4).value = item.jumlahNasihatPergigianIndividu;
+      row.getCell(5).value = item.jumlahNasihatKesihatanOral;
+      row.getCell(6).value = item.jumlahNasihatPemakanan;
+      row.getCell(7).value = item.jumlahNasihatKanserMulut;
+    }
+
+    for (const item of data[0].opLain) {
+      let rowNumber;
+
+      switch (item._id) {
+        case 0:
+          rowNumber = 17;
+          break;
+        case 1:
+          rowNumber = 18;
+          break;
+        case 5:
+          rowNumber = 19;
+          break;
+        case 7:
+          rowNumber = 20;
+          break;
+        case 10:
+          rowNumber = 21;
+          break;
+        case 13:
+          rowNumber = 22;
+          break;
+        case 15:
+          rowNumber = 23;
+          break;
+        case 18:
+          rowNumber = 24;
+          break;
+        case 20:
+          rowNumber = 25;
+          break;
+        case 30:
+          rowNumber = 26;
+          break;
+        case 50:
+          rowNumber = 27;
+          break;
+        case 60:
+          rowNumber = 28;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+      jumlahReten += item.jumlahReten;
+      jumlahRetenSalah += item.statusReten;
+      worksheet.getCell('B23').value += item.jumlahAGumur1517;
+      worksheet.getCell('B24').value += item.jumlahAGumur1819;
+      worksheet.getCell('B25').value += item.jumlahAGumur2029;
+      worksheet.getCell('B26').value += item.jumlahAGumur3049;
+      worksheet.getCell('B27').value += item.jumlahAGumur5059;
+      worksheet.getCell('B28').value += item.jumlahAGumur60KeAtas;
+      row.getCell(3).value = item.jumlahLawatanKeRumah;
+      row.getCell(4).value = item.jumlahNasihatPergigianIndividu;
+      row.getCell(5).value = item.jumlahNasihatKesihatanOral;
+      row.getCell(6).value = item.jumlahNasihatPemakanan;
+      row.getCell(7).value = item.jumlahNasihatKanserMulut;
+    }
+
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'J8'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
+    worksheet.getCell('J9').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'J10'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell('J11').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('J8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('J9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('J10').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('J11').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.name = 'PGPR201-CUST-IM';
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(
+      `[generateRetenController/makePGPR201CustomIM] writing file ${newfile}`
+    );
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makePGPR201CustomIM] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+    return file;
+  } catch (error) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makePGPR201CustomIM] Excel making error. Reason: ${error}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
 const makePgPro01 = async (payload) => {
   logger.info('[generateRetenController/makePgPro01] makePgPro01');
   let {
@@ -14147,6 +14425,7 @@ const mapsOfSeveralRetens = new Map([
   ['PG207', makePG207],
   ['PG214', makePG214],
   ['PGPR201', makePGPR201],
+  ['PGPR201-CUSTOM-IM', makePGPR201CustomIM],
   ['PGPRO01', makePgPro01],
   ['PGPRO01Combined', makePgPro01Combined],
   ['PGS201', makePGS201],
