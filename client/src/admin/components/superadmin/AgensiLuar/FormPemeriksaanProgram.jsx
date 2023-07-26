@@ -9,7 +9,9 @@ const FormPemeriksaanProgramGtod = ({
   setShowFormPemeriksaan,
   setShowTable,
   pemeriksaanSatu,
+  setPemeriksaanSatu,
   pemeriksaanDua,
+  setPemeriksaanDua,
   reloadState,
   setReloadState,
 }) => {
@@ -582,6 +584,8 @@ const FormPemeriksaanProgramGtod = ({
             setShowFormPemeriksaan(false);
             setShowTable(true);
             setReloadState(!reloadState);
+            setPemeriksaanSatu(null);
+            setPemeriksaanDua(null);
           }}
         >
           batal
