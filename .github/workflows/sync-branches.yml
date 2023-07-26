@@ -5,7 +5,7 @@ on:
       - unstable-nightly
 
 jobs:
-  sync-branch-nocturnalmc:
+  sync-branch-dev-work:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,7 +20,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: 'unstable-nightly'
-          TO_BRANCH: 'nocturnalmc'
+          TO_BRANCH: 'dev-work'
           LABELS: '["automerge"]'
   sync-branch-t4qi:
     runs-on: ubuntu-latest
