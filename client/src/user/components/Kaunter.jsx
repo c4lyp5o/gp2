@@ -153,6 +153,8 @@ function Kaunter({
             setShowPilihanProgram={setShowPilihanProgram}
             kp={createdByKp}
             queryingMyVas={queryingMyVas}
+            dariMyVas={dariMyVas}
+            setDariMyVas={setDariMyVas}
           />
         ) : null}
         <FillableForm

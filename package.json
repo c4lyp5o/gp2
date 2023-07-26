@@ -14,7 +14,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "build-client": "cd client && npm run build",
-    "deploy-local": "npm run build-client && npm start",
+    "deploy-local": "npm run build-client && npm run server",
     "start": "node server.js"
   },
   "repository": {

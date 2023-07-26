@@ -22,8 +22,7 @@ import Datetime from 'react-datetime';
 
 import Confirmation from './Confirmation';
 
-import mysejahtera from '../../../assets/MySejahtera.png';
-import MyVasModal from './MyVasModalConfirm';
+import MyVasModalConfirm from './MyVasModalConfirm';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -48,7 +47,6 @@ export default function FillableForm({
 }) {
   const {
     kaunterToken,
-    navigate,
     Dictionary,
     dateToday,
     masterDatePicker,
@@ -65,7 +63,7 @@ export default function FillableForm({
   const [confirmData, setConfirmData] = useState({});
 
   // modal MyVAS
-  const [showModalMyVas, setShowModalMyVas] = useState(false);
+  const [showModalMyVasConfirm, setShowModalMyVasConfirm] = useState(false);
 
   // core
   const [kedatangan, setKedatangan] = useState('');
@@ -699,6 +697,9 @@ export default function FillableForm({
             setDariFormProgramKomuniti(true);
             setFetchProgramData(!fetchProgramData);
           }
+          if (jenisFasiliti === 'kp') {
+            setDariMyVas(false);
+          }
           setShowForm(false);
           setAddingData(false);
         });
@@ -805,6 +806,9 @@ export default function FillableForm({
           if (jenisFasiliti === 'projek-komuniti-lain') {
             setDariFormProgramKomuniti(true);
             setFetchProgramData(!fetchProgramData);
+          }
+          if (jenisFasiliti === 'kp') {
+            setDariMyVas(false);
           }
           setShowForm(false);
           setAddingData(false);
@@ -923,11 +927,11 @@ export default function FillableForm({
   // MyVAS stuff
   useEffect(() => {
     if (dariMyVas) {
-      setShowModalMyVas(true);
+      setShowModalMyVasConfirm(true);
     }
   }, [dariMyVas]);
 
-  const handleDataPassMyVas = (jiMyvas, keMyvas, daMyvas) => {
+  const handleDataPassMyVas = (jiMyvas) => {
     const timeString = moment(masaTemujanji).format('HH:mm');
     const jantinaMyvas =
       patientDataFromMyVas.resource.gender &&
@@ -966,10 +970,8 @@ export default function FillableForm({
     setUmur(tahun);
     setUmurBulan(bulan);
     setUmurHari(hari);
-    setKumpulanEtnik(keMyvas);
     patientDataFromMyVas.resource.address[0].line[0] &&
       setAlamat(patientDataFromMyVas.resource.address[0].line[0]);
-    setDaerahAlamat(daMyvas);
     setPoskodAlamat(
       patientDataFromMyVas.resource.address[0].postalCode &&
         patientDataFromMyVas.resource.address[0].postalCode
@@ -998,11 +1000,9 @@ export default function FillableForm({
       umur: tahun,
       umurBulan: bulan,
       umurHari: hari,
-      kumpulanEtnik: keMyvas,
       alamat:
         patientDataFromMyVas.resource.address[0].line[0] &&
         patientDataFromMyVas.resource.address[0].line[0],
-      daerahAlamat: daMyvas,
       poskodAlamat:
         patientDataFromMyVas.resource.address[0].postalCode &&
         patientDataFromMyVas.resource.address[0].postalCode,
@@ -1498,6 +1498,7 @@ export default function FillableForm({
                       </div>
                       <div className='flex justify-start my-2'>
                         <input
+                          disabled={dariMyVas ? true : false}
                           type='checkbox'
                           name='temujanji'
                           id='temujanji'
@@ -1571,6 +1572,7 @@ export default function FillableForm({
                               inputProps={{
                                 required: true,
                                 readOnly: true,
+                                disabled: dariMyVas ? true : false,
                                 className:
                                   'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
                               }}
@@ -1593,7 +1595,7 @@ export default function FillableForm({
                     <div className='relative w-full md:w-56'>
                       <select
                         required
-                        disabled={editId ? true : false}
+                        disabled={editId || dariMyVas ? true : false}
                         id='pengenalan'
                         name='pengenalan'
                         value={jenisIc}
@@ -1642,29 +1644,10 @@ export default function FillableForm({
                       <span>
                         <FaCaretSquareDown className='absolute top-4 right-2 text-kaunter3' />
                       </span>
-                      {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
-                        import.meta.env.VITE_ENV === 'DEV') &&
-                      jenisFasiliti === 'kp' &&
-                      !editId ? (
-                        <span
-                          onClick={() => {
-                            setDariMyVas(false);
-                            navigate('/pendaftaran/daftar/kp/myvas');
-                          }}
-                          className='absolute -right-24 top-2 bg-user1 text-userWhite rounded-md text-sm px-1.5 py-1 hover:bg-user3 hover:text-userBlack cursor-pointer flex items-center'
-                        >
-                          <img
-                            src={mysejahtera}
-                            alt='MySejahtera Logo'
-                            className='w-6 h-6 inline-block mr-1'
-                          />
-                          MyVAS
-                        </span>
-                      ) : null}
                     </div>
                     {jenisIc === 'mykad-mykid' && (
                       <input
-                        disabled={editId ? true : false}
+                        disabled={editId || dariMyVas ? true : false}
                         required
                         type='text'
                         name='ic'
@@ -1689,7 +1672,7 @@ export default function FillableForm({
                       jenisIc !== '' && (
                         <div className='flex flex-row items-center'>
                           <input
-                            disabled={editId ? true : false}
+                            disabled={editId || dariMyVas ? true : false}
                             required
                             type='text'
                             name='ic'
@@ -1879,6 +1862,7 @@ export default function FillableForm({
                   <div className='relative w-full'>
                     <input
                       required={jenisIc === 'birth-of' ? false : true}
+                      disabled={dariMyVas ? true : false}
                       type='text'
                       id='nama-umum'
                       name='nama-umum'
@@ -3623,11 +3607,6 @@ export default function FillableForm({
                 ) : (
                   <button
                     type='submit'
-                    onClick={() => {
-                      if (jenisFasiliti === 'kp') {
-                        setDariMyVas(false);
-                      }
-                    }}
                     className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
                     data-cy='submit-pendaftaran'
                   >
@@ -3663,9 +3642,9 @@ export default function FillableForm({
                   )}
               </div>
             </form>
-            {showModalMyVas && (
-              <MyVasModal
-                setShowModalMyVas={setShowModalMyVas}
+            {showModalMyVasConfirm && (
+              <MyVasModalConfirm
+                setShowModalMyVasConfirm={setShowModalMyVasConfirm}
                 patientDataFromMyVas={patientDataFromMyVas}
                 handleDataPassMyVas={handleDataPassMyVas}
               />
