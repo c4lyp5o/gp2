@@ -2576,6 +2576,7 @@ const makePG207 = async (payload) => {
         row.getCell(27).value = item.jumlahPerluDenturPenuh;
         row.getCell(28).value = item.jumlahPerluDenturSepara;
       }
+      row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].umumRawatan) {
       switch (item._id) {
@@ -2684,7 +2685,7 @@ const makePG207 = async (payload) => {
       }
       row.getCell(79).value = item.kesSelesai;
       row.getCell(80).value = item.xrayDiambil;
-      row.getCell(81).value = item.pesakitDisaringOC;
+      // row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].imPemeriksaan) {
       const row = worksheet.getRow(30);
@@ -2717,6 +2718,7 @@ const makePG207 = async (payload) => {
       row.getCell(26).value = item.perluEndoMolar;
       row.getCell(27).value = item.jumlahPerluDenturPenuh;
       row.getCell(28).value = item.jumlahPerluDenturSepara;
+      row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].imRawatan) {
       const row = worksheet.getRow(30);
@@ -2773,7 +2775,7 @@ const makePG207 = async (payload) => {
       row.getCell(78).value = item.pembaikanDenture;
       row.getCell(79).value = item.kesSelesai;
       row.getCell(80).value = item.xrayDiambil;
-      row.getCell(81).value = item.pesakitDisaringOC;
+      // row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].okuPemeriksaan) {
       const row = worksheet.getRow(31);
@@ -2806,6 +2808,7 @@ const makePG207 = async (payload) => {
       row.getCell(26).value = item.perluEndoMolar;
       row.getCell(27).value = item.jumlahPerluDenturPenuh;
       row.getCell(28).value = item.jumlahPerluDenturSepara;
+      row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].okuRawatan) {
       const row = worksheet.getRow(31);
@@ -2862,7 +2865,7 @@ const makePG207 = async (payload) => {
       row.getCell(78).value = item.pembaikanDenture;
       row.getCell(79).value = item.kesSelesai;
       row.getCell(80).value = item.xrayDiambil;
-      row.getCell(81).value = item.pesakitDisaringOC;
+      // row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].bwPemeriksaan) {
       const row = worksheet.getRow(32);
@@ -2895,6 +2898,7 @@ const makePG207 = async (payload) => {
       row.getCell(26).value = item.perluEndoMolar;
       row.getCell(27).value = item.jumlahPerluDenturPenuh;
       row.getCell(28).value = item.jumlahPerluDenturSepara;
+      row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[0][0].bwRawatan) {
       const row = worksheet.getRow(32);
@@ -2951,7 +2955,7 @@ const makePG207 = async (payload) => {
       row.getCell(78).value = item.pembaikanDenture;
       row.getCell(79).value = item.kesSelesai;
       row.getCell(80).value = item.xrayDiambil;
-      row.getCell(81).value = item.pesakitDisaringOC;
+      // row.getCell(81).value = item.pesakitDisaringOC;
     }
     for (const item of data[1][0].oplainRawatan) {
       switch (item._id) {
@@ -6445,7 +6449,7 @@ const makePGS203 = async (payload) => {
       row.getCell(62).value += item.kesSelesai;
     }
 
-    // sekolah
+    // rawatan sekolah
     for (const item of data[5][0].dataKPSKPB) {
       switch (item._id) {
         case 'prasekolah':
@@ -9014,7 +9018,12 @@ const makePPIM03 = async (payload) => {
     );
     newSheet.getCell('B7').value = `${negeri.toUpperCase()}`;
     newSheet.getCell('B8').value = `${daerah.toUpperCase()}`;
-    // newSheet.getCell('B8').value = `${klinik.toUpperCase()}`;
+    newSheet.getCell('A4').value =
+      'REKOD SARINGAN DAN INTERVENSI MEROKOK MELALUI PERKHIDMATAN PERGIGIAN SEKOLAH MENENGAH';
+    newSheet.getCell('AI1').value = 'Borang PPIM 03-2023 (SM)';
+    newSheet.getCell('A30').value = '4) SM = Sekolah Menengah';
+    newSheet.getCell('B9').value =
+      daerah !== 'all' ? `${klinik.toUpperCase()}` : '';
     // newSheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
     //
     worksheet.getCell('S5').value = moment(new Date()).format('YYYY');
@@ -9023,7 +9032,7 @@ const makePPIM03 = async (payload) => {
     );
     worksheet.getCell('B7').value = `${negeri.toUpperCase()}`;
     worksheet.getCell('B8').value = `${daerah.toUpperCase()}`;
-    // worksheet.getCell('B9').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell('B9').value = `${klinik.toUpperCase()}`;
     // worksheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
     //
     let jumlahReten = 0;
@@ -9070,67 +9079,51 @@ const makePPIM03 = async (payload) => {
           data[0][i].bilPerokokSemasaDirujukIntervensi;
       }
     }
-    for (let i = 0; i < data[1].length; i++) {
-      if (data[1][i]) {
-        switch (data[1][i]._id) {
-          case 'T1':
-            rowNumber = 16;
-            break;
-          case 'T2':
-            rowNumber = 17;
-            break;
-          case 'T3':
-            rowNumber = 18;
-            break;
-          case 'T4':
-            rowNumber = 19;
-            break;
-          case 'T5':
-            rowNumber = 20;
-            break;
-          case 'P':
-            rowNumber = 22;
-            break;
-          case 'KHAM':
-            rowNumber = 23;
-            break;
-          default:
-            continue;
-        }
-
-        newSheet.getRow(rowNumber).getCell(9).value =
-          data[1][i].bilPerokokSemasaLelakiMelayu;
-        newSheet.getRow(rowNumber).getCell(10).value =
-          data[1][i].bilPerokokSemasaLelakiCina;
-        newSheet.getRow(rowNumber).getCell(11).value =
-          data[1][i].bilPerokokSemasaLelakiIndia;
-        newSheet.getRow(rowNumber).getCell(12).value =
-          data[1][i].bilPerokokSemasaLelakiLainlain;
-        newSheet.getRow(rowNumber).getCell(14).value =
-          data[1][i].bilPerokokSemasaPerempuanMelayu;
-        newSheet.getRow(rowNumber).getCell(15).value =
-          data[1][i].bilPerokokSemasaPerempuanCina;
-        newSheet.getRow(rowNumber).getCell(16).value =
-          data[1][i].bilPerokokSemasaPerempuanMelayu;
-        newSheet.getRow(rowNumber).getCell(17).value =
-          data[1][i].bilPerokokSemasaPerempuanLainlain;
-        newSheet.getRow(rowNumber).getCell(25).value =
-          data[1][i].bilBekasPerokokLelaki;
-        newSheet.getRow(rowNumber).getCell(26).value =
-          data[1][i].bilBekasPerokokPerempuan;
-        newSheet.getRow(rowNumber).getCell(29).value =
-          data[1][i].bilPerokokPasifLelaki;
-        newSheet.getRow(rowNumber).getCell(30).value =
-          data[1][i].bilPerokokPasifPerempuan;
-        newSheet.getRow(rowNumber).getCell(33).value =
-          data[1][i].bilBukanPerokokLelaki;
-        newSheet.getRow(rowNumber).getCell(34).value =
-          data[1][i].bilBukanPerokokPerempuan;
-        newSheet.getRow(rowNumber).getCell(37).value =
-          data[1][i].bilDalamIntervensiLelaki;
-        newSheet.getRow(rowNumber).getCell(38).value =
-          data[1][i].bilDalamIntervensiPerempuan;
+    for (const item of data[1][0].dataSekolah) {
+      switch (item._id) {
+        case 'tingkatan1':
+          rowNumber = 16;
+          break;
+        case 'tingkatan2':
+          rowNumber = 17;
+          break;
+        case 'tingkatan3':
+          rowNumber = 18;
+          break;
+        case 'tingkatan4':
+          rowNumber = 19;
+          break;
+        case 'tingkatan5':
+          rowNumber = 20;
+          break;
+        case 'peralihan':
+          rowNumber = 22;
+          break;
+        case 'kki-sm':
+          rowNumber = 23;
+          break;
+        default:
+          continue;
       }
+
+      const row = newSheet.getRow(rowNumber);
+
+      row.getCell(9).value = item.bilPerokokSemasaLelakiMelayu;
+      row.getCell(10).value = item.bilPerokokSemasaLelakiCina;
+      row.getCell(11).value = item.bilPerokokSemasaLelakiIndia;
+      row.getCell(12).value = item.bilPerokokSemasaLelakiLainlain;
+      row.getCell(14).value = item.bilPerokokSemasaPerempuanMelayu;
+      row.getCell(15).value = item.bilPerokokSemasaPerempuanCina;
+      row.getCell(16).value = item.bilPerokokSemasaPerempuanMelayu;
+      row.getCell(17).value = item.bilPerokokSemasaPerempuanLainlain;
+      row.getCell(25).value = item.bilBekasPerokokLelaki;
+      row.getCell(26).value = item.bilBekasPerokokPerempuan;
+      row.getCell(29).value = item.bilPerokokPasifLelaki;
+      row.getCell(30).value = item.bilPerokokPasifPerempuan;
+      row.getCell(33).value = item.bilBukanPerokokLelaki;
+      row.getCell(34).value = item.bilBukanPerokokPerempuan;
+      row.getCell(37).value = item.bilDalamIntervensiLelaki;
+      row.getCell(38).value = item.bilDalamIntervensiPerempuan;
     }
     //
     for (let i = 0; i < data[0].length; i++) {
@@ -9176,67 +9169,114 @@ const makePPIM03 = async (payload) => {
           data[0][i].bilPerokokSemasaDirujukIntervensi;
       }
     }
-    for (let i = 0; i < data[1].length; i++) {
-      if (data[1][i]) {
-        switch (data[1][i]._id) {
-          case 'D1':
-            rowNumber = 16;
-            break;
-          case 'D2':
-            rowNumber = 17;
-            break;
-          case 'D3':
-            rowNumber = 18;
-            break;
-          case 'D4':
-            rowNumber = 19;
-            break;
-          case 'D5':
-            rowNumber = 20;
-            break;
-          case 'D6':
-            rowNumber = 21;
-            break;
-          case 'KHAS':
-            rowNumber = 23;
-            break;
-          default:
-            continue;
-        }
-
-        worksheet.getRow(rowNumber).getCell(9).value =
-          data[1][i].bilPerokokSemasaLelakiMelayu;
-        worksheet.getRow(rowNumber).getCell(10).value =
-          data[1][i].bilPerokokSemasaLelakiCina;
-        worksheet.getRow(rowNumber).getCell(11).value =
-          data[1][i].bilPerokokSemasaLelakiIndia;
-        worksheet.getRow(rowNumber).getCell(12).value =
-          data[1][i].bilPerokokSemasaLelakiLainlain;
-        worksheet.getRow(rowNumber).getCell(14).value =
-          data[1][i].bilPerokokSemasaPerempuanMelayu;
-        worksheet.getRow(rowNumber).getCell(15).value =
-          data[1][i].bilPerokokSemasaPerempuanCina;
-        worksheet.getRow(rowNumber).getCell(16).value =
-          data[1][i].bilPerokokSemasaPerempuanMelayu;
-        worksheet.getRow(rowNumber).getCell(17).value =
-          data[1][i].bilPerokokSemasaPerempuanLainlain;
-        worksheet.getRow(rowNumber).getCell(25).value =
-          data[1][i].bilBekasPerokokLelaki;
-        worksheet.getRow(rowNumber).getCell(26).value =
-          data[1][i].bilBekasPerokokPerempuan;
-        worksheet.getRow(rowNumber).getCell(29).value =
-          data[1][i].bilPerokokPasifLelaki;
-        worksheet.getRow(rowNumber).getCell(30).value =
-          data[1][i].bilPerokokPasifPerempuan;
-        worksheet.getRow(rowNumber).getCell(33).value =
-          data[1][i].bilBukanPerokokLelaki;
-        worksheet.getRow(rowNumber).getCell(34).value =
-          data[1][i].bilBukanPerokokPerempuan;
-        worksheet.getRow(rowNumber).getCell(37).value =
-          data[1][i].bilDalamIntervensiLelaki;
-        worksheet.getRow(rowNumber).getCell(38).value =
-          data[1][i].bilDalamIntervensiPerempuan;
+    for (const item of data[1][0].dataSekolah) {
+      switch (item._id) {
+        case 'darjah1':
+          rowNumber = 16;
+          break;
+        case 'darjah2':
+          rowNumber = 17;
+          break;
+        case 'darjah3':
+          rowNumber = 18;
+          break;
+        case 'darjah4':
+          rowNumber = 19;
+          break;
+        case 'darjah5':
+          rowNumber = 20;
+          break;
+        case 'darjah6':
+          rowNumber = 21;
+          break;
+        case 'kki-sr':
+          rowNumber = 23;
+          break;
+        default:
+          continue;
       }
+
+      const row = worksheet.getRow(rowNumber);
+
+      row.getCell(9).value = item.bilPerokokSemasaLelakiMelayu;
+      row.getCell(10).value = item.bilPerokokSemasaLelakiCina;
+      row.getCell(11).value = item.bilPerokokSemasaLelakiIndia;
+      row.getCell(12).value = item.bilPerokokSemasaLelakiLainlain;
+      row.getCell(14).value = item.bilPerokokSemasaPerempuanMelayu;
+      row.getCell(15).value = item.bilPerokokSemasaPerempuanCina;
+      row.getCell(16).value = item.bilPerokokSemasaPerempuanMelayu;
+      row.getCell(17).value = item.bilPerokokSemasaPerempuanLainlain;
+      row.getCell(25).value = item.bilBekasPerokokLelaki;
+      row.getCell(26).value = item.bilBekasPerokokPerempuan;
+      row.getCell(29).value = item.bilPerokokPasifLelaki;
+      row.getCell(30).value = item.bilPerokokPasifPerempuan;
+      row.getCell(33).value = item.bilBukanPerokokLelaki;
+      row.getCell(34).value = item.bilBukanPerokokPerempuan;
+      row.getCell(37).value = item.bilDalamIntervensiLelaki;
+      row.getCell(38).value = item.bilDalamIntervensiPerempuan;
+    }
+    // enrolmen
+    for (const item of data[1][0].dataEnrolmen) {
+      switch (item._id) {
+        case 'tingkatan1':
+          rowNumber = 16;
+          break;
+        case 'tingkatan2':
+          rowNumber = 17;
+          break;
+        case 'tingkatan3':
+          rowNumber = 18;
+          break;
+        case 'tingkatan4':
+          rowNumber = 19;
+          break;
+        case 'tingkatan5':
+          rowNumber = 20;
+          break;
+        case 'peralihan':
+          rowNumber = 22;
+          break;
+        case 'kki-sm':
+          rowNumber = 23;
+          break;
+        default:
+          continue;
+      }
+
+      const row = newSheet.getRow(rowNumber);
+
+      row.getCell(2).value = item.jumlah;
+    }
+    for (const item of data[1][0].dataEnrolmen) {
+      switch (item._id) {
+        case 'darjah1':
+          rowNumber = 16;
+          break;
+        case 'darjah2':
+          rowNumber = 17;
+          break;
+        case 'darjah3':
+          rowNumber = 18;
+          break;
+        case 'darjah4':
+          rowNumber = 19;
+          break;
+        case 'darjah5':
+          rowNumber = 20;
+          break;
+        case 'darjah6':
+          rowNumber = 21;
+          break;
+        case 'kki-sr':
+          rowNumber = 23;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+
+      row.getCell(2).value = item.jumlah;
     }
     //
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;

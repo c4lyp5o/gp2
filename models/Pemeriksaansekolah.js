@@ -207,6 +207,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    yaTidakPesakitMempunyaiSealanfisur: {
+      type: String,
+      default: '',
+    },
     gicBilanganFsDibuat3TahunLepas: {
       type: Number,
       min: 0,
