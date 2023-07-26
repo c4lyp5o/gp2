@@ -16,6 +16,9 @@ import moment from 'moment';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 // import PrintPatientDetails from './PrintPatientDetails';
 
+import MyVasModalLogin from './MyVasModalLogin';
+import mysejahtera from '../../../assets/MySejahtera.png';
+
 const PilihanBulan = (props) => {
   const noWayBack = () => {
     if (props.generatingNoWayBack) {
@@ -141,9 +144,14 @@ export default function PatientData({
   showPilihanProgram,
   setShowPilihanProgram,
   kp,
+  queryingMyVas,
+  dariMyVas,
+  setDariMyVas,
 }) {
   const {
     kaunterToken,
+    myVasToken,
+    navigate,
     Dictionary,
     dateToday,
     formatTime,
@@ -156,6 +164,8 @@ export default function PatientData({
   const [generating, setGenerating] = useState(false);
   const [generatingNoWayBack, setGeneratingNoWayBack] = useState(false);
   const [defaultTimer, setDefaultTimer] = useState(60);
+
+  const [showModalMyVasLogin, setShowModalMyVasLogin] = useState(false);
 
   const [sort, setSort] = useState({
     masaDaftar: false,
@@ -319,9 +329,6 @@ export default function PatientData({
       setIsLoading(false);
     } catch (error) {
       console.log(error);
-      // toast.error(
-      //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-patientdata-reloadData'
-      // );
     }
   };
 
@@ -336,7 +343,17 @@ export default function PatientData({
     defaultTimer,
   };
 
-  if (!showForm && !showPilihanProgram) {
+  if (queryingMyVas) {
+    return (
+      <div className='mt-20'>
+        <h1 className='animate-pulse text-user1 font-bold text-4xl'>
+          Sedang Mengambil Data Pesakit MyVAS....
+        </h1>
+      </div>
+    );
+  }
+
+  if (!showForm && !showPilihanProgram && !queryingMyVas) {
     return (
       <>
         <div className='py-3'>
@@ -384,18 +401,44 @@ export default function PatientData({
             </div>
           </div>
           {jenisFasiliti === 'kp' ? (
-            <div>
+            <div className='flex justify-center items-center'>
               <button
                 type='button'
-                className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                className='px-6 py-2.5 m-1 w-64 h-10 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                 onClick={() => setShowForm(true)}
                 data-cy='daftar-pesakit'
               >
                 Daftar Pesakit
               </button>
+              {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+              import.meta.env.VITE_ENV === 'DEV' ? (
+                <button
+                  onClick={() => {
+                    if (myVasToken && !dariMyVas) {
+                      setDariMyVas(false);
+                      navigate('/pendaftaran/daftar/kp/myvas');
+                    }
+                    if (myVasToken && dariMyVas) {
+                      setShowForm(true);
+                    }
+                    if (!myVasToken) {
+                      setDariMyVas(false);
+                      setShowModalMyVasLogin(true);
+                    }
+                  }}
+                  className='px-1 py-0.5 mx-1 w-64 h-10 text-userWhite font-medium text-xs normal-case rounded-md shadow-md transition-all duration-500 bg-gradient-to-r from-user1 to-[#7f8c8d] hover:from-[#3399ff] hover:via-[#3399ff] hover:to-[#3366ff] bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%]'
+                >
+                  <img
+                    src={mysejahtera}
+                    alt='MySejahtera Logo'
+                    className='w-8 h-8 inline-flex mr-1'
+                  />
+                  <span>DAFTAR PESAKIT JANJI TEMU MyVAS</span>
+                </button>
+              ) : null}
               <button
                 onClick={() => setShowBulan(true)}
-                className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                className='px-6 py-2.5 m-1 w-64 h-10 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
               >
                 Jana Reten PG101A
               </button>
@@ -403,7 +446,7 @@ export default function PatientData({
           ) : (
             <button
               type='button'
-              className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+              className='px-6 py-2.5 m-1 w-64 h-10 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
               onClick={() => setShowForm(true)}
               data-cy='daftar-pesakit'
             >
@@ -641,6 +684,9 @@ export default function PatientData({
             {showBulan ? <PilihanBulan {...props} /> : null}
           </div>
         </div>
+        {showModalMyVasLogin ? (
+          <MyVasModalLogin setShowModalMyVasLogin={setShowModalMyVasLogin} />
+        ) : null}
       </>
     );
   }

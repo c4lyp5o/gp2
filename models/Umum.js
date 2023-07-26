@@ -33,6 +33,7 @@ const UmumSchema = new mongoose.Schema(
     waktuSelesaiDaftar: { type: String, default: '' },
     temujanji: { type: Boolean, default: false },
     waktuTemujanji: { type: String, default: '' },
+    myVasIsTrue: { type: Boolean, default: false },
     oncall: { type: Boolean, default: false },
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
@@ -69,6 +70,7 @@ const UmumSchema = new mongoose.Schema(
     noBayaran3: { type: String, default: '' },
     noResit3: { type: String, default: '' },
     catatan: { type: String, default: '' },
+    myVasConsent: { type: Boolean, default: false },
     // kepp
     kepp: { type: Boolean, default: false },
     kedatanganKepp: { type: String, default: '' },

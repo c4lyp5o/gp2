@@ -1,4 +1,4 @@
-import { useState, useEffect, useId } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import moment from 'moment';
@@ -16,8 +16,13 @@ function Kaunter({
   createdByKp,
   createdByDaerah,
   createdByNegeri,
+  patientDataFromMyVas,
+  dariMyVas,
+  setDariMyVas,
+  masaTemujanji,
+  queryingMyVas,
 }) {
-  const { kaunterToken, dateToday, toast } = useGlobalUserAppContext();
+  const { kaunterToken, dateToday } = useGlobalUserAppContext();
 
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
@@ -49,9 +54,6 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-single'
-          // );
         }
       };
       setSemuaProgram([]);
@@ -74,9 +76,6 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-pj'
-          // );
         }
       };
       fetchJenisProgram();
@@ -101,9 +100,6 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-single-pj'
-          // );
         }
       };
       fetchPersonUmum();
@@ -118,6 +114,13 @@ function Kaunter({
       setNamaProgram('');
     }
   }, [jenisFasiliti]);
+
+  //show FillableForm if dariMyVas === true
+  useEffect(() => {
+    if (dariMyVas) {
+      setShowForm(true);
+    }
+  }, [dariMyVas]);
 
   if (loading) {
     return (
@@ -149,6 +152,9 @@ function Kaunter({
             showPilihanProgram={showPilihanProgram}
             setShowPilihanProgram={setShowPilihanProgram}
             kp={createdByKp}
+            queryingMyVas={queryingMyVas}
+            dariMyVas={dariMyVas}
+            setDariMyVas={setDariMyVas}
           />
         ) : null}
         <FillableForm
@@ -165,6 +171,10 @@ function Kaunter({
           fetchProgramData={fetchProgramData}
           setFetchProgramData={setFetchProgramData}
           kp={createdByKp}
+          dariMyVas={dariMyVas}
+          setDariMyVas={setDariMyVas}
+          patientDataFromMyVas={patientDataFromMyVas}
+          masaTemujanji={masaTemujanji}
         />
         {jenisFasiliti === 'projek-komuniti-lain' ? (
           <KaunterKomunitiLain
