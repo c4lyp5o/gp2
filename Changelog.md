@@ -13,7 +13,7 @@
 
 #### Changed
 
-- Umur sebenar adalah mengikut tarikh kedatangan ketika mendaftarkan pesakit di modul Pendaftaran
+- Umur sebenar adalah mengikut tarikh kedatangan ketika mendaftarkan pesakit di modul Pendaftaran (internal only)
 
 #### Fixed
 
