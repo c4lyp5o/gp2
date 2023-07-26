@@ -697,6 +697,9 @@ export default function FillableForm({
             setDariFormProgramKomuniti(true);
             setFetchProgramData(!fetchProgramData);
           }
+          if (jenisFasiliti === 'kp') {
+            setDariMyVas(false);
+          }
           setShowForm(false);
           setAddingData(false);
         });
@@ -803,6 +806,9 @@ export default function FillableForm({
           if (jenisFasiliti === 'projek-komuniti-lain') {
             setDariFormProgramKomuniti(true);
             setFetchProgramData(!fetchProgramData);
+          }
+          if (jenisFasiliti === 'kp') {
+            setDariMyVas(false);
           }
           setShowForm(false);
           setAddingData(false);
@@ -3601,11 +3607,6 @@ export default function FillableForm({
                 ) : (
                   <button
                     type='submit'
-                    onClick={() => {
-                      if (jenisFasiliti === 'kp') {
-                        setDariMyVas(false);
-                      }
-                    }}
                     className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
                     data-cy='submit-pendaftaran'
                   >
