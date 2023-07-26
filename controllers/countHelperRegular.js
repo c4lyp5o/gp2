@@ -3009,6 +3009,84 @@ const countPGPR201 = async (payload) => {
     throw new Error(error);
   }
 };
+const countPGPR201CustomIM = async (payload) => {
+  const main_switch = {
+    $match: {
+      ...getParamsPgpr201(payload),
+      ...ultimateCutoff(payload),
+      ibuMengandung: true,
+      bookingIM: 'ya-booking-im',
+    },
+  };
+
+  const facet_stage = {
+    $facet: {
+      biasa: [
+        {
+          $bucket: {
+            groupBy: '$umur',
+            boundaries: [7, 10, 13, 15, 18, 20, 30, 50, 60, 150],
+            default: 'Other',
+            output: {
+              ...outputReqPgpr201,
+            },
+          },
+        },
+      ],
+      ibuMengandung: [
+        {
+          $match: {
+            ibuMengandung: true,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            ...outputReqPgpr201,
+          },
+        },
+      ],
+      orangKurangUpaya: [
+        {
+          $match: {
+            orangKurangUpaya: true,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            ...outputReqPgpr201,
+          },
+        },
+      ],
+      opLain: [
+        ...getParamsOplainP2,
+        {
+          $bucket: {
+            groupBy: '$umur',
+            boundaries: [7, 10, 13, 15, 18, 20, 30, 50, 60, 150],
+            default: 'Other',
+            output: {
+              ...outputReqPgpr201,
+            },
+          },
+        },
+      ],
+    },
+  };
+
+  try {
+    const pipeline = [main_switch, facet_stage];
+    const PGPR201CUSTOMIM = await Umum.aggregate(pipeline);
+
+    return PGPR201CUSTOMIM;
+  } catch (error) {
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
+    );
+    throw new Error(error);
+  }
+};
 
 // Reten Sekolah
 const countPGS201 = async (payload) => {
@@ -4172,6 +4250,7 @@ const countPGS203 = async (payload) => {
       $addFields: {
         govKe: '$fasiliti_data.govKe',
         kodTastad: '$fasiliti_data.kodTastad',
+        statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
       },
     },
     {
@@ -4183,6 +4262,7 @@ const countPGS203 = async (payload) => {
       $match: {
         govKe: 'Kerajaan',
         kodTastad: { $regex: /tad/i },
+        statusPerkhidmatan: 'active',
       },
     },
   ];
@@ -4243,6 +4323,7 @@ const countPGS203 = async (payload) => {
       $addFields: {
         govKe: '$fasiliti_data.govKe',
         kodTastad: '$fasiliti_data.kodTastad',
+        statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
       },
     },
     {
@@ -4254,6 +4335,7 @@ const countPGS203 = async (payload) => {
       $match: {
         govKe: 'Swasta',
         kodTastad: { $regex: /tad/i },
+        statusPerkhidmatan: 'active',
       },
     },
   ];
@@ -9108,6 +9190,7 @@ module.exports = {
   countPG206,
   countPG207,
   countPGPR201,
+  countPGPR201CustomIM,
   countPGS201,
   countPGS203,
   countPGPro01,

@@ -16,6 +16,7 @@ const ondemandSchema = new Schema(
     PG207: { type: Boolean, required: true, default: false },
     PG214: { type: Boolean, required: true, default: false },
     PGPR201: { type: Boolean, required: true, default: false },
+    'PGPR201-CUSTOM-IM': { type: Boolean, required: true, default: false },
     PGPRO01: { type: Boolean, required: true, default: false },
     PGPRO01Combined: { type: Boolean, required: true, default: false },
     PGS201: { type: Boolean, required: true, default: false },
