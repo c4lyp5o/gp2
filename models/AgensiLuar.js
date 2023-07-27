@@ -12,10 +12,7 @@ const agensiLuarSchema = new Schema(
     namaAgensiLuar: { type: String, default: 'NOT APPLICABLE' },
     bilPegawaiPergigian: { type: Number, default: 0 },
     bilJuruterapi: { type: Number, default: 0 },
-    enrolmenKurang4Tahun: {
-      type: Number,
-      default: 0,
-    },
+    enrolmenKurang4Tahun: { type: Number, default: 0 },
     namaTaskaTadika: { type: String, default: 'NOT APPLICABLE' },
     alamatTaskaTadika: { type: String, default: 'NOT APPLICABLE' },
     // pemeriksaan -------------------------------------------------------
@@ -27,7 +24,8 @@ const agensiLuarSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Pemeriksaanagensiluar',
     },
-    // Program Warga E,as --------------------------------------------------
+    // Program Warga Emas --------------------------------------------------
+    // TODO later
   },
   { timestamps: true }
 );

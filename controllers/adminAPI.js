@@ -603,7 +603,6 @@ const getDataRoute = async (req, res) => {
       }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
       break;
     case 'program-gtod':
-      console.log('masuk gtod', type);
       data = await AgensiLuar.find({
         createdByNegeri: negeri,
         createdByDaerah: daerah,
@@ -895,9 +894,7 @@ const getOneDataRoute = async (req, res) => {
       data = await Event.findById(Id);
       break;
     case 'program-gtod':
-      console.log('masuk gtod', type);
       data = await AgensiLuar.findById(Id);
-      console.log(data);
       break;
     case 'program-wargaemas':
       data = await AgensiLuar.findById(Id);
@@ -1206,7 +1203,6 @@ const postRoute = async (req, res) => {
       );
       break;
     case 'program-gtod':
-      console.log(Data);
       data = await AgensiLuar.create(Data);
       logger.info(
         `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.createdByDaerah}`
@@ -1966,7 +1962,6 @@ const getData = async (req, res) => {
             const singleAgensiLuar = await AgensiLuar.findOne({
               _id: Data.Id,
             });
-            console.log(singleAgensiLuar);
 
             const updatePemeriksaanAgensiLuar =
               await AgensiLuar.findByIdAndUpdate(
