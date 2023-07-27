@@ -92,15 +92,16 @@ const FormTambahProgramGtod = ({
   return (
     <>
       <form
-        className='grid grid-cols-2 auto-rows-min gap-5 mx-10'
+        className='grid grid-cols-2 auto-rows-min gap-5 mx-10 border border-user1 rounded-lg shadow-sm py-10 px-8'
         onSubmit={handleSubmit}
       >
         <div className='grid grid-cols-2'>
           <label
             htmlFor='nama-agensi-luar'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left place-items-center mr-2'
+            className='font-bold uppercase text-xs lg:text-sm justify-start text-left place-items-center mr-2'
           >
             Nama Agensi Luar :
+            <span className='font-semibold text-admin3'>*</span>
           </label>
           <input
             className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -128,9 +129,10 @@ const FormTambahProgramGtod = ({
         <div className='grid grid-cols-2'>
           <label
             htmlFor='jenis-agensi-luar'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left place-items-center mr-2'
+            className='font-bold uppercase text-xs lg:text-sm justify-start text-left place-items-center mr-2'
           >
             Jenis Agensi Luar :
+            <span className='font-semibold text-admin3'>*</span>
           </label>
           <select
             className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -153,7 +155,7 @@ const FormTambahProgramGtod = ({
               }
             }}
           >
-            <option value=''>Pilih Jenis Agensi Luar</option>
+            <option value=''>Pilih jenis agensi luar...</option>
             <option value='angkatan tentera malaysia'>
               Angkatan Tentera Malaysia
             </option>
@@ -172,9 +174,10 @@ const FormTambahProgramGtod = ({
         <div className='grid grid-cols-2'>
           <label
             htmlFor='bil-pegawai-pergigian'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left place-items-center mr-2'
+            className='font-bold uppercase text-xs lg:text-sm justify-start text-left place-items-center mr-2'
           >
             Bilangan Pegawai Pergigian :
+            <span className='font-semibold text-admin3'>*</span>
           </label>
           <input
             className='appearance-none w-full h-8 px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -203,9 +206,10 @@ const FormTambahProgramGtod = ({
         <div className='grid grid-cols-2'>
           <label
             htmlFor='bil-juruterapi'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start place-items-center mr-2'
+            className='font-bold uppercase text-xs lg:text-sm justify-start text-left place-items-center mr-2'
           >
             Bilangan Juruterapi Pergigian :
+            <span className='font-semibold text-admin3'>*</span>
           </label>
           <input
             className='appearance-none w-full h-8 px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -234,9 +238,10 @@ const FormTambahProgramGtod = ({
         <div className='grid grid-cols-2'>
           <label
             htmlFor='bilangan-enrolmen-kurang4-tahun'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left mr-2'
+            className='font-bold uppercase text-xs lg:text-sm justify-start text-left place-items-center mr-2'
           >
             Bilangan Enrolmen Kurang 4 Tahun :
+            <span className='font-semibold text-admin3'>*</span>
           </label>
           <input
             className='appearance-none w-full h-8 px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -265,9 +270,10 @@ const FormTambahProgramGtod = ({
         <div className='grid grid-cols-2'>
           <label
             htmlFor='nama-taska-tadika'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left pt-1 mr-2'
+            className='font-bold uppercase text-xs lg:text-sm justify-start text-left place-items-center mr-2'
           >
             Nama Taska/Tadika :
+            <span className='font-semibold text-admin3'>*</span>
           </label>
           <input
             className='appearance-none w-full h-8 px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -295,9 +301,10 @@ const FormTambahProgramGtod = ({
         <div className='grid grid-cols-[1fr_3fr] col-span-2'>
           <label
             htmlFor='alamat-taska-tadika'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left pt-1 mr-2'
+            className='font-bold uppercase text-xs lg:text-sm justify-start text-left place-items-center mr-2'
           >
             Alamat Taska/Tadika :
+            <span className='font-semibold text-admin3'>*</span>
           </label>
           <textarea
             className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -322,7 +329,7 @@ const FormTambahProgramGtod = ({
           />
         </div>
         <span
-          className='px-4 py-2 text-adminBlack rounded-md cursor-pointer hover:bg-user1 hover:bg-opacity-25'
+          className='px-4 py-2 text-adminBlack shadow-md border border-user1 rounded-md cursor-pointer bg-admin5 hover:bg-user1 hover:bg-opacity-25'
           onClick={() => {
             setShowForm(false);
             setShowTable(true);
@@ -333,14 +340,14 @@ const FormTambahProgramGtod = ({
         </span>
         {addingData ? (
           <span
-            className='px-4 py-2 text-adminWhite bg-admin1 rounded-md cursor-not-allowed inline-flex justify-center items-center space-x-2'
+            className='px-4 py-2 text-adminWhite bg-admin1 shadow-md rounded-md cursor-not-allowed inline-flex justify-center items-center space-x-2'
             disabled
           >
             <BiWorld className='animate-spin' /> Menghantar
           </span>
         ) : (
           <button
-            className='px-4 py-2 text-adminWhite bg-admin1 rounded-md cursor-pointer hover:bg-admin3'
+            className='px-4 py-2 text-adminWhite border border-user1 bg-admin1 shadow-md rounded-md cursor-pointer hover:bg-admin3'
             type='submit'
           >
             Hantar

@@ -47,9 +47,6 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   const tarikhMula = `${tahun}-${bulan}-01`;
   const tarikhTamat = `${tahun}-${bulan}-31`;
 
-  process.env.BUILD_ENV === 'dev' &&
-    console.table({ id, bulan, tahun, tarikhMula, tarikhTamat });
-
   const filteredSummary = await Umum.aggregate([
     {
       $match: {
