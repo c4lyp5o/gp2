@@ -6255,13 +6255,11 @@ const makePGS203 = async (payload) => {
       writeRawatan(row, item, jumlahReten, jumlahRetenSalah);
     }
 
-    // jumlah fasiliti perlu dilawati
+    // jumlah fasiliti perlu dilawati dan enrolmen
+    worksheet.getCell('C16').value = data[6]?.[0]?.enrolmenTastadKerajaan ?? 0;
+    worksheet.getCell('C17').value = data[6]?.[0]?.enrolmenTastadKerajaan ?? 0;
     worksheet.getCell('BL16').value = data[6]?.[0]?.jumlahTastadKerajaan ?? 0;
     worksheet.getCell('BL17').value = data[6]?.[0]?.jumlahTastadSwasta ?? 0;
-
-    // enrolmen tastad
-    worksheet.getCell('C16').value = data[7]?.[0]?.Kerajaan ?? 0;
-    worksheet.getCell('C17').value = data[7]?.[0]?.Swasta ?? 0;
 
     // pemeriksaan sekolah
     for (const item of data[2][0].dataKPSKPB) {
