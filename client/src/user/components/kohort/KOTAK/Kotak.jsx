@@ -14,8 +14,10 @@ import {
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
+import UserDeleteModal from '../../UserDeleteModal';
+
 function KohortKotak() {
-  const { userToken, reliefUserToken, navigate, toast } =
+  const { userinfo, userToken, reliefUserToken, navigate, toast } =
     useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -28,6 +30,11 @@ function KohortKotak() {
 
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [kohort, setKohort] = useState([]);
+
+  //delete
+  const [pilihanHapusId, setPilihanHapusId] = useState('');
+  const [pilihanHapusNama, setPilihanHapusNama] = useState('');
+  const [modalHapus, setModalHapus] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
 
@@ -79,6 +86,45 @@ function KohortKotak() {
     };
     fetchAllPersonKohort();
   }, [reloadState]);
+
+  const handleDelete = async (singlePelajarKOTAK, reason) => {
+    if (!modalHapus) {
+      setModalHapus(true);
+      return;
+    }
+    if (modalHapus) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
+      await toast.promise(
+        axios.patch(
+          `/api/v1/kohort/kotak/delete/${singlePelajarKOTAK}`,
+          {
+            deleteReason: reason,
+            createdByMdcMdtb: mdcMdtbNum,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Menghapus pesakit...',
+          success: 'Pesakit berjaya dihapus',
+          error: 'Pesakit gagal dihapus',
+        },
+        { autoClose: 5000 }
+      );
+      setModalHapus(false);
+    }
+  };
 
   // on tab focus reload data
   useEffect(() => {
@@ -261,11 +307,21 @@ function KohortKotak() {
                   status selepas 6 bulan daripada tarikh kehadiran intervensi
                   sesi 1
                 </th>
+                {userinfo.role === 'admin' && (
+                  <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    HAPUS
+                  </th>
+                )}
               </tr>
             </thead>
             {!isLoading && pilihanSekolah ? (
               <tbody className='bg-user4'>
                 {allPersonKohortKotak
+                  .filter((singlePersonKohortKotak) => {
+                    if (singlePersonKohortKotak.deleted !== true) {
+                      return singlePersonKohortKotak;
+                    }
+                  })
                   .filter((singlePersonKohortKotak) => {
                     if (
                       singlePersonKohortKotak.namaSekolah === pilihanSekolah
@@ -414,7 +470,7 @@ function KohortKotak() {
                                           onClick={() => handleAccordian(index)}
                                           className='text-sm text-start font-semibold bg-user1 bg-opacity-5 flex flex-row items-center rounded-md p-1 m-1 cursor-pointer'
                                         >
-                                          {accordian === index ? (
+                                          {accordian.includes(index) ? (
                                             <FaMinus className='m-1' />
                                           ) : (
                                             <FaPlus className='m-1' />
@@ -521,6 +577,22 @@ function KohortKotak() {
                               : 'TIDAK BERHENTI MEROKOK'
                             : null}
                         </td>
+                        {userinfo.role === 'admin' && (
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                            <button
+                              className='bg-user9 w-16 text-userWhite shadow-md hover:bg-user8 rounded-md p-1 m-1 transition-all'
+                              onClick={() => {
+                                setModalHapus(true);
+                                setPilihanHapusId(singlePersonKohortKotak._id);
+                                setPilihanHapusNama(
+                                  singlePersonKohortKotak.nama
+                                );
+                              }}
+                            >
+                              HAPUS
+                            </button>
+                          </td>
+                        )}
                       </tr>
                     );
                   })}
@@ -529,7 +601,7 @@ function KohortKotak() {
               <tbody className='text-user1 bg-user4'>
                 <tr>
                   <td
-                    colSpan={8}
+                    colSpan={9}
                     className='outline outline-1 outline-offset-1 px-2 py-1'
                   >
                     Sila pilih sekolah
@@ -541,7 +613,7 @@ function KohortKotak() {
               <tbody className='text-user1 bg-user4'>
                 <tr>
                   <td
-                    colSpan={8}
+                    colSpan={9}
                     className='outline outline-1 outline-offset-1 px-2 py-1'
                   >
                     Loading
@@ -550,6 +622,14 @@ function KohortKotak() {
               </tbody>
             )}
           </table>
+          {modalHapus && (
+            <UserDeleteModal
+              handleDelete={handleDelete}
+              setModalHapus={setModalHapus}
+              id={pilihanHapusId}
+              nama={pilihanHapusNama}
+            />
+          )}
           <div
             className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
               isShown ? 'block' : 'hidden'
