@@ -52,36 +52,37 @@ exports.startQueue = async function (req, res) {
     logger.info(
       `[generateRetenController] not kaunter user & not from etl, from ${username}`
     );
-    let userTokenData = await GenerateToken.findOne({
+    const superadminGenerateToken = await GenerateToken.findOne({
       belongsTo: username,
       jenisReten,
     });
 
-    if (!userTokenData) {
+    // create if there is no superadminGenerateToken
+    if (!superadminGenerateToken) {
       switch (accountType) {
         case 'hqSuperadmin':
-          userTokenData = await new GenerateToken({
+          await GenerateToken.create({
             belongsTo: username,
             accountType,
             jenisReten,
             jumlahToken: 9000,
-          }).save();
+          });
           break;
         case 'negeriSuperadmin':
-          userTokenData = await new GenerateToken({
+          await GenerateToken.create({
             belongsTo: username,
             accountType,
             jenisReten,
             jumlahToken: 200,
-          }).save();
+          });
           break;
         case 'daerahSuperadmin':
-          userTokenData = await new GenerateToken({
+          await GenerateToken.create({
             belongsTo: username,
             accountType,
             jenisReten,
             jumlahToken: 50,
-          }).save();
+          });
           break;
         default:
           return res.status(403).json({
@@ -90,9 +91,11 @@ exports.startQueue = async function (req, res) {
       }
     }
 
+    // check jumlahToken if there is superadminGenerateToken
     if (
       process.env.BUILD_ENV === 'production' &&
-      userTokenData.jumlahToken <= 0
+      superadminGenerateToken &&
+      superadminGenerateToken.jumlahToken <= 0
     ) {
       logger.info(
         '[generateRetenController] no more coins left for ' + username
@@ -113,17 +116,26 @@ exports.startQueue = async function (req, res) {
         if (
           process.env.BUILD_ENV === 'production' &&
           accountType !== 'kaunterUser' &&
-          fromEtl === 'false' &&
-          (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
+          fromEtl === 'false'
         ) {
-          let userTokenData = await GenerateToken.findOne({
+          const userTokenData = await GenerateToken.findOne({
             belongsTo: username,
             jenisReten,
           });
-          userTokenData.jumlahToken -= 1;
-          await userTokenData.save();
+          const newTokenValue = userTokenData.jumlahToken - 1;
+          const newUserTokenData = await GenerateToken.findOneAndUpdate(
+            {
+              belongsTo: username,
+              jenisReten,
+            },
+            { $set: { jumlahToken: newTokenValue } },
+            { new: true }
+          );
           logger.info(
-            '[generateRetenController] dah kurangkan token untuk ' + username
+            '[generateRetenController] dah kurangkan token untuk ' +
+              username +
+              ', token sekarang: ' +
+              newUserTokenData.jumlahToken
           );
         } else {
           logger.info(
@@ -163,28 +175,25 @@ exports.startQueueKp = async function (req, res) {
     logger.info(
       `[generateRetenController] from kpUser & not from etl, from ${username}`
     );
-    let userTokenData = await GenerateToken.findOne({
+    const userKpAdminGenerateToken = await GenerateToken.findOne({
       belongsTo: username,
       jenisReten,
     });
 
-    // create if there is no userTokenData
-    if (!userTokenData) {
-      const kpUserToken = await new GenerateToken({
+    // create if there is no userKpAdminGenerateToken
+    if (!userKpAdminGenerateToken) {
+      await GenerateToken.create({
         belongsTo: username,
         accountType,
         jenisReten,
         jumlahToken: 25,
-      }).save();
-      userTokenData = kpUserToken;
-      logger.info(
-        `[generateRetenController] dah save token kp user ${username}`
-      );
+      });
     }
-
+    // check jumlahToken if there is userKpAdminGenerateToken
     if (
       process.env.BUILD_ENV === 'production' &&
-      userTokenData.jumlahToken <= 0
+      userKpAdminGenerateToken &&
+      userKpAdminGenerateToken.jumlahToken <= 0
     ) {
       logger.info(
         '[generateRetenController] no more coins left for ' + username
@@ -203,19 +212,25 @@ exports.startQueueKp = async function (req, res) {
     downloadQueueKp.push(async () => {
       try {
         const result = await downloader(req, res);
-        if (
-          process.env.BUILD_ENV === 'production' &&
-          fromEtl === 'false' &&
-          (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
-        ) {
-          let userTokenData = await GenerateToken.findOne({
+        if (process.env.BUILD_ENV === 'production' && fromEtl === 'false') {
+          const userTokenData = await GenerateToken.findOne({
             belongsTo: username,
             jenisReten,
           });
-          userTokenData.jumlahToken -= 1;
-          await userTokenData.save();
+          const newTokenValue = userTokenData.jumlahToken - 1;
+          const newUserTokenData = await GenerateToken.findOneAndUpdate(
+            {
+              belongsTo: username,
+              jenisReten,
+            },
+            { $set: { jumlahToken: newTokenValue } },
+            { new: true }
+          );
           logger.info(
-            '[generateRetenController] dah kurangkan token untuk ' + username
+            '[generateRetenController] dah kurangkan token untuk ' +
+              username +
+              ', token sekarang: ' +
+              newUserTokenData.jumlahToken
           );
         } else {
           logger.info(
