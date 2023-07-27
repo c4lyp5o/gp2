@@ -65,6 +65,33 @@ const updatePersonKohortKotak = async (req, res) => {
   res.status(200).json({ updatedSinglePersonKohortKotak });
 };
 
+// PATCH /delete/:personKohortKotakId
+const softDeletePersonKOTAK = async (req, res) => {
+  logger.info(
+    `${req.method} ${req.url} [kohortKotakController] updatePersonKohort called`
+  );
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { deleteReason } = req.body;
+
+  const singlePersonKotakToDelete = await KohortKotak.findOneAndUpdate(
+    {
+      _id: req.params.personKohortKotakId,
+      // deleted: false,
+    },
+    {
+      deleted: true,
+      deleteReason,
+      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this pelajar`,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({ singlePersonKotakToDelete });
+};
+
 // not used
 // DELETE /:personKohortKotakId
 const deletePersonKohortKotak = async (req, res) => {
@@ -151,6 +178,7 @@ const queryPersonKohortKotak = async (req, res) => {
 module.exports = {
   getSinglePersonKohortKotak,
   updatePersonKohortKotak,
+  softDeletePersonKOTAK,
   deletePersonKohortKotak,
   queryPersonKohortKotak,
 };

@@ -1323,7 +1323,7 @@ const softDeletePersonSekolah = async (req, res) => {
   res.status(200).json({ singlePersonSekolahToDelete });
 };
 
-// PATCH /delete--filled/:personSekolahId
+// PATCH /delete-filled/:personSekolahId
 const softDeletePersonSekolahAfterFilled = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
