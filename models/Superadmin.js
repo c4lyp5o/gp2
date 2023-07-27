@@ -110,7 +110,7 @@ adminSchema.methods.createJWT = function () {
     {
       userId: this._id.toString(),
       userAccount: this.user_name,
-      username: this.nama,
+      username: this.user_name,
       accountType: this.accountType,
     },
     process.env.JWT_SECRET,
