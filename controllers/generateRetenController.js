@@ -118,24 +118,25 @@ exports.startQueue = async function (req, res) {
           accountType !== 'kaunterUser' &&
           fromEtl === 'false'
         ) {
-          const userTokenData = await GenerateToken.findOne({
+          const superadminGenerateToken = await GenerateToken.findOne({
             belongsTo: username,
             jenisReten,
           });
-          const newTokenValue = userTokenData.jumlahToken - 1;
-          const newUserTokenData = await GenerateToken.findOneAndUpdate(
-            {
-              belongsTo: username,
-              jenisReten,
-            },
-            { $set: { jumlahToken: newTokenValue } },
-            { new: true }
-          );
+          const newTokenValue = superadminGenerateToken.jumlahToken - 1;
+          const newSuperadminGenerateToken =
+            await GenerateToken.findOneAndUpdate(
+              {
+                belongsTo: username,
+                jenisReten,
+              },
+              { $set: { jumlahToken: newTokenValue } },
+              { new: true }
+            );
           logger.info(
             '[generateRetenController] dah kurangkan token untuk ' +
               username +
               ', token sekarang: ' +
-              newUserTokenData.jumlahToken
+              newSuperadminGenerateToken.jumlahToken
           );
         } else {
           logger.info(
@@ -213,24 +214,25 @@ exports.startQueueKp = async function (req, res) {
       try {
         const result = await downloader(req, res);
         if (process.env.BUILD_ENV === 'production' && fromEtl === 'false') {
-          const userTokenData = await GenerateToken.findOne({
+          const userKpAdminGenerateToken = await GenerateToken.findOne({
             belongsTo: username,
             jenisReten,
           });
-          const newTokenValue = userTokenData.jumlahToken - 1;
-          const newUserTokenData = await GenerateToken.findOneAndUpdate(
-            {
-              belongsTo: username,
-              jenisReten,
-            },
-            { $set: { jumlahToken: newTokenValue } },
-            { new: true }
-          );
+          const newTokenValue = userKpAdminGenerateToken.jumlahToken - 1;
+          const newUserKpAdminGenerateToken =
+            await GenerateToken.findOneAndUpdate(
+              {
+                belongsTo: username,
+                jenisReten,
+              },
+              { $set: { jumlahToken: newTokenValue } },
+              { new: true }
+            );
           logger.info(
             '[generateRetenController] dah kurangkan token untuk ' +
               username +
               ', token sekarang: ' +
-              newUserTokenData.jumlahToken
+              newUserKpAdminGenerateToken.jumlahToken
           );
         } else {
           logger.info(
