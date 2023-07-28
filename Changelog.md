@@ -11,6 +11,7 @@
 
 - Penambahan reten baru KPI FS yang membawa maksud Peratus Keberhasilan Aplikasi Fissure Sealant Pada Gigi Yang Dikenal Pasti
 - Memaparkan kolum TARIKH SEKOLAH SELESAI RETEN di laman rumusan status sekolah
+- Menambah pilihan reten PGPR201 Pind. 1/2022-CUSTOM-IM
 
 #### Changed
 
