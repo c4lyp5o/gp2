@@ -4,12 +4,24 @@ export default function MyVasModalConfirm({
   patientDataFromMyVas,
   setShowModalMyVasConfirm,
   handleDataPassMyVas,
+  setDariMyVas,
+  setShowForm,
+  checkCache,
 }) {
   const [jenisIc, setJenisIc] = useState('');
 
   const handleConfirmMyVas = (e) => {
     e.preventDefault();
-    handleDataPassMyVas(jenisIc);
+    const checkIcMyVas = async () => {
+      const foundIc = await checkCache(
+        patientDataFromMyVas.resource.identifier[0].value
+      );
+      if (!foundIc) {
+        handleDataPassMyVas(jenisIc);
+        setShowModalMyVasConfirm(false);
+      }
+    };
+    checkIcMyVas();
     setShowModalMyVasConfirm(false);
   };
 
@@ -107,7 +119,11 @@ export default function MyVasModalConfirm({
           </p>
           <div className='grid grid-cols-2 gap-2'>
             <span
-              onClick={() => setShowModalMyVasConfirm(false)}
+              onClick={() => {
+                setDariMyVas(false);
+                setShowForm(false);
+                setShowModalMyVasConfirm(false);
+              }}
               className='text-user1 rounded-md py-1 cursor-pointer hover:bg-user1 hover:bg-opacity-60 hover:text-kaunterWhite shadow-md'
             >
               Batal
