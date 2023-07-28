@@ -3768,7 +3768,7 @@ const makePG214 = async (payload) => {
   }
 };
 const makePGPR201 = async (payload) => {
-  logger.info('[generateRetenController/makePGPR201] PGPR201Baru');
+  logger.info('[generateRetenController/makePGPR201] PGPR201');
   let {
     klinik,
     daerah,
@@ -4315,7 +4315,7 @@ const makePGPR201CustomIM = async (payload) => {
   }
 };
 const makePgPro01 = async (payload) => {
-  logger.info('[generateRetenController/makePgPro01] makePgPro01');
+  logger.info('[generateRetenController/makePgPro01] PGPRO01');
   let {
     username,
     pilihanIndividu,
@@ -4700,9 +4700,7 @@ const makePgPro01 = async (payload) => {
   }
 };
 const makePgPro01Combined = async (payload) => {
-  logger.info(
-    '[generateRetenController/makePgPro01Combined] makePgPro01Combined'
-  );
+  logger.info('[generateRetenController/makePgPro01Combined] PGPRO01Combined');
   let {
     username,
     pilihanIndividu,
@@ -14454,7 +14452,6 @@ const mapsOfSeveralRetens = new Map([
   ['BPE', makeBPE],
   ['GENDER', makeGender],
   ['KEPP', makeKEPP],
-  // new
   ['BEGIN', makeBEGIN],
   ['CPPC1', makeCPPC1],
   ['CPPC2', makeCPPC2],
