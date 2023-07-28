@@ -4732,12 +4732,8 @@ const groupSekolah = {
       $cond: [
         {
           $or: [
-            {
-              $eq: ['$statusRawatan', 'enggan'],
-            },
-            {
-              $eq: ['$statusRawatan', 'enggan rawatan'],
-            },
+            { $eq: ['$statusRawatan', 'enggan'] },
+            { $eq: ['$statusRawatan', 'enggan rawatan'] },
           ],
         },
         1,
@@ -4750,12 +4746,8 @@ const groupSekolah = {
       $cond: [
         {
           $or: [
-            {
-              $eq: ['$statusRawatan', 'tidak hadir'],
-            },
-            {
-              $eq: ['$statusRawatan', 'tidak hadir rawatan'],
-            },
+            { $eq: ['$statusRawatan', 'tidak hadir'] },
+            { $eq: ['$statusRawatan', 'tidak hadir rawatan'] },
           ],
         },
         1,
@@ -4768,27 +4760,17 @@ const groupSekolah = {
       $cond: [
         {
           $or: [
-            {
-              $ifNull: ['$tarikhRawatan', true],
-            },
+            { $ifNull: ['$tarikhRawatan', true] },
             {
               $and: [
-                {
-                  $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
-                },
-                {
-                  $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
-                },
+                { $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'] },
+                { $eq: ['$operatorPemeriksaan', '$operatorRawatan'] },
               ],
             },
             {
               $and: [
-                {
-                  $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
-                },
-                {
-                  $ne: ['$operatorPemeriksaan', '$operatorRawatan'],
-                },
+                { $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'] },
+                { $ne: ['$operatorPemeriksaan', '$operatorRawatan'] },
               ],
             },
           ],
@@ -4803,15 +4785,9 @@ const groupSekolah = {
       $cond: [
         {
           $and: [
-            {
-              $ifNull: ['$tarikhRawatan', false],
-            },
-            {
-              $ne: ['$tarikhPemeriksaan', '$tarikhRawatan'],
-            },
-            {
-              $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
-            },
+            { $ifNull: ['$tarikhRawatan', false] },
+            { $ne: ['$tarikhPemeriksaan', '$tarikhRawatan'] },
+            { $eq: ['$operatorPemeriksaan', '$operatorRawatan'] },
           ],
         },
         1,
@@ -4826,17 +4802,11 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                {
-                  $eq: ['$merged.adaDesidus', true],
-                },
-                {
-                  $eq: ['$merged.adaKekal', true],
-                },
+                { $eq: ['$merged.adaDesidus', true] },
+                { $eq: ['$merged.adaKekal', true] },
               ],
             },
-            {
-              $eq: ['$merged.kebersihanMulutOralHygiene', 'A'],
-            },
+            { $eq: ['$merged.kebersihanMulutOralHygiene', 'A'] },
           ],
         },
         1,
@@ -4851,17 +4821,11 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                {
-                  $eq: ['$merged.adaDesidus', true],
-                },
-                {
-                  $eq: ['$merged.adaKekal', true],
-                },
+                { $eq: ['$merged.adaDesidus', true] },
+                { $eq: ['$merged.adaKekal', true] },
               ],
             },
-            {
-              $eq: ['$merged.kebersihanMulutOralHygiene', 'C'],
-            },
+            { $eq: ['$merged.kebersihanMulutOralHygiene', 'C'] },
           ],
         },
         1,
@@ -4876,17 +4840,11 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                {
-                  $eq: ['$merged.adaDesidus', true],
-                },
-                {
-                  $eq: ['$merged.adaKekal', true],
-                },
+                { $eq: ['$merged.adaDesidus', true] },
+                { $eq: ['$merged.adaKekal', true] },
               ],
             },
-            {
-              $eq: ['$merged.kebersihanMulutOralHygiene', 'E'],
-            },
+            { $eq: ['$merged.kebersihanMulutOralHygiene', 'E'] },
           ],
         },
         1,
@@ -4922,12 +4880,8 @@ const groupSekolah = {
             },
             {
               $and: [
-                {
-                  $eq: ['$jenisFasiliti', 'sekolah-menengah'],
-                },
-                {
-                  $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
-                },
+                { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
+                { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
               ],
             },
           ],
@@ -4937,18 +4891,10 @@ const groupSekolah = {
       ],
     },
   },
-  jumlahD: {
-    $sum: '$merged.dAdaGigiKekal',
-  },
-  jumlahM: {
-    $sum: '$merged.mAdaGigiKekal',
-  },
-  jumlahF: {
-    $sum: '$merged.fAdaGigiKekal',
-  },
-  jumlahX: {
-    $sum: '$merged.xAdaGigiKekal',
-  },
+  jumlahD: { $sum: '$merged.dAdaGigiKekal' },
+  jumlahM: { $sum: '$merged.mAdaGigiKekal' },
+  jumlahF: { $sum: '$merged.fAdaGigiKekal' },
+  jumlahX: { $sum: '$merged.xAdaGigiKekal' },
   jumlahDMFX: {
     $sum: {
       $add: [
@@ -4964,18 +4910,10 @@ const groupSekolah = {
       $cond: [
         {
           $and: [
-            {
-              $eq: ['$merged.adaDesidus', true],
-            },
-            {
-              $eq: ['$merged.dAdaGigiDesidus', 0],
-            },
-            {
-              $eq: ['$merged.fAdaGigiDesidus', 0],
-            },
-            {
-              $eq: ['$merged.xAdaGigiDesidus', 0],
-            },
+            { $eq: ['$merged.adaDesidus', true] },
+            { $eq: ['$merged.dAdaGigiDesidus', 0] },
+            { $eq: ['$merged.fAdaGigiDesidus', 0] },
+            { $eq: ['$merged.xAdaGigiDesidus', 0] },
           ],
         },
         1,
@@ -4990,74 +4928,34 @@ const groupSekolah = {
           $or: [
             {
               $and: [
-                {
-                  $eq: ['$merged.adaDesidus', true],
-                },
-                {
-                  $eq: ['$merged.adaKekal', false],
-                },
-                {
-                  $eq: ['$merged.dAdaGigiDesidus', 0],
-                },
-                {
-                  $eq: ['$merged.fAdaGigiDesidus', 0],
-                },
-                {
-                  $eq: ['$merged.xAdaGigiDesidus', 0],
-                },
+                { $eq: ['$merged.adaDesidus', true] },
+                { $eq: ['$merged.adaKekal', false] },
+                { $eq: ['$merged.dAdaGigiDesidus', 0] },
+                { $eq: ['$merged.fAdaGigiDesidus', 0] },
+                { $eq: ['$merged.xAdaGigiDesidus', 0] },
               ],
             },
             {
               $and: [
-                {
-                  $eq: ['$merged.adaDesidus', true],
-                },
-                {
-                  $eq: ['$merged.adaKekal', true],
-                },
-                {
-                  $eq: ['$merged.dAdaGigiDesidus', 0],
-                },
-                {
-                  $eq: ['$merged.fAdaGigiDesidus', 0],
-                },
-                {
-                  $eq: ['$merged.xAdaGigiDesidus', 0],
-                },
-                {
-                  $eq: ['$merged.dAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.mAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.fAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.xAdaGigiKekal', 0],
-                },
+                { $eq: ['$merged.adaDesidus', true] },
+                { $eq: ['$merged.adaKekal', true] },
+                { $eq: ['$merged.dAdaGigiDesidus', 0] },
+                { $eq: ['$merged.fAdaGigiDesidus', 0] },
+                { $eq: ['$merged.xAdaGigiDesidus', 0] },
+                { $eq: ['$merged.dAdaGigiKekal', 0] },
+                { $eq: ['$merged.mAdaGigiKekal', 0] },
+                { $eq: ['$merged.fAdaGigiKekal', 0] },
+                { $eq: ['$merged.xAdaGigiKekal', 0] },
               ],
             },
             {
               $and: [
-                {
-                  $eq: ['$merged.adaDesidus', false],
-                },
-                {
-                  $eq: ['$merged.adaKekal', true],
-                },
-                {
-                  $eq: ['$merged.dAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.mAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.fAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.xAdaGigiKekal', 0],
-                },
+                { $eq: ['$merged.adaDesidus', false] },
+                { $eq: ['$merged.adaKekal', true] },
+                { $eq: ['$merged.dAdaGigiKekal', 0] },
+                { $eq: ['$merged.mAdaGigiKekal', 0] },
+                { $eq: ['$merged.fAdaGigiKekal', 0] },
+                { $eq: ['$merged.xAdaGigiKekal', 0] },
               ],
             },
           ],
@@ -5074,21 +4972,11 @@ const groupSekolah = {
           $or: [
             {
               $and: [
-                {
-                  $eq: ['$merged.adaKekal', true],
-                },
-                {
-                  $eq: ['$merged.dAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.mAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.fAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.xAdaGigiKekal', 0],
-                },
+                { $eq: ['$merged.adaKekal', true] },
+                { $eq: ['$merged.dAdaGigiKekal', 0] },
+                { $eq: ['$merged.mAdaGigiKekal', 0] },
+                { $eq: ['$merged.fAdaGigiKekal', 0] },
+                { $eq: ['$merged.xAdaGigiKekal', 0] },
               ],
             },
           ],
@@ -5131,15 +5019,9 @@ const groupSekolah = {
       $cond: [
         {
           $and: [
-            {
-              $eq: ['$merged.adaKekal', true],
-            },
-            {
-              $eq: ['$merged.mAdaGigiKekal', 0],
-            },
-            {
-              $eq: ['$merged.xAdaGigiKekal', 0],
-            },
+            { $eq: ['$merged.adaKekal', true] },
+            { $eq: ['$merged.mAdaGigiKekal', 0] },
+            { $eq: ['$merged.xAdaGigiKekal', 0] },
           ],
         },
         1,
@@ -5154,27 +5036,17 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                {
-                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
-                },
+                { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
                 {
                   $and: [
-                    {
-                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
-                    },
-                    {
-                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
-                    },
+                    { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
+                    { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
                   ],
                 },
               ],
             },
-            {
-              $eq: ['$merged.adaKekal', true],
-            },
-            {
-              $gt: ['$merged.eAdaGigiKekal', 0],
-            },
+            { $eq: ['$merged.adaKekal', true] },
+            { $gt: ['$merged.eAdaGigiKekal', 0] },
           ],
         },
         1,
@@ -5236,17 +5108,11 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                {
-                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
-                },
+                { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
                 {
                   $and: [
-                    {
-                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
-                    },
-                    {
-                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
-                    },
+                    { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
+                    { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
                   ],
                 },
               ],
@@ -5255,31 +5121,17 @@ const groupSekolah = {
               $or: [
                 {
                   $and: [
-                    {
-                      $eq: ['$merged.adaDesidus', true],
-                    },
-                    {
-                      $eq: ['$merged.dAdaGigiDesidus', 0],
-                    },
-                    {
-                      $eq: ['$merged.xAdaGigiDesidus', 0],
-                    },
+                    { $eq: ['$merged.adaDesidus', true] },
+                    { $eq: ['$merged.dAdaGigiDesidus', 0] },
+                    { $eq: ['$merged.xAdaGigiDesidus', 0] },
                   ],
                 },
                 {
                   $and: [
-                    {
-                      $eq: ['$merged.adaKekal', true],
-                    },
-                    {
-                      $eq: ['$merged.dAdaGigiKekal', 0],
-                    },
-                    {
-                      $eq: ['$merged.xAdaGigiKekal', 0],
-                    },
-                    {
-                      $eq: ['$merged.eAdaGigiKekal', 0],
-                    },
+                    { $eq: ['$merged.adaKekal', true] },
+                    { $eq: ['$merged.dAdaGigiKekal', 0] },
+                    { $eq: ['$merged.xAdaGigiKekal', 0] },
+                    { $eq: ['$merged.eAdaGigiKekal', 0] },
                   ],
                 },
               ],
@@ -5291,29 +5143,19 @@ const groupSekolah = {
               $or: [
                 {
                   $and: [
-                    {
-                      $eq: ['$merged.skorGisMulutOralHygiene', ''],
-                    },
-                    {
-                      $eq: ['$merged.skorBpeOralHygiene', '0'],
-                    },
+                    { $eq: ['$merged.skorGisMulutOralHygiene', ''] },
+                    { $eq: ['$merged.skorBpeOralHygiene', '0'] },
                   ],
                 },
                 {
                   $and: [
                     {
                       $or: [
-                        {
-                          $eq: ['$merged.skorGisMulutOralHygiene', '0'],
-                        },
-                        {
-                          $eq: ['$merged.skorGisMulutOralHygiene', '2'],
-                        },
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
                       ],
                     },
-                    {
-                      $eq: ['$merged.skorBpeOralHygiene', ''],
-                    },
+                    { $eq: ['$merged.skorBpeOralHygiene', ''] },
                   ],
                 },
               ],
@@ -5334,62 +5176,38 @@ const groupSekolah = {
               $or: [
                 {
                   $and: [
-                    {
-                      $eq: ['$merged.adaDesidus', true],
-                    },
-                    {
-                      $eq: ['$merged.dAdaGigiDesidus', 0],
-                    },
-                    {
-                      $eq: ['$merged.xAdaGigiDesidus', 0],
-                    },
+                    { $eq: ['$merged.adaDesidus', true] },
+                    { $eq: ['$merged.dAdaGigiDesidus', 0] },
+                    { $eq: ['$merged.xAdaGigiDesidus', 0] },
                   ],
                 },
                 {
                   $and: [
-                    {
-                      $eq: ['$merged.adaKekal', true],
-                    },
-                    {
-                      $eq: ['$merged.dAdaGigiKekal', 0],
-                    },
-                    {
-                      $eq: ['$merged.xAdaGigiKekal', 0],
-                    },
+                    { $eq: ['$merged.adaKekal', true] },
+                    { $eq: ['$merged.dAdaGigiKekal', 0] },
+                    { $eq: ['$merged.xAdaGigiKekal', 0] },
                   ],
                 },
               ],
             },
-            {
-              $eq: ['$merged.perluPenskaleranOralHygiene', false],
-            },
+            { $eq: ['$merged.perluPenskaleranOralHygiene', false] },
             {
               $or: [
                 {
                   $and: [
-                    {
-                      $eq: ['$merged.skorGisMulutOralHygiene', ''],
-                    },
-                    {
-                      $eq: ['$merged.skorBpeOralHygiene', '0'],
-                    },
+                    { $eq: ['$merged.skorGisMulutOralHygiene', ''] },
+                    { $eq: ['$merged.skorBpeOralHygiene', '0'] },
                   ],
                 },
                 {
                   $and: [
                     {
                       $or: [
-                        {
-                          $eq: ['$merged.skorGisMulutOralHygiene', '0'],
-                        },
-                        {
-                          $eq: ['$merged.skorGisMulutOralHygiene', '2'],
-                        },
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
                       ],
                     },
-                    {
-                      $eq: ['$merged.skorBpeOralHygiene', ''],
-                    },
+                    { $eq: ['$merged.skorBpeOralHygiene', ''] },
                   ],
                 },
               ],
@@ -7734,15 +7552,9 @@ const groupSekolahPemeriksaan = {
   jumlahPelajar: {
     $sum: 1,
   },
-  jumlahd: {
-    $sum: '$pemeriksaanSekolah.dAdaGigiDesidus',
-  },
-  jumlahf: {
-    $sum: '$pemeriksaanSekolah.fAdaGigiDesidus',
-  },
-  jumlahx: {
-    $sum: '$pemeriksaanSekolah.xAdaGigiDesidus',
-  },
+  jumlahd: { $sum: '$pemeriksaanSekolah.dAdaGigiDesidus' },
+  jumlahf: { $sum: '$pemeriksaanSekolah.fAdaGigiDesidus' },
+  jumlahx: { $sum: '$pemeriksaanSekolah.xAdaGigiDesidus' },
   jumlahdfx: {
     $sum: {
       $add: [
@@ -7752,18 +7564,10 @@ const groupSekolahPemeriksaan = {
       ],
     },
   },
-  jumlahD: {
-    $sum: '$pemeriksaanSekolah.dAdaGigiKekal',
-  },
-  jumlahM: {
-    $sum: '$pemeriksaanSekolah.mAdaGigiKekal',
-  },
-  jumlahF: {
-    $sum: '$pemeriksaanSekolah.fAdaGigiKekal',
-  },
-  jumlahX: {
-    $sum: '$pemeriksaanSekolah.xAdaGigiKekal',
-  },
+  jumlahD: { $sum: '$pemeriksaanSekolah.dAdaGigiKekal' },
+  jumlahM: { $sum: '$pemeriksaanSekolah.mAdaGigiKekal' },
+  jumlahF: { $sum: '$pemeriksaanSekolah.fAdaGigiKekal' },
+  jumlahX: { $sum: '$pemeriksaanSekolah.xAdaGigiKekal' },
   jumlahDMFX: {
     $sum: {
       $add: [
@@ -7865,11 +7669,37 @@ const groupSekolahPemeriksaan = {
             { $eq: ['$pemeriksaanSekolah.perluPenskaleranOralHygiene', false] },
             {
               $or: [
-                { $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'] },
-                { $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '2'] },
+                {
+                  $and: [
+                    {
+                      $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', ''],
+                    },
+                    { $eq: ['$pemeriksaanSekolah.skorBpeOralHygiene', '0'] },
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      $or: [
+                        {
+                          $eq: [
+                            '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                            '0',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                            '2',
+                          ],
+                        },
+                      ],
+                    },
+                    { $eq: ['$pemeriksaanSekolah.skorBpeOralHygiene', ''] },
+                  ],
+                },
               ],
             },
-            { $eq: ['$pemeriksaanSekolah.skorBpeOralHygiene', 0] },
           ],
         },
         1,
