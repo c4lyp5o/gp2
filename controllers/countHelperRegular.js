@@ -167,7 +167,6 @@ const countPG101A = async (payload) => {
         const kkiaMatchPipeline = [
           {
             $match: {
-              ...ultimateCutoff(payload),
               jenisFasiliti: 'kk-kd',
               kodFasilitiKkKd: kkiaMatch[i].kodKkiaKd,
               tarikhKedatangan: {
@@ -175,6 +174,11 @@ const countPG101A = async (payload) => {
                 $lte: moment(tarikhAkhir).format('YYYY-MM-DD'),
               },
               oncall: { $in: [false, null] },
+            },
+          },
+          {
+            $match: {
+              ...ultimateCutoff(payload),
             },
           },
           {
@@ -290,8 +294,8 @@ const countPG101C = async (payload) => {
 const countPG211A = async (payload) => {
   const main_switch = {
     $match: {
-      ...ultimateCutoff(payload),
       ...getParams211(payload, 'A'),
+      ...ultimateCutoff(payload),
     },
   };
 
@@ -355,8 +359,8 @@ const countPG211A = async (payload) => {
 const countPG211C = async (payload) => {
   const main_switch = {
     $match: {
-      ...ultimateCutoff(payload),
       ...getParams211(payload, 'C'),
+      ...ultimateCutoff(payload),
     },
   };
 
