@@ -1097,7 +1097,7 @@ export function InputPegawai(props) {
                         <input
                           value={props.carianNama}
                           type='search'
-                          className='w-full rounded-md border-2 pl-7 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
+                          className='w-full rounded-md border-2 pl-8 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
                           placeholder='Cari pegawai pergigian...'
                           onChange={(e) => {
                             props.setCarianNama(e.target.value);
@@ -1153,7 +1153,7 @@ export function InputPegawai(props) {
                       <input
                         value={props.carianNama}
                         type='search'
-                        className='block w-full rounded-md border-2 pl-7 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
+                        className='block w-full rounded-md border-2 pl-8 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
                         placeholder='Cari juruterapi pergigian...'
                         onChange={(e) => {
                           props.setCarianNama(e.target.value);
