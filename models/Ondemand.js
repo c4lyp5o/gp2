@@ -48,6 +48,7 @@ const ondemandSchema = new Schema(
     'KOM-FDS': { type: Boolean, required: true, default: false },
     'KOM-ISN': { type: Boolean, required: true, default: false },
     'KOM-HRC': { type: Boolean, required: true, default: false },
+    // induk kom
     KOM: { type: Boolean, required: true, default: false },
     OAP: { type: Boolean, required: true, default: false },
     LiputanOA: { type: Boolean, required: true, default: false },
