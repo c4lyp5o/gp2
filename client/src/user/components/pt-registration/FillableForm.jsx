@@ -477,6 +477,7 @@ export default function FillableForm({
         headers: { Authorization: `Bearer ${kaunterToken}` },
       });
       const {
+        jenisIc,
         nama,
         tarikhLahir,
         // umur,
@@ -548,6 +549,16 @@ export default function FillableForm({
         'Menggunakan maklumat pesakit yang pernah didaftarkan di dalam Sistem Gi-Ret 2.0, sila semak semula untuk memastikan maklumat adalah tepat',
         { autoClose: 10000 }
       );
+
+      // dariMyvas
+      if (dariMyVas) {
+        const timeString = moment(masaTemujanji).format('HH:mm');
+        setJenisIc(jenisIc);
+        setTemujanji(true);
+        setWaktuTemujanji(timeString);
+        setMyVasIsTrue(true);
+        setWaktuTemujanjiDT(moment(masaTemujanji).toDate());
+      }
 
       // refetch again if orangKurangUpaya is true
       if (orangKurangUpaya) {
@@ -1010,6 +1021,10 @@ export default function FillableForm({
         patientDataFromMyVas.resource.address[0].state &&
         patientDataFromMyVas.resource.address[0].state.toLowerCase(),
     });
+    toast.success(
+      'Menggunakan maklumat pesakit dari sistem MyVAS, sila semak semula untuk memastikan maklumat adalah tepat',
+      { autoClose: 10000 }
+    );
   };
 
   // close form when change jenisFasiliti
@@ -1520,6 +1535,7 @@ export default function FillableForm({
                           Pesakit Janji Temu
                         </label>
                         <input
+                          disabled={dariMyVas ? true : false}
                           type='checkbox'
                           name='oncall'
                           id='oncall'
@@ -3647,6 +3663,9 @@ export default function FillableForm({
                 setShowModalMyVasConfirm={setShowModalMyVasConfirm}
                 patientDataFromMyVas={patientDataFromMyVas}
                 handleDataPassMyVas={handleDataPassMyVas}
+                setDariMyVas={setDariMyVas}
+                setShowForm={setShowForm}
+                checkCache={checkCache}
               />
             )}
           </>
