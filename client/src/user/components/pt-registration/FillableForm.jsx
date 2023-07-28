@@ -2860,8 +2860,15 @@ export default function FillableForm({
                             }}
                             className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
-                          <label htmlFor='kepp' className='ml-2 text-sm font-m'>
-                            KEPP
+                          <label
+                            htmlFor='kepp'
+                            className='ml-2 text-sm font-m normal-case'
+                          >
+                            KEPP{' '}
+                            <span className='text-user9 font-semibold'>
+                              (hanya untuk Klinik Pergigian yang mempunyai KEPP
+                              sebenar)
+                            </span>
                           </label>
                         </div>
                         {kepp && (
@@ -2931,8 +2938,11 @@ export default function FillableForm({
                               : 'hidden'
                           } flex flex-col pl-5`}
                         >
-                          <label className='m-2 text-sm flex text-left flex-row justify-start'>
-                            tarikh rujukan
+                          <label className='m-2 text-sm text-left flex-row justify-start normal-case'>
+                            Tarikh rujukan{' '}
+                            <span className='text-user9 font-semibold'>
+                              (Tarikh surat rujukan dibuat)
+                            </span>
                           </label>
                           <TarikhRujukanKepp />
                         </div>
