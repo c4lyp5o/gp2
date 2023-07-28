@@ -3751,7 +3751,7 @@ const makePG214 = async (payload) => {
   }
 };
 const makePGPR201 = async (payload) => {
-  logger.info('[generateRetenController/makePGPR201] PGPR201Baru');
+  logger.info('[generateRetenController/makePGPR201] PGPR201');
   let {
     klinik,
     daerah,
@@ -4020,9 +4020,7 @@ const makePGPR201 = async (payload) => {
   }
 };
 const makePGPR201CustomIM = async (payload) => {
-  logger.info(
-    '[generateRetenController/makePGPR201CustomIM] makePGPR201CustomIM'
-  );
+  logger.info('[generateRetenController/makePGPR201CustomIM] PGPR201CustomIM');
   let {
     klinik,
     daerah,
@@ -4148,7 +4146,6 @@ const makePGPR201CustomIM = async (payload) => {
       row.getCell(6).value = item.jumlahNasihatPemakanan;
       row.getCell(7).value = item.jumlahNasihatKanserMulut;
     }
-
     for (const item of data[0].ibuMengandung) {
       const row = worksheet.getRow(30);
       jumlahReten += item.jumlahReten;
@@ -4159,7 +4156,6 @@ const makePGPR201CustomIM = async (payload) => {
       row.getCell(6).value = item.jumlahNasihatPemakanan;
       row.getCell(7).value = item.jumlahNasihatKanserMulut;
     }
-
     for (const item of data[0].orangKurangUpaya) {
       const row = worksheet.getRow(31);
       jumlahReten += item.jumlahReten;
@@ -4170,7 +4166,6 @@ const makePGPR201CustomIM = async (payload) => {
       row.getCell(6).value = item.jumlahNasihatPemakanan;
       row.getCell(7).value = item.jumlahNasihatKanserMulut;
     }
-
     for (const item of data[0].opLain) {
       let rowNumber;
 
@@ -4280,25 +4275,25 @@ const makePGPR201CustomIM = async (payload) => {
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(
-      `[generateRetenController/makePGPR201CustomIM] writing file ${newfile}`
+      `[generateRetenController/PGPR201CustomIM] writing file ${newfile}`
     );
     setTimeout(() => {
       fs.unlinkSync(newfile);
       logger.info(
-        `[generateRetenController/makePGPR201CustomIM] deleting file ${newfile}`
+        `[generateRetenController/PGPR201CustomIM] deleting file ${newfile}`
       );
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makePGPR201CustomIM] Excel making error. Reason: ${error}`
+      `[generateRetenController/PGPR201CustomIM] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 const makePgPro01 = async (payload) => {
-  logger.info('[generateRetenController/makePgPro01] makePgPro01');
+  logger.info('[generateRetenController/makePgPro01] PgPro01');
   let {
     username,
     pilihanIndividu,
@@ -4667,25 +4662,27 @@ const makePgPro01 = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(
+      `[generateRetenController/makePgPro01] writing file ${newfile}`
+    );
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(
+        `[generateRetenController/makePgPro01] deleting file ${newfile}`
+      );
     }, 1000);
     // read file
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PGPRO01] Excel making error. Reason: ${error}`
+      `[generateRetenController/makePgPro01] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 const makePgPro01Combined = async (payload) => {
-  logger.info(
-    '[generateRetenController/makePgPro01Combined] makePgPro01Combined'
-  );
+  logger.info('[generateRetenController/makePgPro01Combined] PgPro01Combined');
   let {
     username,
     pilihanIndividu,
@@ -4867,17 +4864,21 @@ const makePgPro01Combined = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(
+      `[generateRetenController/makePgPro01Combined] writing file ${newfile}`
+    );
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(
+        `[generateRetenController/makePgPro01Combined] deleting file ${newfile}`
+      );
     }, 1000);
     // read file
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PGPRO01Combined] Excel making error. Reason: ${error}`
+      `[generateRetenController/makePgPro01Combined] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -6079,23 +6080,25 @@ const makePGS201 = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController/PGS201] writing file ${newfile}`);
+    logger.info(`[generateRetenController/makePGS201] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController/PGS201] deleting file ${newfile}`);
+      logger.info(
+        `[generateRetenController/makePGS201] deleting file ${newfile}`
+      );
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (error) {
     console.log(error);
     penjanaanRetenLogger.error(
-      `[generateRetenController/PGS201] Excel making error. Reason: ${error}`
+      `[generateRetenController/makePGS201] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 const makePGS203 = async (payload) => {
-  logger.info('[generateRetenController/PGS203] PGS203P2');
+  logger.info('[generateRetenController/makePGS203] PGS203');
   let {
     klinik,
     daerah,
@@ -7220,23 +7223,25 @@ const makePGS203 = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(`[generateRetenController/makePGS203] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(
+        `[generateRetenController/makePGS203] deleting file ${newfile}`
+      );
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (error) {
     console.log(error);
     penjanaanRetenLogger.error(
-      `[generateRetenController/PGS203P2] Excel making error. Reason: ${error}`
+      `[generateRetenController/makePGS203] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 const makeMasa = async (payload) => {
-  logger.info('[generateRetenController/makeMasa] makeMasa');
+  logger.info('[generateRetenController/makeMasa] Reten Masa');
   let { klinik, daerah, negeri, bulan, username, fromEtl, jenisReten } =
     payload;
   try {
@@ -7385,17 +7390,19 @@ const makeMasa = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(`[generateRetenController/makeMasa] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(
+        `[generateRetenController/makeMasa] deleting file ${newfile}`
+      );
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/MASA] Excel making error. Reason: ${error}`
+      `[generateRetenController/makeMasa] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -7794,17 +7801,17 @@ const makeBp = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(`[generateRetenController/makeBp] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(`[generateRetenController/makeBp] deleting file ${newfile}`);
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/BP] Excel making error. Reason: ${error}`
+      `[generateRetenController/makeBp] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -7962,22 +7969,22 @@ const makeBPE = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(`[generateRetenController/makeBPE] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(`[generateRetenController/makeBPE] deleting file ${newfile}`);
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/BPE] Excel making error. Reason: ${error}`
+      `[generateRetenController/makeBPE] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 const makeGender = async (payload) => {
-  logger.info('[generateRetenController/makeGender] makeGender');
+  logger.info('[generateRetenController/makeGender] Reten Gender');
   let {
     klinik,
     daerah,
@@ -8170,10 +8177,12 @@ const makeGender = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(`[generateRetenController/makeGender] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(
+        `[generateRetenController/makeGender] deleting file ${newfile}`
+      );
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
@@ -8181,13 +8190,13 @@ const makeGender = async (payload) => {
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/GENDER] Excel making error. Reason: ${error}`
+      `[generateRetenController/makeGender] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 const makeKEPP = async (payload) => {
-  logger.info('[generateRetenController/makeKEPP] makeKEPP');
+  logger.info('[generateRetenController/makeKEPP] KEPP');
   let {
     negeri,
     tarikhMula,
@@ -8320,23 +8329,25 @@ const makeKEPP = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(`[generateRetenController/makeKEPP] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(
+        `[generateRetenController/makeKEPP] deleting file ${newfile}`
+      );
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/KEPP] Excel making error. Reason: ${error}`
+      `[generateRetenController/makeKEPP] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 const makeTOD = async (payload) => {
-  logger.info('[generateRetenController/makeTOD] makeTOD');
+  logger.info('[generateRetenController/makeTOD] TOD');
   let {
     klinik,
     daerah,
@@ -8575,10 +8586,10 @@ const makeTOD = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(`[generateRetenController/makeTOD] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(`[generateRetenController/makeTOD] deleting file ${newfile}`);
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
@@ -8586,13 +8597,13 @@ const makeTOD = async (payload) => {
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/TOD] Excel making error. Reason: ${error}`
+      `[generateRetenController/makeTOD] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 const makeFS = async (payload) => {
-  logger.info('[generateRetenController/makeLiputanOAP] makeFS');
+  logger.info('[generateRetenController/makeFS] KPI FS');
   let {
     tarikhMula,
     tarikhAkhir,
@@ -8709,7 +8720,7 @@ const makeFS = async (payload) => {
   }
 };
 const makeBEGIN = async (payload) => {
-  logger.info('[generateRetenController/makeBEGIN] makeBEGIN');
+  logger.info('[generateRetenController/makeBEGIN] BEGIN');
   let {
     klinik,
     daerah,
@@ -8890,23 +8901,25 @@ const makeBEGIN = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController/BEGIN] writing file ${newfile}`);
+    logger.info(`[generateRetenController/makeBEGIN] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController/BEGIN] deleting file ${newfile}`);
+      logger.info(
+        `[generateRetenController/makeBEGIN] deleting file ${newfile}`
+      );
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/BEGIN] Excel making error. Reason: ${error}`
+      `[generateRetenController/makeBEGIN] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 const makeCPPC1 = async (payload) => {
-  logger.info('[generateRetenController/makeCPPC1] makeCPPC1');
+  logger.info('[generateRetenController/makeCPPC1] CPPC1');
   let {
     klinik,
     daerah,
@@ -9065,7 +9078,7 @@ const makeCPPC1 = async (payload) => {
   }
 };
 const makeCPPC2 = async (payload) => {
-  logger.info('[generateRetenController/makeCPPC2] makeCPPC2');
+  logger.info('[generateRetenController/makeCPPC2] CPPC2');
   let {
     klinik,
     daerah,
@@ -9180,7 +9193,7 @@ const makeCPPC2 = async (payload) => {
   }
 };
 const makePPIM03 = async (payload) => {
-  logger.info('[generateRetenController/makePPIM03] makePPIM03');
+  logger.info('[generateRetenController/makePPIM03] PPIM03');
   let {
     klinik,
     daerah,
@@ -9580,7 +9593,7 @@ const makePPIM03 = async (payload) => {
   }
 };
 const makePPIM04 = async (payload) => {
-  logger.info('[generateRetenController/makePPIM04] makePPIM04');
+  logger.info('[generateRetenController/makePPIM04] PPIM04');
   let {
     sekolah,
     klinik,
@@ -9739,7 +9752,7 @@ const makePPIM04 = async (payload) => {
   }
 };
 const makePPIM05 = async (payload) => {
-  logger.info('[generateRetenController/makePPIM05] makePPIM05');
+  logger.info('[generateRetenController/makePPIM05] PPIM05');
   let {
     sekolah,
     klinik,
@@ -9998,7 +10011,7 @@ const makePPIM05 = async (payload) => {
 };
 // data dari sekolah harus ambil bagi 15 - 17 (by umur)
 const makeDEWASAMUDA = async (payload) => {
-  logger.info('[generateRetenController/makeDEWASAMUDA] makeDEWASAMUDA');
+  logger.info('[generateRetenController/makeDEWASAMUDA] DEWASA MUDA');
   let {
     klinik,
     daerah,
@@ -11196,7 +11209,7 @@ const makeDEWASAMUDA = async (payload) => {
 };
 // data dari semua fasiliti
 const makeOAP = async (payload) => {
-  logger.info('[generateRetenController/makeOAP] makeOAP');
+  logger.info('[generateRetenController/makeOAP] OAP');
   let {
     klinik,
     daerah,
@@ -11745,7 +11758,7 @@ const makeOAP = async (payload) => {
 const makeLiputanOA = async (payload) => {
   let { tarikhMula, tarikhAkhir, bulan, fromEtl, username, jenisReten } =
     payload;
-  logger.info('[generateRetenController/makeLiputanOAP] makeLiputanOAP');
+  logger.info('[generateRetenController/makeLiputanOAP] Liputan OAP');
   try {
     let data;
     switch (fromEtl) {
@@ -11894,7 +11907,7 @@ const makeLiputanOA = async (payload) => {
   }
 };
 const makeLiputanPenan = async (payload) => {
-  logger.info('[generateRetenController/makeLiputanOAP] makeLiputanPenan');
+  logger.info('[generateRetenController/makeLiputanOAP] Liputan Penan');
   let { tarikhMula, tarikhAkhir, bulan, fromEtl, username, jenisReten } =
     payload;
   try {
@@ -11996,7 +12009,7 @@ const makeLiputanPenan = async (payload) => {
   }
 };
 const makeKPBMPBHarian = async (payload) => {
-  logger.info('[generateRetenController/makeKPBMPBHarian] makeKPBMPBHarian');
+  logger.info('[generateRetenController/makeKPBMPBHarian] KPBMPBHarian');
   let {
     klinik,
     daerah,
@@ -12143,11 +12156,13 @@ const makeKPBMPBHarian = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController/makeKPBMPB] writing file ${newfile}`);
+    logger.info(
+      `[generateRetenController/makeKPBMPBHarian] writing file ${newfile}`
+    );
     setTimeout(() => {
       fs.unlinkSync(newfile);
       logger.info(
-        `[generateRetenController/makeKPBMPB] deleting file ${newfile}`
+        `[generateRetenController/makeKPBMPBHarian] deleting file ${newfile}`
       );
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
@@ -12155,13 +12170,13 @@ const makeKPBMPBHarian = async (payload) => {
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makeKPBMPB] Excel making error. Reason: ${error}`
+      `[generateRetenController/makeKPBMPBHarian] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 const makeKPBMPBBulanan = async (payload) => {
-  logger.info('[generateRetenController/makeKPBMPBBulanan] makeKPBMPBBulanan');
+  logger.info('[generateRetenController/makeKPBMPBBulanan] KPBMPBBulanan');
   let {
     klinik,
     daerah,
@@ -12306,11 +12321,13 @@ const makeKPBMPBBulanan = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController/makeKPBMPB] writing file ${newfile}`);
+    logger.info(
+      `[generateRetenController/makeKPBMPBBulanan] writing file ${newfile}`
+    );
     setTimeout(() => {
       fs.unlinkSync(newfile);
       logger.info(
-        `[generateRetenController/makeKPBMPB] deleting file ${newfile}`
+        `[generateRetenController/makeKPBMPBBulanan] deleting file ${newfile}`
       );
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
@@ -12318,14 +12335,14 @@ const makeKPBMPBBulanan = async (payload) => {
     return file;
   } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makeKPBMPB] Excel making error. Reason: ${error}`
+      `[generateRetenController/makeKPBMPBBulanan] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
 };
 // khusus (OAP, WE, OKU, PROJEK KOMUNITI, PENJARA)
 const makeKOM = async (payload) => {
-  logger.info('[generateRetenController/makeKOM] makeKOM');
+  logger.info('[generateRetenController/makeKOM] KOM');
   let {
     klinik,
     daerah,
@@ -13049,7 +13066,7 @@ const makeKOM = async (payload) => {
   }
 };
 const makePPR = async (payload) => {
-  logger.info('[generateRetenController/makePPR] makePPR');
+  logger.info('[generateRetenController/makePPR] PPR');
   let {
     klinik,
     daerah,
@@ -13286,7 +13303,7 @@ const makePPR = async (payload) => {
   }
 };
 const makeUTCRTC = async (payload) => {
-  logger.info('[generateRetenController/makeUTCRTC] makeUTCRTC');
+  logger.info('[generateRetenController/makeUTCRTC] UTCRTC');
   let {
     klinik,
     daerah,
@@ -13607,7 +13624,7 @@ const makeUTCRTC = async (payload) => {
   }
 };
 const makePPKPS = async (payload) => {
-  logger.info('[generateRetenController/makePPKPS] makePPKPS');
+  logger.info('[generateRetenController/makePPKPS] PPKPS');
   let {
     klinik,
     daerah,
@@ -13850,7 +13867,7 @@ const makePPKPS = async (payload) => {
   }
 };
 const makePKAP1 = async (payload) => {
-  logger.info('[generateRetenController] makePKAP1');
+  logger.info('[generateRetenController] PKAP1');
   let {
     klinik,
     daerah,
@@ -13975,7 +13992,7 @@ const makePKAP1 = async (payload) => {
   }
 };
 const makePKAP2 = async (payload) => {
-  logger.info('[generateRetenController/makePKAP2] makePKAP2');
+  logger.info('[generateRetenController/makePKAP2] PKAP2');
   let {
     klinik,
     daerah,

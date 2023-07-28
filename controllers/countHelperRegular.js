@@ -71,6 +71,8 @@ const countPG101A = async (payload) => {
 
   const match_stage = { $match: getParams101(payload, 'A') };
 
+  const ultimateCutOff = { $match: { ...ultimateCutoff(payload) } };
+
   const project_stage = {
     $project: {
       _id: placeModifier(payload),
@@ -156,7 +158,7 @@ const countPG101A = async (payload) => {
 
   try {
     // cari pt kp
-    const pipeline = [match_stage, project_stage, sort_stage];
+    const pipeline = [match_stage, ultimateCutOff, project_stage, sort_stage];
     const kpData = await Umum.aggregate(pipeline);
 
     // cari pt kkiakd
@@ -165,6 +167,7 @@ const countPG101A = async (payload) => {
         const kkiaMatchPipeline = [
           {
             $match: {
+              ...ultimateCutoff(payload),
               jenisFasiliti: 'kk-kd',
               kodFasilitiKkKd: kkiaMatch[i].kodKkiaKd,
               tarikhKedatangan: {
@@ -212,6 +215,8 @@ const countPG101A = async (payload) => {
 };
 const countPG101C = async (payload) => {
   const match_stage = { $match: getParams101(payload, 'C') };
+
+  const ultimateCutOff = { $match: { ...ultimateCutoff(payload) } };
 
   const project_stage = {
     $project: {
@@ -266,7 +271,7 @@ const countPG101C = async (payload) => {
   };
 
   try {
-    const pipeline = [match_stage, project_stage, sort_stage];
+    const pipeline = [match_stage, ultimateCutOff, project_stage, sort_stage];
 
     const PG101C = await Umum.aggregate(pipeline);
 
@@ -285,6 +290,7 @@ const countPG101C = async (payload) => {
 const countPG211A = async (payload) => {
   const main_switch = {
     $match: {
+      ...ultimateCutoff(payload),
       ...getParams211(payload, 'A'),
     },
   };
@@ -349,6 +355,7 @@ const countPG211A = async (payload) => {
 const countPG211C = async (payload) => {
   const main_switch = {
     $match: {
+      ...ultimateCutoff(payload),
       ...getParams211(payload, 'C'),
     },
   };
