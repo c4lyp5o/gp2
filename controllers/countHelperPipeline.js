@@ -3,9 +3,12 @@ const {
   getParamsTOD,
   getParamsOplainP2,
 } = require('./countHelperParams');
+const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
 
 // the mother of all pipeline sekolah
 const pipelineSekolahPemeriksaan = (payload) => {
+  const sesiTakwim = sesiTakwimSekolah();
+
   return [
     {
       $match: {
@@ -19,6 +22,7 @@ const pipelineSekolahPemeriksaan = (payload) => {
         ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
         sekolahSelesaiReten: true,
+        sesiTakwimSekolah: sesiTakwim,
       },
     },
     {
@@ -42,6 +46,7 @@ const pipelineSekolahPemeriksaan = (payload) => {
           {
             $match: {
               deleted: false,
+              sesiTakwimPelajar: sesiTakwim,
               pemeriksaanSekolah: {
                 $ne: null,
               },
@@ -157,6 +162,8 @@ const pipelineSekolahPemeriksaan = (payload) => {
 };
 
 const pipelineSekolahRawatan = (payload) => {
+  const sesiTakwim = sesiTakwimSekolah();
+
   return [
     {
       $match: {
@@ -170,6 +177,7 @@ const pipelineSekolahRawatan = (payload) => {
         ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
         sekolahSelesaiReten: true,
+        sesiTakwimSekolah: sesiTakwim,
       },
     },
     {
@@ -193,8 +201,8 @@ const pipelineSekolahRawatan = (payload) => {
           {
             $match: {
               deleted: false,
+              sesiTakwimPelajar: sesiTakwim,
               rawatanSekolah: {
-                $exists: true,
                 $ne: [],
               },
             },
@@ -273,6 +281,8 @@ const pipelineSekolahRawatan = (payload) => {
 };
 
 const pipelineEnrolmenSekolah = (payload, jenis) => {
+  const sesiTakwim = sesiTakwimSekolah();
+
   return [
     {
       $match: {
@@ -288,6 +298,8 @@ const pipelineEnrolmenSekolah = (payload, jenis) => {
         ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
         ...(jenis === 'pgs201' && { sekolahSelesaiReten: true }),
+        sekolahSelesaiReten: true,
+        sesiTakwimSekolah: sesiTakwim,
       },
     },
     {
@@ -311,6 +323,7 @@ const pipelineEnrolmenSekolah = (payload, jenis) => {
           {
             $match: {
               deleted: false,
+              sesiTakwimPelajar: sesiTakwim,
             },
           },
         ],
@@ -338,6 +351,8 @@ const pipelineEnrolmenSekolah = (payload, jenis) => {
 };
 
 const pipelineTutupSekolah = (payload) => {
+  const sesiTakwim = sesiTakwimSekolah();
+
   return [
     {
       $match: {
@@ -376,10 +391,8 @@ const pipelineTutupSekolah = (payload) => {
           {
             $match: {
               deleted: false,
-              pemeriksaanSekolah: {
-                $exists: true,
-                $ne: null,
-              },
+              sesiTakwimPelajar: sesiTakwim,
+              pemeriksaanSekolah: { $ne: null },
             },
           },
           {
