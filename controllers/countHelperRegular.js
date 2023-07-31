@@ -62,6 +62,7 @@ const {
   groupKesSelesaiSekolah,
   groupKesSelesaiSekolahOKUBW,
 } = require('./countHelperPipeline');
+const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
 
 // Reten Kaunter
 const countPG101A = async (payload) => {
@@ -585,6 +586,8 @@ const countPG206 = async (payload) => {
   ]);
 
   // for frodo
+  const sesiTakwim = sesiTakwimSekolah();
+
   const pipeline_pemeriksaan_sekolah = [
     {
       $match: {
@@ -611,7 +614,8 @@ const countPG206 = async (payload) => {
           {
             $match: {
               deleted: false,
-              pemeriksaanSekolah: { $exists: true, $ne: null },
+              sesiTakwimPelajar: sesiTakwim,
+              pemeriksaanSekolah: { $ne: null },
             },
           },
         ],
@@ -692,8 +696,9 @@ const countPG206 = async (payload) => {
           {
             $match: {
               deleted: false,
-              pemeriksaanSekolah: { $exists: true, $ne: null },
-              rawatanSekolah: { $exists: true, $ne: [] },
+              sesiTakwimPelajar: sesiTakwim,
+              pemeriksaanSekolah: { $ne: null },
+              rawatanSekolah: { $ne: [] },
             },
           },
         ],
@@ -772,10 +777,8 @@ const countPG206 = async (payload) => {
           {
             $match: {
               deleted: false,
-              pemeriksaanSekolah: {
-                $exists: true,
-                $ne: null,
-              },
+              sesiTakwimPelajar: sesiTakwim,
+              pemeriksaanSekolah: { $ne: null },
             },
           },
         ],
@@ -1031,9 +1034,8 @@ const countPG206 = async (payload) => {
           {
             $match: {
               deleted: false,
-              pemeriksaanSekolah: {
-                $ne: null,
-              },
+              sesiTakwimPelajar: sesiTakwim,
+              pemeriksaanSekolah: { $ne: null },
             },
           },
         ],
@@ -1697,6 +1699,8 @@ const countPG207 = async (payload) => {
   ]);
 
   // for frodo
+  const sesiTakwim = sesiTakwimSekolah();
+
   const pipeline_pemeriksaan_sekolah = [
     {
       $match: {
@@ -1723,7 +1727,8 @@ const countPG207 = async (payload) => {
           {
             $match: {
               deleted: false,
-              pemeriksaanSekolah: { $exists: true, $ne: null },
+              sesiTakwimPelajar: sesiTakwim,
+              pemeriksaanSekolah: { $ne: null },
             },
           },
         ],
@@ -1801,8 +1806,9 @@ const countPG207 = async (payload) => {
           {
             $match: {
               deleted: false,
-              pemeriksaanSekolah: { $exists: true, $ne: null },
-              rawatanSekolah: { $exists: true, $ne: [] },
+              sesiTakwimPelajar: sesiTakwim,
+              pemeriksaanSekolah: { $ne: null },
+              rawatanSekolah: { $ne: [] },
             },
           },
         ],
@@ -1881,10 +1887,8 @@ const countPG207 = async (payload) => {
           {
             $match: {
               deleted: false,
-              pemeriksaanSekolah: {
-                $exists: true,
-                $ne: null,
-              },
+              sesiTakwimPelajar: sesiTakwim,
+              pemeriksaanSekolah: { $ne: null },
             },
           },
         ],
@@ -2140,9 +2144,8 @@ const countPG207 = async (payload) => {
           {
             $match: {
               deleted: false,
-              pemeriksaanSekolah: {
-                $ne: null,
-              },
+              sesiTakwimPelajar: sesiTakwim,
+              pemeriksaanSekolah: { $ne: null },
             },
           },
         ],
@@ -3177,32 +3180,6 @@ const countPGS201 = async (payload) => {
         orangKurangUpaya: false,
       },
     },
-    {
-      $lookup: {
-        from: 'fasilitis',
-        localField: 'kodFasilitiTaskaTadika',
-        foreignField: 'kodTastad',
-        as: 'fasiliti_data',
-      },
-    },
-    {
-      $unwind: '$fasiliti_data',
-    },
-    {
-      $addFields: {
-        kodTastad: '$fasiliti_data.kodTastad',
-      },
-    },
-    {
-      $project: {
-        fasiliti_data: 0,
-      },
-    },
-    {
-      $match: {
-        kodTastad: { $regex: /tad/i },
-      },
-    },
   ];
   const pra_Enam_tahun = [
     {
@@ -3230,32 +3207,6 @@ const countPGS201 = async (payload) => {
         },
         jenisFasiliti: { $eq: 'taska-tadika' },
         orangKurangUpaya: false,
-      },
-    },
-    {
-      $lookup: {
-        from: 'fasilitis',
-        localField: 'kodFasilitiTaskaTadika',
-        foreignField: 'kodTastad',
-        as: 'fasiliti_data',
-      },
-    },
-    {
-      $unwind: '$fasiliti_data',
-    },
-    {
-      $addFields: {
-        kodTastad: '$fasiliti_data.kodTastad',
-      },
-    },
-    {
-      $project: {
-        fasiliti_data: 0,
-      },
-    },
-    {
-      $match: {
-        kodTastad: { $regex: /tad/i },
       },
     },
   ];
@@ -3302,32 +3253,6 @@ const countPGS201 = async (payload) => {
         orangKurangUpaya: true,
       },
     },
-    {
-      $lookup: {
-        from: 'fasilitis',
-        localField: 'kodFasilitiTaskaTadika',
-        foreignField: 'kodTastad',
-        as: 'fasiliti_data',
-      },
-    },
-    {
-      $unwind: '$fasiliti_data',
-    },
-    {
-      $addFields: {
-        kodTastad: '$fasiliti_data.kodTastad',
-      },
-    },
-    {
-      $project: {
-        fasiliti_data: 0,
-      },
-    },
-    {
-      $match: {
-        kodTastad: { $regex: /tad/i },
-      },
-    },
   ];
   const pra_tad_OA_penan = [
     {
@@ -3370,32 +3295,6 @@ const countPGS201 = async (payload) => {
         },
         jenisFasiliti: { $eq: 'taska-tadika' },
         kumpulanEtnik: { $in: ['penan', 'orang asli semenanjung'] },
-      },
-    },
-    {
-      $lookup: {
-        from: 'fasilitis',
-        localField: 'kodFasilitiTaskaTadika',
-        foreignField: 'kodTastad',
-        as: 'fasiliti_data',
-      },
-    },
-    {
-      $unwind: '$fasiliti_data',
-    },
-    {
-      $addFields: {
-        kodTastad: '$fasiliti_data.kodTastad',
-      },
-    },
-    {
-      $project: {
-        fasiliti_data: 0,
-      },
-    },
-    {
-      $match: {
-        kodTastad: { $regex: /tad/i },
       },
     },
   ];
