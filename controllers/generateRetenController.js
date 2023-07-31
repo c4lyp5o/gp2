@@ -9322,8 +9322,6 @@ const makePPIM03 = async (payload) => {
           data[0][i].bilPerokokSemasaShisha;
         newSheet.getRow(rowNumber).getCell(21).value =
           data[0][i].bilPerokokSemasaLainlain;
-        newSheet.getRow(rowNumber).getCell(22).value =
-          data[0][i].bilPerokokSemasaDirujukIntervensi;
       }
     }
     for (const item of data[1][0].dataSekolah) {
@@ -9363,6 +9361,7 @@ const makePPIM03 = async (payload) => {
       row.getCell(15).value = item.bilPerokokSemasaPerempuanCina;
       row.getCell(16).value = item.bilPerokokSemasaPerempuanMelayu;
       row.getCell(17).value = item.bilPerokokSemasaPerempuanLainlain;
+      row.getCell(22).value = item.bilPerokokSemasaDirujukIntervensi;
       row.getCell(25).value = item.bilBekasPerokokLelaki;
       row.getCell(26).value = item.bilBekasPerokokPerempuan;
       row.getCell(29).value = item.bilPerokokPasifLelaki;
@@ -9402,8 +9401,6 @@ const makePPIM03 = async (payload) => {
         }
 
         worksheet.name = 'PPIM 03-2023 SR';
-        // worksheet.getRow(rowNumber).getCell(2).value +=
-        //   data[0][i].enrolmen???;
         worksheet.getRow(rowNumber).getCell(18).value =
           data[0][i].bilPerokokSemasaRokokBiasa;
         worksheet.getRow(rowNumber).getCell(19).value =
@@ -9412,8 +9409,6 @@ const makePPIM03 = async (payload) => {
           data[0][i].bilPerokokSemasaShisha;
         worksheet.getRow(rowNumber).getCell(21).value =
           data[0][i].bilPerokokSemasaLainlain;
-        worksheet.getRow(rowNumber).getCell(22).value =
-          data[0][i].bilPerokokSemasaDirujukIntervensi;
       }
     }
     for (const item of data[1][0].dataSekolah) {
@@ -9453,6 +9448,7 @@ const makePPIM03 = async (payload) => {
       row.getCell(15).value = item.bilPerokokSemasaPerempuanCina;
       row.getCell(16).value = item.bilPerokokSemasaPerempuanMelayu;
       row.getCell(17).value = item.bilPerokokSemasaPerempuanLainlain;
+      row.getCell(22).value = item.bilPerokokSemasaDirujukIntervensi;
       row.getCell(25).value = item.bilBekasPerokokLelaki;
       row.getCell(26).value = item.bilBekasPerokokPerempuan;
       row.getCell(29).value = item.bilPerokokPasifLelaki;

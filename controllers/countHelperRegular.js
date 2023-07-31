@@ -5823,6 +5823,8 @@ const countPGPro01Combined = async (payload) => {
   }
 };
 const countPPIM03 = async (payload) => {
+  const sesiTakwim = sesiTakwimSekolah();
+
   const dataKohort = await KohortKotak.aggregate([
     {
       $match: {
@@ -5836,6 +5838,11 @@ const countPPIM03 = async (payload) => {
           createdByKodFasiliti: payload.klinik,
         }),
         statusKotak: { $ne: 'belum mula' },
+        sesiTakwimPelajar: sesiTakwim,
+        tarikhIntervensi1: {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
+        },
       },
     },
     {
@@ -5901,21 +5908,6 @@ const countPPIM03 = async (payload) => {
             ],
           },
         },
-        bilPerokokSemasaDirujukIntervensi: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $ne: ['$tarikhIntervensi1', ''],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
       },
     },
   ]);
@@ -5930,8 +5922,13 @@ const countPPIM03 = async (payload) => {
           createdByDaerah: payload.daerah,
         }),
         ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        sekolahSelesaiReten: true,
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        sesiTakwimSekolah: sesiTakwim,
+        sekolahSelesaiReten: true,
+        tarikhSekolahSelesaiReten: {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
+        },
       },
     },
     {
@@ -5947,9 +5944,8 @@ const countPPIM03 = async (payload) => {
                 {
                   $match: {
                     deleted: false,
-                    pemeriksaanSekolah: {
-                      $ne: null,
-                    },
+                    sesiTakwimPelajar: sesiTakwim,
+                    pemeriksaanSekolah: { $ne: null },
                   },
                 },
               ],
@@ -5981,6 +5977,7 @@ const countPPIM03 = async (payload) => {
               keturunan: '$result.keturunan',
               tahunTingkatan: '$result.tahunTingkatan',
               statusMerokok: '$pemeriksaan.statusM',
+              bersediaDirujuk: '$pemeriksaan.bersediaDirujuk',
             },
           },
           {
@@ -5999,6 +5996,7 @@ const countPPIM03 = async (payload) => {
               sekolahKki: 1,
               statusMerokok: 1,
               statusKotak: 1,
+              bersediaDirujuk: 1,
               elektronikVapeKotak: 1,
               shishaKotak: 1,
               lainLainKotak: 1,
@@ -6185,6 +6183,21 @@ const countPPIM03 = async (payload) => {
                         },
                         {
                           $ne: ['$keturunan', 'INDIA'],
+                        },
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              bilPerokokSemasaDirujukIntervensi: {
+                $sum: {
+                  $cond: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$bersediaDirujuk', 'ya-bersedia-dirujuk'],
                         },
                       ],
                     },
