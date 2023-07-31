@@ -3797,9 +3797,16 @@ const idPPIM03All = {
         },
         {
           case: {
-            $and: [
-              { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
-              { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+            $or: [
+              {
+                $and: [
+                  { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
+                  { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+                ],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'KHAS'],
+              },
             ],
           },
           then: 'kki-sr',
@@ -3860,9 +3867,16 @@ const idPPIM03All = {
         },
         {
           case: {
-            $and: [
-              { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
-              { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
+            $or: [
+              {
+                $and: [
+                  { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
+                  { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
+                ],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'KHAM'],
+              },
             ],
           },
           then: 'kki-sm',
