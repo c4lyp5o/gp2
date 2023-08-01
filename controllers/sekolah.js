@@ -1166,9 +1166,9 @@ const updatePemeriksaanSekolah = async (req, res) => {
   const updatedSinglePemeriksaan = await Pemeriksaansekolah.findOneAndUpdate(
     { _id: req.params.pemeriksaanSekolahId },
     {
-      $set: {
-        ...req.body,
-      },
+      // $set: {
+      //   ...req.body,
+      // },
       $push: {
         createdSalahreten: createdSalahreten,
       },
@@ -1199,9 +1199,9 @@ const updateRawatanSekolah = async (req, res) => {
   const updatedSingleRawatan = await Rawatansekolah.findOneAndUpdate(
     { _id: req.params.rawatanSekolahId },
     {
-      $set: {
-        ...req.body,
-      },
+      // $set: {
+      //   ...req.body,
+      // },
       $push: {
         createdSalahreten: createdSalahreten,
       },

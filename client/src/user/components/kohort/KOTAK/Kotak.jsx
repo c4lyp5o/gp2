@@ -1,16 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
-import {
-  FaCheckCircle,
-  FaTimesCircle,
-  FaCaretUp,
-  FaCaretDown,
-  FaInfoCircle,
-  FaPlus,
-  FaMinus,
-} from 'react-icons/fa';
+import { FaInfoCircle, FaPlus, FaMinus } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
@@ -37,8 +29,6 @@ function KohortKotak() {
   const [modalHapus, setModalHapus] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
-
-  const init = useRef(false);
 
   //accordian
   const [accordian, setAccordian] = useState([]);
@@ -79,9 +69,6 @@ function KohortKotak() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchAllPersonSekolahs'
-        // );
       }
     };
     fetchAllPersonKohort();
