@@ -209,7 +209,9 @@ export default function FillableForm({
       minDate: moment('2023-01-01').toDate(),
       disabled: disabled,
       className:
-        'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        dariMyVas || editId
+          ? 'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row cursor-not-allowed bg-user1 bg-opacity-25'
+          : 'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -1429,10 +1431,14 @@ export default function FillableForm({
           <>
             <form onSubmit={confirm(handleSubmit)}>
               <h1
-                className='bg-kaunter3 font-bold text-xl sticky top-1 py-1 mt-1 z-10 shadow-md rounded-md'
+                className={` font-bold text-xl sticky top-1 py-1 mt-1 z-10 shadow-md rounded-md ${
+                  dariMyVas
+                    ? 'bg-gradient-to-r from-[#1d49ce] via-[#5b82f8] to-[#69acf0] bg-[position:_100%_100%] bg-[size:_100%] text-kaunterWhite'
+                    : 'bg-kaunter3 text-kaunterBlack'
+                }`}
                 data-cy='fillable-form-header'
               >
-                pendaftaran {Dictionary[jenisFasiliti]}
+                pendaftaran {Dictionary[jenisFasiliti]} {dariMyVas && '(MyVAS)'}
                 <br />
                 {namaProgram ? `${namaProgram}` : null}
               </h1>
@@ -1589,8 +1595,9 @@ export default function FillableForm({
                                 required: true,
                                 readOnly: true,
                                 disabled: dariMyVas ? true : false,
-                                className:
-                                  'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
+                                className: dariMyVas
+                                  ? 'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md bg-user1 bg-opacity-25'
+                                  : 'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
                               }}
                             />
                             <span>
@@ -1641,7 +1648,9 @@ export default function FillableForm({
                             }
                           }
                         }}
-                        className='appearance-none w-full md:w-56 leading-7 px-2 py-1 pr-6 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
+                        className={`appearance-none w-full md:w-56 leading-7 px-2 py-1 pr-6 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2 
+                        ${dariMyVas ? 'bg-user1 bg-opacity-25' : ''}
+                        `}
                         data-cy='jenis-pengenalan'
                       >
                         <option value=''>SILA PILIH..</option>
@@ -1679,7 +1688,9 @@ export default function FillableForm({
                           }
                         }}
                         placeholder='901223015432'
-                        className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                        className={` ${
+                          dariMyVas ? 'bg-user1 bg-opacity-25' : ''
+                        } appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2`}
                         data-cy='ic-mykad-mykid'
                       />
                     )}
@@ -1895,7 +1906,9 @@ export default function FillableForm({
                           nama: e.target.value,
                         });
                       }}
-                      className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                      className={` ${
+                        dariMyVas ? 'bg-user1 bg-opacity-25' : ''
+                      } appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase`}
                       data-cy='nama-umum'
                     />
                     <span>
