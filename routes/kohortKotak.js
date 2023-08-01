@@ -9,8 +9,6 @@ const {
 } = require('../controllers/kohortKotak');
 
 router.route('/').get(queryPersonKohortKotak);
-
-// PATCH
 router
   .route('/:personKohortKotakId')
   .get(getSinglePersonKohortKotak)
