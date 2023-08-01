@@ -22,6 +22,13 @@ const pipelineSekolahPemeriksaan = (payload) => {
         ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
         sekolahSelesaiReten: true,
+        ...(payload.tarikhMula &&
+          payload.tarikhAkhir && {
+            tarikhSekolahSelsaiReten: {
+              $gte: payload.tarikhMula,
+              $lte: payload.tarikhAkhir,
+            },
+          }),
         sesiTakwimSekolah: sesiTakwim,
       },
     },
@@ -177,6 +184,13 @@ const pipelineSekolahRawatan = (payload) => {
         ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
         sekolahSelesaiReten: true,
+        ...(payload.tarikhMula &&
+          payload.tarikhAkhir && {
+            tarikhSekolahSelsaiReten: {
+              $gte: payload.tarikhMula,
+              $lte: payload.tarikhAkhir,
+            },
+          }),
         sesiTakwimSekolah: sesiTakwim,
       },
     },
@@ -3797,9 +3811,16 @@ const idPPIM03All = {
         },
         {
           case: {
-            $and: [
-              { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
-              { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+            $or: [
+              {
+                $and: [
+                  { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
+                  { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+                ],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'KHAS'],
+              },
             ],
           },
           then: 'kki-sr',
@@ -3860,9 +3881,16 @@ const idPPIM03All = {
         },
         {
           case: {
-            $and: [
-              { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
-              { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
+            $or: [
+              {
+                $and: [
+                  { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
+                  { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
+                ],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'KHAM'],
+              },
             ],
           },
           then: 'kki-sm',

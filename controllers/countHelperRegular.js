@@ -4752,7 +4752,12 @@ const countPGS203 = async (payload) => {
             $sum: {
               $cond: [
                 {
-                  $eq: ['$govKe', 'Kerajaan'],
+                  $and: [
+                    { $eq: ['$govKe', 'Kerajaan'] },
+                    { $ne: ['$enrolmenTastad', 'NOT APPLICABLE'] },
+                    { $ne: ['$enrolmenTastad', ''] },
+                    { $ne: ['$enrolmenTastad', null] },
+                  ],
                 },
                 { $toInt: '$enrolmenTastad' },
                 0,
@@ -4770,11 +4775,16 @@ const countPGS203 = async (payload) => {
               ],
             },
           },
-          enrolmenTastadKerajaan: {
+          enrolmenTastadSwasta: {
             $sum: {
               $cond: [
                 {
-                  $eq: ['$govKe', 'Swasta'],
+                  $and: [
+                    { $eq: ['$govKe', 'Swasta'] },
+                    { $ne: ['$enrolmenTastad', 'NOT APPLICABLE'] },
+                    { $ne: ['$enrolmenTastad', ''] },
+                    { $ne: ['$enrolmenTastad', null] },
+                  ],
                 },
                 { $toInt: '$enrolmenTastad' },
                 0,
@@ -5846,8 +5856,31 @@ const countPPIM03 = async (payload) => {
       },
     },
     {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+      },
+    },
+    {
+      $unwind: '$result',
+    },
+    {
+      $addFields: {
+        sekolahKki: '$result.sekolahKki',
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        __v: 0,
+        result: 0,
+      },
+    },
+    {
       $group: {
-        _id: '$tahunTingkatan',
+        ...idPPIM03All,
         bilPerokokSemasaRokokBiasa: {
           $sum: {
             $cond: [

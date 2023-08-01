@@ -9303,43 +9303,39 @@ const makePPIM03 = async (payload) => {
     let jumlahRetenSalah = 0;
     let rowNumber = 0;
     //
-    for (let i = 0; i < data[0].length; i++) {
-      if (data[0][i]) {
-        switch (data[0][i]._id) {
-          case 'T1':
-            rowNumber = 16;
-            break;
-          case 'T2':
-            rowNumber = 17;
-            break;
-          case 'T3':
-            rowNumber = 18;
-            break;
-          case 'T4':
-            rowNumber = 19;
-            break;
-          case 'T5':
-            rowNumber = 20;
-            break;
-          case 'P':
-            rowNumber = 22;
-            break;
-          case 'KHAM':
-            rowNumber = 23;
-            break;
-          default:
-            continue;
-        }
-
-        newSheet.getRow(rowNumber).getCell(18).value =
-          data[0][i].bilPerokokSemasaRokokBiasa;
-        newSheet.getRow(rowNumber).getCell(19).value =
-          data[0][i].bilPerokokSemasaElecVape;
-        newSheet.getRow(rowNumber).getCell(20).value =
-          data[0][i].bilPerokokSemasaShisha;
-        newSheet.getRow(rowNumber).getCell(21).value =
-          data[0][i].bilPerokokSemasaLainlain;
+    for (const item of data[0]) {
+      switch (item._id) {
+        case 'tingkatan1':
+          rowNumber = 16;
+          break;
+        case 'tingkatan2':
+          rowNumber = 17;
+          break;
+        case 'tingkatan3':
+          rowNumber = 18;
+          break;
+        case 'tingkatan4':
+          rowNumber = 19;
+          break;
+        case 'tingkatan5':
+          rowNumber = 20;
+          break;
+        case 'peralihan':
+          rowNumber = 22;
+          break;
+        case 'kki-sm':
+          rowNumber = 23;
+          break;
+        default:
+          continue;
       }
+
+      const row = newSheet.getRow(rowNumber);
+
+      row.getCell(18).value = item.bilPerokokSemasaRokokBiasa;
+      row.getCell(19).value = item.bilPerokokSemasaElecVape;
+      row.getCell(20).value = item.bilPerokokSemasaShisha;
+      row.getCell(21).value = item.bilPerokokSemasaLainlain;
     }
     for (const item of data[1][0].dataSekolah) {
       switch (item._id) {
@@ -9389,44 +9385,40 @@ const makePPIM03 = async (payload) => {
       row.getCell(38).value = item.bilDalamIntervensiPerempuan;
     }
     //
-    for (let i = 0; i < data[0].length; i++) {
-      if (data[0][i]) {
-        switch (data[0][i]._id) {
-          case 'D1':
-            rowNumber = 16;
-            break;
-          case 'D2':
-            rowNumber = 17;
-            break;
-          case 'D3':
-            rowNumber = 18;
-            break;
-          case 'D4':
-            rowNumber = 19;
-            break;
-          case 'D5':
-            rowNumber = 20;
-            break;
-          case 'D6':
-            rowNumber = 21;
-            break;
-          case 'KHAS':
-            rowNumber = 23;
-            break;
-          default:
-            continue;
-        }
-
-        worksheet.name = 'PPIM 03-2023 SR';
-        worksheet.getRow(rowNumber).getCell(18).value =
-          data[0][i].bilPerokokSemasaRokokBiasa;
-        worksheet.getRow(rowNumber).getCell(19).value =
-          data[0][i].bilPerokokSemasaElecVape;
-        worksheet.getRow(rowNumber).getCell(20).value =
-          data[0][i].bilPerokokSemasaShisha;
-        worksheet.getRow(rowNumber).getCell(21).value =
-          data[0][i].bilPerokokSemasaLainlain;
+    for (const item of data[0]) {
+      switch (item._id) {
+        case 'darjah1':
+          rowNumber = 16;
+          break;
+        case 'darjah2':
+          rowNumber = 17;
+          break;
+        case 'darjah3':
+          rowNumber = 18;
+          break;
+        case 'darjah4':
+          rowNumber = 19;
+          break;
+        case 'darjah5':
+          rowNumber = 20;
+          break;
+        case 'darjah6':
+          rowNumber = 21;
+          break;
+        case 'kki-sr':
+          rowNumber = 23;
+          break;
+        default:
+          continue;
       }
+
+      worksheet.name = 'PPIM 03-2023 SR';
+      const row = worksheet.getRow(rowNumber);
+
+      row.getCell(18).value = item.bilPerokokSemasaRokokBiasa;
+      row.getCell(19).value = item.bilPerokokSemasaElecVape;
+      row.getCell(20).value = item.bilPerokokSemasaShisha;
+      row.getCell(21).value = item.bilPerokokSemasaLainlain;
     }
     for (const item of data[1][0].dataSekolah) {
       switch (item._id) {
@@ -9599,6 +9591,7 @@ const makePPIM03 = async (payload) => {
 
     return file;
   } catch (error) {
+    console.log(error);
     penjanaanRetenLogger.error(
       `[generateRetenController/makePPIM03] Excel making error. Reason: ${error}`
     );
