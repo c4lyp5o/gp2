@@ -1,11 +1,13 @@
 const moment = require('moment');
 const KohortKotak = require('../models/KohortKotak');
-const { logger } = require('../logs/logger');
+const Sekolah = require('../models/Sekolah');
+const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
+const { logger, unauthorizedLogger } = require('../logs/logger');
 
 // GET /:personKohortKotakId
 const getSinglePersonKohortKotak = async (req, res) => {
   logger.info(
-    `${req.method} ${req.url} [kohortKotakController] getSinglePersonKohort called`
+    `${req.method} ${req.url} [kohortKotakController] getSinglePersonKOTAK called`
   );
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -15,6 +17,7 @@ const getSinglePersonKohortKotak = async (req, res) => {
 
   const singlePersonKohortKotak = await KohortKotak.findOne({
     _id: personKohortKotakId,
+    deleted: false,
   });
 
   if (!personKohortKotakId) {
@@ -29,7 +32,7 @@ const getSinglePersonKohortKotak = async (req, res) => {
 // PATCH /:personKohortKotakId
 const updatePersonKohortKotak = async (req, res) => {
   logger.info(
-    `${req.method} ${req.url} [kohortKotakController] updatePersonKohort called`
+    `${req.method} ${req.url} [kohortKotakController] updatePersonKOTAK called`
   );
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -44,6 +47,7 @@ const updatePersonKohortKotak = async (req, res) => {
   const updatedSinglePersonKohortKotak = await KohortKotak.findOneAndUpdate(
     {
       _id: req.params.personKohortKotakId,
+      deleted: false,
     },
     {
       $set: {
@@ -68,23 +72,70 @@ const updatePersonKohortKotak = async (req, res) => {
 // PATCH /delete/:personKohortKotakId
 const softDeletePersonKOTAK = async (req, res) => {
   logger.info(
-    `${req.method} ${req.url} [kohortKotakController] updatePersonKohort called`
+    `${req.method} ${req.url} [kohortKotakController] softDeletePersonKOTAK called`
   );
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const { deleteReason } = req.body;
+  const {
+    deleteReason,
+    melaksanakanSaringanMerokok,
+    statusM,
+    menerimaNasihatRingkas,
+  } = req.body;
 
+  const singlePersonKotak = await KohortKotak.findOne({
+    _id: req.params.personKohortKotakId,
+    deleted: false,
+  });
+
+  if (!singlePersonKotak) {
+    return res
+      .status(404)
+      .json({ msg: `No person with id ${req.params.personKohortKotakId}` });
+  }
+
+  if (singlePersonKotak.statusKotak !== 'belum mula') {
+    unauthorizedLogger.warn(
+      `${req.method} ${req.url} [kohortKotakController - softDeletePersonKOTAK] Unauthorized singlePersonKotak ${singlePersonKotak.nama} has STATUS KOTAK !== 'belum mula' tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+    );
+    return res.status(403).json({
+      msg: `${singlePersonKotak.nama} berada di dalam pemantauan kohort kotak`,
+    });
+  }
+
+  // delete pelajar kohort tu
   const singlePersonKotakToDelete = await KohortKotak.findOneAndUpdate(
     {
       _id: req.params.personKohortKotakId,
-      // deleted: false,
+      deleted: false,
     },
     {
       deleted: true,
       deleteReason,
-      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this pelajar`,
+      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this kohort kotak pelajar`,
+    },
+    { new: true }
+  );
+  // search pelajar tu di sekolah
+  const pelajarSekolah = await Sekolah.findOne({
+    nama: singlePersonKotak.nama,
+    sesiTakwimPelajar: singlePersonKotak.sesiTakwimPelajar,
+    kodSekolah: singlePersonKotak.kodSekolah,
+    tahunTingkatan: singlePersonKotak.tahunTingkatan,
+    deleted: false,
+  });
+  // update pulak dia punya pemeriksaan
+  await Pemeriksaansekolah.findOneAndUpdate(
+    {
+      _id: pelajarSekolah.pemeriksaanSekolah,
+    },
+    {
+      melaksanakanSaringanMerokok,
+      statusM,
+      menerimaNasihatRingkas,
+      bersediaDirujuk: '',
     },
     { new: true }
   );
@@ -95,7 +146,7 @@ const softDeletePersonKOTAK = async (req, res) => {
 // not used
 // DELETE /:personKohortKotakId
 const deletePersonKohortKotak = async (req, res) => {
-  if (req.user.accountType !== 'kaunterUser') {
+  if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
@@ -138,7 +189,7 @@ const queryPersonKohortKotak = async (req, res) => {
   queryObject.createdByNegeri = negeri;
   queryObject.createdByDaerah = daerah;
   queryObject.createdByKp = kp;
-  //   queryObject.createdByKodFasiliti = kodFasiliti;
+  queryObject.createdByKodFasiliti = kodFasiliti;
   //   queryObject.tahunDaftar = new Date().getFullYear();
   //   queryObject.deleted = false;
 
@@ -168,7 +219,6 @@ const queryPersonKohortKotak = async (req, res) => {
 
   const kohortKotakResultQuery = await KohortKotak.find(queryObject).sort({
     namaSekolah: -1,
-    // namaKelas: -1,
     nama: -1,
   });
 
