@@ -959,40 +959,32 @@ export default function FillableForm({
     setIc(patientDataFromMyVas.resource.identifier[0].value);
     patientDataFromMyVas.resource.telecom &&
       setNomborTelefon(patientDataFromMyVas.resource.telecom[0].value);
-    setNama(
-      patientDataFromMyVas.resource.name[0].given[0] &&
-        patientDataFromMyVas.resource.name[0].given[0]
-    );
+    patientDataFromMyVas.resource.name[0].given[0] &&
+      setNama(patientDataFromMyVas.resource.name[0].given[0]);
     setJantina(jantinaMyvas);
-    setTarikhLahir(
-      patientDataFromMyVas.resource.birthDate &&
+    patientDataFromMyVas.resource.birthDate &&
+      setTarikhLahir(patientDataFromMyVas.resource.birthDate);
+    patientDataFromMyVas.resource.birthDate &&
+      setTarikhLahirDP(new Date(patientDataFromMyVas.resource.birthDate));
+    if (patientDataFromMyVas.resource.birthDate) {
+      const tarikhLahirObj = moment(
         patientDataFromMyVas.resource.birthDate
-    );
-    setTarikhLahirDP(
-      new Date(
-        patientDataFromMyVas.resource.birthDate &&
-          patientDataFromMyVas.resource.birthDate
-      )
-    );
-    const tarikhLahirObj = moment(
-      patientDataFromMyVas.resource.birthDate
-    ).toDate();
-    const tahun = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahirObj));
-    const bulan = parseInt(howOldAreYouMyFriendbulanV2(tarikhLahirObj));
-    const hari = parseInt(howOldAreYouMyFrienddaysV2(tarikhLahirObj));
-    setUmur(tahun);
-    setUmurBulan(bulan);
-    setUmurHari(hari);
+      ).toDate();
+      const tahun = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahirObj));
+      const bulan = parseInt(howOldAreYouMyFriendbulanV2(tarikhLahirObj));
+      const hari = parseInt(howOldAreYouMyFrienddaysV2(tarikhLahirObj));
+      setUmur(tahun);
+      setUmurBulan(bulan);
+      setUmurHari(hari);
+    }
     patientDataFromMyVas.resource.address[0].line[0] &&
       setAlamat(patientDataFromMyVas.resource.address[0].line[0]);
-    setPoskodAlamat(
-      patientDataFromMyVas.resource.address[0].postalCode &&
-        patientDataFromMyVas.resource.address[0].postalCode
-    );
-    setNegeriAlamat(
-      patientDataFromMyVas.resource.address[0].state &&
+    patientDataFromMyVas.resource.address[0].postalCode &&
+      setPoskodAlamat(patientDataFromMyVas.resource.address[0].postalCode);
+    patientDataFromMyVas.resource.address[0].state &&
+      setNegeriAlamat(
         patientDataFromMyVas.resource.address[0].state.toLowerCase()
-    );
+      );
     setConfirmData({
       ...confirmData,
       temujanji: true,
@@ -1010,9 +1002,9 @@ export default function FillableForm({
       tarikhLahir:
         patientDataFromMyVas.resource.birthDate &&
         patientDataFromMyVas.resource.birthDate,
-      umur: tahun,
-      umurBulan: bulan,
-      umurHari: hari,
+      umur: umur,
+      umurBulan: umurBulan,
+      umurHari: umurHari,
       alamat:
         patientDataFromMyVas.resource.address[0].line[0] &&
         patientDataFromMyVas.resource.address[0].line[0],
