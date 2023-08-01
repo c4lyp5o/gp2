@@ -19,7 +19,6 @@ export default function MyVas({ handleSubmitMyVas }) {
 
   const [appointmentList, setAppointmentList] = useState([]);
   const [dahDaftarPt, setDahDaftarPt] = useState([]);
-  const [jumpaPt, setJumpaPt] = useState({});
   const [findingAppointment, setFindingAppointment] = useState(false);
 
   useEffect(() => {
