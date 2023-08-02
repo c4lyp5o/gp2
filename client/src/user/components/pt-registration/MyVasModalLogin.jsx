@@ -12,13 +12,13 @@ export default function MyVasModalLogin({ setShowModalMyVasLogin }) {
           <img
             src={mysejahtera}
             alt='MySejahtera Logo'
-            className='w-14 h-14 m-1 mr-5'
+            className='w-10 h-10 m-1 mr-5'
           />
           MyVAS
         </div>
         <h1 className='text-center text-base font-semibold normal-case px-5'>
           Sila LOG MASUK menggunakan akaun MyVAS anda terlebih dahulu untuk
-          mengakses senarai janji temu hari ini
+          mengakses senarai janji temu hari ini.
         </h1>
         <div>
           <button
