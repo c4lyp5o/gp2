@@ -70,7 +70,7 @@ function KohortKotak() {
           a.statusKotak > b.statusKotak ? 1 : -1
         );
         setNamaSekolahs(namaSekolahs);
-        setKohort(kohort);
+        // setKohort(kohort);
         setAllPersonKohortKotak(desc);
         setIsLoading(false);
       } catch (error) {
@@ -79,6 +79,26 @@ function KohortKotak() {
     };
     fetchAllPersonKohort();
   }, [reloadState]);
+
+  // Function to handle change in selected namaSekolah
+  const handleChangeNamaSekolah = (event) => {
+    const selectedNamaSekolah = event.target.value;
+    setPilihanSekolah(selectedNamaSekolah);
+
+    // Filter the allPersonKohortKotak data based on the selectedNamaSekolah and remove duplicates from kohort options
+    const filteredData = allPersonKohortKotak.filter(
+      (item) => item.namaSekolah === selectedNamaSekolah
+    );
+    const kohortSet = new Set(
+      filteredData
+        .map((item) => item.dalamPemantauanKohort)
+        .filter((item) => item !== '')
+        .sort((a, b) => (a > b ? 1 : -1))
+    );
+    const kohortOptions = Array.from(kohortSet);
+    setKohort(kohortOptions);
+    setPilihanKohort(''); // */ Reset the selected kohort when changing namaSekolahs
+  };
 
   const handleDelete = async (singlePelajarKOTAK, reason) => {
     if (!modalHapus) {
@@ -176,9 +196,10 @@ function KohortKotak() {
                 <span className=' uppercase text-xs lg:text-sm w-full'>
                   <select
                     value={pilihanSekolah}
-                    onChange={(e) => {
-                      setPilihanSekolah(e.target.value);
-                    }}
+                    // onChange={(e) => {
+                    //   setPilihanSekolah(e.target.value);
+                    // }}
+                    onChange={handleChangeNamaSekolah}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
@@ -209,21 +230,19 @@ function KohortKotak() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
-                    {pilihanSekolah ? (
-                      kohort.map((kohort, index) => {
-                        return (
-                          <option
-                            value={kohort}
-                            key={index}
-                            className='capitalize'
-                          >
-                            {kohort}
-                          </option>
-                        );
-                      })
-                    ) : (
-                      <option value=''>SILA PILIH SEKOLAH</option>
-                    )}
+                    {pilihanSekolah
+                      ? kohort.map((kohort, index) => {
+                          return (
+                            <option
+                              value={kohort}
+                              key={index}
+                              className='capitalize'
+                            >
+                              {kohort}
+                            </option>
+                          );
+                        })
+                      : ''}
                   </select>
                 </span>
               </p>
@@ -576,21 +595,23 @@ function KohortKotak() {
                         </td>
                         {userinfo.role === 'admin' && (
                           <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                            <button
-                              className='bg-user9 w-16 text-userWhite shadow-md hover:bg-user8 rounded-md p-1 m-1 transition-all'
-                              onClick={() => {
-                                setModalConfirmDeleteKotak(true);
-                                setPilihanHapusId(singlePersonKohortKotak._id);
-                                setPilihanHapusNama(
-                                  singlePersonKohortKotak.nama
-                                );
-                                setMelaksanakanSaringanMerokok('');
-                                setStatusM('');
-                                setMenerimaNasihatRingkas('');
-                              }}
-                            >
-                              HAPUS
-                            </button>
+                            {singlePersonKohortKotak.statusKotak ===
+                              'belum mula' && (
+                              <button
+                                className='bg-user9 w-16 text-userWhite shadow-md hover:bg-user8 rounded-md p-1 m-1 transition-all'
+                                onClick={() => {
+                                  setModalHapus(true);
+                                  setPilihanHapusId(
+                                    singlePersonKohortKotak._id
+                                  );
+                                  setPilihanHapusNama(
+                                    singlePersonKohortKotak.nama
+                                  );
+                                }}
+                              >
+                                HAPUS
+                              </button>
+                            )}
                           </td>
                         )}
                       </tr>
