@@ -80,10 +80,18 @@ const softDeletePersonKOTAK = async (req, res) => {
 
   const {
     deleteReason,
+    createdByMdcMdtb,
     melaksanakanSaringanMerokok,
     statusM,
     menerimaNasihatRingkas,
   } = req.body;
+
+  if (!deleteReason || !createdByMdcMdtb || !melaksanakanSaringanMerokok) {
+    unauthorizedLogger.warn(
+      `${req.method} ${req.url} [kohortKotakController - softDeletePersonKOTAK] Unauthorized singlePersonKotak not enough req.body tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+    );
+    return res.status(403).json({ msg: 'Sila isikan maklumat yang lengkap' });
+  }
 
   const singlePersonKotak = await KohortKotak.findOne({
     _id: req.params.personKohortKotakId,

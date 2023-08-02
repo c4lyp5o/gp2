@@ -6,6 +6,7 @@ import { FaInfoCircle, FaPlus, FaMinus } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
+import ConfirmationDeleteKotak from './ConfirmationDeleteKOTAK';
 import UserDeleteModal from '../../UserDeleteModal';
 
 function KohortKotak() {
@@ -23,9 +24,14 @@ function KohortKotak() {
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [kohort, setKohort] = useState([]);
 
-  //delete
+  //delete kotak
   const [pilihanHapusId, setPilihanHapusId] = useState('');
   const [pilihanHapusNama, setPilihanHapusNama] = useState('');
+  const [modalConfirmDeleteKotak, setModalConfirmDeleteKotak] = useState(false);
+  const [melaksanakanSaringanMerokok, setMelaksanakanSaringanMerokok] =
+    useState('');
+  const [statusM, setStatusM] = useState('');
+  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
   const [modalHapus, setModalHapus] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
@@ -93,6 +99,9 @@ function KohortKotak() {
           {
             deleteReason: reason,
             createdByMdcMdtb: mdcMdtbNum,
+            melaksanakanSaringanMerokok,
+            statusM,
+            menerimaNasihatRingkas,
           },
           {
             headers: {
@@ -110,6 +119,7 @@ function KohortKotak() {
         { autoClose: 5000 }
       );
       setModalHapus(false);
+      setReloadState(!reloadState);
     }
   };
 
@@ -569,11 +579,14 @@ function KohortKotak() {
                             <button
                               className='bg-user9 w-16 text-userWhite shadow-md hover:bg-user8 rounded-md p-1 m-1 transition-all'
                               onClick={() => {
-                                setModalHapus(true);
+                                setModalConfirmDeleteKotak(true);
                                 setPilihanHapusId(singlePersonKohortKotak._id);
                                 setPilihanHapusNama(
                                   singlePersonKohortKotak.nama
                                 );
+                                setMelaksanakanSaringanMerokok('');
+                                setStatusM('');
+                                setMenerimaNasihatRingkas('');
                               }}
                             >
                               HAPUS
@@ -609,6 +622,21 @@ function KohortKotak() {
               </tbody>
             )}
           </table>
+          {modalConfirmDeleteKotak && (
+            <ConfirmationDeleteKotak
+              nama={pilihanHapusNama}
+              modalConfirmDeleteKotak={modalConfirmDeleteKotak}
+              setModalConfirmDeleteKotak={setModalConfirmDeleteKotak}
+              melaksanakanSaringanMerokok={melaksanakanSaringanMerokok}
+              setMelaksanakanSaringanMerokok={setMelaksanakanSaringanMerokok}
+              statusM={statusM}
+              setStatusM={setStatusM}
+              menerimaNasihatRingkas={menerimaNasihatRingkas}
+              setMenerimaNasihatRingkas={setMenerimaNasihatRingkas}
+              modalHapus={modalHapus}
+              setModalHapus={setModalHapus}
+            />
+          )}
           {modalHapus && (
             <UserDeleteModal
               handleDelete={handleDelete}

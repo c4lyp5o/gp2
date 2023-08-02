@@ -6,8 +6,6 @@ import {
   FaTimesCircle,
   FaUserCheck,
   FaRegPaperPlane,
-  FaMinus,
-  FaPlus,
 } from 'react-icons/fa';
 
 const ConfirmModal = ({ children, data }) => {
