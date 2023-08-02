@@ -8,6 +8,7 @@ export default function UserModalMuatTurun({
   sekolahMuatTurun,
   setModalMuatTurun,
   isDownloading,
+  isDownloadingRujukan,
 }) {
   const { userToken, userinfo, reliefUserToken, toast } =
     useGlobalUserAppContext();
@@ -54,18 +55,18 @@ export default function UserModalMuatTurun({
               )}
             </button>
             <button
-              // onClick={() =>
-              //   handleDownloadSenaraiSekolahRujukan(
-              //     sekolahMuatTurun.kodSekolah,
-              //     sekolahMuatTurun.nama,
-              //     sekolahMuatTurun.sesiTakwimSekolah
-              //   )
-              // }
+              onClick={() =>
+                handleDownloadSenaraiSekolahRujukan(
+                  sekolahMuatTurun.kodSekolah,
+                  sekolahMuatTurun.nama,
+                  sekolahMuatTurun.sesiTakwimSekolah
+                )
+              }
               className={`${
-                isDownloading ? 'pointer-events-none opacity-50' : ''
-              } capitalize text-userWhite rounded-md py-2 hover:cursor-not-allowed transition-all bg-user2 hover:bg-user3`}
+                isDownloadingRujukan ? 'pointer-events-none opacity-50' : ''
+              } capitalize text-userWhite rounded-md py-2 hover:cursor-pointer transition-all bg-user2 hover:bg-user3`}
             >
-              {isDownloading ? (
+              {isDownloadingRujukan ? (
                 <>
                   <FaYinYang className='inline-flex mx-1 animate-spin' />
                   Sedang Muat Turun <i className='animate-pulse'>..</i>
