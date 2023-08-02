@@ -65,10 +65,13 @@ const UmumSchema = new mongoose.Schema(
     kakitanganKerajaan: { type: Boolean, default: false },
     noBayaran: { type: String, default: '' },
     noResit: { type: String, default: '' },
+    bayaranPendaftaranCashless: { type: Boolean, default: false },
     noBayaran2: { type: String, default: '' },
     noResit2: { type: String, default: '' },
+    bayaranRawatanCashless: { type: Boolean, default: false },
     noBayaran3: { type: String, default: '' },
     noResit3: { type: String, default: '' },
+    bayaranTambahanCashless: { type: Boolean, default: false },
     catatan: { type: String, default: '' },
     myVasConsent: { type: Boolean, default: false },
     // kepp
