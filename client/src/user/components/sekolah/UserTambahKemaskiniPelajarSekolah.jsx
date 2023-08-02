@@ -223,7 +223,7 @@ function UserTambahKemaskiniPelajarSekolah({
 
   return (
     <>
-      <div className='absolute z-10 inset-x-1 lg:inset-x-1/4 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto'>
+      <div className='absolute z-20 inset-x-1 lg:inset-x-1/4 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto'>
         <FaWindowClose
           onClick={closeModal}
           className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
