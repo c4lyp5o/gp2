@@ -4,24 +4,36 @@ export default function MyVasModalConfirm({
   patientDataFromMyVas,
   setShowModalMyVasConfirm,
   handleDataPassMyVas,
+  setDariMyVas,
+  setShowForm,
+  checkCache,
 }) {
   const [jenisIc, setJenisIc] = useState('');
 
   const handleConfirmMyVas = (e) => {
     e.preventDefault();
-    handleDataPassMyVas(jenisIc);
+    const checkIcMyVas = async () => {
+      const foundIc = await checkCache(
+        patientDataFromMyVas.resource.identifier[0].value
+      );
+      if (!foundIc) {
+        handleDataPassMyVas(jenisIc);
+        setShowModalMyVasConfirm(false);
+      }
+    };
+    checkIcMyVas();
     setShowModalMyVasConfirm(false);
   };
 
   return (
     <>
-      <div className='absolute z-20 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto p-2'>
+      <div className='absolute z-20 inset-x-1 lg:inset-x-1/3 inset-y-7 lg:inset-y-20 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto p-2'>
         <form
           onSubmit={handleConfirmMyVas}
           className='px-2 grid grid-cols-1 space-y-8'
         >
-          <h1 className='text-base uppercase font-bold text-center text-user1 bg-userWhite py-2 mb-2 border-b-2 border-user1'>
-            Sila Pastikan Semua Maklumat MyVAS Ini Adalah Betul
+          <h1 className='text-base normal-case font-bold text-center text-user1 bg-userWhite py-2 mb-2 border-b-2 border-user1'>
+            Sila pastikan semua maklumat MyVAS ini adalah betul
           </h1>
           <div className='space-y-2'>
             <div className='relative'>
@@ -99,15 +111,18 @@ export default function MyVasModalConfirm({
               />
             </div>
           </div>
-          <p className='text-justify font-semibold text-user1 text-sm row-span-2 normal-case'>
-            <b className='text-user9'>***</b>
+          <p className='text-center text-user1 text-sm row-span-2 normal-case'>
             Sebahagian maklumat pesakit telah diambil dari MyVAS. Sila sahkan
             maklumat tersebut (ubah sekiranya perlu) dan tambah maklumat
             pendaftaran lain yang diperlukan
           </p>
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid grid-cols-2 gap-2 pt-8'>
             <span
-              onClick={() => setShowModalMyVasConfirm(false)}
+              onClick={() => {
+                setDariMyVas(false);
+                setShowForm(false);
+                setShowModalMyVasConfirm(false);
+              }}
               className='text-user1 rounded-md py-1 cursor-pointer hover:bg-user1 hover:bg-opacity-60 hover:text-kaunterWhite shadow-md'
             >
               Batal
