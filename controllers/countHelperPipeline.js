@@ -24,7 +24,7 @@ const pipelineSekolahPemeriksaan = (payload) => {
         sekolahSelesaiReten: true,
         ...(payload.tarikhMula &&
           payload.tarikhAkhir && {
-            tarikhSekolahSelsaiReten: {
+            tarikhSekolahSelesaiReten: {
               $gte: payload.tarikhMula,
               $lte: payload.tarikhAkhir,
             },
@@ -186,7 +186,7 @@ const pipelineSekolahRawatan = (payload) => {
         sekolahSelesaiReten: true,
         ...(payload.tarikhMula &&
           payload.tarikhAkhir && {
-            tarikhSekolahSelsaiReten: {
+            tarikhSekolahSelesaiReten: {
               $gte: payload.tarikhMula,
               $lte: payload.tarikhAkhir,
             },
