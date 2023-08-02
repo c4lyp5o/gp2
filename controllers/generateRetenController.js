@@ -9574,7 +9574,6 @@ const makePPIM03 = async (payload) => {
 
     return file;
   } catch (error) {
-    console.log(error);
     penjanaanRetenLogger.error(
       `[generateRetenController/makePPIM03] Excel making error. Reason: ${error}`
     );
