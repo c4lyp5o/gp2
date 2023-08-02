@@ -5289,6 +5289,27 @@ const makePGS201 = async (payload) => {
         row.getCell(48).value += item.perluJumlahPesakitFS; //Column AV (48)
         row.getCell(49).value += item.perluJumlahGigiFS; //Column AW (49)
 
+        // Rawatan Perlu Dibuat
+        row.getCell(50).value += item.jumlahGigiPerluTampalanAntSewarnaGdBaru; //Column AX (50)
+        row.getCell(51).value += item.jumlahGigiPerluTampalanAntSewarnaGdSemula; //Column AY (51)
+        row.getCell(52).value += item.jumlahGigiPerluTampalanAntSewarnaGkBaru; //Column AZ (52)
+        row.getCell(53).value += item.jumlahGigiPerluTampalanAntSewarnaGkSemula; //Column BA (53)
+
+        row.getCell(54).value += item.jumlahGigiPerluTampalanPostSewarnaGdBaru; //Column BB (54)
+        row.getCell(55).value +=
+          item.jumlahGigiPerluTampalanPostSewarnaGdSemula; //Column BC (55)
+        row.getCell(56).value += item.jumlahGigiPerluTampalanPostSewarnaGkBaru; //Column BD (56)
+        row.getCell(57).value +=
+          item.jumlahGigiPerluTampalanPostSewarnaGkSemula; //Column BE (57)
+
+        row.getCell(58).value += item.jumlahGigiPerluTampalanPosAmalgamGdBaru; //Column BF (58)
+        row.getCell(59).value += item.jumlahGigiPerluTampalanPosAmalgamGdSemula; //Column BG (59)
+        row.getCell(60).value += item.jumlahGigiPerluTampalanPosAmalgamGkBaru; //Column BH (60)
+        row.getCell(61).value += item.jumlahGigiPerluTampalanPosAmalgamGkSemula; //Column BI (61)
+
+        row.getCell(85).value += item.kesSelesaiMMI; //Column CG (85)
+        row.getCell(86).value += item.kesSelesai; //Column CH (86)
+
         row.getCell(85).value += item.kesSelesaiMMI; //Column CG (85)
         row.getCell(86).value += item.kesSelesai; //Column CH (86)
       }
