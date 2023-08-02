@@ -51,6 +51,7 @@ function UserSekolahList() {
   const [isDownload, setIsDownload] = useState(false);
 
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloadingRujukan, setIsDownloadingRujukan] = useState(false);
   const [reloadState, setReloadState] = useState(false);
 
   useEffect(() => {
@@ -180,9 +181,9 @@ function UserSekolahList() {
   ) => {
     const id = toast.loading('Sedang mencetak senarai pelajar rujukan...');
     try {
-      setIsDownloading(true);
+      setIsDownloadingRujukan(true);
       const { data } = await axios.get(
-        `/api/v1/sekolah/muatturun/${kodSekolah}?rujukan=true`,
+        `/api/v1/sekolah/muatturun-rujukan/${kodSekolah}`,
         {
           headers: {
             Authorization: `Bearer ${
@@ -217,7 +218,7 @@ function UserSekolahList() {
     } finally {
       setModalMuatTurun(false);
       setTimeout(() => {
-        setIsDownloading(false);
+        setIsDownloadingRujukan(false);
       }, 10000);
     }
   };
@@ -299,7 +300,7 @@ function UserSekolahList() {
 
   return (
     <>
-      <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
+      <div className='px-3 h-full p-3 overflow-y-auto'>
         <div>
           <h1 className='my-3 text-2xl font-bold'>RUMUSAN STATUS SEKOLAH</h1>
           <div className='my-4 flex flex-row justify-between'>
@@ -353,10 +354,10 @@ function UserSekolahList() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
                   ISI RETEN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-48'>
                   TINDAKAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
                   TARIKH SEKOLAH SELESAI RETEN
                 </th>
               </tr>
@@ -614,7 +615,7 @@ function UserSekolahList() {
                                 <p
                                   className={`${
                                     isDownload[singleNamaSekolah._id]
-                                      ? 'max-w-min ml-1 transition-all duration-700 '
+                                      ? 'max-w-min transition-all duration-700 '
                                       : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
                                   }`}
                                 >
@@ -778,6 +779,7 @@ function UserSekolahList() {
             sekolahMuatTurun={sekolahMuatTurun}
             setModalMuatTurun={setModalMuatTurun}
             isDownloading={isDownloading}
+            isDownloadingRujukan={isDownloadingRujukan}
           />
         )}
         {/* {modalRefreshPelajar && (
