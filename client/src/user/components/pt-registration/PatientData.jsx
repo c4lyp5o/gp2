@@ -401,7 +401,7 @@ export default function PatientData({
             </div>
           </div>
           {jenisFasiliti === 'kp' ? (
-            <div className='flex justify-center items-center'>
+            <div className='flex flex-col lg:flex-row justify-center items-center'>
               <button
                 type='button'
                 className='px-6 py-2.5 m-1 w-64 h-10 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
@@ -426,12 +426,12 @@ export default function PatientData({
                       setShowModalMyVasLogin(true);
                     }
                   }}
-                  className='px-1 py-0.5 mx-1 w-64 h-10 text-userWhite font-medium text-xs normal-case rounded-md shadow-md transition-all duration-500 bg-gradient-to-r from-user1 to-[#7f8c8d] hover:from-[#3399ff] hover:via-[#3399ff] hover:to-[#3366ff] bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%]'
+                  className='px-1 py-0.5 mx-1 w-64 h-10 text-userWhite font-medium text-xs normal-case rounded-md shadow-md transition-all duration-500 bg-gradient-to-r from-user1 to-[#7f8c8d] hover:from-[#3366ff] hover:via-[#3366ff] hover:to-[#3399ff] bg-[position:_0%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%]'
                 >
                   <img
                     src={mysejahtera}
                     alt='MySejahtera Logo'
-                    className='w-8 h-8 inline-flex mr-1'
+                    className='w-6 h-6 inline-flex mr-1 '
                   />
                   <span>DAFTAR PESAKIT JANJI TEMU MyVAS</span>
                 </button>
@@ -605,8 +605,23 @@ export default function PatientData({
                                 />
                               </td>
                             )}
-                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                              {p.nama}
+                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase text-left pl-3'>
+                              <span
+                                className={`${
+                                  p.myVasIsTrue === true &&
+                                  'grid lg:grid-cols-[9fr_1fr]'
+                                } `}
+                              >
+                                {p.nama}
+                                {p.myVasIsTrue === true && (
+                                  <img
+                                    src={mysejahtera}
+                                    alt='MySejahtera Logo'
+                                    className='w-6 h-6 mr-1 '
+                                    title='Pesakit telah mendaftar melalui MyVAS'
+                                  />
+                                )}
+                              </span>
                             </td>
                             <td
                               className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'
