@@ -46,7 +46,7 @@ const UserFormPromosi = lazy(() =>
 // kohort
 const UserKohort = lazy(() => import('../components/kohort/UserKohortPage'));
 // KOTAK
-const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/Kotak'));
+const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/KOTAK'));
 const UserKohortKotakForm = lazy(() =>
   import('../components/kohort/KOTAK/FormKOTAK')
 );
