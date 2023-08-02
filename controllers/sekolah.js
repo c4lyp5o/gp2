@@ -655,6 +655,506 @@ const muatturunSenaraiPelajar = async (req, res) => {
   return;
 };
 
+const muatturunSenaraiPelajarRujukan = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { kodSekolah } = req.params;
+
+  const makeFile = () => {
+    return path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      `${generateRandomString(20)}.xlsx`
+    );
+  };
+
+  let pipeline = [
+    {
+      $match: {
+        kodSekolah: kodSekolah,
+        sesiTakwimPelajar: 'SESI 2023/2024',
+      },
+    },
+    {
+      $lookup: {
+        from: 'rawatansekolahs',
+        localField: 'rawatanSekolah',
+        foreignField: '_id',
+        as: 'rawatanSekolah',
+      },
+    },
+    {
+      $unwind: {
+        path: '$rawatanSekolah',
+        preserveNullAndEmptyArrays: false,
+      },
+    },
+    {
+      $match: {
+        $expr: {
+          $or: [
+            {
+              $eq: ['$rawatanSekolah.rujukKlinikSekolahRawatan', true],
+            },
+            {
+              $eq: ['$rawatanSekolah.rujukKlinikRawatanEndo', true],
+            },
+            {
+              $eq: ['$rawatanSekolah.rujukKlinikCabutanGigiKekal', true],
+            },
+            {
+              $eq: ['$rawatanSekolah.rujukKesTrauma', true],
+            },
+            {
+              $eq: ['$rawatanSekolah.rujukMasalahKesihatan', true],
+            },
+            {
+              $eq: ['$rawatanSekolah.rujukBukanWarganegara', true],
+            },
+            {
+              $eq: [
+                '$rawatanSekolah.rujukRawatanOrtodontikSekolahRawatan',
+                true,
+              ],
+            },
+            {
+              $eq: ['$rawatanSekolah.rujukPakarPatologiSekolahRawatan', true],
+            },
+            {
+              $eq: ['$rawatanSekolah.rujukPakarRestoratifSekolahRawatan', true],
+            },
+            {
+              $eq: ['$rawatanSekolah.rujukPakarBedahMulutSekolahRawatan', true],
+            },
+            {
+              $eq: ['$rawatanSekolah.rujukPakarPediatrikSekolahRawatan', true],
+            },
+            {
+              $eq: ['$rawatanSekolah.rujukLainLain', true],
+            },
+          ],
+        },
+      },
+    },
+    {
+      $replaceRoot: {
+        newRoot: {
+          $mergeObjects: ['$$ROOT', '$rawatanSekolah'],
+        },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          nama: '$nama',
+          tahunTingkatan: '$tahunTingkatan',
+          kelasPelajar: '$kelasPelajar',
+          warganegara: '$warganegara',
+        },
+        rujukKlinikSekolahRawatan: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$rawatanSekolah.rujukKlinikSekolahRawatan', true],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukKlinikRawatanEndo: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$rawatanSekolah.rujukKlinikRawatanEndo', true],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukKlinikCabutanGigiKekal: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$rawatanSekolah.rujukKlinikCabutanGigiKekal', true],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukKesTrauma: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$rawatanSekolah.rujukKesTrauma', true],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukMasalahKesihatan: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$rawatanSekolah.rujukMasalahKesihatan', true],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukBukanWarganegara: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$rawatanSekolah.rujukBukanWarganegara', true],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukRawatanOrtodontikSekolahRawatan: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: [
+                  '$rawatanSekolah.rujukRawatanOrtodontikSekolahRawatan',
+                  true,
+                ],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukPakarPatologiSekolahRawatan: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$rawatanSekolah.rujukPakarPatologiSekolahRawatan', true],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukPakarRestoratifSekolahRawatan: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: [
+                  '$rawatanSekolah.rujukPakarRestoratifSekolahRawatan',
+                  true,
+                ],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukPakarBedahMulutSekolahRawatan: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: [
+                  '$rawatanSekolah.rujukPakarBedahMulutSekolahRawatan',
+                  true,
+                ],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukPakarPediatrikSekolahRawatan: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: [
+                  '$rawatanSekolah.rujukPakarPediatrikSekolahRawatan',
+                  true,
+                ],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujukLainLain: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$rawatanSekolah.rujukLainLain', true],
+              },
+              then: 1,
+              else: 0,
+            },
+          },
+        },
+        rujuklain: {
+          $push: '$rujukLainLanjutan',
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        nama: '$_id.nama',
+        tahunTingkatan: '$_id.tahunTingkatan',
+        kelasPelajar: '$_id.kelasPelajar',
+        warganegara: '$_id.warganegara',
+        rujukKlinikSekolahRawatan: 1,
+        rujukKlinikRawatanEndo: 1,
+        rujukKlinikCabutanGigiKekal: 1,
+        rujukKesTrauma: 1,
+        rujukMasalahKesihatan: 1,
+        rujukBukanWarganegara: 1,
+        rujukRawatanOrtodontikSekolahRawatan: 1,
+        rujukPakarPatologiSekolahRawatan: 1,
+        rujukPakarRestoratifSekolahRawatan: 1,
+        rujukPakarBedahMulutSekolahRawatan: 1,
+        rujukPakarPediatrikSekolahRawatan: 1,
+        rujukLainLain: 1,
+        rujuklain: 1,
+      },
+    },
+  ];
+
+  const semuaPelajarSatuSekolah = await Sekolah.aggregate([...pipeline]);
+
+  const blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
+  const workbook = new Excel.Workbook();
+  await workbook.xlsx.readFile(blank);
+
+  workbook.removeWorksheet('Sheet1');
+
+  const semuaTahun = new Set(
+    semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
+  );
+
+  for (const tahun of semuaTahun) {
+    const worksheet = workbook.addWorksheet(tahun);
+
+    const studentsInClass = semuaPelajarSatuSekolah.filter(
+      (student) => student.tahunTingkatan === tahun
+    );
+
+    studentsInClass.sort((a, b) => {
+      if (a.kelasPelajar < b.kelasPelajar) {
+        return -1;
+      }
+      if (a.kelasPelajar > b.kelasPelajar) {
+        return 1;
+      }
+      if (a.nama < b.nama) {
+        return -1;
+      }
+      if (a.nama > b.nama) {
+        return 1;
+      }
+      return 0;
+    });
+
+    worksheet.columns = [
+      { header: 'BIL', key: 'bil', width: 5, height: 165 },
+      { header: 'NAMA', key: 'nama', width: 60, height: 165 },
+      {
+        header: 'TAHUN/TINGKATAN',
+        key: 'tahunTingkatan',
+        width: 35,
+        height: 165,
+      },
+      { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 165 },
+      // { header: 'JANTINA', key: 'jantina', width: 15, height: 165 },
+      { header: 'WARGANEGARA', key: 'warganegara', width: 40, height: 165 },
+      // { header: 'RUJUKAN', key: 'filterRujukan', width: 15, height: 165 },
+      // Additional headers
+      {
+        header: 'RUJUK KLINIK SEKOLAH',
+        key: 'rujukKlinikSekolahRawatan',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK KLINIK RAWATAN ENDO',
+        key: 'rujukKlinikRawatanEndo',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK KLINIK CABUTAN GIGI KEKAL',
+        key: 'rujukKlinikCabutanGigiKekal',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK KES TRAUMA',
+        key: 'rujukKesTrauma',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK MASALAH KESIHATAN',
+        key: 'rujukMasalahKesihatan',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK BUKAN WARGANEGARA',
+        key: 'rujukBukanWarganegara',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK UNTUK RAWATAN ORTODONTIK',
+        key: 'rujukRawatanOrtodontikSekolahRawatan',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK PAKAR PATOLOGI',
+        key: 'rujukPakarPatologiSekolahRawatan',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK PAKAR RESTORATIF',
+        key: 'rujukPakarRestoratifSekolahRawatan',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK PAKAR BEDAH MULUT',
+        key: 'rujukPakarBedahMulutSekolahRawatan',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK PAKAR PEDIATRIK',
+        key: 'rujukPakarPediatrikSekolahRawatan',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK LAIN-LAIN',
+        key: 'rujukLainLain',
+        width: 5,
+        height: 165,
+      },
+      {
+        header: 'RUJUK LAIN-LANJUTAN',
+        key: 'rujukLainLanjutan',
+        width: 5,
+        height: 165,
+      },
+    ];
+
+    studentsInClass.forEach((student, index) => {
+      const rowData = {
+        bil: index + 1,
+        nama: student.nama,
+        tahunTingkatan: student.tahunTingkatan,
+        kelasPelajar: student.kelasPelajar,
+        warganegara: student.warganegara,
+        rujukSekolahRawatan: student.rujukSekolahRawatan,
+        rujukRawatanOrtodontikSekolahRawatan:
+          student.rujukRawatanOrtodontikSekolahRawatan,
+        rujukPakarPatologiSekolahRawatan:
+          student.rujukPakarPatologiSekolahRawatan,
+        rujukPakarRestoratifSekolahRawatan:
+          student.rujukPakarRestoratifSekolahRawatan,
+        rujukPakarBedahMulutSekolahRawatan:
+          student.rujukPakarBedahMulutSekolahRawatan,
+        rujukPakarPediatrikSekolahRawatan:
+          student.rujukPakarPediatrikSekolahRawatan,
+        rujukKlinikSekolahRawatan: student.rujukKlinikSekolahRawatan,
+        rujukKlinikRawatanEndo: student.rujukKlinikRawatanEndo,
+        rujukKlinikCabutanGigiKekal: student.rujukKlinikCabutanGigiKekal,
+        rujukKesTrauma: student.rujukKesTrauma,
+        rujukMasalahKesihatan: student.rujukMasalahKesihatan,
+        rujukKlinikRawatanEndo: student.rujukKlinikRawatanEndo,
+        rujukBukanWarganegara: student.rujukBukanWarganegara,
+        rujukLainLain: student.rujukLainLain,
+        rujukLainLanjutan: student.rujukLainLanjutan,
+        rujukKlinikRawatanEndo: student.rujukKlinikRawatanEndo,
+      };
+      worksheet.addRow(rowData);
+    });
+
+    // Change the height of row 1 to 165
+    worksheet.getRow(1).height = 165;
+
+    worksheet.getColumn('bil').eachCell((cell, number) => {
+      if (number !== 1) {
+        cell.value = number - 1;
+      }
+      cell.alignment = { vertical: 'middle', horizontal: 'center' };
+    });
+
+    worksheet.getColumn('warganegara').eachCell((cell) => {
+      cell.value = cell.value || 'BUKAN WARGANEGARA';
+    });
+
+    worksheet.columns.forEach((column) => {
+      column.eachCell((cell) => {
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+    });
+
+    worksheet.getColumn('nama').eachCell((cell, number) => {
+      if (number !== 1) {
+        cell.alignment = { vertical: 'middle', horizontal: 'left' };
+      }
+    });
+
+    worksheet.getRow(1).font = { bold: true, size: 12, name: 'Calibri' };
+    worksheet.getRow(1).alignment = {
+      vertical: 'middle',
+      horizontal: 'center',
+    };
+    // Set the text rotation for row 1 in columns F to R (6th to 18th columns)
+    worksheet.getRow(1).eachCell((cell, colNumber) => {
+      if (colNumber >= 6 && colNumber <= 18) {
+        cell.alignment = { textRotation: 90 };
+      }
+    });
+
+    worksheet.eachRow((row) => {
+      row.height = 15;
+      row.eachCell((cell) => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+      });
+    });
+  }
+
+  const listPelajar = makeFile();
+
+  await workbook.xlsx.writeFile(listPelajar);
+
+  res.setHeader(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  );
+  const fileStream = fs.createReadStream(listPelajar);
+  fileStream.pipe(res);
+  fileStream.on('close', () => {
+    fs.unlinkSync(listPelajar);
+  });
+};
+
 // POST /
 const createPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -1494,6 +1994,7 @@ module.exports = {
   getSinglePersonSekolahWithPopulate,
   kemaskiniSenaraiPelajar,
   muatturunSenaraiPelajar,
+  muatturunSenaraiPelajarRujukan,
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
