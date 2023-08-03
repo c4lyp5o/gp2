@@ -80,12 +80,12 @@ function KohortKotak() {
     fetchAllPersonKohort();
   }, [reloadState]);
 
-  // Function to handle change in selected namaSekolah
+  //* Function to handle change in selected namaSekolah
   const handleChangeNamaSekolah = (event) => {
     const selectedNamaSekolah = event.target.value;
     setPilihanSekolah(selectedNamaSekolah);
 
-    // Filter the allPersonKohortKotak data based on the selectedNamaSekolah and remove duplicates from kohort options
+    // *Filter the allPersonKohortKotak data based on the selectedNamaSekolah and remove duplicates from kohort options
     const filteredData = allPersonKohortKotak.filter(
       (item) => item.namaSekolah === selectedNamaSekolah
     );
@@ -93,11 +93,15 @@ function KohortKotak() {
       filteredData
         .map((item) => item.dalamPemantauanKohort)
         .filter((item) => item !== '')
-        .sort((a, b) => (a > b ? 1 : -1))
+        .sort((a, b) => {
+          const yearA = parseInt(a.split(' ')[1], 10);
+          const yearB = parseInt(b.split(' ')[1], 10);
+          return yearA - yearB; // Sort in ascending order, use `yearB - yearA` for descending order
+        })
     );
     const kohortOptions = Array.from(kohortSet);
     setKohort(kohortOptions);
-    setPilihanKohort(''); // */ Reset the selected kohort when changing namaSekolahs
+    setPilihanKohort(''); // Reset the selected kohort when changing namaSekolahs
   };
 
   const handleDelete = async (singlePelajarKOTAK, reason) => {
@@ -600,13 +604,16 @@ function KohortKotak() {
                               <button
                                 className='bg-user9 w-16 text-userWhite shadow-md hover:bg-user8 rounded-md p-1 m-1 transition-all'
                                 onClick={() => {
-                                  setModalHapus(true);
+                                  setModalConfirmDeleteKotak(true);
                                   setPilihanHapusId(
                                     singlePersonKohortKotak._id
                                   );
                                   setPilihanHapusNama(
                                     singlePersonKohortKotak.nama
                                   );
+                                  setMelaksanakanSaringanMerokok('');
+                                  setStatusM('');
+                                  setMenerimaNasihatRingkas('');
                                 }}
                               >
                                 HAPUS
