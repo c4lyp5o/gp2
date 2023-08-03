@@ -15,6 +15,7 @@
 ### Changed
 
 - Peringatan di butang KEPP di laman pendaftaran, perlu ditanda hanya bagi Klinik Pergigian yang mempunyai KEPP sahaja
+- Susunan operator ketika log masuk di modul pengguna diperkemaskan
 
 ### Fixed
 
