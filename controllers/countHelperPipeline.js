@@ -7,7 +7,7 @@ const {
 const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
 
 // the mother of all pipeline sekolah
-const pipelineSekolahPemeriksaan = (payload) => {
+const pipelineSekolahPemeriksaan = (payload, jenis) => {
   const sesiTakwim = sesiTakwimSekolah();
 
   const { tarikhMula, tarikhAkhir } = payload;
@@ -15,32 +15,41 @@ const pipelineSekolahPemeriksaan = (payload) => {
   const mula = moment(tarikhMula).format('MM-DD');
   const akhir = moment(tarikhAkhir).format('MM-DD');
 
+  const params = {
+    jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+    sekolahSelesaiReten: true,
+    sesiTakwimSekolah: sesiTakwim,
+  };
+
+  if (!['all', '-'].includes(payload.negeri)) {
+    params.createdByNegeri = payload.negeri;
+  }
+  if (!['all', '-'].includes(payload.daerah)) {
+    params.createdByDaerah = payload.daerah;
+  }
+  if (payload.klinik !== 'all') {
+    params.kodFasilitiHandler = payload.klinik;
+  }
+  if (payload.pilihanSekolah) {
+    params.kodSekolah = payload.pilihanSekolah;
+  }
+  if (jenis === 'pgs203') {
+    if (mula === '01-01' && akhir === '06-30') {
+      params.tarikhSekolahSelesaiReten = {
+        $lte: '2023-07-06',
+      };
+    } else {
+      params.tarikhSekolahSelesaiReten = {
+        $gte: tarikhMula,
+        $lte: tarikhAkhir,
+      };
+    }
+  }
+
   return [
     {
       $match: {
-        ...(!['all', '-'].includes(payload.negeri) && {
-          createdByNegeri: payload.negeri,
-        }),
-        ...(!['all', '-'].includes(payload.daerah) && {
-          createdByDaerah: payload.daerah,
-        }),
-        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
-        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
-        sekolahSelesaiReten: true,
-        ...(mula === '01-01' && akhir === '06-30'
-          ? {
-              tarikhSekolahSelesaiReten: {
-                $lte: '2023-07-06',
-              },
-            }
-          : {
-              tarikhSekolahSelesaiReten: {
-                $gte: tarikhMula,
-                $lte: tarikhAkhir,
-              },
-            }),
-        sesiTakwimSekolah: sesiTakwim,
+        params,
       },
     },
     {
@@ -179,7 +188,7 @@ const pipelineSekolahPemeriksaan = (payload) => {
   ];
 };
 
-const pipelineSekolahRawatan = (payload) => {
+const pipelineSekolahRawatan = (payload, jenis) => {
   const sesiTakwim = sesiTakwimSekolah();
 
   const { tarikhMula, tarikhAkhir } = payload;
@@ -187,32 +196,41 @@ const pipelineSekolahRawatan = (payload) => {
   const mula = moment(tarikhMula).format('MM-DD');
   const akhir = moment(tarikhAkhir).format('MM-DD');
 
+  const params = {
+    jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+    sekolahSelesaiReten: true,
+    sesiTakwimSekolah: sesiTakwim,
+  };
+
+  if (!['all', '-'].includes(payload.negeri)) {
+    params.createdByNegeri = payload.negeri;
+  }
+  if (!['all', '-'].includes(payload.daerah)) {
+    params.createdByDaerah = payload.daerah;
+  }
+  if (payload.klinik !== 'all') {
+    params.kodFasilitiHandler = payload.klinik;
+  }
+  if (payload.pilihanSekolah) {
+    params.kodSekolah = payload.pilihanSekolah;
+  }
+  if (jenis === 'pgs203') {
+    if (mula === '01-01' && akhir === '06-30') {
+      params.tarikhSekolahSelesaiReten = {
+        $lte: '2023-07-06',
+      };
+    } else {
+      params.tarikhSekolahSelesaiReten = {
+        $gte: tarikhMula,
+        $lte: tarikhAkhir,
+      };
+    }
+  }
+
   return [
     {
       $match: {
-        ...(!['all', '-'].includes(payload.negeri) && {
-          createdByNegeri: payload.negeri,
-        }),
-        ...(!['all', '-'].includes(payload.daerah) && {
-          createdByDaerah: payload.daerah,
-        }),
-        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
-        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
-        sekolahSelesaiReten: true,
-        ...(mula === '01-01' && akhir === '06-30'
-          ? {
-              tarikhSekolahSelesaiReten: {
-                $lte: '2023-07-06',
-              },
-            }
-          : {
-              tarikhSekolahSelesaiReten: {
-                $gte: tarikhMula,
-                $lte: tarikhAkhir,
-              },
-            }),
-        sesiTakwimSekolah: sesiTakwim,
+        params,
       },
     },
     {
