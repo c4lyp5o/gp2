@@ -4,7 +4,7 @@ const { unauthorizedLogger } = require('../logs/logger');
 const authCheck = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    if (req.method !== 'GET') {
+    if (req.method !== 'GET' || req.method !== 'OPTIONS') {
       unauthorizedLogger.warn(
         `${req.method} [authCheck] Unauthorized headers.authorization is ${req.headers.authorization} from ${req.ip}`
       );
@@ -27,7 +27,7 @@ const authCheck = async (req, res, next) => {
     };
     next();
   } catch (error) {
-    if (req.method !== 'GET') {
+    if (req.method !== 'GET' || req.method !== 'OPTIONS') {
       unauthorizedLogger.warn(
         `${req.method} [authCheck] Unauthorized jwt.verify ${userToken} from ${req.ip}`
       );
