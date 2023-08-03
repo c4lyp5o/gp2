@@ -109,12 +109,16 @@ export default function FillableForm({
   const [kakitanganKerajaan, setKakitanganKerajaan] = useState(false);
   const [noBayaran, setNoBayaran] = useState('');
   const [noResit, setNoResit] = useState('');
+  const [bayaranPendaftaranCashless, setBayaranPendaftaranCashless] =
+    useState(false);
   const [tambahBayaran, setTambahBayaran] = useState(false);
   const [noBayaran2, setNoBayaran2] = useState('');
   const [noResit2, setNoResit2] = useState('');
+  const [bayaranRawatanCashless, setBayaranRawatanCashless] = useState(false);
   const [tambahBayaran2, setTambahBayaran2] = useState(false);
   const [noBayaran3, setNoBayaran3] = useState('');
   const [noResit3, setNoResit3] = useState('');
+  const [bayaranTambahanCashless, setBayaranTambahanCashless] = useState(false);
   const [catatan, setCatatan] = useState('');
   const [myVasConsent, setMyVasConsent] = useState(
     (import.meta.env.VITE_ENV === 'UNSTABLE' ||
@@ -648,10 +652,13 @@ export default function FillableForm({
               kakitanganKerajaan,
               noBayaran,
               noResit,
+              bayaranPendaftaranCashless,
               noBayaran2,
               noResit2,
+              bayaranRawatanCashless,
               noBayaran3,
               noResit3,
+              bayaranTambahanCashless,
               catatan,
               myVasConsent,
               // kepp
@@ -761,10 +768,13 @@ export default function FillableForm({
               kakitanganKerajaan,
               noBayaran,
               noResit,
+              bayaranPendaftaranCashless,
               noBayaran2,
               noResit2,
+              bayaranRawatanCashless,
               noBayaran3,
               noResit3,
+              bayaranTambahanCashless,
               catatan,
               myVasConsent,
               // kepp
@@ -871,10 +881,13 @@ export default function FillableForm({
       setKakitanganKerajaan(false);
       setNoBayaran('');
       setNoResit('');
+      setBayaranPendaftaranCashless(false);
       setNoBayaran2('');
       setNoResit2('');
+      setBayaranRawatanCashless(false);
       setNoBayaran3('');
       setNoResit3('');
+      setBayaranTambahanCashless(false);
       setCatatan('');
       setMyVasConsent(
         (import.meta.env.VITE_ENV === 'UNSTABLE' ||
@@ -1128,10 +1141,13 @@ export default function FillableForm({
       setKakitanganKerajaan(false);
       setNoBayaran('');
       setNoResit('');
+      setBayaranPendaftaranCashless(false);
       setNoBayaran2('');
       setNoResit2('');
+      setBayaranRawatanCashless(false);
       setNoBayaran3('');
       setNoResit3('');
+      setBayaranTambahanCashless(false);
     }
   }, [statusPesara]);
 
@@ -1238,12 +1254,21 @@ export default function FillableForm({
           setKakitanganKerajaan(data.singlePersonKaunter.kakitanganKerajaan);
           setNoBayaran(data.singlePersonKaunter.noBayaran);
           setNoResit(data.singlePersonKaunter.noResit);
+          setBayaranPendaftaranCashless(
+            data.singlePersonKaunter.bayaranPendaftaranCashless
+          );
           setTambahBayaran(true);
           setNoBayaran2(data.singlePersonKaunter.noBayaran2);
           setNoResit2(data.singlePersonKaunter.noResit2);
+          setBayaranRawatanCashless(
+            data.singlePersonKaunter.bayaranRawatanCashless
+          );
           setTambahBayaran2(true);
           setNoBayaran3(data.singlePersonKaunter.noBayaran3);
           setNoResit3(data.singlePersonKaunter.noResit3);
+          setBayaranTambahanCashless(
+            data.singlePersonKaunter.bayaranTambahanCashless
+          );
           setCatatan(data.singlePersonKaunter.catatan);
           setMyVasConsent(data.singlePersonKaunter.myVasConsent);
           // kepp
@@ -1345,10 +1370,16 @@ export default function FillableForm({
             noPesara: data.singlePersonKaunter.noPesara,
             noBayaran: data.singlePersonKaunter.noBayaran,
             noResit: data.singlePersonKaunter.noResit,
+            bayaranPendaftaranCashless:
+              data.singlePersonKaunter.bayaranPendaftaranCashless,
             noBayaran2: data.singlePersonKaunter.noBayaran2,
             noResit2: data.singlePersonKaunter.noResit2,
+            bayaranRawatanCashless:
+              data.singlePersonKaunter.bayaranRawatanCashless,
             noBayaran3: data.singlePersonKaunter.noBayaran3,
             noResit3: data.singlePersonKaunter.noResit3,
+            bayaranTambahanCashless:
+              data.singlePersonKaunter.bayaranTambahanCashless,
             catatan: data.singlePersonKaunter.catatan,
           });
           setIsEditLoading(false);
@@ -2690,6 +2721,33 @@ export default function FillableForm({
                               <FaMinusCircle className='text-kaunter3' />
                             </span>
                           )}
+                          <div className='pl-2 flex flex-row items-center'>
+                            <input
+                              type='checkbox'
+                              name='bayarancashless'
+                              id='bayaranpendaftarancashless'
+                              checked={
+                                bayaranPendaftaranCashless ? true : false
+                              }
+                              onChange={() => {
+                                setBayaranPendaftaranCashless(
+                                  !bayaranPendaftaranCashless
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  bayaranPendaftaranCashless:
+                                    !bayaranPendaftaranCashless,
+                                });
+                              }}
+                              className='mr-2'
+                            />
+                            <label
+                              htmlFor='bayaranpendaftarancashless'
+                              className='normal-case'
+                            >
+                              <i>'Cashless'</i>
+                            </label>
+                          </div>
                         </div>
                         {tambahBayaran && (
                           <div className='flex flex-row justify-start'>
@@ -2769,6 +2827,31 @@ export default function FillableForm({
                                 />
                               )}
                             </span>
+                            <div className='pl-2 flex flex-row items-center'>
+                              <input
+                                type='checkbox'
+                                name='bayarancashless'
+                                id='bayaranrawatancashless'
+                                checked={bayaranRawatanCashless ? true : false}
+                                onChange={() => {
+                                  setBayaranRawatanCashless(
+                                    !bayaranRawatanCashless
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    bayaranRawatanCashless:
+                                      !bayaranRawatanCashless,
+                                  });
+                                }}
+                                className='mr-2'
+                              />
+                              <label
+                                htmlFor='bayaranrawatancashless'
+                                className='normal-case'
+                              >
+                                <i>'Cashless'</i>
+                              </label>
+                            </div>
                           </div>
                         )}
                         {tambahBayaran2 && (
@@ -2830,6 +2913,31 @@ export default function FillableForm({
                               <span>
                                 <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
                               </span>
+                            </div>
+                            <div className='pl-2 flex flex-row items-center'>
+                              <input
+                                type='checkbox'
+                                name='bayarancashless'
+                                id='bayarantambahancashless'
+                                checked={bayaranTambahanCashless ? true : false}
+                                onChange={() => {
+                                  setBayaranTambahanCashless(
+                                    !bayaranTambahanCashless
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    bayaranTambahanCashless:
+                                      !bayaranTambahanCashless,
+                                  });
+                                }}
+                                className='mr-2'
+                              />
+                              <label
+                                htmlFor='bayarantambahancashless'
+                                className='normal-case'
+                              >
+                                <i>'Cashless'</i>
+                              </label>
                             </div>
                           </div>
                         )}

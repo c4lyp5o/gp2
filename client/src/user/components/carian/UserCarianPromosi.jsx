@@ -8,14 +8,8 @@ import UserDeleteModal from '../UserDeleteModal';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function UserCarianPromosi() {
-  const {
-    userToken,
-    userinfo,
-    reliefUserToken,
-    dateToday,
-    masterDatePicker,
-    toast,
-  } = useGlobalUserAppContext();
+  const { userToken, userinfo, reliefUserToken, masterDatePicker, toast } =
+    useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [bulanPilih, setBulanPilih] = useState('');
@@ -98,9 +92,6 @@ export default function UserCarianPromosi() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-refetchDataOnDelete'
-        // );
       }
     };
     refetchDataOnDelete();
@@ -126,9 +117,6 @@ export default function UserCarianPromosi() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-fetchAllProgramPromosi'
-        // );
       }
     };
     fetchAllProgramPromosi();
@@ -187,9 +175,6 @@ export default function UserCarianPromosi() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-fetchAllPromosi'
-        // );
       }
     };
     fetchAllPromosi();
@@ -401,7 +386,6 @@ export default function UserCarianPromosi() {
               <div>
                 <button
                   onClick={() => setFlipCarian(false)}
-                  // className='cursor-pointer bg-kaunter2 hover:bg-kaunter3 text-userWhite text-sm px-2 py-1 rounded-md shadow-md whitespace-nowrap normal-case transition-all'
                   className='w-full lg:w-96 mx-auto my-5 py-2 px-4 bg-kaunter2 hover:bg-kaunter3 text-userWhite rounded-md shadow-md '
                 >
                   Carian Mengikut Bulan
@@ -462,6 +446,9 @@ export default function UserCarianPromosi() {
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   TARIKH AKHIR
                 </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 whitespace-nowrap'>
+                  TARIKH KEMASUKAN RETEN
+                </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   KOD PROGRAM
                 </th>
@@ -502,6 +489,11 @@ export default function UserCarianPromosi() {
                           {moment(hasilQueryPromosi.tarikhAkhir).format(
                             'DD/MM/YYYY'
                           )}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {moment(hasilQueryPromosi.updatedAt)
+                            .utcOffset(8)
+                            .format('DD/MM/YYYY hh:mm A')}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
                           {hasilQueryPromosi.kodProgram}
@@ -591,6 +583,11 @@ export default function UserCarianPromosi() {
                           )}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {moment(hasilQueryPromosi.updatedAt)
+                            .utcOffset(8)
+                            .format('DD/MM/YYYY hh:mm A')}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
                           {hasilQueryPromosi.kodProgram}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 text-left pl-3'>
@@ -676,29 +673,6 @@ export default function UserCarianPromosi() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                   </td>
-                </tr>
-                <tr>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                  </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                   </td>
@@ -718,6 +692,38 @@ export default function UserCarianPromosi() {
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
