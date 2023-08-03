@@ -4,7 +4,7 @@ const { unauthorizedLogger } = require('../logs/logger');
 const adminAuth = (req, res, next) => {
   const authKey = req.headers.authorization;
   if (!authKey) {
-    if (req.method !== 'GET') {
+    if (req.method !== 'GET' || req.method !== 'OPTIONS') {
       unauthorizedLogger.warn(
         `${req.method} [adminAuth] Unauthorized headers.authorization is ${req.headers.authorization} from ${req.ip}`
       );
@@ -21,7 +21,7 @@ const adminAuth = (req, res, next) => {
     };
     next();
   } catch (err) {
-    if (req.method !== 'GET') {
+    if (req.method !== 'GET' || req.method !== 'OPTIONS') {
       unauthorizedLogger.warn(
         `${req.method} [adminAuth] Unauthorized jwt.verify ${authKey} from ${req.ip}`
       );
@@ -35,7 +35,7 @@ const adminAuth = (req, res, next) => {
 const adminAuthInt = (req, res, next) => {
   const { token } = req.body;
   if (!token) {
-    if (req.method !== 'GET') {
+    if (req.method !== 'GET' || req.method !== 'OPTIONS') {
       unauthorizedLogger.warn(
         `${req.method} [adminAuthInt] Unauthorized body.token is ${req.body.token} from ${req.ip}`
       );
@@ -52,7 +52,7 @@ const adminAuthInt = (req, res, next) => {
     };
     next();
   } catch (err) {
-    if (req.method !== 'GET') {
+    if (req.method !== 'GET' || req.method !== 'OPTIONS') {
       unauthorizedLogger.warn(
         `${req.method} [adminAuthInt] Unauthorized jwt.verify ${token} from ${req.ip}`
       );
