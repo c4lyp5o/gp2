@@ -346,9 +346,28 @@ const muatturunSenaraiPelajar = async (req, res) => {
   }
 
   const { kodSekolah } = req.params;
+  const { kp, kodFasiliti } = req.user;
 
   const sesiTakwim = sesiTakwimSekolah();
 
+  // find if this fasiliti has this code sekolah first
+  const fasilitiSekolah = await Fasiliti.findOne({
+    handler: kp,
+    kodFasilitiHandler: kodFasiliti,
+    kodSekolah: kodSekolah,
+    sesiTakwimSekolah: sesiTakwim,
+  });
+
+  if (!fasilitiSekolah) {
+    unauthorizedLogger.warn(
+      `${req.method} ${req.url} [sekolahController - muatturunSenaraiPelajar] Unauthorized request for muatturun senarai pelajar for ${kodSekolah} by kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti} from ${req.ip}`
+    );
+    return res.status(403).json({
+      msg: `Sekolah ini ${kodSekolah} tidak wujud di klinik anda. This behaviour will be reported`,
+    });
+  }
+
+  // now start the download sequence
   const makeFile = () => {
     return path.join(
       __dirname,
@@ -1454,7 +1473,7 @@ const updateFasiliti = async (req, res) => {
 
   if (fasilitiSekolah.sekolahSelesaiReten === true) {
     unauthorizedLogger.warn(
-      `${req.method} ${req.url} [sekolahController - updateFasiliti] Unauthorized fasilitiSekolah ${fasilitiSekolah.nama} has TUTUP RETEN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+      `${req.method} ${req.url} [sekolahController - updateFasiliti] Unauthorized fasilitiSekolah ${fasilitiSekolah.nama} has TUTUP RETEN tampering by kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti} from ${req.ip}`
     );
     return res.status(403).json({
       msg: `${fasilitiSekolah.nama} telah ditutup reten`,
@@ -1522,7 +1541,7 @@ const updatePersonSekolah = async (req, res) => {
     !req.body.tarikhMelaksanakanBegin
   ) {
     unauthorizedLogger.warn(
-      `${req.method} ${req.url} [sekolahController - updatePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has PEMERIKSAAN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+      `${req.method} ${req.url} [sekolahController - updatePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has PEMERIKSAAN tampering by kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti} from ${req.ip}`
     );
     return res.status(403).json({
       msg: `${singlePersonSekolah.nama} telah diisi reten`,
@@ -1533,7 +1552,7 @@ const updatePersonSekolah = async (req, res) => {
   if (req.body.tarikhMelaksanakanBegin) {
     if (singlePersonSekolah.tarikhMelaksanakanBegin) {
       unauthorizedLogger.warn(
-        `${req.method} ${req.url} [sekolahController - updatePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has BEGIN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+        `${req.method} ${req.url} [sekolahController - updatePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has BEGIN tampering by kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti} from ${req.ip}`
       );
       return res.status(403).json({
         msg: `${singlePersonSekolah.nama} telah diisi BEGIN`,
@@ -1541,7 +1560,7 @@ const updatePersonSekolah = async (req, res) => {
     }
     if (!singlePersonSekolah.pemeriksaanSekolah) {
       unauthorizedLogger.warn(
-        `${req.method} ${req.url} [sekolahController - updatePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} no PEMERIKSAAN for BEGIN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+        `${req.method} ${req.url} [sekolahController - updatePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} no PEMERIKSAAN for BEGIN tampering by kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti} from ${req.ip}`
       );
       return res.status(403).json({
         msg: `${singlePersonSekolah.nama} belum diisi reten`,
@@ -1630,7 +1649,7 @@ const softDeletePersonSekolah = async (req, res) => {
 
   if (singlePersonSekolah.pemeriksaanSekolah) {
     unauthorizedLogger.warn(
-      `${req.method} ${req.url} [sekolahController - softDeletePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has PEMERIKSAAN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+      `${req.method} ${req.url} [sekolahController - softDeletePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has PEMERIKSAAN tampering by kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti} from ${req.ip}`
     );
     return res.status(403).json({
       msg: `${singlePersonSekolah.nama} telah diisi reten`,
