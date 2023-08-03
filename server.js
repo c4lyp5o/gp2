@@ -145,7 +145,7 @@ app.use('/api/v1/umum', authCheck, umum);
 app.use('/api/v1/sekolah', authCheck, sekolah);
 app.use('/api/v1/promosi', authCheck, promosi);
 app.use('/api/v1/getotp', authCheck, getotp);
-app.use('/api/v1/operator', authCheck, operator);
+// app.use('/api/v1/operator', authCheck, operator);
 app.use('/api/v1/summary', authCheck, summary);
 app.use('/api/v1/query', authCheck, allQueryRoute);
 

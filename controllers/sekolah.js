@@ -8,7 +8,6 @@ const Sekolah = require('../models/Sekolah');
 const Runningnumber = require('../models/Runningnumber');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
 const Rawatansekolah = require('../models/Rawatansekolah');
-const Kotaksekolah = require('../models/Kotaksekolah');
 const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
 const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
@@ -86,7 +85,6 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
   })
     .populate('pemeriksaanSekolah')
     .populate('rawatanSekolah');
-  // .populate('kotakSekolah');
 
   const fasilitiSekolah = await Fasiliti.findOne({
     handler: kp,
@@ -124,26 +122,6 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     sesiTakwimSekolah: sesiTakwim,
   });
 
-  // const namaSekolahs = fasilitiSekolah.reduce(
-  //   (arrNamaSekolahs, singleFasilitiSekolah) => {
-  //     if (!arrNamaSekolahs.includes(singleFasilitiSekolah.nama)) {
-  //       arrNamaSekolahs.push(singleFasilitiSekolah.nama);
-  //     }
-  //     return arrNamaSekolahs.filter((valid) => valid);
-  //   },
-  //   ['']
-  // );
-
-  // const kodSekolahs = fasilitiSekolah.reduce(
-  //   (arrKodSekolahs, singleFasilitiSekolah) => {
-  //     if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
-  //       arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
-  //     }
-  //     return arrKodSekolahs.filter((valid) => valid);
-  //   },
-  //   ['']
-  // );
-
   const allPersonSekolahs = await Sekolah.find({
     kodSekolah: req.params.kodSekolah,
     sesiTakwimPelajar: sesiTakwim,
@@ -152,154 +130,8 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     .populate('pemeriksaanSekolah')
     .populate('rawatanSekolah')
     .sort({ nama: 1 });
-  // .populate('kotakSekolah');
 
   res.status(200).json({ allPersonSekolahs, fasilitiSekolah });
-};
-
-// not used
-// GET /faceted/:kodSekolah
-const getAllPersonSekolahFaceted = async (req, res) => {
-  if (req.user.accountType !== 'kpUser') {
-    return res.status(401).json({ msg: 'Unauthorized' });
-  }
-
-  const { kodFasiliti } = req.user;
-  const { kodSekolah } = req.params;
-  const sesiTakwim = sesiTakwimSekolah();
-
-  const dataSekolahDenganPelajar = await Fasiliti.aggregate([
-    {
-      $match: {
-        kodFasilitiHandler: kodFasiliti,
-        kodSekolah,
-        sesiTakwimSekolah: sesiTakwim,
-        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
-      },
-    },
-    {
-      $facet: {
-        fasilitiSekolahs: [],
-        allPersonSekolahs: [
-          {
-            $lookup: {
-              from: 'sekolahs',
-              let: {
-                kodSekolah: '$kodSekolah',
-              },
-              pipeline: [
-                {
-                  $match: {
-                    $expr: {
-                      $and: [
-                        {
-                          $eq: ['$kodSekolah', '$$kodSekolah'],
-                        },
-                        {
-                          $eq: ['$sesiTakwimPelajar', sesiTakwim],
-                        },
-                      ],
-                    },
-                  },
-                },
-                {
-                  $project: {
-                    _id: 1,
-                    statusRawatan: 1,
-                    idInstitusi: 1,
-                    kodSekolah: 1,
-                    namaSekolah: 1,
-                    idIndividu: 1,
-                    nomborId: 1,
-                    nama: 1,
-                    sesiTakwimPelajar: 1,
-                    tahunTingkatan: 1,
-                    // kelasPelajar: 1,
-                    jantina: 1,
-                    statusOku: 1,
-                    tarikhLahir: 1,
-                    umur: 1,
-                    keturunan: 1,
-                    warganegara: 1,
-                    berpindah: 1,
-                    tarikhMelaksanakanBegin: 1,
-                    namaPelaksanaBegin: 1,
-                    kesSelesaiMmi: 1,
-                    pemeriksaanSekolah: 1,
-                    rawatanSekolah: 1,
-                  },
-                },
-              ],
-              as: 'sekolah',
-            },
-          },
-          {
-            $unwind: '$sekolah',
-          },
-          {
-            $project: {
-              _id: '$sekolah._id',
-              // jenisFasiliti: 1,
-              statusRawatan: '$sekolah.statusRawatan',
-              idInstitusi: '$sekolah.idInstitusi',
-              kodSekolah: '$sekolah.kodSekolah',
-              namaSekolah: '$sekolah.namaSekolah',
-              idIndividu: '$sekolah.idIndividu',
-              nomborId: '$sekolah.nomborId',
-              nama: '$sekolah.nama',
-              sesiTakwimPelajar: '$sekolah.sesiTakwimPelajar',
-              tahunTingkatan: '$sekolah.tahunTingkatan',
-              // kelasPelajar: '$sekolah.kelasPelajar',
-              jantina: '$sekolah.jantina',
-              statusOku: '$sekolah.statusOku',
-              tarikhLahir: '$sekolah.tarikhLahir',
-              umur: '$sekolah.umur',
-              keturunan: '$sekolah.keturunan',
-              warganegara: '$sekolah.warganegara',
-              berpindah: '$sekolah.berpindah',
-              tarikhMelaksanakanBegin: '$sekolah.tarikhMelaksanakanBegin',
-              namaPelaksanaBegin: '$sekolah.namaPelaksanaBegin',
-              kesSelesaiMmi: '$sekolah.kesSelesaiMmi',
-              pemeriksaanSekolah: '$sekolah.pemeriksaanSekolah',
-              rawatanSekolah: '$sekolah.rawatanSekolah',
-            },
-          },
-          {
-            $lookup: {
-              from: 'pemeriksaansekolahs',
-              localField: 'pemeriksaanSekolah',
-              foreignField: '_id',
-              as: 'pemeriksaanSekolah',
-            },
-          },
-          {
-            $unwind: {
-              path: '$pemeriksaanSekolah',
-              preserveNullAndEmptyArrays: true,
-            },
-          },
-          {
-            $lookup: {
-              from: 'rawatansekolahs',
-              localField: 'rawatanSekolah',
-              foreignField: '_id',
-              as: 'rawatanSekolah',
-            },
-          },
-          {
-            $sort: {
-              nama: 1,
-            },
-          },
-        ],
-      },
-    },
-  ]);
-
-  res.status(200).json({
-    fasilitiSekolahs: dataSekolahDenganPelajar[0].fasilitiSekolahs,
-    allPersonSekolahs: dataSekolahDenganPelajar[0].allPersonSekolahs,
-  });
 };
 
 // not used
@@ -1247,22 +1079,6 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     { new: true }
   );
 
-  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest // TODO recheck working as intended or not?
-  // if (req.body.tarikhPemeriksaanSemasa > 0) {
-  //   await Fasiliti.findOneAndUpdate(
-  //     {
-  //       nama: personSekolah.namaSekolah,
-  //       kodSekolah: personSekolah.kodSekolah,
-  //     },
-  //     {
-  //       $set: {
-  //         tarikhMulaSekolah: req.body.tarikhPemeriksaanSemasa,
-  //       },
-  //     },
-  //     { new: true }
-  //   );
-  // }
-
   // if bersediaDirujuk, masukkan dalam kohort kotak
   if (req.body.bersediaDirujuk === 'ya-bersedia-dirujuk') {
     await KohortKotak.create({
@@ -1439,51 +1255,36 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
     { new: true }
   );
 
-  // set fasilitiSekolah's begin to true // TODO macam dah tak pakai je begin dalam Fasiliti
-  // if (
-  //   req.body.yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
-  //   'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-  // ) {
-  //   await Fasiliti.findOneAndUpdate(
-  //     {
-  //       nama: personSekolah.namaSekolah,
-  //       kodSekolah: personSekolah.kodSekolah,
-  //     },
-  //     { $set: { melaksanakanBegin: true } },
-  //     { new: true }
-  //   );
-  // }
-
   res.status(201).json({ personSekolah });
 };
 
-// not used
-// POST /kotak/:personSekolahId
-const createKotakWithSetPersonSekolah = async (req, res) => {
-  if (req.user.accountType !== 'kpUser') {
-    return res.status(401).json({ msg: 'Unauthorized' });
-  }
+// // not used
+// // POST /kotak/:personSekolahId
+// const createKotakWithSetPersonSekolah = async (req, res) => {
+//   if (req.user.accountType !== 'kpUser') {
+//     return res.status(401).json({ msg: 'Unauthorized' });
+//   }
 
-  // associate negeri, daerah, kp to each person sekolah when creating kotak
-  req.body.createdByNegeri = req.user.negeri;
-  req.body.createdByDaerah = req.user.daerah;
-  req.body.createdByKp = req.user.kp;
+//   // associate negeri, daerah, kp to each person sekolah when creating kotak
+//   req.body.createdByNegeri = req.user.negeri;
+//   req.body.createdByDaerah = req.user.daerah;
+//   req.body.createdByKp = req.user.kp;
 
-  const kotakSekolah = await Kotaksekolah.create(req.body);
+//   const kotakSekolah = await Kotaksekolah.create(req.body);
 
-  // masukkan kotak ID dalam personSekolah
-  const personSekolah = await Sekolah.findOneAndUpdate(
-    { _id: req.params.personSekolahId },
-    {
-      $set: {
-        kotakSekolah: kotakSekolah._id,
-      },
-    },
-    { new: true }
-  );
+//   // masukkan kotak ID dalam personSekolah
+//   const personSekolah = await Sekolah.findOneAndUpdate(
+//     { _id: req.params.personSekolahId },
+//     {
+//       $set: {
+//         kotakSekolah: kotakSekolah._id,
+//       },
+//     },
+//     { new: true }
+//   );
 
-  res.status(201).json({ personSekolah });
-};
+//   res.status(201).json({ personSekolah });
+// };
 
 // PATCH /fasiliti/:fasilitiId
 const updateFasiliti = async (req, res) => {
@@ -1574,7 +1375,7 @@ const updatePersonSekolah = async (req, res) => {
     });
   }
 
-  // begin PATCH
+  // BEGIN PATCH
   if (req.body.tarikhMelaksanakanBegin) {
     if (singlePersonSekolah.tarikhMelaksanakanBegin) {
       unauthorizedLogger.warn(
@@ -1699,7 +1500,7 @@ const softDeletePersonSekolah = async (req, res) => {
   res.status(200).json({ singlePersonSekolahToDelete });
 };
 
-// PATCH /delete--filled/:personSekolahId
+// PATCH /delete-filled/:personSekolahId
 const softDeletePersonSekolahAfterFilled = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -1741,9 +1542,9 @@ const updatePemeriksaanSekolah = async (req, res) => {
   const updatedSinglePemeriksaan = await Pemeriksaansekolah.findOneAndUpdate(
     { _id: req.params.pemeriksaanSekolahId },
     {
-      $set: {
-        ...req.body,
-      },
+      // $set: {
+      //   ...req.body,
+      // },
       $push: {
         createdSalahreten: createdSalahreten,
       },
@@ -1774,9 +1575,9 @@ const updateRawatanSekolah = async (req, res) => {
   const updatedSingleRawatan = await Rawatansekolah.findOneAndUpdate(
     { _id: req.params.rawatanSekolahId },
     {
-      $set: {
-        ...req.body,
-      },
+      // $set: {
+      //   ...req.body,
+      // },
       $push: {
         createdSalahreten: createdSalahreten,
       },
@@ -1796,25 +1597,25 @@ const updateRawatanSekolah = async (req, res) => {
 // not used
 // PATCH /kotak/ubah/:kotakSekolahId
 // kotak tak handle status rawatan
-const updateKotakSekolah = async (req, res) => {
-  if (req.user.accountType !== 'kpUser') {
-    return res.status(401).json({ msg: 'Unauthorized' });
-  }
+// const updateKotakSekolah = async (req, res) => {
+//   if (req.user.accountType !== 'kpUser') {
+//     return res.status(401).json({ msg: 'Unauthorized' });
+//   }
 
-  const updatedSingleKotak = await Kotaksekolah.findOneAndUpdate(
-    { _id: req.params.kotakSekolahId },
-    req.body,
-    { new: true }
-  );
+//   const updatedSingleKotak = await Kotaksekolah.findOneAndUpdate(
+//     { _id: req.params.kotakSekolahId },
+//     req.body,
+//     { new: true }
+//   );
 
-  if (!updatedSingleKotak) {
-    return res
-      .status(404)
-      .json({ msg: `No document with id ${req.params.kotakSekolahId}` });
-  }
+//   if (!updatedSingleKotak) {
+//     return res
+//       .status(404)
+//       .json({ msg: `No document with id ${req.params.kotakSekolahId}` });
+//   }
 
-  res.status(200).json({ updatedSingleKotak });
-};
+//   res.status(200).json({ updatedSingleKotak });
+// };
 
 // query /sekolah
 const queryPersonSekolah = async (req, res) => {
@@ -1857,7 +1658,6 @@ const queryPersonSekolah = async (req, res) => {
   const sekolahResultQuery = await Sekolah.find(queryObject)
     .populate('pemeriksaanSekolah')
     .populate('rawatanSekolah');
-  // .populate('kotakSekolah');
 
   res.status(200).json({ sekolahResultQuery });
 };
@@ -1866,7 +1666,6 @@ module.exports = {
   getAllPersonSekolahsVanilla,
   getSinglePersonSekolahVanilla,
   getAllPersonSekolahsWithPopulate,
-  getAllPersonSekolahFaceted,
   getSinglePersonSekolahWithPopulate,
   kemaskiniSenaraiPelajar,
   muatturunSenaraiPelajar,
@@ -1874,13 +1673,11 @@ module.exports = {
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
-  createKotakWithSetPersonSekolah,
   updateFasiliti,
   updatePersonSekolah,
   softDeletePersonSekolah,
   softDeletePersonSekolahAfterFilled,
   updatePemeriksaanSekolah,
   updateRawatanSekolah,
-  updateKotakSekolah,
   queryPersonSekolah,
 };

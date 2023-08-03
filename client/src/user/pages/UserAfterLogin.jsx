@@ -36,9 +36,6 @@ const UserFormSekolahPemeriksaan = lazy(() =>
 const UserFormSekolahRawatan = lazy(() =>
   import('../components/sekolah/form-sekolah/UserFormSekolahRawatan')
 );
-// const UserFormSekolahKOTAK = lazy(() =>
-//   import('../components/sekolah/form-sekolah/UserFormSekolahKOTAK')
-// );
 
 // promosi
 const UserPromosi = lazy(() => import('../components/promosi/UserPromosi'));
@@ -49,7 +46,7 @@ const UserFormPromosi = lazy(() =>
 // kohort
 const UserKohort = lazy(() => import('../components/kohort/UserKohortPage'));
 // KOTAK
-const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/Kotak'));
+const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/KOTAK'));
 const UserKohortKotakForm = lazy(() =>
   import('../components/kohort/KOTAK/FormKOTAK')
 );
@@ -180,14 +177,6 @@ function UserAfterLogin() {
               </Suspense>
             }
           />
-          {/* <Route
-              path='senarai-sekolah/sekolah/form-sekolah/kotak/:personSekolahId/:kotakSekolahId'
-              element={
-                <Suspense fallback={<Loading />}>
-                  <UserFormSekolahKOTAK />
-                </Suspense>
-              }
-            /> */}
 
           <Route
             path='promosi-individu'

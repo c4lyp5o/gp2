@@ -90,6 +90,19 @@ const KohortKotakSchema = new mongoose.Schema(
       type: String,
       default: 'belum mula',
     },
+    // soft delete ----------------------------------------------
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
+    deleteReason: {
+      type: String,
+      default: '',
+    },
+    deletedForOfficer: {
+      type: String,
+      default: '',
+    },
     // start own field --------------------------------------------------
     dalamPemantauanKohort: {
       type: String,
