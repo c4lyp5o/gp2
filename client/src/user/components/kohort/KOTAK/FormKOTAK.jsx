@@ -13,6 +13,7 @@ function UserFormKohortKOTAK() {
     reliefUserToken,
     userinfo,
     useParams,
+    dateToday,
     masterDatePicker,
     toast,
   } = useGlobalUserAppContext();
@@ -78,6 +79,7 @@ function UserFormKohortKOTAK() {
       filterDate: (date) => {
         return moment() > date;
       },
+      minDate: moment(moment(dateToday).format('YYYY') + '-01-01').toDate(),
       disabled: statusKotak !== 'belum mula' ? true : false,
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
