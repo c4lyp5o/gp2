@@ -1553,10 +1553,24 @@ function UserFormSekolahRawatan() {
                               setRujukKlinikSekolahRawatan(
                                 !rujukKlinikSekolahRawatan
                               );
+                              setRujukKlinikRawatanEndo(false);
+                              setRujukKlinikCabutanGigiKekal(false);
+                              setRujukKesTrauma(false);
+                              setRujukMasalahKesihatan(false);
+                              setRujukLainLain(false);
+                              setRujukBukanWarganegara(false);
+                              setRujukLainLanjutan('');
                               setConfirmData({
                                 ...confirmData,
                                 rujukKlinikSekolahRawatan:
                                   !rujukKlinikSekolahRawatan,
+                                rujukKlinikRawatanEndo: false,
+                                rujukKlinikCabutanGigiKekal: false,
+                                rujukKesTrauma: false,
+                                rujukMasalahKesihatan: false,
+                                rujukLainLain: false,
+                                rujukBukanWarganegara: false,
+                                rujukLainLanjutan: '',
                               });
                             }}
                             className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
@@ -1582,14 +1596,6 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
                                 type='checkbox'
                                 name='rujuk-klinik-rawatan-endo'
                                 id='rujuk-klinik-rawatan-endo'
@@ -1625,14 +1631,6 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
                                 type='checkbox'
                                 name='rujuk-klinik-cabutan-gigi-kekal'
                                 id='rujuk-klinik-cabutan-gigi-kekal'
@@ -1668,14 +1666,6 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
                                 type='checkbox'
                                 name='rujuk-kes-trauma'
                                 id='rujuk-kes-trauma'
@@ -1708,14 +1698,6 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
                                 type='checkbox'
                                 name='rujuk-masalah-kesihatan'
                                 id='rujuk-masalah-kesihatan'
@@ -1751,14 +1733,6 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
                                 type='checkbox'
                                 name='rujuk-bukan-warganegara'
                                 id='rujuk-bukan-warganegara'
@@ -1794,23 +1768,17 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
                                 type='checkbox'
                                 name='rujuk-lain-lain'
                                 id='rujuk-lain-lain'
                                 checked={rujukLainLain}
                                 onChange={() => {
                                   setRujukLainLain(!rujukLainLain);
+                                  setRujukLainLanjutan('');
                                   setConfirmData({
                                     ...confirmData,
                                     rujukLainLain: !rujukLainLain,
+                                    rujukLainLanjutan: '',
                                   });
                                 }}
                                 className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
@@ -1838,7 +1806,6 @@ function UserFormSekolahRawatan() {
                                 />
                               )}
                             </div>
-                            <div className='flex items-center pl-5'></div>
                           </div>
                         )}
                         <div className=' flex flex-row items-center m-2 pl-5'>
