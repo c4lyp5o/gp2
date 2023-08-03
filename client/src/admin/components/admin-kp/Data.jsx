@@ -74,7 +74,7 @@ export default function DataKp({ FType }) {
         setDaerah(userData.daerah !== '-' ? userData.daerah : undefined);
         setNegeri(userData.negeri);
 
-        const { data } = await (userData.accountType === 'kpUser'
+        const data = await (userData.accountType === 'kpUser'
           ? readDataForKp(FType, kp)
           : readData(FType));
 

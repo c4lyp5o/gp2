@@ -20,19 +20,15 @@ export function useKpData() {
     }
   };
   const readDataForKp = async (type) => {
-    try {
-      const response = await axios.get(
-        `/api/v1/superadmin/getkpdata?FType=${type}`,
-        {
-          headers: {
-            Authorization: adminToken,
-          },
-        }
-      );
-      return response.data;
-    } catch (err) {
-      return err;
-    }
+    const response = await axios.get(
+      `/api/v1/superadmin/getkpdata?FType=${type}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
+    return response.data;
   };
   const readOneDataForKp = async (type, id) => {
     try {

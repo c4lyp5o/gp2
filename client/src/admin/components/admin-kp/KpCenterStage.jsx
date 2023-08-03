@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
-import { useLogininfo } from '../context/useLogininfo';
-import { useAdminData } from '../context/admin-hooks/useAdminData';
+import { useLogininfo } from '../../context/useLogininfo';
+import { useAdminData } from '../../context/admin-hooks/useAdminData';
 
 import { Loading } from '../Screens';
 
