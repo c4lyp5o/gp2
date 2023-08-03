@@ -184,12 +184,12 @@ const ConfirmModal = ({ children, data }) => {
                       {data.statusSelepas6Bulan === 'berhenti' ? (
                         <>
                           <FaCheckCircle className='text-user7 text-center mx-1' />
-                          Alhamdulillah berhenti...
+                          ya
                         </>
                       ) : (
                         <>
                           <FaTimesCircle className='text-user9 text-center mx-1' />
-                          Innalillah tidak berhenti...
+                          tidak
                         </>
                       )}
                     </p>
