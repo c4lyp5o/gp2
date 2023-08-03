@@ -113,7 +113,7 @@ const ConfirmModal = ({ children, data, salahReten }) => {
       {children(show)}
       {open && (
         <>
-          <div className='absolute z-10 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto'>
+          <div className='absolute z-20 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto'>
             <FaWindowClose
               onClick={closeModal}
               className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
@@ -910,7 +910,7 @@ const ConfirmModal = ({ children, data, salahReten }) => {
           </div>
           <div
             onClick={closeModal}
-            className='fixed inset-0 bg-userBlack opacity-50 z-0'
+            className='absolute inset-0 bg-user1 opacity-75 z-10'
           />
         </>
       )}

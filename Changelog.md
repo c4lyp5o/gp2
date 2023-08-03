@@ -5,12 +5,34 @@
 - Integrasi bersama MyVAS di Modul Pendaftaran bagi submodul Klinik Pergigian
 - Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
 
+### 3/8/2023 (v2.1.5)
+
+### Added
+
+- Butang Muat Turun Pelajar Rujukan di senarai sekolah bagi modul Pengguna kini boleh digunakan
+- Penambahan kotak penandaan sekiranya pesakit membayar menggunakan sistem _cashless_ di modul Pendaftaran
+- Penambahan fungsi hapus bagi pelajar kohort KOTAK di submodul kohort
+- Memaparkan TARIKH KEMASUKAN RETEN bagi reten Umum (di laman Status Harian) & Promosi (di laman Carian Promosi)
+
+### Changed
+
+- Mewujudkan peringatan di kotak penandaan KEPP di modul Pendaftaran supaya perlu ditanda hanya bagi Klinik Pergigian yang mempunyai KEPP sahaja
+- Susunan operator ketika log masuk di modul Pengguna diperkemaskan
+
+### Fixed
+
+- Tidak boleh memilih tarikh sesi 1 kurang daripada 1 Januari 2023 di borang Kohort KOTAK
+- Penambahbaikan di tetingkap mencari pegawai pergigian & juruterapi pergigian di modul Pentadbir bagi peringkat Pentadbir Daerah
+- Pembetulan cara pengurangan token penjanaan reten supaya lebih tepat dan konsisten
+- Memperkemas dan membaikpulih semua reten-reten yang terdapat di semua peringkat pentadbir
+
 ### 24/7/2023 (v2.1.4)
 
 #### Added
 
 - Penambahan reten baru KPI FS yang membawa maksud Peratus Keberhasilan Aplikasi Fissure Sealant Pada Gigi Yang Dikenal Pasti
 - Memaparkan kolum TARIKH SEKOLAH SELESAI RETEN di laman rumusan status sekolah
+- Menambah pilihan reten PGPR201 Pind. 1/2022-CUSTOM-IM
 
 #### Changed
 
@@ -48,7 +70,7 @@
 
 #### Fixed
 
-- Memperkemas dan membaikpulih reten semua reten-reten yang terdapat di semua peringkat Pentadbir
+- Memperkemas dan membaikpulih semua reten-reten yang terdapat di semua peringkat Pentadbir
 - Beban tugas operator di sekolah turut dimasukkan ke dalam reten PG206 & PG207
 - Pembetulan bagi senarai nama pelajar yang dimuat turun di senarai sekolah kepada 'Tiada Maklumat' bagi pelajar yang tiada maklumat warganegara
 - Pengisian SM di borang pemeriksaan sekolah hanya untuk pelajar Darjah 4, 5, 6 dan KHAS sahaja bagi sekolah yang bukan sekolah Pendidikan Khas

@@ -72,7 +72,7 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
     <>
       <form
         onSubmit={handleSubmit}
-        className='absolute inset-x-5 inset-y-20 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-20 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+        className='absolute inset-x-5 inset-y-7 lg:inset-y-20 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-20 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
       >
         <FaWindowClose
           onClick={() => setModalHapus(false)}
@@ -80,19 +80,21 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
         />
         <h5 className='bg-user9 text-userWhite font-semibold text-xl'>AWAS!</h5>
         <div className='mt-5 p-1'>
-          <span className='font-semibold'>
-            anda YAKIN <span className='lowercase'>untuk menghapus</span>{' '}
-            <span className='uppercase'>{nama}</span>?
+          <span className='font-semibold normal-case'>
+            Anda YAKIN untuk menghapus <a className='uppercase'>{nama}</a>?
           </span>
           {otpQuestion && (
             <>
-              <div className='mt-5'>
-                Sila <span className='lowercase'>masukkan</span> OTP{' '}
-                <span className='lowercase'>
-                  yang telah dihantar ke emel {userinfo.email}
+              <div className='mt-5 px-6'>
+                <span className='flex flex-col whitespace-pre-wrap normal-case'>
+                  Sila masukkan OTP yang telah dihantar ke emel{' '}
+                  <b>{userinfo.email}</b>
                 </span>
-                <div className='mt-5'>
-                  <label htmlFor='reason' className='mr-3'>
+                <div className='mt-5 flex flex-col justify-start space-y-2'>
+                  <label
+                    htmlFor='reason'
+                    className='mr-3 flex justify-start font-semibold'
+                  >
                     Sebab Penghapusan :
                   </label>
                   <input
@@ -100,12 +102,15 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
                     type='text'
                     name='reason'
                     id='reason'
-                    className='appearance-none leading-7 px-3 py-1 ring-2 w-1/2 lg:w-2/3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                    className='appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
                     onChange={(e) => setReasonForDelete(e.target.value)}
                   />
                 </div>
-                <div className='mt-5'>
-                  <label htmlFor='otp' className='mr-3'>
+                <div className='mt-5 flex flex-col justify-start space-y-2'>
+                  <label
+                    htmlFor='otp'
+                    className='mr-3 flex justify-start font-semibold'
+                  >
                     OTP :
                   </label>
                   <input
@@ -113,7 +118,7 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
                     type='text'
                     name='otp'
                     id='otp'
-                    className='appearance-none leading-7 px-3 py-1 ring-2 w-1/2 lg:w-1/3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                    className='appearance-none leading-7 px-3 py-1 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
                     onChange={(e) => setOtpInput(e.target.value)}
                   />
                 </div>
@@ -128,7 +133,7 @@ export default function DeleteModal({ handleDelete, setModalHapus, id, nama }) {
               setModalHapus(false);
             }}
           >
-            Tidak
+            BATAL
           </span>
           <button
             type='submit'

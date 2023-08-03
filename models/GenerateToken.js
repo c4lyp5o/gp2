@@ -5,12 +5,12 @@ const generateTokenSchema = new Schema(
   {
     belongsTo: { type: String, required: true },
     accountType: { type: String, required: true },
+    jenisReten: { type: String },
+    jumlahToken: { type: Number },
     createdByNegeri: { type: String },
     createdByDaerah: { type: String },
     createdByKp: { type: String },
     createdByKodFasiliti: { type: String },
-    jenisReten: { type: String },
-    jumlahToken: { type: Number },
   },
   { timestamps: true }
 );

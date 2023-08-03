@@ -8,10 +8,8 @@ export default function UserModalMuatTurun({
   sekolahMuatTurun,
   setModalMuatTurun,
   isDownloading,
+  isDownloadingRujukan,
 }) {
-  const { userToken, userinfo, reliefUserToken, toast } =
-    useGlobalUserAppContext();
-
   return (
     <>
       <div className='absolute z-20 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto'>
@@ -24,8 +22,8 @@ export default function UserModalMuatTurun({
         </div>
         <div className='grid grid-rows-[4fr_1fr] px-2'>
           <div>
-            <h1 className='text-2xl font-bold text-center my-3 py-3 border-b-2 border-user1'>
-              Sila pilih senarai murid sekolah untuk di muat turun
+            <h1 className='text-xl font-bold text-center my-3 py-3 border-b-2 border-user1'>
+              Sila pilih jenis muat turun bagi sekolah ini
             </h1>
           </div>
           <div className='grid grid-cols-2 gap-2'>
@@ -49,23 +47,23 @@ export default function UserModalMuatTurun({
               ) : (
                 <>
                   <FaDownload className='inline-flex mx-1' />
-                  Murid Sekolah
+                  Pelajar Sekolah
                 </>
               )}
             </button>
             <button
-              // onClick={() =>
-              //   handleDownloadSenaraiSekolahRujukan(
-              //     sekolahMuatTurun.kodSekolah,
-              //     sekolahMuatTurun.nama,
-              //     sekolahMuatTurun.sesiTakwimSekolah
-              //   )
-              // }
+              onClick={() =>
+                handleDownloadSenaraiSekolahRujukan(
+                  sekolahMuatTurun.kodSekolah,
+                  sekolahMuatTurun.nama,
+                  sekolahMuatTurun.sesiTakwimSekolah
+                )
+              }
               className={`${
-                isDownloading ? 'pointer-events-none opacity-50' : ''
-              } capitalize text-userWhite rounded-md py-2 hover:cursor-not-allowed transition-all bg-user2 hover:bg-user3`}
+                isDownloadingRujukan ? 'pointer-events-none opacity-50' : ''
+              } capitalize text-userWhite rounded-md py-2 hover:cursor-pointer transition-all bg-user2 hover:bg-user3`}
             >
-              {isDownloading ? (
+              {isDownloadingRujukan ? (
                 <>
                   <FaYinYang className='inline-flex mx-1 animate-spin' />
                   Sedang Muat Turun <i className='animate-pulse'>..</i>
@@ -73,7 +71,7 @@ export default function UserModalMuatTurun({
               ) : (
                 <>
                   <FaDownload className='inline-flex mx-1' />
-                  Murid Rujukan
+                  Pelajar Rujukan
                 </>
               )}
             </button>
