@@ -5,11 +5,8 @@ import moment from 'moment';
 import {
   BsFillCircleFill,
   BsFillCheckCircleFill,
-  BsChevronDoubleRight,
-  BsChevronDoubleLeft,
   BsDownload,
   BsEnvelopeX,
-  BsHurricane,
 } from 'react-icons/bs';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
@@ -312,15 +309,6 @@ function UserSekolahList() {
               <option value='sekolah-menengah'>SEKOLAH MENENGAH</option>
               <option value='sekolah-rendah'>SEKOLAH RENDAH</option>
             </select>
-            {/* <Link
-              to='sekolah'
-              className='uppercase w-72 bg-[#c0392b] text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all flex flex-row justify-center items-center'
-            >
-              <BsChevronDoubleRight className='animate-ping' />
-              <BsChevronDoubleRight /> Masuk Reten Sekolah{' '}
-              <BsChevronDoubleLeft />
-              <BsChevronDoubleLeft className='animate-ping' />
-            </Link> */}
           </div>
         </div>
         <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
@@ -354,7 +342,7 @@ function UserSekolahList() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
                   ISI RETEN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-48'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-60'>
                   TINDAKAN
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
