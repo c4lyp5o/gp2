@@ -9,17 +9,21 @@
 
 ### Added
 
-- Butang Muat Turun Murid Rujukan di senarai sekolah bagi modul pengguna, kini boleh digunakan
-- Penambahan ruangan untuk ditanda sekiranya pesakit membayar menggunakan cashless di laman pendaftaran
+- Butang Muat Turun Pelajar Rujukan di senarai sekolah bagi modul Pengguna kini boleh digunakan
+- Penambahan kotak penandaan sekiranya pesakit membayar menggunakan sistem _cashless_ di modul Pendaftaran
+- Penambahan fungsi hapus bagi pelajar kohort KOTAK di submodul kohort
+- Memaparkan TARIKH KEMASUKAN RETEN bagi reten Umum (di laman Status Harian) & Promosi (di laman Carian Promosi)
 
 ### Changed
 
-- Peringatan di butang KEPP di laman pendaftaran, perlu ditanda hanya bagi Klinik Pergigian yang mempunyai KEPP sahaja
-- Susunan operator ketika log masuk di modul pengguna diperkemaskan
+- Mewujudkan peringatan di kotak penandaan KEPP di modul Pendaftaran supaya perlu ditanda hanya bagi Klinik Pergigian yang mempunyai KEPP sahaja
+- Susunan operator ketika log masuk di modul Pengguna diperkemaskan
 
 ### Fixed
 
-- Penambahbaikan di ruangan kotak mencari pegawai pergigian di modul pentadbir daerah
+- Tidak boleh memilih tarikh sesi 1 kurang daripada 1 Januari 2023 di borang Kohort KOTAK
+- Penambahbaikan di tetingkap mencari pegawai pergigian & juruterapi pergigian di modul Pentadbir bagi peringkat Pentadbir Daerah
+- Pembetulan cara pengurangan token penjanaan reten supaya lebih tepat dan konsisten
 - Memperkemas dan membaikpulih semua reten-reten yang terdapat di semua peringkat pentadbir
 
 ### 24/7/2023 (v2.1.4)
