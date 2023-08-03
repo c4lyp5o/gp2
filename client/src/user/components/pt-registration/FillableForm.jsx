@@ -210,7 +210,7 @@ export default function FillableForm({
       filterDate: (date) => {
         return moment() > date;
       },
-      minDate: moment('2023-01-01').toDate(),
+      minDate: moment(moment(dateToday).format('YYYY') + '-01-01').toDate(),
       disabled: disabled,
       className:
         dariMyVas || editId

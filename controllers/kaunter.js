@@ -261,8 +261,8 @@ const getPersonFromCache = async (req, res) => {
   try {
     const person = await Umum.findOne({
       tahunDaftar: new Date().getFullYear(),
-      deleted: false,
       ic: personKaunterId,
+      deleted: false,
     }).sort({ createdAt: -1 });
     return res.status(200).json({ person });
   } catch (error) {

@@ -4,7 +4,6 @@ const {
   getAllPersonSekolahsVanilla,
   getSinglePersonSekolahVanilla,
   getAllPersonSekolahsWithPopulate,
-  getAllPersonSekolahFaceted,
   getSinglePersonSekolahWithPopulate,
   kemaskiniSenaraiPelajar,
   muatturunSenaraiPelajar,
@@ -12,15 +11,12 @@ const {
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
-  createKotakWithSetPersonSekolah,
   updateFasiliti,
   updatePersonSekolah,
   softDeletePersonSekolah,
   softDeletePersonSekolahAfterFilled,
   updatePemeriksaanSekolah,
   updateRawatanSekolah,
-  updateKotakSekolah,
-  queryPersonSekolah,
 } = require('../controllers/sekolah');
 
 // GET
@@ -32,11 +28,6 @@ router
 router
   .route('/populate-satu-sekolah/:kodSekolah')
   .get(getAllPersonSekolahsWithPopulate);
-
-// experimental
-// GET
-// router.route('/faceted/:kodSekolah').get(getAllPersonSekolahFaceted);
-
 // router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
 router.route('/muatturun/:kodSekolah').get(muatturunSenaraiPelajar);
 router
@@ -51,7 +42,6 @@ router
 router
   .route('/rawatan/:personSekolahId')
   .post(createRawatanWithPushPersonSekolah);
-// router.route('/kotak/:personSekolahId').post(createKotakWithSetPersonSekolah);
 
 // PATCH
 router.route('/fasiliti/:fasilitiId').patch(updateFasiliti);
@@ -60,11 +50,10 @@ router.route('/delete/:personSekolahId').patch(softDeletePersonSekolah);
 router
   .route('/delete-filled/:personSekolahId')
   .patch(softDeletePersonSekolahAfterFilled);
-
+// PATCH reten salah
 router
   .route('/pemeriksaan/ubah/:pemeriksaanSekolahId')
   .patch(updatePemeriksaanSekolah);
 router.route('/rawatan/ubah/:rawatanSekolahId').patch(updateRawatanSekolah);
-// router.route('/kotak/ubah/:kotakSekolahId').patch(updateKotakSekolah);
 
 module.exports = router;
