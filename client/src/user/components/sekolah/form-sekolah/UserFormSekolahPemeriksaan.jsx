@@ -3411,6 +3411,27 @@ function UserFormSekolahPemeriksaan() {
                               setYaTidakPesakitMempunyaiSealanfisur(
                                 e.target.value
                               );
+                              setGicBilanganFsDibuat3TahunLepas(0);
+                              setResinBilanganFsDibuat3TahunLepas(0);
+                              setLainLainBilanganFsDibuat3TahunLepas(0);
+                              setDBilanganFsDibuat3TahunLepasTerjadi(0);
+                              setMBilanganFsDibuat3TahunLepasTerjadi(0);
+                              setFBilanganFsDibuat3TahunLepasTerjadi(0);
+                              setXBilanganFsDibuat3TahunLepasTerjadi(0);
+                              setEBilanganFsDibuat3TahunLepasTerjadi(0);
+                              setConfirmData({
+                                ...confirmData,
+                                yaTidakPesakitMempunyaiSealanfisur:
+                                  e.target.value,
+                                gicBilanganFsDibuat3TahunLepas: 0,
+                                resinBilanganFsDibuat3TahunLepas: 0,
+                                lainLainBilanganFsDibuat3TahunLepas: 0,
+                                dBilanganFsDibuat3TahunLepasTerjadi: 0,
+                                mBilanganFsDibuat3TahunLepasTerjadi: 0,
+                                fBilanganFsDibuat3TahunLepasTerjadi: 0,
+                                xBilanganFsDibuat3TahunLepasTerjadi: 0,
+                                eBilanganFsDibuat3TahunLepasTerjadi: 0,
+                              });
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
