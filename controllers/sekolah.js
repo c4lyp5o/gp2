@@ -350,7 +350,7 @@ const muatturunSenaraiPelajar = async (req, res) => {
 
   const sesiTakwim = sesiTakwimSekolah();
 
-  // find if this fasiliti has this code sekolah first
+  // find if this fasiliti has this kodSekolah first
   const fasilitiSekolah = await Fasiliti.findOne({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
@@ -501,15 +501,35 @@ const muatturunSenaraiPelajar = async (req, res) => {
   return;
 };
 
+// GET /muatturun-rujukan/:kodSekolah
 const muatturunSenaraiPelajarRujukan = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
   const { kodSekolah } = req.params;
+  const { kp, kodFasiliti } = req.user;
 
   const sesiTakwim = sesiTakwimSekolah();
 
+  // find if this fasiliti has this kodSekolah first
+  const fasilitiSekolah = await Fasiliti.findOne({
+    handler: kp,
+    kodFasilitiHandler: kodFasiliti,
+    kodSekolah: kodSekolah,
+    sesiTakwimSekolah: sesiTakwim,
+  });
+
+  if (!fasilitiSekolah) {
+    unauthorizedLogger.warn(
+      `${req.method} ${req.url} [sekolahController - muatturunSenaraiPelajarRujukan] Unauthorized request for muatturun senarai pelajar rujukan for ${kodSekolah} by kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti} from ${req.ip}`
+    );
+    return res.status(403).json({
+      msg: `Sekolah ini ${kodSekolah} tidak wujud di klinik anda. This behaviour will be reported`,
+    });
+  }
+
+  // now start the download sequence
   const makeFile = () => {
     return path.join(
       __dirname,
@@ -778,6 +798,12 @@ const muatturunSenaraiPelajarRujukan = async (req, res) => {
   ];
 
   const semuaPelajarSatuSekolah = await Sekolah.aggregate([...pipeline]);
+
+  if (semuaPelajarSatuSekolah.length === 0) {
+    return res
+      .status(404)
+      .json({ msg: `Tiada pelajar rujukan bagi ${fasilitiSekolah.nama}` });
+  }
 
   const blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
   const workbook = new Excel.Workbook();

@@ -205,12 +205,22 @@ function UserSekolahList() {
         autoClose: 3000,
       });
     } catch (error) {
-      toast.update(id, {
-        render: 'Harap maaf, senarai pelajar rujukan tidak dapat dimuat turun',
-        type: 'error',
-        isLoading: false,
-        autoClose: 3000,
-      });
+      if (error.response.status === 404) {
+        toast.update(id, {
+          render: `Tiada pelajar rujukan bagi ${namaSekolah}`,
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+        });
+      } else {
+        toast.update(id, {
+          render:
+            'Harap maaf, senarai pelajar rujukan tidak dapat dimuat turun',
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+        });
+      }
       console.log(error);
     } finally {
       setModalMuatTurun(false);
@@ -496,7 +506,8 @@ function UserSekolahList() {
                           {index + 1}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 px-2 text-left'>
-                          {singleNamaSekolah.nama}
+                          {singleNamaSekolah.nama} |{' '}
+                          {singleNamaSekolah.kodSekolah}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 normal-case'>
                           {kiraEnrolmen(allPersonSekolahs, singleNamaSekolah)}
@@ -565,13 +576,13 @@ function UserSekolahList() {
                                   ? ''
                                   : 'mx-0.5'
                               } ${
-                                isDownloading
+                                isDownloading || isDownloadingRujukan
                                   ? 'pointer-events-none opacity-50'
                                   : ''
                               } flex justify-center items-center`}
                             >
                               <button
-                                disabled={isDownloading}
+                                disabled={isDownloading || isDownloadingRujukan}
                                 title='Cetak senarai murid sekolah'
                                 onClick={() => {
                                   setSekolahMuatTurun(singleNamaSekolah);
