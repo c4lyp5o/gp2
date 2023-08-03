@@ -3960,7 +3960,7 @@ const countPGS201 = async (payload) => {
       // sekolah
       // // one ring to rule them all
       const dataSekolahPemeriksaan = await Fasiliti.aggregate([
-        ...pipelineSekolahPemeriksaan(payload),
+        ...pipelineSekolahPemeriksaan(payload, 'pgs201'),
         {
           $facet: {
             dataBiasa: [
@@ -4008,7 +4008,7 @@ const countPGS201 = async (payload) => {
       ]);
 
       const dataSekolahRawatan = await Fasiliti.aggregate([
-        ...pipelineSekolahRawatan(payload),
+        ...pipelineSekolahRawatan(payload, 'pgs201'),
         {
           $facet: {
             dataBiasa: [
@@ -4849,7 +4849,7 @@ const countPGS203 = async (payload) => {
     // // one ring to rule them all
     // sekolah
     const dataSekolahPemeriksaan = await Fasiliti.aggregate([
-      ...pipelineSekolahPemeriksaan(payload),
+      ...pipelineSekolahPemeriksaan(payload, 'pgs203'),
       {
         $facet: {
           dataKPSKPB: [
@@ -4897,7 +4897,7 @@ const countPGS203 = async (payload) => {
     ]);
 
     const dataSekolahRawatan = await Fasiliti.aggregate([
-      ...pipelineSekolahRawatan(payload),
+      ...pipelineSekolahRawatan(payload, 'pgs203'),
       {
         $facet: {
           dataKPSKPB: [
