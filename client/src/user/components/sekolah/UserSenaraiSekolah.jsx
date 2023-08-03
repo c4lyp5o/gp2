@@ -5,11 +5,8 @@ import moment from 'moment';
 import {
   BsFillCircleFill,
   BsFillCheckCircleFill,
-  BsChevronDoubleRight,
-  BsChevronDoubleLeft,
   BsDownload,
   BsEnvelopeX,
-  BsHurricane,
 } from 'react-icons/bs';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
@@ -51,6 +48,7 @@ function UserSekolahList() {
   const [isDownload, setIsDownload] = useState(false);
 
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloadingRujukan, setIsDownloadingRujukan] = useState(false);
   const [reloadState, setReloadState] = useState(false);
 
   useEffect(() => {
@@ -180,9 +178,9 @@ function UserSekolahList() {
   ) => {
     const id = toast.loading('Sedang mencetak senarai pelajar rujukan...');
     try {
-      setIsDownloading(true);
+      setIsDownloadingRujukan(true);
       const { data } = await axios.get(
-        `/api/v1/sekolah/muatturun/${kodSekolah}?rujukan=true`,
+        `/api/v1/sekolah/muatturun-rujukan/${kodSekolah}`,
         {
           headers: {
             Authorization: `Bearer ${
@@ -207,17 +205,27 @@ function UserSekolahList() {
         autoClose: 3000,
       });
     } catch (error) {
-      toast.update(id, {
-        render: 'Harap maaf, senarai pelajar rujukan tidak dapat dimuat turun',
-        type: 'error',
-        isLoading: false,
-        autoClose: 3000,
-      });
+      if (error.response.status === 404) {
+        toast.update(id, {
+          render: `Tiada pelajar rujukan bagi ${namaSekolah}`,
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+        });
+      } else {
+        toast.update(id, {
+          render:
+            'Harap maaf, senarai pelajar rujukan tidak dapat dimuat turun',
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+        });
+      }
       console.log(error);
     } finally {
       setModalMuatTurun(false);
       setTimeout(() => {
-        setIsDownloading(false);
+        setIsDownloadingRujukan(false);
       }, 10000);
     }
   };
@@ -299,7 +307,7 @@ function UserSekolahList() {
 
   return (
     <>
-      <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
+      <div className='px-3 h-full p-3 overflow-y-auto'>
         <div>
           <h1 className='my-3 text-2xl font-bold'>RUMUSAN STATUS SEKOLAH</h1>
           <div className='my-4 flex flex-row justify-between'>
@@ -311,15 +319,6 @@ function UserSekolahList() {
               <option value='sekolah-menengah'>SEKOLAH MENENGAH</option>
               <option value='sekolah-rendah'>SEKOLAH RENDAH</option>
             </select>
-            {/* <Link
-              to='sekolah'
-              className='uppercase w-72 bg-[#c0392b] text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all flex flex-row justify-center items-center'
-            >
-              <BsChevronDoubleRight className='animate-ping' />
-              <BsChevronDoubleRight /> Masuk Reten Sekolah{' '}
-              <BsChevronDoubleLeft />
-              <BsChevronDoubleLeft className='animate-ping' />
-            </Link> */}
           </div>
         </div>
         <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
@@ -353,10 +352,10 @@ function UserSekolahList() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
                   ISI RETEN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-60'>
                   TINDAKAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
                   TARIKH SEKOLAH SELESAI RETEN
                 </th>
               </tr>
@@ -507,7 +506,8 @@ function UserSekolahList() {
                           {index + 1}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 px-2 text-left'>
-                          {singleNamaSekolah.nama}
+                          {singleNamaSekolah.nama} |{' '}
+                          {singleNamaSekolah.kodSekolah}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 normal-case'>
                           {kiraEnrolmen(allPersonSekolahs, singleNamaSekolah)}
@@ -576,13 +576,13 @@ function UserSekolahList() {
                                   ? ''
                                   : 'mx-0.5'
                               } ${
-                                isDownloading
+                                isDownloading || isDownloadingRujukan
                                   ? 'pointer-events-none opacity-50'
                                   : ''
                               } flex justify-center items-center`}
                             >
                               <button
-                                disabled={isDownloading}
+                                disabled={isDownloading || isDownloadingRujukan}
                                 title='Cetak senarai murid sekolah'
                                 onClick={() => {
                                   setSekolahMuatTurun(singleNamaSekolah);
@@ -614,7 +614,7 @@ function UserSekolahList() {
                                 <p
                                   className={`${
                                     isDownload[singleNamaSekolah._id]
-                                      ? 'max-w-min ml-1 transition-all duration-700 '
+                                      ? 'max-w-min transition-all duration-700 '
                                       : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
                                   }`}
                                 >
@@ -778,6 +778,7 @@ function UserSekolahList() {
             sekolahMuatTurun={sekolahMuatTurun}
             setModalMuatTurun={setModalMuatTurun}
             isDownloading={isDownloading}
+            isDownloadingRujukan={isDownloadingRujukan}
           />
         )}
         {/* {modalRefreshPelajar && (
