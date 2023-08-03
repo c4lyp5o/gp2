@@ -49,9 +49,7 @@ export default function MaklumatAsasDaerah() {
   useEffect(() => {
     async function fetchMaklumatAsasDaerah() {
       try {
-        const {
-          data: [maklumatAsasDaerah],
-        } = await readData('mad');
+        const [maklumatAsasDaerah] = await readData('mad');
         setMaklumatAsasDaerah({ ...maklumatAsasDaerah });
         setInitialNoData(false);
       } catch (error) {

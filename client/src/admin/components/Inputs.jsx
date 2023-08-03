@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SubmitButton, BusyButton } from './Buttons';
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useUtils } from '../context/useUtils';
+import { useKpData } from '../context/kp-hooks/useKpData';
 import { useMiscData } from '../context/useMiscData';
 import { useLogininfo } from '../context/useLogininfo';
 import { useDictionary } from '../context/useDictionary';
@@ -12,7 +13,7 @@ import { BiSearchAlt } from 'react-icons/bi';
 import styles from '../Modal.module.css';
 
 const StartDate = (props) => {
-  const { masterDatePicker } = useGlobalAdminAppContext();
+  const { masterDatePicker } = useUtils();
   return masterDatePicker({
     selected: props.startDateDP,
     selectsStart: true,
@@ -30,7 +31,7 @@ const StartDate = (props) => {
 };
 
 const EndDate = (props) => {
-  const { masterDatePicker } = useGlobalAdminAppContext();
+  const { masterDatePicker } = useUtils();
   return masterDatePicker({
     selected: props.endDateDP,
     selectsEnd: true,
@@ -107,7 +108,7 @@ const PasukanPergigianBergerakSelector = (props) => {
 };
 
 const KlinikPergigianBergerakSelector = (props) => {
-  const { readDataForKp } = useGlobalAdminAppContext();
+  const { readDataForKp } = useKpData();
 
   const [showKpb, setShowKpb] = useState(false);
   const [showKpb2, setShowKpb2] = useState(false);
@@ -116,7 +117,7 @@ const KlinikPergigianBergerakSelector = (props) => {
 
   useEffect(() => {
     readDataForKp('kpb-all').then((res) => {
-      setKpb(res.data);
+      setKpb(res);
     });
     if (props.editedEntity.penggunaanKpb !== 'NOT APPLICABLE') {
       setShowKpb(true);
@@ -273,7 +274,7 @@ const KlinikPergigianBergerakSelector = (props) => {
 };
 
 const MakmalPergigianBergerakSelector = (props) => {
-  const { readDataForKp } = useGlobalAdminAppContext();
+  const { readDataForKp } = useKpData();
 
   const [showMpb, setShowMpb] = useState(false);
   const [showMpb2, setShowMpb2] = useState(false);
@@ -282,7 +283,7 @@ const MakmalPergigianBergerakSelector = (props) => {
 
   useEffect(() => {
     readDataForKp('mpb-all').then((res) => {
-      setMpb(res.data);
+      setMpb(res);
     });
     if (props.editedEntity.penggunaanMpb !== 'NOT APPLICABLE') {
       setShowMpb(true);

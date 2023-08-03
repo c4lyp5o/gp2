@@ -12,7 +12,8 @@ const AdminAppContext = createContext();
 function AdminAppProvider({ children }) {
   const navigate = useNavigate();
 
-  const { adminToken, saveAdminToken, removeAdminToken } = useToken();
+  const { adminToken, saveAdminToken, saveTotpToken, removeAdminToken } =
+    useToken();
   const { removeLoginInfo } = useLogininfo();
   const { removeCurrentondemandSetting } = useOndemandSetting();
 

@@ -47,7 +47,7 @@ export default function Sosmed(props) {
         const res = await (props.accountType === 'kpUser'
           ? readDataForKp('sosmedByKodProgram')
           : readData('sosmedByKodProgram'));
-        setData(res.data);
+        setData(res);
       } catch (error) {
         console.error(error);
       } finally {

@@ -702,19 +702,19 @@ const EditModalForKp = ({
     if (init.current === false) {
       if (FType === 'kpb' || FType === 'mpb') {
         readDataForKp('kpallnegeri').then((res) => {
-          setAllKlinik(res.data);
+          setAllKlinik(res);
         });
         readDataForKp('kkiakdallnegeri').then((res) => {
-          setAllKkiaKd(res.data);
+          setAllKkiaKd(res);
         });
         readDataForKp('tastadallnegeri').then((res) => {
-          setAllTastad(res.data);
+          setAllTastad(res);
         });
         readDataForKp('sr').then((res) => {
-          setAllSR(res.data);
+          setAllSR(res);
         });
         readDataForKp('sm').then((res) => {
-          setAllSM(res.data);
+          setAllSM(res);
         });
       }
       readOneDataForKp(FType, id).then((res) => {
@@ -777,13 +777,12 @@ const EditModalForKp = ({
             res.data.jumlahTidakHadirTasTad = 0;
           }
         }
-        // console.log(res.data);
-        setEditedEntity(res.data);
-        res.data.tarikhStart
-          ? setStartDateDP(new Date(res.data.tarikhStart))
+        setEditedEntity(res);
+        res.tarikhStart
+          ? setStartDateDP(new Date(res.tarikhStart))
           : setStartDateDP(null);
-        res.data.tarikhEnd
-          ? setEndDateDP(new Date(res.data.tarikhEnd))
+        res.tarikhEnd
+          ? setEndDateDP(new Date(res.tarikhEnd))
           : setEndDateDP(null);
       });
       setTimeout(() => {

@@ -60,6 +60,7 @@ export function useKpData() {
       return err;
     }
   };
+  // xperlu .data, nk tgk status
   const deleteDataForKp = async (type, id) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -69,7 +70,7 @@ export function useKpData() {
         Id: id,
         token: adminToken,
       });
-      return response.data;
+      return response;
     } catch (err) {
       return err;
     }

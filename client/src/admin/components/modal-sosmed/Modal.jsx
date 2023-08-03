@@ -1,7 +1,10 @@
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useAdminData } from '../../context/admin-hooks/useAdminData';
 import { useKpData } from '../../context/kp-hooks/useKpData';
+import { useMiscData } from '../../context/useMiscData';
 import { useDictionary } from '../../context/useDictionary';
+import { useLogininfo } from '../../context/useLogininfo';
+import { useUtils } from '../../context/useUtils';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import Select from 'react-select';
@@ -83,7 +86,7 @@ const JenisMediaSosial = [
 ];
 
 const CustomDatePicker = ({ jenis, setQuestionState }) => {
-  const { masterDatePicker } = useGlobalAdminAppContext();
+  const { masterDatePicker } = useUtils();
   const [date, setDate] = useState(null);
   return masterDatePicker({
     selected: date,
@@ -109,7 +112,7 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
 };
 
 const TarikhFollowers = ({ jenis, setQuestionState }) => {
-  const { masterDatePicker } = useGlobalAdminAppContext();
+  const { masterDatePicker } = useUtils();
   const [date, setDate] = useState(null);
   return masterDatePicker({
     selected: date,
@@ -283,8 +286,11 @@ export const ModalAddFollowers = (props) => {
 
 // modal add aktiviti media sosial
 export const ModalSosMed = (props) => {
-  const { toast, createData, createDataForKp, readKodProgramData } =
-    useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { createData } = useAdminData();
+  const { createDataForKp } = useKpData();
+  const { readKodProgramData } = useMiscData();
+  const { loginInfo } = useLogininfo();
 
   const [programPromosi, setProgramPromosi] = useState({
     jenisProgram: [],
@@ -298,57 +304,70 @@ export const ModalSosMed = (props) => {
   const [addingData, setAddingData] = useState(false);
 
   const handleSubmit = async (e) => {
-    setAddingData(true);
+    try {
+      setAddingData(true);
 
-    const newData = {
-      kodProgram: questionState.kodProgram,
-      namaAktiviti: questionState.namaAktiviti,
-      tarikhMula: questionState.tarikhMula,
-      tarikhAkhir: questionState.tarikhAkhir,
-      facebook: [],
-      instagram: [],
-      youtube: [],
-      tiktok: [],
-      twitter: [],
-      lainLain: [],
-    };
+      const newData = {
+        kodProgram: questionState.kodProgram,
+        namaAktiviti: questionState.namaAktiviti,
+        tarikhMula: questionState.tarikhMula,
+        tarikhAkhir: questionState.tarikhAkhir,
+        facebook: [],
+        instagram: [],
+        youtube: [],
+        tiktok: [],
+        twitter: [],
+        lainLain: [],
+      };
 
-    Object.entries(questionState).forEach(([key, value]) => {
-      if (key.includes('Facebook')) {
-        newData.facebook.push({ [key]: value });
-      } else if (key.includes('Instagram')) {
-        newData.instagram.push({ [key]: value });
-      } else if (key.includes('Youtube')) {
-        newData.youtube.push({ [key]: value });
-      } else if (key.includes('TikTok')) {
-        newData.tiktok.push({ [key]: value });
-      } else if (key.includes('Twitter')) {
-        newData.twitter.push({ [key]: value });
-      } else if (key.includes('Lain-lain')) {
-        newData.lainLain.push({ [key]: value });
+      Object.entries(questionState).forEach(([key, value]) => {
+        if (key.includes('Facebook')) {
+          newData.facebook.push({ [key]: value });
+        } else if (key.includes('Instagram')) {
+          newData.instagram.push({ [key]: value });
+        } else if (key.includes('Youtube')) {
+          newData.youtube.push({ [key]: value });
+        } else if (key.includes('TikTok')) {
+          newData.tiktok.push({ [key]: value });
+        } else if (key.includes('Twitter')) {
+          newData.twitter.push({ [key]: value });
+        } else if (key.includes('Lain-lain')) {
+          newData.lainLain.push({ [key]: value });
+        }
+      });
+
+      const data = {
+        createdByKp: props.kp,
+        createdByDaerah: props.daerah,
+        createdByNegeri: props.negeri,
+        kodProgram: questionState.kodProgram,
+        data: [newData],
+        belongsTo: props.kp || props.daerah || props.negeri,
+      };
+
+      switch (loginInfo.accountType) {
+        case 'negeriSuperadmin':
+        case 'daerahSuperadmin':
+          const res = await createData(props.FType, data);
+          console.log(res);
+          toast.info(`Data berjaya ditambah`);
+          break;
+        case 'kpSuperadmin':
+          const resKp = await createDataForKp(props.FType, data);
+          console.log(resKp);
+          toast.info(`Data berjaya ditambah`);
+          break;
+        default:
+          break;
       }
-    });
-
-    const data = {
-      createdByKp: props.kp,
-      createdByDaerah: props.daerah,
-      createdByNegeri: props.negeri,
-      kodProgram: questionState.kodProgram,
-      data: [newData],
-      belongsTo: props.kp || props.daerah || props.negeri,
-    };
-
-    const res = await createData(props.FType, data);
-
-    if (res.status === 200) {
-      toast.info(`Data berjaya ditambah`);
-      props.setReload(!props.reload);
-    } else {
+    } catch (error) {
+      console.log(error);
       toast.error(`Data tidak berjaya ditambah`);
+    } finally {
+      props.setReload(!props.reload);
+      props.setShowSosMedModal(false);
+      setAddingData(false);
     }
-
-    props.setShowSosMedModal(false);
-    setAddingData(false);
   };
 
   const propsSosMed = {
@@ -359,7 +378,7 @@ export const ModalSosMed = (props) => {
   useEffect(() => {
     const fetchAllProgramPromosi = async () => {
       try {
-        const { data } = await readKodProgramData();
+        const data = await readKodProgramData();
         const withoutDuplicateJenisProgram = data.map((a) => a.jenisProgram);
         const withoutDuplicate = [...new Set(withoutDuplicateJenisProgram)];
         setProgramPromosi({

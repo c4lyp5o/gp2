@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useSpesifikKpData } from '../../context/kp-hooks/useSpesifikKpData';
+import { useMiscData } from '../../context/useMiscData';
 import { useLogininfo } from '../../context/useLogininfo';
 import { useOndemandSetting } from '../../context/useOndemandSetting';
 import { useToken } from '../../context/useToken';
@@ -1791,10 +1792,10 @@ const Generate = () => {
     readSpesifikJanaSekolahRendahDataForKp,
     readSpesifikJanaSekolahMenengahDataForKp,
   } = useSpesifikKpData();
+  const { readGenerateTokenDataForKp } = useMiscData();
   const { loginInfo } = useLogininfo();
   const { readOndemandSetting } = useOndemandSetting();
-  const { readGenerateTokenDataForKp, semuaJenisReten } =
-    useGlobalAdminAppContext();
+  const { semuaJenisReten } = useGlobalAdminAppContext();
 
   const init = useRef(false);
 
