@@ -1,3 +1,4 @@
+const moment = require('moment');
 const {
   ultimateCutoff,
   getParamsTOD,
@@ -8,6 +9,11 @@ const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
 // the mother of all pipeline sekolah
 const pipelineSekolahPemeriksaan = (payload) => {
   const sesiTakwim = sesiTakwimSekolah();
+
+  const { tarikhMula, tarikhAkhir } = payload;
+
+  const mula = moment(tarikhMula).format('MM-DD');
+  const akhir = moment(tarikhAkhir).format('MM-DD');
 
   return [
     {
@@ -22,13 +28,18 @@ const pipelineSekolahPemeriksaan = (payload) => {
         ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
         sekolahSelesaiReten: true,
-        ...(payload.tarikhMula &&
-          payload.tarikhAkhir && {
-            tarikhSekolahSelesaiReten: {
-              $gte: payload.tarikhMula,
-              $lte: payload.tarikhAkhir,
-            },
-          }),
+        ...(mula === '01-01' && akhir === '06-30'
+          ? {
+              tarikhSekolahSelesaiReten: {
+                $lte: '2023-07-06',
+              },
+            }
+          : {
+              tarikhSekolahSelesaiReten: {
+                $gte: tarikhMula,
+                $lte: tarikhAkhir,
+              },
+            }),
         sesiTakwimSekolah: sesiTakwim,
       },
     },
@@ -171,6 +182,11 @@ const pipelineSekolahPemeriksaan = (payload) => {
 const pipelineSekolahRawatan = (payload) => {
   const sesiTakwim = sesiTakwimSekolah();
 
+  const { tarikhMula, tarikhAkhir } = payload;
+
+  const mula = moment(tarikhMula).format('MM-DD');
+  const akhir = moment(tarikhAkhir).format('MM-DD');
+
   return [
     {
       $match: {
@@ -184,13 +200,18 @@ const pipelineSekolahRawatan = (payload) => {
         ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
         sekolahSelesaiReten: true,
-        ...(payload.tarikhMula &&
-          payload.tarikhAkhir && {
-            tarikhSekolahSelesaiReten: {
-              $gte: payload.tarikhMula,
-              $lte: payload.tarikhAkhir,
-            },
-          }),
+        ...(mula === '01-01' && akhir === '06-30'
+          ? {
+              tarikhSekolahSelesaiReten: {
+                $lte: '2023-07-06',
+              },
+            }
+          : {
+              tarikhSekolahSelesaiReten: {
+                $gte: tarikhMula,
+                $lte: tarikhAkhir,
+              },
+            }),
         sesiTakwimSekolah: sesiTakwim,
       },
     },
@@ -312,7 +333,6 @@ const pipelineEnrolmenSekolah = (payload, jenis) => {
         ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
         ...(jenis === 'pgs201' && { sekolahSelesaiReten: true }),
-        sekolahSelesaiReten: true,
         sesiTakwimSekolah: sesiTakwim,
       },
     },
