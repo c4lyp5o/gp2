@@ -5,6 +5,22 @@
 - Integrasi bersama MyVAS di Modul Pendaftaran bagi submodul Klinik Pergigian
 - Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
 
+### 3/8/2023 (v2.1.5)
+
+### Added
+
+- Butang Muat Turun Murid Rujukan di senarai sekolah bagi modul pengguna, kini boleh digunakan
+- Penambahan ruangan untuk ditanda sekiranya pesakit membayar menggunakan cashless di laman pendaftaran
+
+### Changed
+
+- Peringatan di butang KEPP di laman pendaftaran, perlu ditanda hanya bagi Klinik Pergigian yang mempunyai KEPP sahaja
+
+### Fixed
+
+- Penambahbaikan di ruangan kotak mencari pegawai pergigian di modul pentadbir daerah
+- Memperkemas dan membaikpulih semua reten-reten yang terdapat di semua peringkat pentadbir
+
 ### 24/7/2023 (v2.1.4)
 
 #### Added
