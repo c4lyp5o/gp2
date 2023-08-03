@@ -4,6 +4,7 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import moment from 'moment';
 
 import { RiCloseLine } from 'react-icons/ri';
+import { BiSearchAlt } from 'react-icons/bi';
 import styles from '../Modal.module.css';
 
 const StartDate = (props) => {
@@ -1089,15 +1090,20 @@ export function InputPegawai(props) {
                       <label className='block mb-2 text-sm font-medium text-adminBlack'>
                         Cari
                       </label>
-                      <input
-                        value={props.carianNama}
-                        type='search'
-                        className='w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                        placeholder='Cari juruterapi pergigian...'
-                        onChange={(e) => {
-                          props.setCarianNama(e.target.value);
-                        }}
-                      />
+                      <div className='relative'>
+                        <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
+                          <BiSearchAlt />
+                        </div>
+                        <input
+                          value={props.carianNama}
+                          type='search'
+                          className='w-full rounded-md border-2 pl-8 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
+                          placeholder='Cari pegawai pergigian...'
+                          onChange={(e) => {
+                            props.setCarianNama(e.target.value);
+                          }}
+                        />
+                      </div>
                       <button
                         type='button'
                         className='block mb-2 px-2 py-1 text-white bg-admin3 hover:bg-admin4 rounded-lg text-sm mt-2'
@@ -1142,26 +1148,12 @@ export function InputPegawai(props) {
                     </label>
                     <div className='relative'>
                       <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
-                        <svg
-                          aria-hidden='true'
-                          className='w-5 h-3 text-gray-500 dark:text-gray-400'
-                          fill='none'
-                          stroke='currentColor'
-                          viewBox='0 0 24 24'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            strokeWidth='2'
-                            d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                          ></path>
-                        </svg>
+                        <BiSearchAlt />
                       </div>
                       <input
                         value={props.carianNama}
                         type='search'
-                        className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
+                        className='block w-full rounded-md border-2 pl-8 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
                         placeholder='Cari juruterapi pergigian...'
                         onChange={(e) => {
                           props.setCarianNama(e.target.value);
@@ -1857,19 +1849,6 @@ export function InputTastad(props) {
                 <div>-</div>
                 <div className='grid grid-cols-2'>
                   <div>
-                    {/* <input
-                      required
-                      className='block mb-2 text-sm font-medium text-adminBlack'
-                      type='text'
-                      value={
-                        props.govKe === ''
-                          ? ''
-                          : props.govKe === 'Kerajaan'
-                          ? 'K'
-                          : 'S'
-                      }
-                      disabled={true}
-                    /> */}
                     {props.govKe === ''
                       ? ''
                       : props.govKe === 'Kerajaan'
@@ -4202,7 +4181,11 @@ export function InputKpEditFacility(props) {
                   <p>
                     <span className='bg-user15 text-userBlack py-1 px-2 rounded-md'>
                       {props.editedEntity.jenisFasiliti}{' '}
-                      {props.editedEntity.govKe}
+                      {props.editedEntity.govKe === 'Kerajaan'
+                        ? 'Kerajaan'
+                        : props.editedEntity.govKe === 'Swasta'
+                        ? 'Swasta'
+                        : '-'}
                     </span>
                   </p>
                   <p>
@@ -4387,7 +4370,7 @@ export function InputKpEditFacility(props) {
                         className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
                           props.editedEntity.jenisTadikaKerajaan ===
                           'kemasKerajaan'
-                            ? ' ring ring-offset-user12 transition-all duration-500'
+                            ? 'ring ring-offset-user12 transition-all duration-500'
                             : ''
                         }`}
                       >
@@ -4416,7 +4399,7 @@ export function InputKpEditFacility(props) {
                         className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
                           props.editedEntity.jenisTadikaKerajaan ===
                           'perpaduanKerajaan'
-                            ? ' ring ring-offset-user12 transition-all duration-500'
+                            ? 'ring ring-offset-user12 transition-all duration-500'
                             : ''
                         }`}
                       >
@@ -4445,7 +4428,7 @@ export function InputKpEditFacility(props) {
                         className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
                           props.editedEntity.jenisTadikaKerajaan ===
                           'lainLainKerajaan'
-                            ? ' ring ring-offset-user12 transition-all duration-500'
+                            ? 'ring ring-offset-user12 transition-all duration-500'
                             : ''
                         }`}
                       >

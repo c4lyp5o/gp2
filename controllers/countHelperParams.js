@@ -1,4 +1,5 @@
 const moment = require('moment');
+const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
 
 //BISMILLAH ALLAH BAGI ILHAM
 const ultimateCutoff = (payload) => {
@@ -509,6 +510,7 @@ const getParams206 = (payload) => {
     deleted: false,
     statusReten: { $in: ['telah diisi', 'reten salah'] },
     oncall: { $in: [false, null] },
+    tahunDaftar: new Date().getFullYear(),
   };
 
   if (negeri !== 'all') {
@@ -543,6 +545,7 @@ const getParams207 = (payload) => {
     deleted: false,
     statusReten: { $in: ['telah diisi', 'reten salah'] },
     oncall: { $in: [false, null] },
+    tahunDaftar: new Date().getFullYear(),
   };
 
   if (negeri !== 'all') {
@@ -570,8 +573,11 @@ const getParams207 = (payload) => {
 const getParams206207sekolah = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   const params = {
     jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+    sesiTakwimSekolah: sesiTakwim,
   };
 
   if (negeri !== 'all') {
@@ -617,17 +623,19 @@ const getParamsPgpr201 = (payload) => {
   return params;
 };
 const getParamsPGS201 = (payload) => {
-  const { negeri, daerah, klinik, pilihanIndividu } = payload;
+  const { negeri, daerah, klinik, pilihanIndividu, pilihanTadika } = payload;
 
   const params = {
     createdByMdcMdtb: pilihanIndividu,
     createdByKodFasiliti: klinik,
     createdByNegeri: negeri,
     createdByDaerah: daerah,
+    kodFasilitiTaskaTadika: !pilihanTadika ? { $regex: /tad/i } : pilihanTadika,
     statusKehadiran: false,
     deleted: false,
     statusReten: { $in: ['telah diisi', 'reten salah'] },
     oncall: { $in: [false, null] },
+    tahunDaftar: new Date().getFullYear(),
   };
 
   if (!pilihanIndividu) {
@@ -658,6 +666,7 @@ const getParamsPGS203 = (payload) => {
     deleted: false,
     statusReten: { $in: ['telah diisi', 'reten salah'] },
     oncall: { $in: [false, null] },
+    tahunDaftar: new Date().getFullYear(),
   };
 
   if (negeri !== 'all') {

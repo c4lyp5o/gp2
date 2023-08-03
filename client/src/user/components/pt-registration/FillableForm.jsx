@@ -109,12 +109,16 @@ export default function FillableForm({
   const [kakitanganKerajaan, setKakitanganKerajaan] = useState(false);
   const [noBayaran, setNoBayaran] = useState('');
   const [noResit, setNoResit] = useState('');
+  const [bayaranPendaftaranCashless, setBayaranPendaftaranCashless] =
+    useState(false);
   const [tambahBayaran, setTambahBayaran] = useState(false);
   const [noBayaran2, setNoBayaran2] = useState('');
   const [noResit2, setNoResit2] = useState('');
+  const [bayaranRawatanCashless, setBayaranRawatanCashless] = useState(false);
   const [tambahBayaran2, setTambahBayaran2] = useState(false);
   const [noBayaran3, setNoBayaran3] = useState('');
   const [noResit3, setNoResit3] = useState('');
+  const [bayaranTambahanCashless, setBayaranTambahanCashless] = useState(false);
   const [catatan, setCatatan] = useState('');
   const [myVasConsent, setMyVasConsent] = useState(
     (import.meta.env.VITE_ENV === 'UNSTABLE' ||
@@ -206,10 +210,12 @@ export default function FillableForm({
       filterDate: (date) => {
         return moment() > date;
       },
-      minDate: moment('2023-01-01').toDate(),
+      minDate: moment(moment(dateToday).format('YYYY') + '-01-01').toDate(),
       disabled: disabled,
       className:
-        'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
+        dariMyVas || editId
+          ? 'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row cursor-not-allowed bg-user1 bg-opacity-25'
+          : 'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
 
@@ -477,6 +483,7 @@ export default function FillableForm({
         headers: { Authorization: `Bearer ${kaunterToken}` },
       });
       const {
+        jenisIc,
         nama,
         tarikhLahir,
         // umur,
@@ -548,6 +555,16 @@ export default function FillableForm({
         'Menggunakan maklumat pesakit yang pernah didaftarkan di dalam Sistem Gi-Ret 2.0, sila semak semula untuk memastikan maklumat adalah tepat',
         { autoClose: 10000 }
       );
+
+      // dariMyvas
+      if (dariMyVas) {
+        const timeString = moment(masaTemujanji).format('HH:mm');
+        setJenisIc(jenisIc);
+        setTemujanji(true);
+        setWaktuTemujanji(timeString);
+        setMyVasIsTrue(true);
+        setWaktuTemujanjiDT(moment(masaTemujanji).toDate());
+      }
 
       // refetch again if orangKurangUpaya is true
       if (orangKurangUpaya) {
@@ -635,10 +652,13 @@ export default function FillableForm({
               kakitanganKerajaan,
               noBayaran,
               noResit,
+              bayaranPendaftaranCashless,
               noBayaran2,
               noResit2,
+              bayaranRawatanCashless,
               noBayaran3,
               noResit3,
+              bayaranTambahanCashless,
               catatan,
               myVasConsent,
               // kepp
@@ -748,10 +768,13 @@ export default function FillableForm({
               kakitanganKerajaan,
               noBayaran,
               noResit,
+              bayaranPendaftaranCashless,
               noBayaran2,
               noResit2,
+              bayaranRawatanCashless,
               noBayaran3,
               noResit3,
+              bayaranTambahanCashless,
               catatan,
               myVasConsent,
               // kepp
@@ -858,10 +881,13 @@ export default function FillableForm({
       setKakitanganKerajaan(false);
       setNoBayaran('');
       setNoResit('');
+      setBayaranPendaftaranCashless(false);
       setNoBayaran2('');
       setNoResit2('');
+      setBayaranRawatanCashless(false);
       setNoBayaran3('');
       setNoResit3('');
+      setBayaranTambahanCashless(false);
       setCatatan('');
       setMyVasConsent(
         (import.meta.env.VITE_ENV === 'UNSTABLE' ||
@@ -926,8 +952,10 @@ export default function FillableForm({
 
   // MyVAS stuff
   useEffect(() => {
-    if (dariMyVas) {
-      setShowModalMyVasConfirm(true);
+    if (!editId) {
+      if (dariMyVas) {
+        setShowModalMyVasConfirm(true);
+      }
     }
   }, [dariMyVas]);
 
@@ -946,40 +974,32 @@ export default function FillableForm({
     setIc(patientDataFromMyVas.resource.identifier[0].value);
     patientDataFromMyVas.resource.telecom &&
       setNomborTelefon(patientDataFromMyVas.resource.telecom[0].value);
-    setNama(
-      patientDataFromMyVas.resource.name[0].given[0] &&
-        patientDataFromMyVas.resource.name[0].given[0]
-    );
+    patientDataFromMyVas.resource.name[0].given[0] &&
+      setNama(patientDataFromMyVas.resource.name[0].given[0]);
     setJantina(jantinaMyvas);
-    setTarikhLahir(
-      patientDataFromMyVas.resource.birthDate &&
+    patientDataFromMyVas.resource.birthDate &&
+      setTarikhLahir(patientDataFromMyVas.resource.birthDate);
+    patientDataFromMyVas.resource.birthDate &&
+      setTarikhLahirDP(new Date(patientDataFromMyVas.resource.birthDate));
+    if (patientDataFromMyVas.resource.birthDate) {
+      const tarikhLahirObj = moment(
         patientDataFromMyVas.resource.birthDate
-    );
-    setTarikhLahirDP(
-      new Date(
-        patientDataFromMyVas.resource.birthDate &&
-          patientDataFromMyVas.resource.birthDate
-      )
-    );
-    const tarikhLahirObj = moment(
-      patientDataFromMyVas.resource.birthDate
-    ).toDate();
-    const tahun = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahirObj));
-    const bulan = parseInt(howOldAreYouMyFriendbulanV2(tarikhLahirObj));
-    const hari = parseInt(howOldAreYouMyFrienddaysV2(tarikhLahirObj));
-    setUmur(tahun);
-    setUmurBulan(bulan);
-    setUmurHari(hari);
+      ).toDate();
+      const tahun = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahirObj));
+      const bulan = parseInt(howOldAreYouMyFriendbulanV2(tarikhLahirObj));
+      const hari = parseInt(howOldAreYouMyFrienddaysV2(tarikhLahirObj));
+      setUmur(tahun);
+      setUmurBulan(bulan);
+      setUmurHari(hari);
+    }
     patientDataFromMyVas.resource.address[0].line[0] &&
       setAlamat(patientDataFromMyVas.resource.address[0].line[0]);
-    setPoskodAlamat(
-      patientDataFromMyVas.resource.address[0].postalCode &&
-        patientDataFromMyVas.resource.address[0].postalCode
-    );
-    setNegeriAlamat(
-      patientDataFromMyVas.resource.address[0].state &&
+    patientDataFromMyVas.resource.address[0].postalCode &&
+      setPoskodAlamat(patientDataFromMyVas.resource.address[0].postalCode);
+    patientDataFromMyVas.resource.address[0].state &&
+      setNegeriAlamat(
         patientDataFromMyVas.resource.address[0].state.toLowerCase()
-    );
+      );
     setConfirmData({
       ...confirmData,
       temujanji: true,
@@ -997,9 +1017,9 @@ export default function FillableForm({
       tarikhLahir:
         patientDataFromMyVas.resource.birthDate &&
         patientDataFromMyVas.resource.birthDate,
-      umur: tahun,
-      umurBulan: bulan,
-      umurHari: hari,
+      umur: umur,
+      umurBulan: umurBulan,
+      umurHari: umurHari,
       alamat:
         patientDataFromMyVas.resource.address[0].line[0] &&
         patientDataFromMyVas.resource.address[0].line[0],
@@ -1010,6 +1030,10 @@ export default function FillableForm({
         patientDataFromMyVas.resource.address[0].state &&
         patientDataFromMyVas.resource.address[0].state.toLowerCase(),
     });
+    toast.success(
+      'Menggunakan maklumat pesakit dari sistem MyVAS, sila semak semula untuk memastikan maklumat adalah tepat',
+      { autoClose: 10000 }
+    );
   };
 
   // close form when change jenisFasiliti
@@ -1117,10 +1141,13 @@ export default function FillableForm({
       setKakitanganKerajaan(false);
       setNoBayaran('');
       setNoResit('');
+      setBayaranPendaftaranCashless(false);
       setNoBayaran2('');
       setNoResit2('');
+      setBayaranRawatanCashless(false);
       setNoBayaran3('');
       setNoResit3('');
+      setBayaranTambahanCashless(false);
     }
   }, [statusPesara]);
 
@@ -1190,6 +1217,9 @@ export default function FillableForm({
           setWaktuSampai(data.singlePersonKaunter.waktuSampai);
           setTemujanji(data.singlePersonKaunter.temujanji);
           setWaktuTemujanji(data.singlePersonKaunter.waktuTemujanji);
+          setDariMyVas(
+            data.singlePersonKaunter.myVasIsTrue === true ? true : false
+          );
           setOncall(data.singlePersonKaunter.oncall);
           setNama(data.singlePersonKaunter.nama);
           setJenisIc(data.singlePersonKaunter.jenisIc);
@@ -1224,12 +1254,21 @@ export default function FillableForm({
           setKakitanganKerajaan(data.singlePersonKaunter.kakitanganKerajaan);
           setNoBayaran(data.singlePersonKaunter.noBayaran);
           setNoResit(data.singlePersonKaunter.noResit);
+          setBayaranPendaftaranCashless(
+            data.singlePersonKaunter.bayaranPendaftaranCashless
+          );
           setTambahBayaran(true);
           setNoBayaran2(data.singlePersonKaunter.noBayaran2);
           setNoResit2(data.singlePersonKaunter.noResit2);
+          setBayaranRawatanCashless(
+            data.singlePersonKaunter.bayaranRawatanCashless
+          );
           setTambahBayaran2(true);
           setNoBayaran3(data.singlePersonKaunter.noBayaran3);
           setNoResit3(data.singlePersonKaunter.noResit3);
+          setBayaranTambahanCashless(
+            data.singlePersonKaunter.bayaranTambahanCashless
+          );
           setCatatan(data.singlePersonKaunter.catatan);
           setMyVasConsent(data.singlePersonKaunter.myVasConsent);
           // kepp
@@ -1331,10 +1370,16 @@ export default function FillableForm({
             noPesara: data.singlePersonKaunter.noPesara,
             noBayaran: data.singlePersonKaunter.noBayaran,
             noResit: data.singlePersonKaunter.noResit,
+            bayaranPendaftaranCashless:
+              data.singlePersonKaunter.bayaranPendaftaranCashless,
             noBayaran2: data.singlePersonKaunter.noBayaran2,
             noResit2: data.singlePersonKaunter.noResit2,
+            bayaranRawatanCashless:
+              data.singlePersonKaunter.bayaranRawatanCashless,
             noBayaran3: data.singlePersonKaunter.noBayaran3,
             noResit3: data.singlePersonKaunter.noResit3,
+            bayaranTambahanCashless:
+              data.singlePersonKaunter.bayaranTambahanCashless,
             catatan: data.singlePersonKaunter.catatan,
           });
           setIsEditLoading(false);
@@ -1414,10 +1459,14 @@ export default function FillableForm({
           <>
             <form onSubmit={confirm(handleSubmit)}>
               <h1
-                className='bg-kaunter3 font-bold text-xl sticky top-1 py-1 mt-1 z-10 shadow-md rounded-md'
+                className={` font-bold text-xl sticky top-1 py-1 mt-1 z-10 shadow-md rounded-md ${
+                  dariMyVas
+                    ? 'bg-gradient-to-r from-[#1d49ce] via-[#5b82f8] to-[#69acf0] bg-[position:_100%_100%] bg-[size:_100%] text-kaunterWhite'
+                    : 'bg-kaunter3 text-kaunterBlack'
+                }`}
                 data-cy='fillable-form-header'
               >
-                pendaftaran {Dictionary[jenisFasiliti]}
+                pendaftaran {Dictionary[jenisFasiliti]} {dariMyVas && '(MyVAS)'}
                 <br />
                 {namaProgram ? `${namaProgram}` : null}
               </h1>
@@ -1520,6 +1569,7 @@ export default function FillableForm({
                           Pesakit Janji Temu
                         </label>
                         <input
+                          disabled={dariMyVas ? true : false}
                           type='checkbox'
                           name='oncall'
                           id='oncall'
@@ -1573,8 +1623,9 @@ export default function FillableForm({
                                 required: true,
                                 readOnly: true,
                                 disabled: dariMyVas ? true : false,
-                                className:
-                                  'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
+                                className: dariMyVas
+                                  ? 'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md bg-user1 bg-opacity-25'
+                                  : 'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
                               }}
                             />
                             <span>
@@ -1625,7 +1676,9 @@ export default function FillableForm({
                             }
                           }
                         }}
-                        className='appearance-none w-full md:w-56 leading-7 px-2 py-1 pr-6 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
+                        className={`appearance-none w-full md:w-56 leading-7 px-2 py-1 pr-6 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2 
+                        ${dariMyVas ? 'bg-user1 bg-opacity-25' : ''}
+                        `}
                         data-cy='jenis-pengenalan'
                       >
                         <option value=''>SILA PILIH..</option>
@@ -1663,7 +1716,9 @@ export default function FillableForm({
                           }
                         }}
                         placeholder='901223015432'
-                        className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                        className={` ${
+                          dariMyVas ? 'bg-user1 bg-opacity-25' : ''
+                        } appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2`}
                         data-cy='ic-mykad-mykid'
                       />
                     )}
@@ -1879,7 +1934,9 @@ export default function FillableForm({
                           nama: e.target.value,
                         });
                       }}
-                      className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                      className={` ${
+                        dariMyVas ? 'bg-user1 bg-opacity-25' : ''
+                      } appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase`}
                       data-cy='nama-umum'
                     />
                     <span>
@@ -2664,6 +2721,33 @@ export default function FillableForm({
                               <FaMinusCircle className='text-kaunter3' />
                             </span>
                           )}
+                          <div className='pl-2 flex flex-row items-center'>
+                            <input
+                              type='checkbox'
+                              name='bayarancashless'
+                              id='bayaranpendaftarancashless'
+                              checked={
+                                bayaranPendaftaranCashless ? true : false
+                              }
+                              onChange={() => {
+                                setBayaranPendaftaranCashless(
+                                  !bayaranPendaftaranCashless
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  bayaranPendaftaranCashless:
+                                    !bayaranPendaftaranCashless,
+                                });
+                              }}
+                              className='mr-2'
+                            />
+                            <label
+                              htmlFor='bayaranpendaftarancashless'
+                              className='normal-case'
+                            >
+                              <i>'Cashless'</i>
+                            </label>
+                          </div>
                         </div>
                         {tambahBayaran && (
                           <div className='flex flex-row justify-start'>
@@ -2743,6 +2827,31 @@ export default function FillableForm({
                                 />
                               )}
                             </span>
+                            <div className='pl-2 flex flex-row items-center'>
+                              <input
+                                type='checkbox'
+                                name='bayarancashless'
+                                id='bayaranrawatancashless'
+                                checked={bayaranRawatanCashless ? true : false}
+                                onChange={() => {
+                                  setBayaranRawatanCashless(
+                                    !bayaranRawatanCashless
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    bayaranRawatanCashless:
+                                      !bayaranRawatanCashless,
+                                  });
+                                }}
+                                className='mr-2'
+                              />
+                              <label
+                                htmlFor='bayaranrawatancashless'
+                                className='normal-case'
+                              >
+                                <i>'Cashless'</i>
+                              </label>
+                            </div>
                           </div>
                         )}
                         {tambahBayaran2 && (
@@ -2805,6 +2914,31 @@ export default function FillableForm({
                                 <FaMoneyCheckAlt className='absolute top-3 right-2 text-kaunter3' />
                               </span>
                             </div>
+                            <div className='pl-2 flex flex-row items-center'>
+                              <input
+                                type='checkbox'
+                                name='bayarancashless'
+                                id='bayarantambahancashless'
+                                checked={bayaranTambahanCashless ? true : false}
+                                onChange={() => {
+                                  setBayaranTambahanCashless(
+                                    !bayaranTambahanCashless
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    bayaranTambahanCashless:
+                                      !bayaranTambahanCashless,
+                                  });
+                                }}
+                                className='mr-2'
+                              />
+                              <label
+                                htmlFor='bayarantambahancashless'
+                                className='normal-case'
+                              >
+                                <i>'Cashless'</i>
+                              </label>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -2860,8 +2994,15 @@ export default function FillableForm({
                             }}
                             className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
-                          <label htmlFor='kepp' className='ml-2 text-sm font-m'>
-                            KEPP
+                          <label
+                            htmlFor='kepp'
+                            className='ml-2 text-sm font-m normal-case'
+                          >
+                            KEPP{' '}
+                            <span className='text-user9 font-semibold'>
+                              (hanya untuk Klinik Pergigian yang mempunyai KEPP
+                              sebenar)
+                            </span>
                           </label>
                         </div>
                         {kepp && (
@@ -2931,8 +3072,11 @@ export default function FillableForm({
                               : 'hidden'
                           } flex flex-col pl-5`}
                         >
-                          <label className='m-2 text-sm flex text-left flex-row justify-start'>
-                            tarikh rujukan
+                          <label className='m-2 text-sm text-left flex-row justify-start normal-case'>
+                            Tarikh rujukan{' '}
+                            <span className='text-user9 font-semibold'>
+                              (Tarikh surat rujukan dibuat)
+                            </span>
                           </label>
                           <TarikhRujukanKepp />
                         </div>
@@ -3647,6 +3791,9 @@ export default function FillableForm({
                 setShowModalMyVasConfirm={setShowModalMyVasConfirm}
                 patientDataFromMyVas={patientDataFromMyVas}
                 handleDataPassMyVas={handleDataPassMyVas}
+                setDariMyVas={setDariMyVas}
+                setShowForm={setShowForm}
+                checkCache={checkCache}
               />
             )}
           </>

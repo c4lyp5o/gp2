@@ -9,7 +9,9 @@ const FormPemeriksaanProgramGtod = ({
   setShowFormPemeriksaan,
   setShowTable,
   pemeriksaanSatu,
+  setPemeriksaanSatu,
   pemeriksaanDua,
+  setPemeriksaanDua,
   reloadState,
   setReloadState,
 }) => {
@@ -82,7 +84,7 @@ const FormPemeriksaanProgramGtod = ({
         return moment() > date;
       },
       className:
-        'appearance-none w-28 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1',
+        'appearance-none w-28 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4',
     });
   };
 
@@ -106,7 +108,7 @@ const FormPemeriksaanProgramGtod = ({
         return moment() > date;
       },
       className:
-        'appearance-none w-28 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1',
+        'appearance-none w-28 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4',
     });
   };
 
@@ -250,7 +252,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='kedatanganBaru'
               id='kedatanganBaru'
               value={
@@ -270,7 +272,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='kedatanganUlangan'
               id='kedatanganUlangan'
               value={
@@ -295,7 +297,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='dDesidus'
               id='dDesidus'
               value={dataPemeriksaan ? dataPemeriksaan.dDesidus : dDesidus}
@@ -311,7 +313,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='mDesidus'
               id='mDesidus'
               value={dataPemeriksaan ? dataPemeriksaan.mDesidus : mDesidus}
@@ -327,7 +329,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='fDesidus'
               id='fDesidus'
               value={dataPemeriksaan ? dataPemeriksaan.fDesidus : fDesidus}
@@ -343,7 +345,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='xDesidus'
               id='xDesidus'
               value={dataPemeriksaan ? dataPemeriksaan.xDesidus : xDesidus}
@@ -364,7 +366,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1 '
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='aKebersihanMulut'
               id='aKebersihanMulut'
               value={
@@ -384,7 +386,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='cKebersihanMulut'
               id='cKebersihanMulut'
               value={
@@ -404,7 +406,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='eKebersihanMulut'
               id='eKebersihanMulut'
               value={
@@ -431,7 +433,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='takPerluRawatan'
               id='takPerluRawatan'
               value={
@@ -459,7 +461,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='sapuanFvarnish'
               id='sapuanFvarnish'
               value={
@@ -486,7 +488,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='todDirujuk'
               id='todDirujuk'
               value={dataPemeriksaan ? dataPemeriksaan.todDirujuk : todDirujuk}
@@ -507,7 +509,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='todAbses'
               id='todAbses'
               value={dataPemeriksaan ? dataPemeriksaan.todAbses : todAbses}
@@ -526,7 +528,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='penilaianRisikoRendah'
               id='penilaianRisikoRendah'
               value={
@@ -544,7 +546,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='penilaianRisikoSederhana'
               id='penilaianRisikoSederhana'
               value={
@@ -562,7 +564,7 @@ const FormPemeriksaanProgramGtod = ({
               min='0'
               required
               disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
               name='penilaianRisikoTinggi'
               id='penilaianRisikoTinggi'
               value={
@@ -577,11 +579,13 @@ const FormPemeriksaanProgramGtod = ({
           </div>
         </article>
         <span
-          className='px-4 py-2 text-adminBlack rounded-md cursor-pointer hover:bg-user1 hover:bg-opacity-25'
+          className='px-4 py-2 text-adminBlack shadow-md border border-user1 bg-admin5 rounded-md cursor-pointer hover:bg-user1 hover:bg-opacity-25'
           onClick={() => {
             setShowFormPemeriksaan(false);
             setShowTable(true);
             setReloadState(!reloadState);
+            setPemeriksaanSatu(null);
+            setPemeriksaanDua(null);
           }}
         >
           batal
@@ -595,7 +599,7 @@ const FormPemeriksaanProgramGtod = ({
           </span>
         ) : dataPemeriksaan ? null : (
           <button
-            className='px-4 py-2 text-adminWhite bg-admin1 rounded-md cursor-pointer hover:bg-admin3'
+            className='px-4 py-2 text-adminWhite shadow-md border border-user1 bg-admin1 rounded-md cursor-pointer hover:bg-admin3'
             type='submit'
           >
             Hantar

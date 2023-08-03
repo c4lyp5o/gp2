@@ -40,7 +40,16 @@ function UserPilihNama() {
         const { data } = await axios.get('/api/v1/pilih/operator', {
           headers: { Authorization: `Bearer ${userToken}` },
         });
-        setListPilihNama(data.operators);
+        const sortedDataOperators = data.operators.sort((a, b) => {
+          if (a.gred > b.gred) {
+            return -1;
+          }
+          if (a.gred < b.gred) {
+            return 1;
+          }
+          return 0;
+        });
+        setListPilihNama(sortedDataOperators);
       } catch (error) {
         catchAxiosErrorAndLogout();
         navigate('/pengguna');

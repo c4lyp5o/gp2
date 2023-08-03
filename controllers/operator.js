@@ -1,6 +1,7 @@
 const Operator = require('../models/Operator');
 const { logger } = require('../logs/logger');
 
+// not used
 // GET /:operatorId
 const getSinglePersonOperator = async (req, res) => {
   logger.info(
@@ -23,6 +24,7 @@ const getSinglePersonOperator = async (req, res) => {
   res.status(201).json({ singlePersonOperator });
 };
 
+// not used
 // PATCH /:personOperatorId
 const updateSinglePersonOperator = async (req, res) => {
   logger.info(
@@ -47,6 +49,7 @@ const updateSinglePersonOperator = async (req, res) => {
   res.status(200).json({ updatedSinglePersonOperator });
 };
 
+// not used
 // query /operator
 const queryPersonOperator = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {

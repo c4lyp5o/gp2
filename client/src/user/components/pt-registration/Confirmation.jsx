@@ -232,6 +232,7 @@ const ConfirmModal = ({
                 {data.catatan ||
                 data.noBayaran ||
                 data.noResit ||
+                data.bayaranPendaftaranCashless ||
                 data.noBayaran2 ||
                 data.noResit2 ||
                 data.noBayaran3 ||
@@ -243,21 +244,32 @@ const ConfirmModal = ({
                 {data.catatan ||
                 data.noBayaran ||
                 data.noResit ||
+                data.bayaranPendaftaranCashless ||
                 data.noBayaran2 ||
                 data.noResit2 ||
+                data.bayaranRawatanCashless ||
                 data.noBayaran3 ||
-                data.noResit3 ? (
+                data.noResit3 ||
+                data.bayaranTambahanCashless ? (
                   <p className='text-sm p-1 flex justify-start text-left my-1'>
                     {data.noBayaran || data.noResit
-                      ? `Bayaran PENDAFTARAN: ${data.noBayaran} - ${data.noResit}`
+                      ? `Bayaran PENDAFTARAN: ${data.noBayaran} - ${
+                          data.noResit
+                        } ${
+                          data.bayaranPendaftaranCashless ? '- Cashless' : ''
+                        }`
                       : 'TIADA bayaran PENDAFTARAN'}
                     <br />
                     {data.noBayaran2 || data.noResit2
-                      ? `Bayaran RAWATAN: ${data.noBayaran2} - ${data.noResit2}`
+                      ? `Bayaran RAWATAN: ${data.noBayaran2} - ${
+                          data.noResit2
+                        } ${data.bayaranRawatanCashless ? '- Cashless' : ''}`
                       : 'TIADA bayaran RAWATAN'}
                     <br />
                     {data.noBayaran3 || data.noResit3
-                      ? `Bayaran TAMBAHAN: ${data.noBayaran3} - ${data.noResit3}`
+                      ? `Bayaran TAMBAHAN: ${data.noBayaran3} - ${
+                          data.noResit3
+                        } ${data.bayaranTambahanCashless ? '- Cashless' : ''}`
                       : 'TIADA bayaran TAMBAHAN'}
                     <br />
                     {data.catatan

@@ -1,21 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
-import {
-  FaCheckCircle,
-  FaTimesCircle,
-  FaCaretUp,
-  FaCaretDown,
-  FaInfoCircle,
-  FaPlus,
-  FaMinus,
-} from 'react-icons/fa';
+import { FaInfoCircle, FaPlus, FaMinus } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
+import ConfirmationDeleteKotak from './ConfirmationDeleteKOTAK';
+import UserDeleteModal from '../../UserDeleteModal';
+
 function KohortKotak() {
-  const { userToken, reliefUserToken, navigate, toast } =
+  const { userinfo, userToken, reliefUserToken, navigate, toast } =
     useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -29,9 +24,17 @@ function KohortKotak() {
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [kohort, setKohort] = useState([]);
 
-  const [reloadState, setReloadState] = useState(false);
+  //delete kotak
+  const [pilihanHapusId, setPilihanHapusId] = useState('');
+  const [pilihanHapusNama, setPilihanHapusNama] = useState('');
+  const [modalConfirmDeleteKotak, setModalConfirmDeleteKotak] = useState(false);
+  const [melaksanakanSaringanMerokok, setMelaksanakanSaringanMerokok] =
+    useState('');
+  const [statusM, setStatusM] = useState('');
+  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
+  const [modalHapus, setModalHapus] = useState(false);
 
-  const init = useRef(false);
+  const [reloadState, setReloadState] = useState(false);
 
   //accordian
   const [accordian, setAccordian] = useState([]);
@@ -67,18 +70,82 @@ function KohortKotak() {
           a.statusKotak > b.statusKotak ? 1 : -1
         );
         setNamaSekolahs(namaSekolahs);
-        setKohort(kohort);
+        // setKohort(kohort);
         setAllPersonKohortKotak(desc);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchAllPersonSekolahs'
-        // );
       }
     };
     fetchAllPersonKohort();
   }, [reloadState]);
+
+  //* Function to handle change in selected namaSekolah
+  const handleChangeNamaSekolah = (event) => {
+    const selectedNamaSekolah = event.target.value;
+    setPilihanSekolah(selectedNamaSekolah);
+
+    // *Filter the allPersonKohortKotak data based on the selectedNamaSekolah and remove duplicates from kohort options
+    const filteredData = allPersonKohortKotak.filter(
+      (item) => item.namaSekolah === selectedNamaSekolah
+    );
+    const kohortSet = new Set(
+      filteredData
+        .map((item) => item.dalamPemantauanKohort)
+        .filter((item) => item !== '')
+        .sort((a, b) => {
+          const yearA = parseInt(a.split(' ')[1], 10);
+          const yearB = parseInt(b.split(' ')[1], 10);
+          return yearA - yearB; // Sort in ascending order, use `yearB - yearA` for descending order
+        })
+    );
+    const kohortOptions = Array.from(kohortSet);
+    setKohort(kohortOptions);
+    setPilihanKohort(''); // Reset the selected kohort when changing namaSekolahs
+  };
+
+  const handleDelete = async (singlePelajarKOTAK, reason) => {
+    if (!modalHapus) {
+      setModalHapus(true);
+      return;
+    }
+    if (modalHapus) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
+      await toast.promise(
+        axios.patch(
+          `/api/v1/kohort/kotak/delete/${singlePelajarKOTAK}`,
+          {
+            deleteReason: reason,
+            createdByMdcMdtb: mdcMdtbNum,
+            melaksanakanSaringanMerokok,
+            statusM,
+            menerimaNasihatRingkas,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Menghapus pesakit...',
+          success: 'Pesakit berjaya dihapus',
+          error: 'Pesakit gagal dihapus',
+        },
+        { autoClose: 5000 }
+      );
+      setModalHapus(false);
+      setReloadState(!reloadState);
+    }
+  };
 
   // on tab focus reload data
   useEffect(() => {
@@ -133,9 +200,10 @@ function KohortKotak() {
                 <span className=' uppercase text-xs lg:text-sm w-full'>
                   <select
                     value={pilihanSekolah}
-                    onChange={(e) => {
-                      setPilihanSekolah(e.target.value);
-                    }}
+                    // onChange={(e) => {
+                    //   setPilihanSekolah(e.target.value);
+                    // }}
+                    onChange={handleChangeNamaSekolah}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
@@ -166,21 +234,19 @@ function KohortKotak() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
-                    {pilihanSekolah ? (
-                      kohort.map((kohort, index) => {
-                        return (
-                          <option
-                            value={kohort}
-                            key={index}
-                            className='capitalize'
-                          >
-                            {kohort}
-                          </option>
-                        );
-                      })
-                    ) : (
-                      <option value=''>SILA PILIH SEKOLAH</option>
-                    )}
+                    {pilihanSekolah
+                      ? kohort.map((kohort, index) => {
+                          return (
+                            <option
+                              value={kohort}
+                              key={index}
+                              className='capitalize'
+                            >
+                              {kohort}
+                            </option>
+                          );
+                        })
+                      : ''}
                   </select>
                 </span>
               </p>
@@ -261,11 +327,21 @@ function KohortKotak() {
                   status selepas 6 bulan daripada tarikh kehadiran intervensi
                   sesi 1
                 </th>
+                {userinfo.role === 'admin' && (
+                  <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                    HAPUS
+                  </th>
+                )}
               </tr>
             </thead>
             {!isLoading && pilihanSekolah ? (
               <tbody className='bg-user4'>
                 {allPersonKohortKotak
+                  .filter((singlePersonKohortKotak) => {
+                    if (singlePersonKohortKotak.deleted !== true) {
+                      return singlePersonKohortKotak;
+                    }
+                  })
                   .filter((singlePersonKohortKotak) => {
                     if (
                       singlePersonKohortKotak.namaSekolah === pilihanSekolah
@@ -414,7 +490,7 @@ function KohortKotak() {
                                           onClick={() => handleAccordian(index)}
                                           className='text-sm text-start font-semibold bg-user1 bg-opacity-5 flex flex-row items-center rounded-md p-1 m-1 cursor-pointer'
                                         >
-                                          {accordian === index ? (
+                                          {accordian.includes(index) ? (
                                             <FaMinus className='m-1' />
                                           ) : (
                                             <FaPlus className='m-1' />
@@ -521,6 +597,30 @@ function KohortKotak() {
                               : 'TIDAK BERHENTI MEROKOK'
                             : null}
                         </td>
+                        {userinfo.role === 'admin' && (
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                            {singlePersonKohortKotak.statusKotak ===
+                              'belum mula' && (
+                              <button
+                                className='bg-user9 w-16 text-userWhite shadow-md hover:bg-user8 rounded-md p-1 m-1 transition-all'
+                                onClick={() => {
+                                  setModalConfirmDeleteKotak(true);
+                                  setPilihanHapusId(
+                                    singlePersonKohortKotak._id
+                                  );
+                                  setPilihanHapusNama(
+                                    singlePersonKohortKotak.nama
+                                  );
+                                  setMelaksanakanSaringanMerokok('');
+                                  setStatusM('');
+                                  setMenerimaNasihatRingkas('');
+                                }}
+                              >
+                                HAPUS
+                              </button>
+                            )}
+                          </td>
+                        )}
                       </tr>
                     );
                   })}
@@ -529,7 +629,7 @@ function KohortKotak() {
               <tbody className='text-user1 bg-user4'>
                 <tr>
                   <td
-                    colSpan={8}
+                    colSpan={9}
                     className='outline outline-1 outline-offset-1 px-2 py-1'
                   >
                     Sila pilih sekolah
@@ -541,7 +641,7 @@ function KohortKotak() {
               <tbody className='text-user1 bg-user4'>
                 <tr>
                   <td
-                    colSpan={8}
+                    colSpan={9}
                     className='outline outline-1 outline-offset-1 px-2 py-1'
                   >
                     Loading
@@ -550,6 +650,29 @@ function KohortKotak() {
               </tbody>
             )}
           </table>
+          {modalConfirmDeleteKotak && (
+            <ConfirmationDeleteKotak
+              nama={pilihanHapusNama}
+              modalConfirmDeleteKotak={modalConfirmDeleteKotak}
+              setModalConfirmDeleteKotak={setModalConfirmDeleteKotak}
+              melaksanakanSaringanMerokok={melaksanakanSaringanMerokok}
+              setMelaksanakanSaringanMerokok={setMelaksanakanSaringanMerokok}
+              statusM={statusM}
+              setStatusM={setStatusM}
+              menerimaNasihatRingkas={menerimaNasihatRingkas}
+              setMenerimaNasihatRingkas={setMenerimaNasihatRingkas}
+              modalHapus={modalHapus}
+              setModalHapus={setModalHapus}
+            />
+          )}
+          {modalHapus && (
+            <UserDeleteModal
+              handleDelete={handleDelete}
+              setModalHapus={setModalHapus}
+              id={pilihanHapusId}
+              nama={pilihanHapusNama}
+            />
+          )}
           <div
             className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
               isShown ? 'block' : 'hidden'

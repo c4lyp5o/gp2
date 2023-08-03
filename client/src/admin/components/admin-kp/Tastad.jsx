@@ -46,9 +46,14 @@ export default function Tastad(props) {
                       <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
                         Kerajaan
                       </span>
-                    ) : (
+                    ) : f.govKe === 'Swasta' ? (
                       <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                         Swasta
+                      </span>
+                    ) : (
+                      <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                        {' '}
+                        -{' '}
                       </span>
                     )}
                   </td>
