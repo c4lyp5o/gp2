@@ -1849,19 +1849,6 @@ export function InputTastad(props) {
                 <div>-</div>
                 <div className='grid grid-cols-2'>
                   <div>
-                    {/* <input
-                      required
-                      className='block mb-2 text-sm font-medium text-adminBlack'
-                      type='text'
-                      value={
-                        props.govKe === ''
-                          ? ''
-                          : props.govKe === 'Kerajaan'
-                          ? 'K'
-                          : 'S'
-                      }
-                      disabled={true}
-                    /> */}
                     {props.govKe === ''
                       ? ''
                       : props.govKe === 'Kerajaan'
@@ -4194,7 +4181,11 @@ export function InputKpEditFacility(props) {
                   <p>
                     <span className='bg-user15 text-userBlack py-1 px-2 rounded-md'>
                       {props.editedEntity.jenisFasiliti}{' '}
-                      {props.editedEntity.govKe}
+                      {props.editedEntity.govKe === 'Kerajaan'
+                        ? 'Kerajaan'
+                        : props.editedEntity.govKe === 'Swasta'
+                        ? 'Swasta'
+                        : '-'}
                     </span>
                   </p>
                   <p>
@@ -4379,7 +4370,7 @@ export function InputKpEditFacility(props) {
                         className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
                           props.editedEntity.jenisTadikaKerajaan ===
                           'kemasKerajaan'
-                            ? ' ring ring-offset-user12 transition-all duration-500'
+                            ? 'ring ring-offset-user12 transition-all duration-500'
                             : ''
                         }`}
                       >
@@ -4408,7 +4399,7 @@ export function InputKpEditFacility(props) {
                         className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
                           props.editedEntity.jenisTadikaKerajaan ===
                           'perpaduanKerajaan'
-                            ? ' ring ring-offset-user12 transition-all duration-500'
+                            ? 'ring ring-offset-user12 transition-all duration-500'
                             : ''
                         }`}
                       >
@@ -4437,7 +4428,7 @@ export function InputKpEditFacility(props) {
                         className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
                           props.editedEntity.jenisTadikaKerajaan ===
                           'lainLainKerajaan'
-                            ? ' ring ring-offset-user12 transition-all duration-500'
+                            ? 'ring ring-offset-user12 transition-all duration-500'
                             : ''
                         }`}
                       >
