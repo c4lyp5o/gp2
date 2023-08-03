@@ -61,29 +61,23 @@ export default function UserStatusHarian() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-status-harian-query'
-        // );
       }
     };
     query();
   }, [tarikhKedatangan, reloadState, reliefUserToken, userToken]);
 
-  //get allpersonumum filtered by date
+  //get allPersonUmum filtered by date
   useEffect(() => {
     const fetchAllPersonUmum = async () => {
       try {
         setIsLoading(true);
-        const { data } = await axios.get(
-          '/api/v1/umum/status-harian', // 👈️ this is the route
-          {
-            headers: {
-              Authorization: `Bearer ${
-                reliefUserToken ? reliefUserToken : userToken
-              }`,
-            },
-          }
-        );
+        const { data } = await axios.get('/api/v1/umum/status-harian', {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        });
         const allPersonUmums = data.allPersonUmumStatus;
         const allPersonBelum = allPersonUmums.filter(
           (p) => p.statusReten === 'belum diisi'
@@ -115,9 +109,6 @@ export default function UserStatusHarian() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-status-harian-fetchAllPersonUmum'
-        // );
       }
     };
     fetchAllPersonUmum();

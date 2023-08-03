@@ -31,7 +31,7 @@ const umum = require('./routes/umum');
 const sekolah = require('./routes/sekolah');
 const promosi = require('./routes/promosi');
 const getotp = require('./routes/getotp');
-const operator = require('./routes/operator');
+// const operator = require('./routes/operator');
 const summary = require('./routes/summary');
 const allQueryRoute = require('./routes/allQueryRoute');
 
