@@ -61,17 +61,20 @@ export function useAdminData() {
       return err;
     }
   };
-  // yg ni berkaitan dengan Modal.jsx, x perlu try catch sbb sana dah handle
-  // x perlu response.data sbb nk tgk status
+  // yg ni berkaitan dengan Modal.jsx
   const deleteData = async (type, id) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'DataCenter',
-      Fn: 'delete',
-      FType: type,
-      Id: id,
-      token: adminToken,
-    });
-    return response;
+    try {
+      const response = await axios.post(`/api/v1/superadmin/newroute`, {
+        main: 'DataCenter',
+        Fn: 'delete',
+        FType: type,
+        Id: id,
+        token: adminToken,
+      });
+      return response;
+    } catch (err) {
+      return err;
+    }
   };
 
   return {

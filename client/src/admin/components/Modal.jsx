@@ -1010,6 +1010,7 @@ const DeleteModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setDeletingData(true);
     switch (loginInfo.accountType) {
       case 'kpUser':
         deleteDataForKp(FType, id).then((res) => {
@@ -1029,7 +1030,6 @@ const DeleteModal = ({
         break;
       case 'negeriSuperadmin':
       case 'daerahSuperadmin':
-        setDeletingData(true);
         deleteData(FType, id).then((res) => {
           if (res.status === 200) {
             toast.info(`Data berjaya dipadam`);
@@ -1041,8 +1041,6 @@ const DeleteModal = ({
           if (res.response.status !== 200) {
             switch (FType) {
               case 'program':
-                toast.error(`${res.response.data.msg}`);
-                break;
               case 'sm':
               case 'sr':
                 toast.error(`${res.response.data.msg}`);
@@ -1053,7 +1051,7 @@ const DeleteModal = ({
                 );
                 break;
               default:
-                console.log('Nope');
+                break;
             }
             setShowDeleteModal(false);
             setDeletingData(false);
