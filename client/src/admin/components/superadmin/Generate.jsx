@@ -3,6 +3,13 @@ import axios from 'axios';
 import moment from 'moment';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useSpesifikData } from '../../context/admin-hooks/useSpesifikData';
+import { useDictionary } from '../../context/useDictionary';
+import { useLogininfo } from '../../context/useLogininfo';
+import { useOndemandSetting } from '../../context/useOndemandSetting';
+import { useToken } from '../../context/useToken';
+import { useMiscData } from '../../context/useMiscData';
+import { useUtils } from '../../context/useUtils';
 
 import { RiCloseLine } from 'react-icons/ri';
 import { AiOutlineStop, AiFillCloseCircle } from 'react-icons/ai';
@@ -10,10 +17,12 @@ import { AiOutlineStop, AiFillCloseCircle } from 'react-icons/ai';
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
-  const { toast, adminToken, loginInfo, masterDatePicker, Dictionary } =
-    useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
+  const { loginInfo } = useLogininfo();
+  const { Dictionary } = useDictionary();
+  const { masterDatePicker } = useUtils();
 
-  // the date value in YYYY-MM-DD
   const startDateRef = useRef('');
   const endDateRef = useRef('');
 
@@ -1461,8 +1470,10 @@ const ModalGenerateAdHoc = (props) => {
 };
 
 const ModalGenerateBulanan = (props) => {
-  const { toast, adminToken, loginInfo, Dictionary } =
-    useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
+  const { loginInfo } = useLogininfo();
+  const { Dictionary } = useDictionary();
 
   const [bulan, setBulan] = useState('');
 
@@ -2222,11 +2233,9 @@ const ModalGenerateBulanan = (props) => {
 };
 
 const Generate = () => {
+  const { readNegeri, readDaerah, readKlinik, semuaJenisReten } =
+    useGlobalAdminAppContext();
   const {
-    loginInfo,
-    readNegeri,
-    readDaerah,
-    readKlinik,
     readSpesifikProgramData,
     readSpesifikKPBMPBData,
     readSpesifikIndividuData,
@@ -2234,10 +2243,10 @@ const Generate = () => {
     readSpesifikJanaTadikaData,
     readSpesifikJanaSekolahRendahData,
     readSpesifikJanaSekolahMenengahData,
-    readGenerateTokenData,
-    readOndemandSetting,
-    semuaJenisReten,
-  } = useGlobalAdminAppContext();
+  } = useSpesifikData();
+  const { loginInfo } = useLogininfo();
+  const { readOndemandSetting } = useOndemandSetting();
+  const { readGenerateTokenData } = useMiscData();
 
   const init = useRef(false);
 

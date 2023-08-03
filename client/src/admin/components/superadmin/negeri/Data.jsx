@@ -1,4 +1,6 @@
 import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useAdminData } from '../../../context/admin-hooks/useAdminData';
+import { useDictionary } from '../../../context/useDictionary';
 import { useState, useEffect, useRef } from 'react';
 
 import { Loading, NothingHereBoi } from '../../Screens';
@@ -21,7 +23,9 @@ export default function DataNegeri({ DType }) {
 
   const init = useRef(false);
 
-  const { Dictionary, getCurrentUser, readData } = useGlobalAdminAppContext();
+  const { getCurrentUser } = useGlobalAdminAppContext();
+  const { readData } = useAdminData();
+  const { Dictionary } = useDictionary();
 
   useEffect(() => {
     if (!init.current) {
@@ -32,10 +36,8 @@ export default function DataNegeri({ DType }) {
       });
       init.current = true;
     }
-    console.log('data type: ', DType);
     readData(DType).then((res) => {
-      console.log('data: ', res.data);
-      setData(res.data);
+      setData(res);
       switch (DType) {
         case 'ppspn':
           setShow({ pp: true });
@@ -88,7 +90,7 @@ export default function DataNegeri({ DType }) {
   if (!loading) {
     return (
       <>
-        {data.length === 0 ? (
+        {data && data.length === 0 ? (
           <NothingHereBoi FType={DType} />
         ) : (
           <RenderSection />

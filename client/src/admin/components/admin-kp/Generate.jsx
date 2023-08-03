@@ -3,6 +3,11 @@ import axios from 'axios';
 import moment from 'moment';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useSpesifikKpData } from '../../context/kp-hooks/useSpesifikKpData';
+import { useLogininfo } from '../../context/useLogininfo';
+import { useOndemandSetting } from '../../context/useOndemandSetting';
+import { useToken } from '../../context/useToken';
+import { useUtils } from '../../context/useUtils';
 
 import { RiCloseLine } from 'react-icons/ri';
 import { AiOutlineStop, AiFillCloseCircle } from 'react-icons/ai';
@@ -10,10 +15,12 @@ import { AiOutlineStop, AiFillCloseCircle } from 'react-icons/ai';
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
-  const { toast, adminToken, loginInfo, masterDatePicker } =
-    useGlobalAdminAppContext();
-
-  // the date value in YYYY-MM-DD
+  const { toast } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
+  const { loginInfo } = useLogininfo();
+  const { masterDatePicker } = useUtils();
+  // const [startDate, setStartDate] = useState('');
+  // const [endDate, setEndDate] = useState('');
   const startDateRef = useRef('');
   const endDateRef = useRef('');
 
@@ -1158,7 +1165,9 @@ const ModalGenerateAdHoc = (props) => {
 };
 
 const ModalGenerateBulanan = (props) => {
-  const { toast, adminToken, loginInfo } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
+  const { loginInfo } = useLogininfo();
 
   const [bulan, setBulan] = useState('');
 
@@ -1775,17 +1784,17 @@ const ModalGenerateBulanan = (props) => {
 
 const Generate = () => {
   const {
-    loginInfo,
     readSpesifikProgramDataForKp,
     readSpesifikKPBMPBDataForKp,
     readSpesifikIndividuDataForKp,
     readSpesifikJanaTadikaDataForKp,
     readSpesifikJanaSekolahRendahDataForKp,
     readSpesifikJanaSekolahMenengahDataForKp,
-    readGenerateTokenDataForKp,
-    readOndemandSetting,
-    semuaJenisReten,
-  } = useGlobalAdminAppContext();
+  } = useSpesifikKpData();
+  const { loginInfo } = useLogininfo();
+  const { readOndemandSetting } = useOndemandSetting();
+  const { readGenerateTokenDataForKp, semuaJenisReten } =
+    useGlobalAdminAppContext();
 
   const init = useRef(false);
 

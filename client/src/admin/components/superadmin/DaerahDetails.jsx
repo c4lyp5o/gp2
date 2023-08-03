@@ -21,6 +21,7 @@ import {
 import { Line } from 'react-chartjs-2';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useHqUtils } from '../../context/admin-hooks/useHqUtils';
 
 import { Loading } from '../Screens';
 
@@ -250,7 +251,9 @@ export default function Daerah() {
   const [searchParams] = useSearchParams();
   const negeri = searchParams.get('idn');
   const daerah = searchParams.get('idd');
-  const { toast, getDetailedData } = useGlobalAdminAppContext();
+
+  const { toast } = useGlobalAdminAppContext();
+  const { getDetailedData } = useHqUtils();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);

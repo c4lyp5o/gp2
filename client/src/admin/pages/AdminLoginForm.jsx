@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useUtils } from '../context/useUtils';
 
 import { ToastContainer } from 'react-toastify';
 
@@ -219,15 +220,15 @@ function PasswordBox({ setPassword, showPasswordBox, showPassword, hilang }) {
 export default function AdminLoginForm() {
   const {
     toast,
-    loginUser,
-    checkUser,
     navigate,
     readNegeri,
     readDaerah,
     readKlinik,
     readAdmins,
-    encryptEmail,
+    loginUser,
+    checkUser,
   } = useGlobalAdminAppContext();
+  const { encryptEmail } = useUtils();
 
   const [userName, setUserName] = useState({
     negeri: null,

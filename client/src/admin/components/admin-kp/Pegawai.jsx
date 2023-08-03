@@ -1,7 +1,7 @@
 import { FaInfoCircle } from 'react-icons/fa';
 
 export default function Pegawai(props) {
-  if (props.data.length > 0) {
+  if (props.data && props.data.length > 0) {
     return (
       <div className='flex flex-col items-center gap-5'>
         <h1 className='text-3xl font-bold mt-10 mb-10'>

@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useAdminData } from '../../context/admin-hooks/useAdminData';
+import { useKpData } from '../../context/kp-hooks/useKpData';
+import { useDictionary } from '../../context/useDictionary';
 import moment from 'moment';
 
 import {
@@ -16,14 +19,11 @@ import {
 import { Loading, NothingHereBoi } from '../Screens';
 
 export default function Sosmed(props) {
-  const {
-    readData,
-    readDataForKp,
-    deleteData,
-    deleteDataForKp,
-    InfoDecoder,
-    toast,
-  } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { readData, deleteData } = useAdminData();
+  const { readDataForKp, deleteDataForKp } = useKpData();
+  const { InfoDecoder } = useDictionary();
+
   const [dataIndex, setDataIndex] = useState();
   const [internalDataIndex, setInternalDataIndex] = useState();
   const [data, setData] = useState();

@@ -1,4 +1,10 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useAdminData } from '../context/admin-hooks/useAdminData';
+import { useKpData } from '../context/kp-hooks/useKpData';
+import { useMiscData } from '../context/useMiscData';
+import { useLogininfo } from '../context/useLogininfo';
+import { useDictionary } from '../context/useDictionary';
+import { useUtils } from '../context/useUtils';
 import { useRef, useEffect, useState } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 import moment from 'moment';
@@ -36,17 +42,11 @@ const AddModal = ({
   reload,
   setReload,
 }) => {
-  const {
-    toast,
-    createData,
-    readData,
-    // pingMOEISServer,
-    readSekolahData,
-    readFasilitiData,
-    readKkiaData,
-    DictionaryHurufNegeri,
-    EmailValidator,
-  } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { createData, readData } = useAdminData();
+  const { readSekolahData, readFasilitiData, readKkiaData } = useMiscData();
+  const { DictionaryHurufNegeri } = useDictionary();
+  const { EmailValidator } = useUtils();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -253,55 +253,76 @@ const AddModal = ({
       default:
         break;
     }
-    createData(FType, Data).then((res) => {
-      if (res.status === 200) {
-        toast.info(`Data berjaya ditambah`);
-        setReload(!reload);
-      } else {
-        if (FType === 'taska' || FType === 'tadika') {
-          toast.error(res.response.data.message);
-          return;
-        } else {
-          if (FType === 'kpb' || FType === 'mpb') {
-            toast.error(res.response.data.message);
-            return;
-          }
-        }
-        toast.error(`Data tidak berjaya ditambah`);
+    // save data
+    try {
+      await createData(FType, Data);
+      toast.info(`Data berjaya ditambah`);
+    } catch (err) {
+      switch (FType) {
+        case 'taska':
+        case 'tadika':
+          toast.error(err.response.data.message);
+          break;
+        case 'kpb':
+        case 'mpb':
+          toast.error(err.response.data.message);
+          break;
+        default:
+          toast.error(`Data tidak berjaya ditambah`);
+          break;
       }
+    } finally {
       setShowAddModal(false);
       setAddingData(false);
-    });
+      setReload(!reload);
+    }
   };
 
   useEffect(() => {
-    if (FType === 'sr' || FType === 'sm') {
-      readSekolahData(FType)
-        .then((res) => {
+    switch (FType) {
+      case 'sr':
+      case 'sm':
+        const getSekolahAndKpData = async () => {
+          const sekolah = await readSekolahData(FType);
+          const klinik = await readData('kp');
           setStatusMOEIS(true);
           setIsLoadingMOEIS(false);
-          setSekolah(res);
-        })
-        .catch((err) => {
+          setSekolah(sekolah);
+          setKlinik(klinik);
+        };
+        try {
+          getSekolahAndKpData();
+        } catch (err) {
           setStatusMOEIS(false);
           setIsLoadingMOEIS(false);
-          console.log(err);
+          setSekolah([]);
+          setKlinik([]);
+        }
+        break;
+      case 'kp':
+        readFasilitiData({ negeri, daerah }).then((res) => {
+          setKlinik(res);
         });
-    }
-    if (FType === 'kp') {
-      readFasilitiData({ negeri, daerah }).then((res) => {
-        setKlinik(res.data);
-      });
-    }
-    if (FType === 'kkiakd') {
-      readKkiaData({ negeri, daerah }).then((res) => {
-        setKkia(res.data);
-      });
-    }
-    if (FType !== 'kp') {
-      readData('kp').then((res) => {
-        setKlinik(res.data);
-      });
+        break;
+      case 'kkiakd':
+        const getKkiaAndKpData = async () => {
+          const kkia = await readKkiaData({ negeri, daerah });
+          const klinik = await readData('kp');
+          setKkia(kkia);
+          setKlinik(klinik);
+        };
+        try {
+          getKkiaAndKpData();
+        } catch (err) {
+          setKkia([]);
+          setKlinik([]);
+        }
+        break;
+      default:
+        readData('kp').then((res) => {
+          setKlinik(res);
+        });
+        break;
     }
     setTimeout(() => {
       setLoading(false);
@@ -429,7 +450,8 @@ const AddModal = ({
 };
 
 const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
-  const { toast, createDataForKp } = useGlobalAdminAppContext();
+  const { createDataForKp } = useKpData();
+  const { toast } = useGlobalAdminAppContext();
 
   const [name, setName] = useState('');
   // event
@@ -449,16 +471,16 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
         tempat: tempat,
       };
     }
-    createDataForKp(FType, Data).then((res) => {
-      if (res.status === 200) {
-        toast.info(`Data berjaya ditambah`);
-        setReload(!reload);
-      } else {
-        toast.error(`Data tidak berjaya ditambah`);
-      }
-      setShowAddModal(false);
+    try {
+      const response = await createDataForKp(FType, Data);
+      toast.info(`Data berjaya ditambah`);
+    } catch (err) {
+      toast.error(`Data tidak berjaya ditambah`);
+    } finally {
       setAddingData(false);
-    });
+      setShowAddModal(false);
+      setReload(!reload);
+    }
   };
 
   const props = {
@@ -497,8 +519,8 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
 };
 
 const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
-  const { toast, readData, readOneData, updateData } =
-    useGlobalAdminAppContext();
+  const { readData, readOneData, updateData } = useAdminData();
+  const { toast } = useGlobalAdminAppContext();
 
   const [editedEntity, setEditedEntity] = useState([]);
   const currentRolePromosiKlinik = useRef();
@@ -508,18 +530,20 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (FType === 'kp') {
-      readOneData(FType, id).then((res) => {
-        setEditedEntity(res.data);
-      });
-    }
-    if (FType !== 'kp') {
-      readData('kp').then((res) => {
-        setKlinik(res.data);
-      });
-      readOneData(FType, id).then((res) => {
-        setEditedEntity(res.data);
-      });
+    switch (FType) {
+      case 'kp':
+        readOneData(FType, id).then((res) => {
+          setEditedEntity(res);
+        });
+        break;
+      default:
+        readData('kp').then((res) => {
+          setKlinik(res);
+        });
+        readOneData(FType, id).then((res) => {
+          setEditedEntity(res);
+        });
+        break;
     }
     setTimeout(() => {
       setLoading(false);
@@ -585,11 +609,15 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
       default:
         break;
     }
-    updateData(FType, id, Data).then((res) => {
+    try {
+      const response = await updateData(FType, id, Data);
       toast.info(`Data berjaya dikemaskini`);
+    } catch (err) {
+      toast.error(`Data tidak berjaya dikemaskini`);
+    } finally {
       setShowEditModal(false);
       setReload(!reload);
-    });
+    }
   };
 
   const props = {
@@ -651,8 +679,8 @@ const EditModalForKp = ({
   reload,
   setReload,
 }) => {
-  const { toast, readDataForKp, readOneDataForKp, updateDataForKp } =
-    useGlobalAdminAppContext();
+  const { readDataForKp, readOneDataForKp, updateDataForKp } = useKpData();
+  const { toast } = useGlobalAdminAppContext();
 
   const [tempatPenggunaan, setTempatPenggunaan] = useState('');
   const [allKlinik, setAllKlinik] = useState([]);
@@ -975,69 +1003,67 @@ const DeleteModal = ({
   reload,
   setReload,
 }) => {
-  const { toast, getCurrentUser, deleteData, deleteDataForKp } =
-    useGlobalAdminAppContext();
+  const { deleteData } = useAdminData();
+  const { deleteDataForKp } = useKpData();
+  const { loginInfo } = useLogininfo();
+  const { toast } = useGlobalAdminAppContext();
   const [deletingData, setDeletingData] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    getCurrentUser().then((user) => {
-      switch (user.data.accountType) {
-        case 'kpUser':
-          deleteDataForKp(FType, id).then((res) => {
-            if (res.status === 200) {
-              toast.info(`Data berjaya dipadam`);
-              setShowDeleteModal(false);
-              setDeletingData(false);
-              setReload(!reload);
-              return;
+    switch (loginInfo.accountType) {
+      case 'kpUser':
+        deleteDataForKp(FType, id).then((res) => {
+          if (res.status === 200) {
+            toast.info(`Data berjaya dipadam`);
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            setReload(!reload);
+            return;
+          }
+          if (res.response.status !== 200) {
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            toast.error(`${res.response.data.msg}`);
+          }
+        });
+        break;
+      case 'negeriSuperadmin':
+      case 'daerahSuperadmin':
+        setDeletingData(true);
+        deleteData(FType, id).then((res) => {
+          if (res.status === 200) {
+            toast.info(`Data berjaya dipadam`);
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            setReload(!reload);
+            return;
+          }
+          if (res.response.status !== 200) {
+            switch (FType) {
+              case 'program':
+                toast.error(`${res.response.data.msg}`);
+                break;
+              case 'sm':
+              case 'sr':
+                toast.error(`${res.response.data.msg}`);
+                break;
+              case 'kp':
+                toast.error(
+                  `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
+                );
+                break;
+              default:
+                console.log('Nope');
             }
-            if (res.response.status !== 200) {
-              setShowDeleteModal(false);
-              setDeletingData(false);
-              toast.error(`${res.response.data.msg}`);
-            }
-          });
-          break;
-        case 'negeriSuperadmin':
-        case 'daerahSuperadmin':
-          setDeletingData(true);
-          deleteData(FType, id).then((res) => {
-            if (res.status === 200) {
-              toast.info(`Data berjaya dipadam`);
-              setShowDeleteModal(false);
-              setDeletingData(false);
-              setReload(!reload);
-              return;
-            }
-            if (res.response.status !== 200) {
-              switch (FType) {
-                case 'program':
-                  toast.error(`${res.response.data.msg}`);
-                  break;
-
-                case 'sm':
-                case 'sr':
-                  toast.error(`${res.response.data.msg}`);
-                  break;
-
-                case 'kp':
-                  toast.error(
-                    `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
-                  );
-                  break;
-                default:
-                  console.log('Nope');
-              }
-              setShowDeleteModal(false);
-              setDeletingData(false);
-            }
-          });
-          break;
-        default:
-          break;
-      }
-    });
+            setShowDeleteModal(false);
+            setDeletingData(false);
+          }
+        });
+        break;
+      default:
+        break;
+    }
   };
 
   return (

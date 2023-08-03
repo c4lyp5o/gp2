@@ -1,6 +1,9 @@
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
+
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useAdminData } from '../../context/admin-hooks/useAdminData';
+import { useKpData } from '../../context/kp-hooks/useKpData';
 
 import Program from './Program';
 import Sosmed from './Sosmed';
@@ -55,8 +58,9 @@ export default function DataKp({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
-  const { getCurrentUser, readDataForKp, readData } =
-    useGlobalAdminAppContext();
+  const { getCurrentUser } = useGlobalAdminAppContext();
+  const { readData } = useAdminData();
+  const { readDataForKp } = useKpData();
 
   useEffect(() => {
     setLoading(true);

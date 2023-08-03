@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { SubmitButton, BusyButton } from './Buttons';
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useMiscData } from '../context/useMiscData';
+import { useLogininfo } from '../context/useLogininfo';
+import { useDictionary } from '../context/useDictionary';
+
 import moment from 'moment';
 
 import { RiCloseLine } from 'react-icons/ri';
@@ -1013,7 +1017,9 @@ export function InputKkiakd(props) {
 }
 
 export function InputPegawai(props) {
-  const { Dictionary, toast, readOperatorData } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { readOperatorData } = useMiscData();
+  const { Dictionary } = useDictionary();
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -1352,7 +1358,8 @@ export function InputPegawai(props) {
 }
 
 export function InputSMSR(props) {
-  const { Dictionary, toast } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -1631,7 +1638,7 @@ export function InputSMSR(props) {
 }
 
 export function InputKPBMPB(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <>
       <div
@@ -1741,7 +1748,7 @@ export function InputKPBMPB(props) {
 }
 
 export function InputTastad(props) {
-  const { Dictionary, DictionaryHurufNegeri } = useGlobalAdminAppContext();
+  const { Dictionary, DictionaryHurufNegeri } = useDictionary();
   return (
     <>
       <div
@@ -1940,7 +1947,7 @@ export function InputTastad(props) {
 
 // tak pakai
 export function InputFacilityOthers(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -2375,7 +2382,7 @@ export function InputEditKlinik(props) {
 }
 
 export function InputEditKkiakd(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <>
       <div
@@ -2507,7 +2514,7 @@ export function InputEditKkiakd(props) {
 }
 
 export function InputEditPegawai(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <>
       <div
@@ -2736,7 +2743,7 @@ export function InputEditPegawai(props) {
 }
 
 export function InputEditSR(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <>
       <div
@@ -3023,7 +3030,7 @@ export function InputEditSR(props) {
 }
 
 export function InputEditSM(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <>
       <div
@@ -3304,7 +3311,7 @@ export function InputEditSM(props) {
 }
 
 export function InputEditKPBMPB(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <>
       <div
@@ -3436,7 +3443,7 @@ export function InputEditKPBMPB(props) {
 }
 
 export function InputEditTastad(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <>
       <div
@@ -3596,7 +3603,7 @@ export function InputEditTastad(props) {
 
 // tak pakai rasanya
 export function InputEditFacilityOthers(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <>
       <div
@@ -3916,7 +3923,7 @@ export function InputEditEvent(props) {
 //
 
 export function InputKpAddEvent(props) {
-  const { loginInfo } = useGlobalAdminAppContext();
+  const { loginInfo } = useLogininfo();
 
   return (
     <>
@@ -4028,7 +4035,7 @@ export function InputKpAddEvent(props) {
 }
 
 export function InputKpEditPegawai(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <>
       <div
@@ -4139,7 +4146,7 @@ export function InputKpEditPegawai(props) {
 }
 
 export function InputKpEditFacility(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
 
   // calculate sum enrolmenTastad = enrolmenKurang4Tahun + enrolmen5Tahun + enrolmen6Tahun
   useEffect(() => {
@@ -4481,7 +4488,7 @@ export function InputKpEditFacility(props) {
 }
 
 export function InputKpEditEvent(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
 
   return (
     <>
@@ -4603,7 +4610,7 @@ export function InputKpEditEvent(props) {
 }
 
 export function InputKpEditEventFromDaerah(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
 
   return (
     <>

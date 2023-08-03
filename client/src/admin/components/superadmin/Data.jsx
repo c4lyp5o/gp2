@@ -1,4 +1,7 @@
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useAdminData } from '../../context/admin-hooks/useAdminData';
+import { useUtils } from '../../context/useUtils';
+import { useDictionary } from '../../context/useDictionary';
 import { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
@@ -37,13 +40,10 @@ export default function Data({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
-  const {
-    Dictionary,
-    getCurrentUser,
-    readData,
-    encryptEmail,
-    encryptPassword,
-  } = useGlobalAdminAppContext();
+  const { getCurrentUser } = useGlobalAdminAppContext();
+  const { encryptEmail, encryptPassword } = useUtils();
+  const { readData } = useAdminData();
+  const { Dictionary } = useDictionary();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +54,7 @@ export default function Data({ FType }) {
         setNegeri(userData.negeri);
         setUser(userData.nama);
 
-        const { data } = await readData(FType);
+        const data = await readData(FType);
         setData(data);
 
         switch (FType) {
@@ -88,12 +88,10 @@ export default function Data({ FType }) {
             setShow({ kpbmpb: true });
             break;
           default:
-            console.log('nope');
             break;
         }
       } catch (error) {
         setData(null);
-        console.log(error);
       } finally {
         setLoading(false);
       }

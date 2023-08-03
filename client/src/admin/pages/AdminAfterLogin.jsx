@@ -6,6 +6,9 @@ import { toast, ToastContainer } from 'react-toastify';
 // import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useOndemandSetting } from '../context/useOndemandSetting';
+import { useLogininfo } from '../context/useLogininfo';
+import { useToken } from '../context/useToken';
 
 // component -----------------------------------------------------------
 // header & navbar
@@ -75,20 +78,14 @@ const DisabledAdminPage = lazy(() => import('../pages/AdminDisabled'));
 // const AdHocQuery = lazy(() => import('../components/superadmin/AdHocQuery'));
 
 function AdminAfterLogin() {
+  const { getAdminToken, setAdminToken } = useToken();
   const {
-    getAdminToken,
-    adminToken,
-    setAdminToken,
-    getCurrentUser,
-    logOutUser,
-    // getLoginInfo,
-    saveLoginInfo,
-    loginInfo,
-    // getCurrentOndemandSetting,
     saveCurrentondemandSetting,
     currentOndemandSetting,
     readOndemandSetting,
-  } = useGlobalAdminAppContext();
+  } = useOndemandSetting();
+  const { saveLoginInfo, loginInfo } = useLogininfo();
+  const { getCurrentUser, logOutUser } = useGlobalAdminAppContext();
 
   const [kickerNoti, setKickerNoti] = useState(null);
   const [kicker, setKicker] = useState(null);

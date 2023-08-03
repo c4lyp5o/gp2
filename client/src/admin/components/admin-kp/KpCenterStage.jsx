@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useLogininfo } from '../context/useLogininfo';
+import { useAdminData } from '../context/admin-hooks/useAdminData';
 
 import { Loading } from '../Screens';
 
-export default function KpCenterStage(props) {
-  const { toast, loginInfo, readDataForKp } = useGlobalAdminAppContext();
+export default function KpCenterStage() {
+  const { toast } = useGlobalAdminAppContext();
+  const { loginInfo } = useLogininfo();
+  const { readDataForKp } = useAdminData();
 
   const [loading, setLoading] = useState(true);
   const [program, setProgram] = useState([]);

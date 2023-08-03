@@ -1,20 +1,15 @@
 import { useState, useEffect } from 'react';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useAdminData } from '../../context/admin-hooks/useAdminData';
+import { useLogininfo } from '../../context/useLogininfo';
 
 import { SubmitButton, BusyButton } from '../Buttons';
 
 export default function MaklumatAsasDaerah() {
-  const {
-    loginInfo,
-    readData,
-    createData,
-    updateData,
-    newRouteCreateData,
-    newRouteUpdateData,
-    newRouteDeleteData,
-    toast,
-  } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { readData, createData, updateData } = useAdminData();
+  const { loginInfo } = useLogininfo();
 
   const [maklumatAsasDaerah, setMaklumatAsasDaerah] = useState(null);
   const [initialNoData, setInitialNoData] = useState(false);

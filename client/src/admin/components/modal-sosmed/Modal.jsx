@@ -1,4 +1,7 @@
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useAdminData } from '../../context/admin-hooks/useAdminData';
+import { useKpData } from '../../context/kp-hooks/useKpData';
+import { useDictionary } from '../../context/useDictionary';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import Select from 'react-select';
@@ -543,8 +546,11 @@ export const ModalSosMed = (props) => {
 };
 
 export const ModalDataIkutProgram = (props) => {
-  const { readData, readDataForKp, InfoDecoder, toast } =
-    useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { readData } = useAdminData();
+  const { readDataForKp } = useKpData();
+  const { InfoDecoder } = useDictionary();
+
   const [dataIndex, setDataIndex] = useState();
   const [internalDataIndex, setInternalDataIndex] = useState();
   const [data, setData] = useState();
