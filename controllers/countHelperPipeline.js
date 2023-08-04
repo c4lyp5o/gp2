@@ -5081,6 +5081,12 @@ const groupSekolah = {
       $cond: [
         {
           $and: [
+            {
+              $eq: [
+                '$merged.yaTidakPesakitMempunyaiGigi',
+                'ya-pesakit-mempunyai-gigi',
+              ],
+            },
             { $eq: ['$merged.adaKekal', true] },
             { $eq: ['$merged.mAdaGigiKekal', 0] },
             { $eq: ['$merged.xAdaGigiKekal', 0] },
