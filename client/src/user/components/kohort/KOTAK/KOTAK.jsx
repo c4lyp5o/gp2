@@ -80,7 +80,7 @@ function KohortKotak() {
     fetchAllPersonKohort();
   }, [reloadState]);
 
-  //* Function to handle change in selected namaSekolah
+  // *Function to handle change in selected namaSekolah
   const handleChangeNamaSekolah = (event) => {
     const selectedNamaSekolah = event.target.value;
     setPilihanSekolah(selectedNamaSekolah);
@@ -138,7 +138,15 @@ function KohortKotak() {
         {
           pending: 'Menghapus pesakit...',
           success: 'Pesakit berjaya dihapus',
-          error: 'Pesakit gagal dihapus',
+          error: {
+            render({ data }) {
+              if (data.response.status === 409) {
+                return data.response.data.msg;
+              } else {
+                return 'Pesakit gagal dihapus';
+              }
+            },
+          },
         },
         { autoClose: 5000 }
       );
