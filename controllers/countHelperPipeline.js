@@ -5081,6 +5081,12 @@ const groupSekolah = {
       $cond: [
         {
           $and: [
+            {
+              $eq: [
+                '$merged.yaTidakPesakitMempunyaiGigi',
+                'ya-pesakit-mempunyai-gigi',
+              ],
+            },
             { $eq: ['$merged.adaKekal', true] },
             { $eq: ['$merged.mAdaGigiKekal', 0] },
             { $eq: ['$merged.xAdaGigiKekal', 0] },
@@ -6110,6 +6116,23 @@ const groupPemeriksaanBiasa = {
             },
             {
               $and: [
+                { $lt: ['$umur', 1] },
+                {
+                  $eq: [
+                    '$yaTidakPesakitMempunyaiGigi',
+                    'ya-pesakit-mempunyai-gigi',
+                  ],
+                },
+                {
+                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+              ],
+            },
+            {
+              $and: [
                 { $gte: ['$umur', 1] },
                 { $lte: ['$umur', 17] },
                 { $eq: ['$adaDesidusPemeriksaanUmum', true] },
@@ -6149,6 +6172,12 @@ const groupPemeriksaanBiasa = {
             {
               $and: [
                 { $gte: ['$umur', 5] },
+                {
+                  $eq: [
+                    '$yaTidakPesakitMempunyaiGigi',
+                    'ya-pesakit-mempunyai-gigi',
+                  ],
+                },
                 { $eq: ['$adaKekalPemeriksaanUmum', true] },
                 { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
