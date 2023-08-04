@@ -13,6 +13,7 @@ const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
 const { logger, penjanaanRetenLogger } = require('../logs/logger');
 const { reten_engine_version } = require('./countHelperFuser');
+const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
 
 // helper
 const Helper = require('../controllers/countHelperFuser');
@@ -4951,8 +4952,11 @@ const makePGS201 = async (payload) => {
     // ).value = `BAGI BULAN      ${monthName.toUpperCase()}         SESI      ${yearNow}`;
     // write facility
     if (pilihanSekolah) {
+      const sesiTakwim = sesiTakwimSekolah();
+
       const { nama, handler } = await Fasiliti.findOne({
         kodSekolah: pilihanSekolah,
+        sesiTakwimSekolah: sesiTakwim,
       });
       worksheet.getCell('D7').value = `${handler.toUpperCase()}`;
       worksheet.getCell('D8').value = `${nama.toUpperCase()}`;
