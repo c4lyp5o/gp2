@@ -139,7 +139,7 @@ const TarikhFollowers = ({ jenis, setQuestionState }) => {
 
 // modal add followers
 export const ModalAddFollowers = (props) => {
-  const { createDataForKp } = useGlobalAdminAppContext();
+  const { createDataForKp } = useKpData();
   const [questionState, setQuestionState] = useState([]);
 
   const handleSubmit = (e) => {
