@@ -70,9 +70,6 @@ function UserFormPromosi({ individuOrKlinik }) {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-promosi-fetchAllProgramPromosi'
-        // );
       }
     };
     fetchAllProgramPromosi();
@@ -96,9 +93,6 @@ function UserFormPromosi({ individuOrKlinik }) {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-promosi-fetchSingleAktivitiPromosi'
-        // );
       }
     };
     fetchSingleAktivitiPromosi();
@@ -2401,18 +2395,6 @@ function UserFormPromosi({ individuOrKlinik }) {
                     >
                       tutup
                     </span>
-                    {/* <input
-                disabled={isDisabled}
-                disabled={
-                  singleAktivitiPromosi.statusReten === 'telah diisi' && true
-                }
-                type='reset'
-                value='set semula'
-                className={`flex bg-user3 p-2 w-full capitalize justify-center  transition-all ${
-                  singleAktivitiPromosi.statusReten === 'belum diisi' &&
-                  'hover:bg-user1 hover:text-userWhite'
-                }`}
-              /> */}
                     <button
                       disabled={
                         singleAktivitiPromosi.statusReten === 'telah diisi' &&

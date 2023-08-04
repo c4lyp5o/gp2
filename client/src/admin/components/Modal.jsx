@@ -719,7 +719,7 @@ const EditModalForKp = ({
       }
       readOneDataForKp(FType, id).then((res) => {
         if (FType === 'tastad') {
-          // workaround to stick enrolmenTastad with type String. Data enrolmen yang sedia ada dah masuk dalam string dah...
+          // !WARNING: workaround to stick enrolmenTastad with type String. Data enrolmen yang sedia ada dah masuk dalam string dah...
           if (
             res.data.enrolmenTastad === 'NOT APPLICABLE' ||
             res.data.enrolmenTastad === null ||
@@ -792,7 +792,7 @@ const EditModalForKp = ({
     }
   }, []);
 
-  // resetting tarikhEnd kalau ubah tarikh start. A MUST TO NOT LET USER PICK tarikhStart LATER THAN tarikhEnd. Yup currently kalau buka kemaskini tarikhEnd tu akan reset kat display. Tapi ni lah cara buat masa ni untuk guard daripada user yang salah masuk tarikhStart terlebih dari tarikhEnd
+  // !WARNING: resetting tarikhEnd kalau ubah tarikh start. A MUST TO NOT LET USER PICK tarikhStart LATER THAN tarikhEnd. Yup currently kalau buka kemaskini tarikhEnd tu akan reset kat display. Tapi ni lah cara buat masa ni untuk guard daripada user yang salah masuk tarikhStart terlebih dari tarikhEnd
   useEffect(() => {
     setEditedEntity({ ...props.editedEntity, tarikhEnd: '' });
     setEndDateDP(null);
@@ -800,11 +800,6 @@ const EditModalForKp = ({
 
   const handleSubmit = async (e) => {
     let Data = {};
-    // Data = {
-    //   ...Data,
-    //   nama: currentName.current,
-    //   handler: currentKp.current,
-    // };
     if (FType === 'program') {
       if (editedEntity.modPenyampaianPerkhidmatan.includes('kpb')) {
         if (editedEntity.penggunaanKpb === 'NOT APPLICABLE') {
@@ -830,7 +825,6 @@ const EditModalForKp = ({
         }
       }
       Data = {
-        // nama: currentName.current,
         createdByKp: kp,
         jenisEvent: editedEntity.jenisEvent,
         subProgram: editedEntity.subProgram,
@@ -849,11 +843,6 @@ const EditModalForKp = ({
     }
     if (FType === 'pp' || FType === 'jp') {
       Data = {
-        // nama: currentName.current,
-        // email: editedEntity.email,
-        // gred: editedEntity.gred,
-        // kpSkrg: editedEntity.kpSkrg,
-        // role: editedEntity.role,
         cscspVerified: editedEntity.cscspVerified,
       };
     }
@@ -862,7 +851,6 @@ const EditModalForKp = ({
         return toast.error('Jumlah enrolmen taska/tadika tidak boleh 0');
       }
       Data = {
-        // nama: currentName.current,
         enrolmenTastad: editedEntity.enrolmenTastad,
         enrolmenKurang4Tahun: editedEntity.enrolmenKurang4Tahun,
         enrolmen5Tahun: editedEntity.enrolmen5Tahun,
@@ -870,17 +858,13 @@ const EditModalForKp = ({
         enrolmenMuridBerkeperluanKhas:
           editedEntity.enrolmenMuridBerkeperluanKhas,
         enrolmenMuridOaPenan: editedEntity.enrolmenMuridOaPenan,
-        jenisTadikaKerajaan: editedEntity.jenisTadikaKerajaan,
         jumlahEngganTasTad: editedEntity.jumlahEngganTasTad,
         jumlahTidakHadirTasTad: editedEntity.jumlahTidakHadirTasTad,
+        jenisTadikaKerajaan: editedEntity.jenisTadikaKerajaan,
       };
     }
     if (FType === 'kpb' || FType === 'mpb') {
       Data = {
-        // nama: currentName.current,
-        // jumlahHariBeroperasi: editedEntity.jumlahHariBeroperasi,
-        // jumlahPesakitBaru: editedEntity.jumlahPesakitBaru,
-        // jumlahPesakitUlangan: editedEntity.jumlahPesakitUlangan,
         tarikhStart: editedEntity.tarikhStart,
         tarikhEnd: editedEntity.tarikhEnd,
         tempatPenggunaan: tempatPenggunaan,

@@ -148,21 +148,20 @@ const fasilitiSchema = new Schema({
   // },
   // klinik -----------------------------------------------------------------------
   // dah ada dalam User model
-  statusRoleKlinik: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
+  // statusRoleKlinik: {
+  //   type: String,
+  //   default: 'NOT APPLICABLE',
+  // },
   // institusi --------------------------------------------------------------------
   // dah ada dalam Event model
-  kategoriInstitusi: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  enrolmenInstitusi: {
-    // dah ada dalam Event model
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
+  // kategoriInstitusi: {
+  //   type: String,
+  //   default: 'NOT APPLICABLE',
+  // },
+  // enrolmenInstitusi: {
+  //   type: String,
+  //   default: 'NOT APPLICABLE',
+  // },
 });
 
 const Fasiliti = mongoose.model('Fasiliti', fasilitiSchema);

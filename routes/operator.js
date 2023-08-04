@@ -5,9 +5,6 @@ const {
   updateSinglePersonOperator,
 } = require('../controllers/operator');
 
-router
-  .route('/:personOperatorId')
-  .get(getSinglePersonOperator)
-  .patch(updateSinglePersonOperator);
+// router.route('/:personOperatorId');
 
 module.exports = router;
