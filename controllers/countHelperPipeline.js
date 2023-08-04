@@ -1198,11 +1198,10 @@ const tambahFieldKiraCRA = {
     jumlahFaktorRisiko: {
       $cond: {
         if: {
-          $eq: [
-            {
-              $ifNull: ['$jumlahFaktorRisikoPemeriksaanUmum', ''],
-            },
-            '',
+          $or: [
+            { $eq: ['$jumlahFaktorRisikoPemeriksaanUmum', 'tiada'] },
+            { $eq: ['$jumlahFaktorRisikoPemeriksaanUmum', ''] },
+            { $eq: ['$jumlahFaktorRisikoPemeriksaanUmum', null] },
           ],
         },
         then: 0,
@@ -1230,7 +1229,6 @@ const groupBaruTod = {
         ],
       },
     },
-    //
     // pemeriksaan
     kedatanganTahunSemasaBaru: {
       $sum: {
@@ -1631,12 +1629,7 @@ const groupBaruTod = {
           {
             $and: [
               {
-                $lte: [
-                  {
-                    $toInt: '$jumlahFaktorRisiko',
-                  },
-                  2,
-                ],
+                $lte: ['$jumlahFaktorRisiko', 2],
               },
               {
                 $eq: [
@@ -1697,12 +1690,7 @@ const groupBaruTod = {
                     ],
                   },
                   {
-                    $gte: [
-                      {
-                        $toInt: '$jumlahFaktorRisiko',
-                      },
-                      3,
-                    ],
+                    $gte: ['$jumlahFaktorRisiko', 3],
                   },
                 ],
               },
@@ -1735,12 +1723,7 @@ const groupBaruTod = {
                     ],
                   },
                   {
-                    $eq: [
-                      {
-                        $toInt: '$jumlahFaktorRisiko',
-                      },
-                      0,
-                    ],
+                    $eq: ['$jumlahFaktorRisiko', 0],
                   },
                 ],
               },
