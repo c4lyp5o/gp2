@@ -540,7 +540,7 @@ export default function Navbar(props) {
                 </NavLink>
               </>
             )}
-            {loginInfo.accountType === 'kpUser' &&
+            {loginInfo.accountType === 'kpUserAdmin' &&
               loginInfo.role === 'admin' && (
                 <>
                   <div>
