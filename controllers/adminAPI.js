@@ -106,6 +106,7 @@ const socmed = [
 ];
 
 const transporter = mailer.createTransport({
+  secure: true,
   service: process.env.EMAILER_SERVICE,
   auth: {
     user: process.env.EMAILER_ACCT,
