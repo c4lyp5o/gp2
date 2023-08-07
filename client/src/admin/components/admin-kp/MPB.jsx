@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import moment from 'moment';
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useKpData } from '../../context/kp-hooks/useKpData';
 
 export default function MakmalPergigianBergerak(props) {
-  const { readOneDataForKp } = useGlobalAdminAppContext();
+  const { readOneDataForKp } = useKpData();
   const [show, setShow] = useState(false);
   const [singleMpbData, setSingleMpbData] = useState(null);
 
@@ -25,7 +25,7 @@ export default function MakmalPergigianBergerak(props) {
                 return;
               }
               readOneDataForKp('mpb', e.target.value).then((res) => {
-                setSingleMpbData(res.data);
+                setSingleMpbData(res);
                 setShow(true);
               });
             }}

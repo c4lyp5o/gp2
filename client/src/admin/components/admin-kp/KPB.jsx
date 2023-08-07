@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import moment from 'moment';
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useKpData } from '../../context/kp-hooks/useKpData';
 
 export default function KlinikPergigianBergerak(props) {
-  const { readOneDataForKp } = useGlobalAdminAppContext();
+  const { readOneDataForKp } = useKpData();
   const [show, setShow] = useState(false);
   const [singleKpbData, setSingleKpbData] = useState(null);
 
@@ -25,7 +25,7 @@ export default function KlinikPergigianBergerak(props) {
                 return;
               }
               readOneDataForKp('kpb', e.target.value).then((res) => {
-                setSingleKpbData(res.data);
+                setSingleKpbData(res);
                 setShow(true);
               });
             }}
