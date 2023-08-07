@@ -106,9 +106,7 @@ const socmed = [
 ];
 
 const transporter = mailer.createTransport({
-  host: process.env.EMAILER_HOST,
-  port: process.env.EMAILER_PORT,
-  secure: true,
+  service: process.env.EMAILER_SERVICE,
   auth: {
     user: process.env.EMAILER_ACCT,
     pass: process.env.EMAILER_PASS,
@@ -3851,7 +3849,7 @@ const otpForLogin = (nama, key) =>
                     </tr>
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;padding-right:25px;padding-left:25px;word-break:break-word;">
-                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:15px;line-height:1;text-align:left;color:#ffffff;">Terima kasih, <br /> Team Gi-Ret 2.0</div>
+                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:15px;line-height:1;text-align:left;color:#ffffff;">Terima kasih, <br /> Admin Gi-Ret 2.0</div>
                       </td>
                     </tr>
                   </tbody>
