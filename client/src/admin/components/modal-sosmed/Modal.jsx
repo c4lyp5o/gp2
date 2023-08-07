@@ -577,12 +577,16 @@ export const ModalDataIkutProgram = (props) => {
   const displayedIcons = [];
 
   useEffect(() => {
-    if (props.accountType !== 'kpUser') {
+    if (
+      props.accountType === 'daerahSuperadmin' ||
+      props.accountType === 'negeriSuperadmin' ||
+      props.accountType === 'hqSuperadmin'
+    ) {
       readData('sosmedByKodProgram').then((res) => {
         setData(res.data);
       });
     }
-    if (props.accountType === 'kpUser') {
+    if (props.accountType === 'kpUserAdmin') {
       readDataForKp('sosmedByKodProgram').then((res) => {
         setData(res.data);
       });

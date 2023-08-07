@@ -157,7 +157,6 @@ const AddModal = ({
       case 'kp':
         Data = {
           kp: name,
-          accountType: 'kpUser',
           email: email,
           statusRoleKlinik: role,
           statusPerkhidmatan: statusPerkhidmatan,

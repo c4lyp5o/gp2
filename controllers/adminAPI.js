@@ -304,11 +304,11 @@ const loginUser = async (req, res) => {
       userId: kpUser._id,
       username: kpUser.username,
       officername: superOperator.nama,
-      kodFasiliti: kpUser.kodFasiliti,
-      accountType: 'kpUser',
-      negeri: kpUser.negeri,
-      daerah: kpUser.daerah,
       kp: kpUser.kp,
+      kodFasiliti: kpUser.kodFasiliti,
+      daerah: kpUser.daerah,
+      negeri: kpUser.negeri,
+      accountType: 'kpUserAdmin',
     };
     const token = jwt.sign(userData, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_LIFETIME,
@@ -656,14 +656,15 @@ const getDataKpRoute = async (req, res) => {
   let data, countedData;
 
   switch (type) {
-    case 'klinik':
-      data = await User.find({
-        accountType: 'kpUser',
-        negeri,
-        daerah,
-        statusPerkhidmatan: 'active',
-      });
-      break;
+    // ? tak pakai kan ni
+    // case 'klinik':
+    //   data = await User.find({
+    //     accountType: 'kpUser',
+    //     negeri,
+    //     daerah,
+    //     statusPerkhidmatan: 'active',
+    //   });
+    //   break;
     case 'klinik-all-negeri':
       data = await User.find({
         accountType: 'kpUser',
@@ -1741,6 +1742,7 @@ const getData = async (req, res) => {
           if (theType === 'klinik') {
             Data = {
               ...Data,
+              accountType: 'kpUser',
               daerah,
               negeri,
             };
@@ -2725,25 +2727,25 @@ const getData = async (req, res) => {
           logger.info(
             `[adminAPI/HqCenter] (${accountType})/${username} accessed read`
           );
-          if (accountType === 'kpUser') {
-            return res.status(200).json({
-              status: 'success',
-              message: 'kpuser',
-            });
-          }
-          let kpSelectionPayload = { accountType: 'kpUser' };
+          // ? tak pakai kan route if block ni
+          // if (accountType === 'kpUser') {
+          //   return res.status(200).json({
+          //     status: 'success',
+          //     message: 'kpuser',
+          //   });
+          // }
+          const kpSelectionPayload = {};
           if (accountType === 'negeriSuperadmin') {
+            kpSelectionPayload.accountType = 'kpUser';
             kpSelectionPayload.negeri = (
               await Superadmin.findById(userId)
             ).negeri;
           }
           if (accountType === 'daerahSuperadmin') {
             const superadmin = await Superadmin.findById(userId);
-            kpSelectionPayload = {
-              accountType: 'kpUser',
-              negeri: superadmin.negeri,
-              daerah: superadmin.daerah,
-            };
+            kpSelectionPayload.accountType = 'kpUser';
+            kpSelectionPayload.negeri = superadmin.negeri;
+            kpSelectionPayload.daerah = superadmin.daerah;
           }
           const kpData = await User.find(kpSelectionPayload);
           const data = kpData.reduce((result, user) => {
@@ -3189,21 +3191,36 @@ const sendVerificationEmail = async (userId) => {
 const readUserData = async (token) => {
   let userData;
   const { userId, accountType } = jwt.verify(token, process.env.JWT_SECRET);
-  if (accountType !== 'kpUser') {
+  if (
+    accountType === 'daerahSuperadmin' ||
+    accountType === 'negeriSuperadmin' ||
+    accountType === 'hqSuperadmin'
+  ) {
     const user = await Superadmin.findById(userId);
     userData = user.getProfile();
   }
-  if (accountType === 'kpUser') {
+  if (accountType === 'kpUserAdmin') {
+    const {
+      userId,
+      username,
+      officername,
+      role,
+      kp,
+      kodFasiliti,
+      daerah,
+      negeri,
+      accountType,
+    } = jwt.verify(token, process.env.JWT_SECRET);
     userData = {
-      userId: jwt.verify(token, process.env.JWT_SECRET).userId,
-      username: jwt.verify(token, process.env.JWT_SECRET).username,
-      officername: jwt.verify(token, process.env.JWT_SECRET).officername,
-      role: jwt.verify(token, process.env.JWT_SECRET).role,
-      kodFasiliti: jwt.verify(token, process.env.JWT_SECRET).kodFasiliti,
-      kp: jwt.verify(token, process.env.JWT_SECRET).kp,
-      daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
-      negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
-      accountType: jwt.verify(token, process.env.JWT_SECRET).accountType,
+      userId: userId,
+      username: username,
+      officername: officername,
+      role: role,
+      kp: kp,
+      kodFasiliti: kodFasiliti,
+      daerah: daerah,
+      negeri: negeri,
+      accountType: accountType,
     };
   }
   return userData;

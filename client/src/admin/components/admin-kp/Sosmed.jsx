@@ -44,7 +44,7 @@ export default function Sosmed(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await (props.accountType === 'kpUser'
+        const res = await (props.accountType === 'kpUserAdmin'
           ? readDataForKp('sosmedByKodProgram')
           : readData('sosmedByKodProgram'));
         setData(res);
