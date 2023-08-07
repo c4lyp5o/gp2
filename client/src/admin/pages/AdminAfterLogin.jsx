@@ -486,7 +486,8 @@ function AdminAfterLogin() {
             </>
           ) : null}
           {/* route kp superadmin sahaja */}
-          {loginInfo.accountType === 'kpUser' && loginInfo.role === 'admin' ? (
+          {loginInfo.accountType === 'kpUserAdmin' &&
+          loginInfo.role === 'admin' ? (
             <>
               <Route
                 index
