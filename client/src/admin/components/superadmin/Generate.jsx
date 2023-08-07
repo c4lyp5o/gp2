@@ -167,13 +167,7 @@ const ModalGenerateAdHoc = (props) => {
           negeri = pilihanRetenTasTadSekolah
             ? 'all'
             : Dictionary[props.pilihanNegeri];
-          daerah = pilihanRetenTasTadSekolah
-            ? props.jenisFasiliti === 'semua'
-              ? 'all'
-              : props.pilihanDaerah
-            : props.pilihanDaerah
-            ? props.pilihanDaerah
-            : 'all';
+          daerah = pilihanRetenTasTadSekolah ? 'all' : props.pilihanDaerah;
           klinik = props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik;
           break;
         case 'negeriSuperadmin':
