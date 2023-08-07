@@ -14365,7 +14365,7 @@ exports.refreshTokens = async function (req, res) {
 
   // refresh kp token
   const kpTokens = await GenerateToken.find({
-    accountType: 'kpUser',
+    accountType: 'kpUserAdmin',
   });
   if (kpTokens) {
     kpTokens.forEach(async (token) => {
@@ -14404,7 +14404,7 @@ exports.killTokens = async function (req, res) {
   }
 
   const kpTokens = await GenerateToken.find({
-    accountType: 'kpUser',
+    accountType: 'kpUserAdmin',
   });
   if (kpTokens) {
     kpTokens.forEach(async (token) => {

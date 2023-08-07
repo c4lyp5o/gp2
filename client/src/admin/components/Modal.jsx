@@ -157,7 +157,6 @@ const AddModal = ({
       case 'kp':
         Data = {
           kp: name,
-          accountType: 'kpUser',
           email: email,
           statusRoleKlinik: role,
           statusPerkhidmatan: statusPerkhidmatan,
@@ -967,7 +966,7 @@ const DeleteModal = ({
     e.preventDefault();
     getCurrentUser().then((user) => {
       switch (user.data.accountType) {
-        case 'kpUser':
+        case 'kpUserAdmin':
           deleteDataForKp(FType, id).then((res) => {
             if (res.status === 200) {
               toast.info(`Data berjaya dipadam`);

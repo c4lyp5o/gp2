@@ -65,18 +65,15 @@ export default function Header(props) {
                 PENTADBIR{' '}
                 {loginInfo && (
                   <div className='inline-flex' data-cy='header'>
-                    {loginInfo.accountType !== 'kpUser' ? (
-                      <>
-                        {loginInfo.accountType === 'daerahSuperadmin' && (
-                          <p>DAERAH</p>
-                        )}
-                        {loginInfo.accountType === 'negeriSuperadmin' && (
-                          <p>NEGERI</p>
-                        )}
-                      </>
-                    ) : (
-                      <p>KLINIK</p>
-                    )}
+                    <>
+                      {loginInfo.accountType === 'daerahSuperadmin' && (
+                        <p>DAERAH</p>
+                      )}
+                      {loginInfo.accountType === 'negeriSuperadmin' && (
+                        <p>NEGERI</p>
+                      )}
+                      {loginInfo.accountType === 'kpUserAdmin' && <p>KLINIK</p>}
+                    </>
                   </div>
                 )}
               </h1>
@@ -117,10 +114,15 @@ export default function Header(props) {
                   <div className='absolute z-0 bg-adminWhite text-user1 right-1 m-1 p-2 flex flex-col shadow-lg'>
                     <p className='w-auto text-sm leading-3 flex flex-col py-2 border-b-2 border-user1'>
                       <span className='uppercase pt-2'>
-                        {loginInfo.username}
+                        {loginInfo.accountType === 'daerahSuperadmin' ||
+                          loginInfo.accountType === 'negeriSuperadmin' ||
+                          (loginInfo.accountType === 'hqSuperadmin' &&
+                            loginInfo.username)}
                       </span>
                     </p>
-                    {loginInfo.accountType !== 'kpUser' ? (
+                    {loginInfo.accountType === 'daerahSuperadmin' ||
+                    loginInfo.accountType === 'negeriSuperadmin' ||
+                    loginInfo.accountType === 'hqSuperadmin' ? (
                       <>
                         {loginInfo.accountType === 'daerahSuperadmin' && (
                           <p className='w-48 text-sm pt-1'>
