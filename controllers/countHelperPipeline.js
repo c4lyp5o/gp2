@@ -230,7 +230,7 @@ const pipelineSekolahRawatan = (payload, jenis) => {
   return [
     {
       $match: {
-        params,
+        ...params,
       },
     },
     {
