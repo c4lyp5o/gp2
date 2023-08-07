@@ -49,7 +49,7 @@ const pipelineSekolahPemeriksaan = (payload, jenis) => {
   return [
     {
       $match: {
-        params,
+        ...params,
       },
     },
     {
