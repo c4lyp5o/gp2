@@ -1217,9 +1217,10 @@ export default function FillableForm({
           setWaktuSampai(data.singlePersonKaunter.waktuSampai);
           setTemujanji(data.singlePersonKaunter.temujanji);
           setWaktuTemujanji(data.singlePersonKaunter.waktuTemujanji);
-          setDariMyVas(
-            data.singlePersonKaunter.myVasIsTrue === true ? true : false
-          );
+          jenisFasiliti === 'kp' &&
+            setDariMyVas(
+              data.singlePersonKaunter.myVasIsTrue === true ? true : false
+            );
           setOncall(data.singlePersonKaunter.oncall);
           setNama(data.singlePersonKaunter.nama);
           setJenisIc(data.singlePersonKaunter.jenisIc);
