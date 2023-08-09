@@ -8132,14 +8132,7 @@ const groupSekolahRawatan = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiFv', 0],
-            },
-          ],
+          $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiFv', 0],
         },
         1,
         0,
@@ -8150,14 +8143,7 @@ const groupSekolahRawatan = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiPrrJenis1', 0],
-            },
-          ],
+          $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiPrrJenis1', 0],
         },
         1,
         0,
@@ -8171,14 +8157,7 @@ const groupSekolahRawatan = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDibuatFs', 0],
-            },
-          ],
+          $gt: ['$rawatanSekolah.baruJumlahGigiKekalDibuatFs', 0],
         },
         1,
         0,
