@@ -6118,14 +6118,33 @@ const groupPemeriksaanBiasa = {
               $and: [
                 { $lt: ['$umur', 1] },
                 {
-                  $eq: [
-                    '$yaTidakPesakitMempunyaiGigi',
-                    'ya-pesakit-mempunyai-gigi',
-                  ],
+                  $eq: ['$adaDesidusPemeriksaanUmum', false],
                 },
                 {
-                  $eq: ['$adaDesidusPemeriksaanUmum', true],
+                  $eq: ['$adaKekalPemeriksaanUmum', false],
                 },
+              ],
+            }, // ! boleh buang tahun depan
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                {
+                  $or: [
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'ya-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                    {
+                      $eq: ['$adaDesidusPemeriksaanUmum', true],
+                    },
+                  ],
+                },
+                // {
+                //   $eq: ['$adaDesidusPemeriksaanUmum', true],
+                // },
+                // ! pakai tahun depan. pisahkan 2 yg $or tu
                 { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
@@ -8113,14 +8132,7 @@ const groupSekolahRawatan = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiFv', 0],
-            },
-          ],
+          $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiFv', 0],
         },
         1,
         0,
@@ -8131,14 +8143,7 @@ const groupSekolahRawatan = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiPrrJenis1', 0],
-            },
-          ],
+          $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiPrrJenis1', 0],
         },
         1,
         0,
@@ -8152,14 +8157,7 @@ const groupSekolahRawatan = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDibuatFs', 0],
-            },
-          ],
+          $gt: ['$rawatanSekolah.baruJumlahGigiKekalDibuatFs', 0],
         },
         1,
         0,
