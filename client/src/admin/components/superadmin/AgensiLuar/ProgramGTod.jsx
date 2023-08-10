@@ -165,52 +165,54 @@ export default function ProgramGTod() {
                             </span>
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 '>
-                            <span className='flex items-center justify-center space-x-1'>
-                              {agensi.pemeriksaanAgensiLuar1 && (
-                                <button
-                                  className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
-                                  onClick={() => {
-                                    setIdGTod(agensi._id);
-                                    setPemeriksaanSatu(
-                                      agensi.pemeriksaanAgensiLuar1
-                                    );
-                                    setShowFormPemeriksaan(true);
-                                    setShowTable(false);
-                                  }}
-                                >
-                                  Lawatan 1
-                                </button>
-                              )}
-                              {agensi.pemeriksaanAgensiLuar2 ? (
-                                <button
-                                  className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
-                                  onClick={() => {
-                                    setIdGTod(agensi._id);
-                                    setPemeriksaanDua(
-                                      agensi.pemeriksaanAgensiLuar2
-                                    );
-                                    setShowFormPemeriksaan(true);
-                                    setShowTable(false);
-                                  }}
-                                >
-                                  Lawatan 2
-                                </button>
-                              ) : (
-                                <button
-                                  className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs flex flex-row items-center'
-                                  onClick={() => {
-                                    setIdGTod(agensi._id);
-                                    setShowFormPemeriksaan(true);
-                                    setShowTable(false);
-                                    setPemeriksaanSatu(null);
-                                    setPemeriksaanDua(null);
-                                  }}
-                                >
-                                  <BsPlusCircleDotted className='mr-1' />{' '}
-                                  Lawatan
-                                </button>
-                              )}
-                            </span>
+                            {agensi.statusPenglibatan === 'aktif' ? (
+                              <span className='flex items-center justify-center space-x-1'>
+                                {agensi.pemeriksaanAgensiLuar1 && (
+                                  <button
+                                    className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
+                                    onClick={() => {
+                                      setIdGTod(agensi._id);
+                                      setPemeriksaanSatu(
+                                        agensi.pemeriksaanAgensiLuar1
+                                      );
+                                      setShowFormPemeriksaan(true);
+                                      setShowTable(false);
+                                    }}
+                                  >
+                                    Lawatan 1
+                                  </button>
+                                )}
+                                {agensi.pemeriksaanAgensiLuar2 ? (
+                                  <button
+                                    className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
+                                    onClick={() => {
+                                      setIdGTod(agensi._id);
+                                      setPemeriksaanDua(
+                                        agensi.pemeriksaanAgensiLuar2
+                                      );
+                                      setShowFormPemeriksaan(true);
+                                      setShowTable(false);
+                                    }}
+                                  >
+                                    Lawatan 2
+                                  </button>
+                                ) : (
+                                  <button
+                                    className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs flex flex-row items-center'
+                                    onClick={() => {
+                                      setIdGTod(agensi._id);
+                                      setShowFormPemeriksaan(true);
+                                      setShowTable(false);
+                                      setPemeriksaanSatu(null);
+                                      setPemeriksaanDua(null);
+                                    }}
+                                  >
+                                    <BsPlusCircleDotted className='mr-1' />{' '}
+                                    Lawatan
+                                  </button>
+                                )}
+                              </span>
+                            ) : null}
                           </td>
                         </tr>
                       ))
