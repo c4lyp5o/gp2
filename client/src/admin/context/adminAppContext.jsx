@@ -1328,12 +1328,11 @@ function AdminAppProvider({ children }) {
   };
 
   // adhoc query (he he boi)
-  const adhocQuery = async (y, x) => {
+  const adhocQuery = async (payload) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       main: 'AQManager',
       Fn: 'read',
-      y: y,
-      x: x,
+      payload,
       token: adminToken,
     });
     return response;

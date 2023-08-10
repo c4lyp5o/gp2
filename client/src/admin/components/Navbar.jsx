@@ -126,6 +126,19 @@ export default function Navbar(props) {
                 >
                   ON DEMAND SETTING
                 </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='aq'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                  }}
+                >
+                  AQ
+                </NavLink>
               </>
             )}
             {loginInfo.accountType === 'negeriSuperadmin' && (
