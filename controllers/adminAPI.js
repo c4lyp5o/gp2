@@ -3057,21 +3057,22 @@ const getData = async (req, res) => {
           console.log('create for aq');
           break;
         case 'read':
-          const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+          console.log('read for aq');
           const { daerah, negeri } = await Superadmin.findOne({
-            _id: userId,
+            _id: req.user.userId,
           });
-          const { x, y, mengandung, oku, bersekolah, pesara } = req.body;
-          const query = await Helper.countAdHocQuery(
+          const { tarikhMula, tarikhAkhir, checkboxSelection } =
+            req.body.payload;
+          let payload = {};
+          payload = {
             negeri,
             daerah,
-            x,
-            y,
-            mengandung,
-            oku,
-            bersekolah,
-            pesara
-          );
+            tarikhMula,
+            tarikhAkhir,
+            checkboxSelection,
+          };
+          // console.log(payload);
+          const query = await Helper.countAdHocQuery(payload);
           res.status(200).json(query);
           break;
         case 'update':
