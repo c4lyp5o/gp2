@@ -54,6 +54,8 @@ const {
   groupSekolah,
   groupPemeriksaanBiasa,
   groupRawatanBiasa,
+  groupUmum,
+  groupIm,
   groupOplain,
   groupSekolahPemeriksaan,
   groupSekolahRawatan,
@@ -1535,16 +1537,16 @@ const countPG207 = async (payload) => {
         imPemeriksaan: [
           {
             $match: {
-              kedatangan: 'baru-kedatangan',
               umur: { $gte: 7 },
               ibuMengandung: true,
               bookingIM: 'ya-booking-im',
+              mengandungDahGravida: false,
             },
           },
           {
             $group: {
               _id: null,
-              ...groupPemeriksaanBiasa,
+              ...groupIm,
             },
           },
         ],
@@ -1560,7 +1562,7 @@ const countPG207 = async (payload) => {
           {
             $group: {
               _id: null,
-              ...groupRawatanBiasa,
+              ...groupIm,
             },
           },
         ],
