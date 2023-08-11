@@ -1556,7 +1556,6 @@ const countPG207 = async (payload) => {
               umur: { $gte: 7 },
               ibuMengandung: true,
               bookingIM: 'ya-booking-im',
-              mengandungDahGravida: true,
             },
           },
           {
