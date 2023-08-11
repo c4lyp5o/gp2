@@ -24,14 +24,9 @@ const adminSchema = new Schema({
     type: String,
     required: true,
     enum: {
-      values: [
-        'kpSuperadmin',
-        'daerahSuperadmin',
-        'negeriSuperadmin',
-        'hqSuperadmin',
-      ],
+      values: ['daerahSuperadmin', 'negeriSuperadmin', 'hqSuperadmin'],
       message:
-        '{VALUE} is not supported. Provide only "kpSuperadmin", "daerahSuperadmin", "negeriSuperadmin", "hqSuperadmin"',
+        '{VALUE} is not supported. Provide only "daerahSuperadmin", "negeriSuperadmin", "hqSuperadmin"',
     },
   },
   nama: {
