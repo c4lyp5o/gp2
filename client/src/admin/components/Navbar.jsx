@@ -137,7 +137,7 @@ export default function Navbar(props) {
                     setShowLinks(!showLinks);
                   }}
                 >
-                  AQ
+                  AD-HOC QUERY (BETA)
                 </NavLink>
               </>
             )}
