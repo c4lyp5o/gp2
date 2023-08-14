@@ -18,6 +18,7 @@ export default function ProgramGTod() {
   const [singleAgensiLuarGTod, setSingleAgensiLuarGTod] = useState(null);
   const [tableGtod, setTableGtod] = useState([]);
   const [idGTod, setIdGTod] = useState('');
+  const [namaTaskaTadika, setNamaTaskaTadika] = useState('');
   const [pemeriksaanSatu, setPemeriksaanSatu] = useState(null);
   const [pemeriksaanDua, setPemeriksaanDua] = useState(null);
 
@@ -57,13 +58,19 @@ export default function ProgramGTod() {
         <div className='hidden lg:block'>
           <div
             onClick={() => {
-              setShowForm(true);
-              setShowTable(false);
-              setShowFormPemeriksaan(false);
-              setIdGTod('');
-              setSingleAgensiLuarGTod(null);
+              if (showTable) {
+                setShowForm(true);
+                setShowTable(false);
+                setShowFormPemeriksaan(false);
+                setIdGTod('');
+                setSingleAgensiLuarGTod(null);
+              }
             }}
-            className='py-6 px-3 bg-admin3 shadow-md rounded-md flex justify-center cursor-pointer'
+            className={`${
+              showTable
+                ? 'bg-admin3 cursor-pointer'
+                : 'bg-user1 bg-opacity-50 cursor-not-allowed'
+            } py-6 px-3 shadow-md rounded-md flex justify-center`}
           >
             <span className='outline-none focus:outline-none flex items-center flex-col'>
               <BsPlusCircleDotted className='text-8xl text-adminWhite font-semibold' />
@@ -74,11 +81,17 @@ export default function ProgramGTod() {
           </div>
           <div
             onClick={() => {
-              setShowTable(true);
-              setShowForm(false);
-              setShowFormPemeriksaan(false);
+              if (showForm) {
+                setShowTable(true);
+                setShowForm(false);
+                setShowFormPemeriksaan(false);
+              }
             }}
-            className='py-6 px-3 bg-admin3 shadow-md rounded-md flex justify-center mt-5 cursor-pointer'
+            className={`${
+              showForm
+                ? 'bg-admin3 cursor-pointer'
+                : 'bg-user1 bg-opacity-50 cursor-not-allowed'
+            } py-6 px-3 shadow-md rounded-md flex justify-center mt-5`}
           >
             <span className='outline-none focus:outline-none flex items-center flex-col'>
               <BsTable className='text-8xl text-adminWhite font-semibold' />
@@ -172,6 +185,9 @@ export default function ProgramGTod() {
                                     className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
                                     onClick={() => {
                                       setIdGTod(agensi._id);
+                                      setNamaTaskaTadika(
+                                        agensi.namaTaskaTadika
+                                      );
                                       setPemeriksaanSatu(
                                         agensi.pemeriksaanAgensiLuar1
                                       );
@@ -187,6 +203,9 @@ export default function ProgramGTod() {
                                     className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
                                     onClick={() => {
                                       setIdGTod(agensi._id);
+                                      setNamaTaskaTadika(
+                                        agensi.namaTaskaTadika
+                                      );
                                       setPemeriksaanDua(
                                         agensi.pemeriksaanAgensiLuar2
                                       );
@@ -201,6 +220,9 @@ export default function ProgramGTod() {
                                     className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs flex flex-row items-center'
                                     onClick={() => {
                                       setIdGTod(agensi._id);
+                                      setNamaTaskaTadika(
+                                        agensi.namaTaskaTadika
+                                      );
                                       setShowFormPemeriksaan(true);
                                       setShowTable(false);
                                       setPemeriksaanSatu(null);
@@ -254,7 +276,8 @@ export default function ProgramGTod() {
                     ? 'Lawatan Pertama'
                     : pemeriksaanDua
                     ? 'Lawatan Kedua'
-                    : 'Tambah Lawatan'}
+                    : 'Tambah Lawatan'}{' '}
+                  {namaTaskaTadika}
                 </h1>
               </div>
               <FormPemeriksaanProgramGtod
