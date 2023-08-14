@@ -8225,17 +8225,6 @@ const groupIm = {
       ],
     },
   },
-  kedatanganTahunSemasaUlangan: {
-    $sum: {
-      $cond: [
-        {
-          $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
-        },
-        1,
-        0,
-      ],
-    },
-  },
   // dibuat rawatan
   sapuanFluorida: {
     //fvMuridB

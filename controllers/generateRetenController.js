@@ -5313,9 +5313,6 @@ const makePGS201 = async (payload) => {
 
         row.getCell(85).value += item.kesSelesaiMMI; //Column CG (85)
         row.getCell(86).value += item.kesSelesai; //Column CH (86)
-
-        row.getCell(85).value += item.kesSelesaiMMI; //Column CG (85)
-        row.getCell(86).value += item.kesSelesai; //Column CH (86)
       }
       for (const item of data[4][0].dataKhasKham) {
         switch (item._id) {
@@ -5823,7 +5820,7 @@ const makePGS201 = async (payload) => {
         row.getCell(3).value += item.jumlah;
       }
 
-      // pemeriksaan sekolah
+      // rawatan sekolah
       for (const item of data[6][0].dataBiasa) {
         switch (item._id) {
           case 'prasek-5tahun':
