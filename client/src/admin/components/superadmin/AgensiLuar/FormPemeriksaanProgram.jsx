@@ -499,7 +499,8 @@ const FormPemeriksaanProgramGtod = ({
               }}
             />
             <label className='text-center'>
-              Hadir<strong className='text-user9'>*</strong>
+              Hadir Rujukan Lawatan Pertama
+              <strong className='text-user9'>*</strong>
             </label>
             <input
               type='number'
