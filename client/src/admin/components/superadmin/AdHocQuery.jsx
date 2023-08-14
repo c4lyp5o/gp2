@@ -13,6 +13,8 @@ import React, { useEffect, useState, useRef } from 'react';
 // import { Chart } from 'react-chartjs-2';
 import moment from 'moment';
 
+import { FaWindowClose } from 'react-icons/fa';
+
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
 import { Loading } from '../Screens';
@@ -87,725 +89,558 @@ import { Loading } from '../Screens';
 //   );
 // }
 
-const style = {
-  width: 400,
+const Dictionary = {
+  0: 'Bawah 1 Tahun',
+  1: '1 - 4 Tahun',
+  5: '5 - 6 Tahun',
+  7: '7 - 9 Tahun',
+  10: '10 - 12 Tahun',
+  13: '13 - 14 Tahun',
+  15: '15 - 17 Tahun',
+  18: '18 - 19 Tahun',
+  20: '20 - 29 Tahun',
+  30: '30 - 39 Tahun',
+  40: '40 - 49 Tahun',
+  50: '50 - 59 Tahun',
+  60: '60 Tahun',
+  61: '61 - 64 Tahun',
+  65: '65 Tahun',
+  66: '66 - 69 Tahun',
+  70: '70 - 74 Tahun',
+  75: '75 Tahun Keatas',
+};
+
+const Disclaimer = ({ setDisclaimer }) => {
+  return (
+    <div className='justify-center text-center'>
+      <div className='absolute inset-x-5 inset-y-20 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-40 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+        <FaWindowClose
+          onClick={() => setDisclaimer(false)}
+          className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
+        />
+        <h5 className='bg-user9 text-userWhite font-semibold text-xl'>
+          PERHATIAN !
+        </h5>
+        <div className='mt-5 p-1 m-auto mb-3'>
+          <span className='font-semibold text-2xl'>
+            <div>Fungsi</div>
+            <span className='text-user9 text-4xl font-bold'>Ad-Hoc Query</span>
+            <div>masih dalam pengujian</div>
+          </span>
+        </div>
+        <div>
+          <div className='text-lg p-3'>
+            Sila berikan maklumbalas tentang kesalahan, ketidakakuran dan
+            anomali data ke helpdesk untuk membantu kami memperbaiki fungsi ini.
+            Segala kerjasama yang di berikan kami ucapkan dengan jutaan terima
+            kasih!
+          </div>
+        </div>
+        <div className='absolute grid bottom-0 right-0 left-0 m-2 mx-10'>
+          <span
+            className='capitalize bg-user9 text-userBlack rounded-md p-2 mr-3 hover:bg-user5 hover:cursor-pointer transition-all'
+            onClick={() => {
+              setDisclaimer(false);
+            }}
+          >
+            TERUSKAN
+          </span>
+        </div>
+      </div>
+      <div
+        onClick={() => setDisclaimer(false)}
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+      />
+    </div>
+  );
 };
 
 const AdHocQuery = () => {
-  const { toast, adhocQuery, masterDatePicker } = useGlobalAdminAppContext();
+  const { toast, adhocQuery, downloadAdhocQuery, masterDatePicker } =
+    useGlobalAdminAppContext();
 
   const defaultYAxis = [
     {
       text: 'Jumlah Semua Pesakit',
       value: 'jumlahPesakit',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesakit Baru',
       value: 'jumlahPesakitBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesakit Ulangan',
       value: 'jumlahPesakitUlangan',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Lelaki',
       value: 'jumlahLelaki',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Perempuan',
       value: 'jumlahPerempuan',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Melayu',
       value: 'jumlahMelayu',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Cina',
       value: 'jumlahCina',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah India',
       value: 'jumlahIndia',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Bajau',
       value: 'jumlahBajau',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Dusun',
       value: 'jumlahDusun',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Kadazan',
       value: 'jumlahKadazan',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah BMSL',
       value: 'jumlahBMSL',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Melanau',
       value: 'jumlahMelanau',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Kedayan',
       value: 'jumlahKedayan',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Iban',
       value: 'jumlahIban',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Bidayuh',
       value: 'jumlahBidayuh',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Penan',
       value: 'jumlahPenan',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah BMSwL',
       value: 'jumlahBMSwL',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah OA',
       value: 'jumlahOA',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Lain-lain',
       value: 'jumlahLainlain',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah BW',
       value: 'jumlahBukanWarganegara',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Ibu Mengandung',
       value: 'jumlahIbuMengandung',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Bersekolah',
       value: 'jumlahBersekolah',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah OKU',
       value: 'jumlahOKU',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesara Kerajaan',
       value: 'jumlahPesaraKerajaan',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesara ATM',
       value: 'jumlahPesaraATM',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rujukan Dalaman',
       value: 'jumlahRujukanDalaman',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rujukan KP',
       value: 'jumlahRujukanKP',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rujukan KK',
       value: 'jumlahRujukanKK',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rujukan Hospital',
       value: 'jumlahRujukanHospital',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rujukan Swasta',
       value: 'jumlahRujukanSwasta',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rujukan Lain-lain',
       value: 'jumlahRujukanLainlain',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah d',
       value: 'jumlahd',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah f',
       value: 'jumlahf',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah x',
       value: 'jumlahx',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah dfx',
       value: 'jumlahdfx',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah D',
       value: 'jumlahD',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah M',
       value: 'jumlahM',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah F',
       value: 'jumlahF',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah X',
       value: 'jumlahX',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah DMFX',
       value: 'jumlahDMFX',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah MBK',
       value: 'jumlahMBK',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Status Bebas Karies',
       value: 'statusBebasKaries',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah TPR',
       value: 'TPR',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Skor GIS = 0',
       value: 'skorGISZero',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Skor GIS bukan 0',
       value: 'skorGISMoreThanZero',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Skor BPE = 0',
       value: 'skorBPEZero',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Skor BPE bukan 0',
       value: 'skorBPEMoreThanZero',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah TSL',
       value: 'adaTSL',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Perlu Sapuan Fluorida',
       value: 'perluSapuanFluorida',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Perlu Jumlah Pesakit Prr Jenis1',
       value: 'perluJumlahPesakitPrrJenis1',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Perlu Jumlah Gigi Prr Jenis1',
       value: 'perluJumlahGigiPrrJenis1',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesakit Perlu FS',
       value: 'perluJumlahPesakitFS',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Gigi Perlu FS',
       value: 'perluJumlahGigiFS',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Perlu Penskaleran',
       value: 'perluPenskaleran',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Perlu Endo Anterior',
       value: 'perluEndoAnterior',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Perlu Endo Premolar',
       value: 'perluEndoPremolar',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Perlu Endo Molar',
       value: 'perluEndoMolar',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Perlu Dentur Penuh',
       value: 'jumlahPerluDenturPenuh',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Perlu Dentur Separa',
       value: 'jumlahPerluDenturSepara',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesakit Disaring OC',
       value: 'pesakitDisaringOC',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesakit Dibuat Sapuan Florida',
       value: 'sapuanFluorida',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesakit Prr Jenis 1',
       value: 'jumlahPesakitPrrJenis1',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Gigi Prr Jenis 1',
       value: 'jumlahGigiPrrJenis1',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesakit Di Buat FS',
       value: 'jumlahPesakitDiBuatFs',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Gigi Di Buat FS',
       value: 'jumlahGigiDibuatFs',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Anterior GD Baru',
       value: 'tampalanAntGdBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Anterior GD Semula',
       value: 'tampalanAntGdSemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Anterior GK Baru',
       value: 'tampalanAntGkBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Anterior GK Semula',
       value: 'tampalanAntGkSemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Posterior GD Baru',
       value: 'tampalanPostGdBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Posterior GD Semula',
       value: 'tampalanPostGdSemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Posterior GK Baru',
       value: 'tampalanPostGkBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Posterior GK Semula',
       value: 'tampalanPostGkSemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Posterior Amalgam GD Baru',
       value: 'tampalanPostAmgGdBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Posterior Amalgam GD Semula',
       value: 'tampalanPostAmgGdSemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Posterior Amalgam GK Baru',
       value: 'tampalanPostAmgGkBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Posterior Amalgam GK Semula',
       value: 'tampalanPostAmgGkSemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Inlay/Onlay Baru',
       value: 'inlayOnlayBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Inlay/Onlay Semula',
       value: 'inlayOnlaySemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Tampalan Sementara',
       value: 'tampalanSementara',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Cabutan GD',
       value: 'cabutanGd',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Cabutan GK',
       value: 'cabutanGk',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Komplikasi Selepas Cabutan',
       value: 'komplikasiSelepasCabutan',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Penskaleran',
       value: 'penskaleran',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rawatan Perio Lain',
       value: 'rawatanPerioLain',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rawatan Endo Anterior',
       value: 'rawatanEndoAnterior',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rawatan Endo Premolar',
       value: 'rawatanEndoPremolar',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rawatan Endo Molar',
       value: 'rawatanEndoMolar',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Rawatan Ortho',
       value: 'rawatanOrtho',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Kes Perubatan',
       value: 'kesPerubatan',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Abses',
       value: 'abses',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Kecederaan Tulang Muka',
       value: 'kecederaanTulangMuka',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Kecederaan Gigi',
       value: 'kecederaanGigi',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Kecederaan Tisu Lembut',
       value: 'kecederaanTisuLembut',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Cabutan Surgikal',
       value: 'cabutanSurgical',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pembedahan Kecil Mulut',
       value: 'pembedahanKecilMulut',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Crown/Bridge Baru',
       value: 'crownBridgeBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Crown/Bridge Semula',
       value: 'crownBridgeSemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Post/Core Baru',
       value: 'postCoreBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Post/Core Semula',
       value: 'postCoreSemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Dentur Penuh Baru',
       value: 'prosthodontikPenuhDenturBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Dentur Penuh Semula',
       value: 'prosthodontikPenuhDenturSemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesakit Buat Dentur Penuh',
       value: 'jumlahPesakitBuatDenturPenuh',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Dentur Separa Baru',
       value: 'prosthodontikSeparaDenturBaru',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Dentur Separa Semula',
       value: 'prosthodontikSeparaDenturSemula',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pesakit Buat Dentur Separa',
       value: 'jumlahPesakitBuatDenturSepara',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Immediate Denture',
       value: 'immediateDenture',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Pembaikan Denture',
       value: 'pembaikanDenture',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah Kes Selesai',
       value: 'kesSelesai',
-      axis: 'y',
-      checked: false,
     },
     {
       text: 'Jumlah X-Ray Diambil',
       value: 'xrayDiambil',
-      axis: 'y',
-      checked: false,
     },
-  ];
+  ].map(({ text, value }) => ({ text, value, axis: 'y', checked: false }));
   const defaultXAxis = [
+    'Masa',
+    'Umur',
+    'Jantina',
+    'Kumpulan Etnik',
+    'Pegawai',
+    'Klinik',
+    'Daerah',
+    'Negeri',
+    'Malaysia',
+  ].map((text) => ({ text, axis: 'x', checked: false }));
+  const defaultSearchOptions = [
+    { opt: 'cutoff', text: 'Gunakan cutoff', checked: true },
+    { opt: 'deleted', text: 'Termasuk data yang dihapus', checked: false },
     {
-      text: 'Masa',
-      axis: 'x',
+      opt: 'statusRetenBelumDiisi',
+      text: 'Termasuk data reten yang belum diisi',
       checked: false,
     },
     {
-      text: 'Umur',
-      axis: 'x',
-      checked: false,
+      opt: 'statusRetenTelahDiisi',
+      text: 'Termasuk data reten yang telah diisi',
+      checked: true,
     },
     {
-      text: 'Kumpulan Etnik',
-      axis: 'x',
-      checked: false,
+      opt: 'statusRetenSalah',
+      text: 'Termasuk data reten yang salah',
+      checked: true,
     },
+    { opt: 'onCall', text: 'Termasuk data On Call', checked: false },
     {
-      text: 'Pegawai',
-      axis: 'x',
-      checked: false,
-    },
-    {
-      text: 'Klinik',
-      axis: 'x',
-      checked: false,
-    },
-    {
-      text: 'Daerah',
-      axis: 'x',
-      checked: false,
-    },
-    {
-      text: 'Negeri',
-      axis: 'x',
+      opt: 'incremental',
+      text: 'Termasuk data Incremental',
       checked: false,
     },
   ];
-
-  const [Yaxis, setYaxis] = useState(
-    defaultYAxis.map((i, index) => ({ id: index, ...i }))
-  );
-  const [Xaxis, setXaxis] = useState(
-    defaultXAxis.map((i, index) => ({ id: index, ...i }))
-  );
 
   const TarikhAwal = () => {
     return masterDatePicker({
@@ -852,15 +687,33 @@ const AdHocQuery = () => {
   const [startDatePicker, setStartDatePicker] = useState(null);
   const [endDatePicker, setEndDatePicker] = useState(null);
 
+  const [disclaimer, setDisclaimer] = useState(true);
+
   const [loading, setLoading] = useState(false);
 
-  const [bigData, setBigData] = useState([]);
+  const [bigData, setBigData] = useState(null);
 
   // checkboxes
   const [checkboxSelection, setCheckboxSelection] = useState({
-    y: [...Yaxis],
-    x: [...Xaxis],
+    y: defaultYAxis.map((i, index) => ({ id: index, ...i })),
+    x: defaultXAxis.map((i, index) => ({ id: index, ...i })),
   });
+  const [searchOptionsSelection, setSearchOptionsSelection] = useState(
+    defaultSearchOptions.map((i, index) => ({ id: index, ...i }))
+  );
+
+  const handleSearchOptionsChange = (e) => {
+    const { name, value } = e.target;
+    const newSelection = [...searchOptionsSelection];
+    newSelection.forEach((i) => {
+      if (i.opt === name) {
+        i.value = value;
+        i.checked = !i.checked;
+      }
+    });
+    // console.log(newSelection);
+    setSearchOptionsSelection(newSelection);
+  };
 
   const handleCheckboxChangeY = (e) => {
     const { name, value } = e.target;
@@ -871,9 +724,8 @@ const AdHocQuery = () => {
         i.checked = !i.checked;
       }
     });
-    console.log(newSelection);
+    // console.log(newSelection);
     setCheckboxSelection(newSelection);
-    setYaxis(newSelection.y);
   };
 
   const handleCheckboxChangeX = (e) => {
@@ -887,9 +739,22 @@ const AdHocQuery = () => {
         i.checked = false;
       }
     });
-    console.log(newSelection);
+    // console.log(newSelection);
     setCheckboxSelection(newSelection);
-    setXaxis(newSelection.x);
+  };
+
+  const saveFile = (blob) => {
+    const link = document.createElement('a');
+    link.download = `Laporan Ad Hoc Query ${moment().format(
+      'DD-MM-YYYY'
+    )}.xlsx`;
+    link.href = URL.createObjectURL(new Blob([blob]));
+    link.addEventListener('click', (e) => {
+      setTimeout(() => {
+        URL.revokeObjectURL(link.href);
+      }, 100);
+    });
+    link.click();
   };
 
   const handleSubmit = async (e) => {
@@ -898,20 +763,62 @@ const AdHocQuery = () => {
     const payload = {
       tarikhMula: startDateRef.current,
       tarikhAkhir: endDateRef.current,
+      searchOptionsSelection,
       checkboxSelection,
     };
     // start
     try {
       setLoading(true);
       console.log(payload);
-      const { data: query } = await adhocQuery(payload);
-      console.log(query);
-      setBigData(query);
+      const { data } = await adhocQuery(payload);
+      setBigData(data);
+      toast.success('Berjaya mendapatkan data');
     } catch (error) {
       console.log(error);
+      toast.error('Gagal mendapatkan data');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDownload = async (e) => {
+    const payload = {
+      lastQuery: bigData,
+      checkboxSelection,
+      tarikhMula: startDateRef.current,
+      tarikhAkhir: endDateRef.current,
+    };
+    try {
+      setLoading(true);
+      const { data } = await downloadAdhocQuery(payload);
+      saveFile(data);
+      toast.success('Berjaya muat turun laporan');
+    } catch (error) {
+      console.log(error);
+      toast.error('Gagal muat turun laporan');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderSearchOptions = (selection) => {
+    return (
+      <div className='grid grid-flow-col outline-1 outline-admin2 mb-3'>
+        {selection.map((i, index) => (
+          <div key={index} className='flex flex-row items-center'>
+            <input
+              type='checkbox'
+              className='mr-2'
+              name={i.opt}
+              value={i.value}
+              checked={i.checked}
+              onChange={(e) => handleSearchOptionsChange(e)}
+            />
+            <label>{i.text}</label>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   const renderCheckbox = (selection) => {
@@ -940,7 +847,7 @@ const AdHocQuery = () => {
 
   const renderTableHeader = () => {
     return (
-      <>
+      <tr>
         {checkboxSelection.x
           .filter((key) => {
             return key.checked === true;
@@ -965,7 +872,7 @@ const AdHocQuery = () => {
               {key.text}
             </th>
           ))}
-      </>
+      </tr>
     );
   };
 
@@ -975,7 +882,9 @@ const AdHocQuery = () => {
         {data.map((key, index) => (
           <tr key={index}>
             <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-              {key._id}
+              {checkboxSelection.x.some((item) => item.text === 'Umur')
+                ? `${Dictionary[key._id]}`
+                : key._id}
             </td>
             {checkboxSelection.y
               .filter((axis) => {
@@ -996,10 +905,14 @@ const AdHocQuery = () => {
   };
 
   const resetter = () => {
-    setBigData([]);
-    setYaxis(defaultYAxis);
-    setXaxis(defaultXAxis);
-    setCheckboxSelection({ y: [...Yaxis], x: [...Xaxis] });
+    setBigData(null);
+    setCheckboxSelection({
+      y: defaultYAxis.map((i, index) => ({ id: index, ...i })),
+      x: defaultXAxis.map((i, index) => ({ id: index, ...i })),
+    });
+    setSearchOptionsSelection(
+      defaultSearchOptions.map((i, index) => ({ id: index, ...i }))
+    );
     setStartDatePicker(null);
     setEndDatePicker(null);
     startDateRef.current = '';
@@ -1014,10 +927,14 @@ const AdHocQuery = () => {
     return <Loading />;
   }
 
+  if (disclaimer) {
+    return <Disclaimer setDisclaimer={setDisclaimer} />;
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className='grid grid-cols-2 gap-2 mb-3'>
+        <div className='grid grid-cols-2 gap-2 border border-admin2 rounded-md p-4 mb-3'>
           <div className='px-3 py-1'>
             <label
               htmlFor='tarikhMula'
@@ -1038,26 +955,32 @@ const AdHocQuery = () => {
           </div>
         </div>
         <div className='flex flex-col mb-3'>
-          <div className='grid grid-cols-2 mb-3'>
+          <div className='grid grid-flow-row text-center border border-admin2 rounded-md p-4 mb-3'>
+            <p className='text-sm font-semibold text-user1 flex flex-row items-center'>
+              Pilihan Carian:
+            </p>
+            {renderSearchOptions(searchOptionsSelection)}
+          </div>
+          <div className='grid grid-cols-2 border border-admin2 rounded-md p-4 mb-3'>
             <div className='grid grid-cols-2'>
-              <div style={style}>
-                <p>Pembolehubah Y</p>
-                {renderCheckbox(Yaxis)}
+              <div>
+                <p className='mb-2'>Pembolehubah Y</p>
+                {renderCheckbox(checkboxSelection.y)}
               </div>
             </div>
             <div className='grid grid-cols-2'>
-              <div style={style}>
-                <p>Pembolehubah X</p>
-                {renderCheckbox(Xaxis)}
+              <div>
+                <p className='mb-2'>Pembolehubah X</p>
+                {renderCheckbox(checkboxSelection.x)}
               </div>
             </div>
           </div>
           {/* <div>
-            {bigData.length !== 0 ? (
+            {bigData ? (
               <MainChart data={bigData} axis={checkboxSelection.y} />
             ) : null}
           </div> */}
-          <div className='grid grid-cols-2 mb-3'>
+          <div className='grid grid-cols-3 mb-3'>
             <button
               type='button'
               className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all'
@@ -1071,9 +994,18 @@ const AdHocQuery = () => {
             >
               Kira
             </button>
+            {bigData ? (
+              <button
+                type='button'
+                className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all'
+                onClick={handleDownload}
+              >
+                Muat Turun
+              </button>
+            ) : null}
           </div>
-          <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
-            {bigData.length > 0 ? (
+          <div className='m-auto overflow-x-auto text-sm rounded-md border border-admin2 p-2 h-min max-w-max'>
+            {bigData ? (
               <table className='table-auto'>
                 <thead className='text-adminWhite bg-admin3'>
                   {renderTableHeader()}
