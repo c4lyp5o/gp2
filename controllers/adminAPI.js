@@ -1,8 +1,11 @@
 const _ = require('lodash');
+const fs = require('fs');
+const path = require('path');
 const https = require('https');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
+const Excel = require('exceljs');
 const mailer = require('nodemailer');
 const moment = require('moment');
 const speakeasy = require('speakeasy');
@@ -25,6 +28,7 @@ const emailGen = require('../lib/emailgen');
 const sesiTakwimSekolah = require('./helpers/sesiTakwimSekolah');
 const insertToSekolah = require('./helpers/insertToSekolah');
 const { logger } = require('../logs/logger');
+const { reten_engine_version } = require('./countHelperFuser');
 
 // helper
 const Helper = require('./countHelperRegular');
@@ -1624,6 +1628,162 @@ const deleteRouteKp = async (req, res) => {
   }
 
   res.status(200).json(data);
+};
+
+const getAhqData = async (req, res) => {
+  if (req.user.accountType !== 'hqSuperadmin') {
+    return res.status(401).json({ msg: 'Not authorized' });
+  }
+
+  const { daerah, negeri } = await Superadmin.findOne({
+    _id: req.user.userId,
+  });
+  // console.log(req.body.payload);
+  const { tarikhMula, tarikhAkhir, searchOptionsSelection, checkboxSelection } =
+    req.body.payload;
+  let payload = {};
+  payload = {
+    negeri,
+    daerah,
+    tarikhMula,
+    tarikhAkhir,
+    searchOptionsSelection,
+    checkboxSelection,
+  };
+  // console.log(payload);
+  try {
+    const query = await Helper.countAdHocQuery(payload);
+    res.status(200).json(query);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+const downloadAhqData = async (req, res) => {
+  if (req.user.accountType !== 'hqSuperadmin') {
+    return res.status(401).json({ msg: 'Not authorized' });
+  }
+
+  const { tarikhMula, tarikhAkhir, lastQuery, checkboxSelection } =
+    req.body.payload;
+  //
+  try {
+    const Dictionary = {
+      0: 'Bawah 1 Tahun',
+      1: '1 - 4 Tahun',
+      5: '5 - 6 Tahun',
+      7: '7 - 9 Tahun',
+      10: '10 - 12 Tahun',
+      13: '13 - 14 Tahun',
+      15: '15 - 17 Tahun',
+      18: '18 - 19 Tahun',
+      20: '20 - 29 Tahun',
+      30: '30 - 39 Tahun',
+      40: '40 - 49 Tahun',
+      50: '50 - 59 Tahun',
+      60: '60 Tahun',
+      61: '61 - 64 Tahun',
+      65: '65 Tahun',
+      66: '66 - 69 Tahun',
+      70: '70 - 74 Tahun',
+      75: '75 Tahun Keatas',
+    };
+
+    const extractCheckboxY = checkboxSelection['y']
+      .map((i) => {
+        if (i.checked) {
+          return i;
+        }
+      })
+      .filter((i) => i !== undefined);
+
+    const extractCheckboxX = checkboxSelection['x']
+      .map((i) => {
+        if (i.checked) {
+          return i;
+        }
+      })
+      .filter((i) => i !== undefined);
+    //
+    const workbook = new Excel.Workbook();
+    const worksheet = workbook.addWorksheet('Ad Hoc Query');
+    for (let i = 0; i < extractCheckboxX.length; i++) {
+      const row = worksheet.getRow(6);
+      row.getCell(i + 1).value = extractCheckboxX[i].text;
+    }
+    for (let i = 0; i < extractCheckboxY.length; i++) {
+      const row = worksheet.getRow(6);
+      row.getCell(i + 2).value = extractCheckboxY[i].text;
+    }
+    for (let i = 0; i < lastQuery.length; i++) {
+      const row = worksheet.getRow(i + 7);
+      if (typeof lastQuery[i]['_id'] === 'number') {
+        row.getCell(1).value = Dictionary[lastQuery[i]['_id']];
+      } else {
+        row.getCell(1).value = lastQuery[i]['_id'].toUpperCase();
+      }
+      for (let j = 0; j < extractCheckboxY.length; j++) {
+        row.getCell(j + 2).value = lastQuery[i][extractCheckboxY[j].value];
+      }
+    }
+    // styling
+    worksheet.getCell('A1').value = 'GI-RET 2.0 AD-HOC QUERY (BETA)';
+    worksheet.mergeCells('A1:E1');
+    worksheet.getCell('A3').value = `Tarikh Kedatangan: ${moment(
+      tarikhMula
+    ).format('DD-MM-YYYY')} - ${moment(tarikhAkhir).format('DD-MM-YYYY')}`;
+    worksheet.mergeCells('A3:E3');
+    worksheet.getCell(
+      'S1'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
+    worksheet.getCell('S2').value = `Dijana oleh: PKP HQ (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+    worksheet.columns.forEach((column) => {
+      let maxLength = 0;
+      column.eachCell((cell, rowNumber) => {
+        if (rowNumber >= 6) {
+          const length = cell.value ? cell.value.toString().length : 0;
+          if (length > maxLength) {
+            maxLength = length;
+          }
+        }
+      });
+      column.width = maxLength < 12 ? 12 : maxLength;
+    });
+    worksheet.eachRow((row, rowNumber) => {
+      if (rowNumber >= 6) {
+        row.eachCell((cell) => {
+          if (cell.value) {
+            cell.border = {
+              top: { style: 'thin', color: { argb: '000000' } },
+              left: { style: 'thin', color: { argb: '000000' } },
+              bottom: { style: 'thin', color: { argb: '000000' } },
+              right: { style: 'thin', color: { argb: '000000' } },
+            };
+          }
+        });
+      }
+    });
+    // end styling
+    const fileName = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      `${new Date().toISOString()}.xlsx`
+    );
+    await workbook.xlsx.writeFile(fileName);
+    setTimeout(() => {
+      fs.unlinkSync(fileName);
+    }, 1000);
+    const file = fs.readFileSync(path.resolve(process.cwd(), fileName));
+
+    res.status(200).send(file);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error.message });
+  }
 };
 
 const getData = async (req, res) => {
@@ -3877,6 +4037,8 @@ module.exports = {
   checkUser,
   loginUser,
   readUserData,
+  getAhqData,
+  downloadAhqData,
   getData,
   getDataRoute,
   getDataKpRoute,
