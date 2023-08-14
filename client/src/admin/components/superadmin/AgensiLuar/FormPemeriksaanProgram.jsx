@@ -8,6 +8,7 @@ const FormPemeriksaanProgramGtod = ({
   idGTod,
   setShowFormPemeriksaan,
   setShowTable,
+  visitNumber,
   pemeriksaanSatu,
   setPemeriksaanSatu,
   pemeriksaanDua,
@@ -498,25 +499,31 @@ const FormPemeriksaanProgramGtod = ({
                 setTodDirujuk(e.target.value);
               }}
             />
-            <label className='text-center'>
-              Hadir Rujukan Lawatan Pertama
-              <strong className='text-user9'>*</strong>
-            </label>
-            <input
-              type='number'
-              min='0'
-              required
-              disabled={isDisabled}
-              className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
-              name='hadirDirujuk'
-              id='hadirDirujuk'
-              value={
-                dataPemeriksaan ? dataPemeriksaan.hadirDirujuk : hadirDirujuk
-              }
-              onChange={(e) => {
-                setHadirDirujuk(e.target.value);
-              }}
-            />
+            {visitNumber === 1 && !pemeriksaanSatu && (
+              <p className='flex'>
+                <label className='text-center'>
+                  Hadir Rujukan Lawatan Pertama
+                  <strong className='text-user9'>*</strong>
+                </label>
+                <input
+                  type='number'
+                  min='0'
+                  required
+                  disabled={isDisabled}
+                  className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md hover:bg-admin4'
+                  name='hadirDirujuk'
+                  id='hadirDirujuk'
+                  value={
+                    dataPemeriksaan
+                      ? dataPemeriksaan.hadirDirujuk
+                      : hadirDirujuk
+                  }
+                  onChange={(e) => {
+                    setHadirDirujuk(e.target.value);
+                  }}
+                />
+              </p>
+            )}
           </div>
         </article>
         <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>

@@ -19,6 +19,7 @@ export default function ProgramGTod() {
   const [tableGtod, setTableGtod] = useState([]);
   const [idGTod, setIdGTod] = useState('');
   const [namaTaskaTadika, setNamaTaskaTadika] = useState('');
+  const [visitNumber, setVisitNumber] = useState(0);
   const [pemeriksaanSatu, setPemeriksaanSatu] = useState(null);
   const [pemeriksaanDua, setPemeriksaanDua] = useState(null);
 
@@ -29,7 +30,7 @@ export default function ProgramGTod() {
       try {
         const { data } = await readData('gtod');
         setTableGtod(data);
-        // console.log(data);
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -223,6 +224,7 @@ export default function ProgramGTod() {
                                       setNamaTaskaTadika(
                                         agensi.namaTaskaTadika
                                       );
+                                      setVisitNumber(agensi.visitNumber);
                                       setShowFormPemeriksaan(true);
                                       setShowTable(false);
                                       setPemeriksaanSatu(null);
@@ -285,6 +287,7 @@ export default function ProgramGTod() {
                 idGTod={idGTod}
                 setShowFormPemeriksaan={setShowFormPemeriksaan}
                 setShowTable={setShowTable}
+                visitNumber={visitNumber}
                 pemeriksaanSatu={pemeriksaanSatu}
                 setPemeriksaanSatu={setPemeriksaanSatu}
                 pemeriksaanDua={pemeriksaanDua}
