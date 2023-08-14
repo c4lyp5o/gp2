@@ -1328,14 +1328,30 @@ function AdminAppProvider({ children }) {
   };
 
   // adhoc query (he he boi)
-  const adhocQuery = async (y, x) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'AQManager',
-      Fn: 'read',
-      y: y,
-      x: x,
-      token: adminToken,
-    });
+  const adhocQuery = async (payload) => {
+    const response = await axios.post(
+      `/api/v1/superadmin/ahq`,
+      { payload: payload },
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
+    return response;
+  };
+
+  const downloadAdhocQuery = async (payload) => {
+    const response = await axios.post(
+      `/api/v1/superadmin/ahq-dl`,
+      { payload: payload },
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+        responseType: 'blob',
+      }
+    );
     return response;
   };
 
@@ -1445,6 +1461,7 @@ function AdminAppProvider({ children }) {
         DictionarySosMedAcronym,
         // ad hoc query (he he boi)
         adhocQuery,
+        downloadAdhocQuery,
         // testing pada maklumat asas
         newRouteCreateData,
         newRouteUpdateData,
