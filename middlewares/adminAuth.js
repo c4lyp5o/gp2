@@ -16,12 +16,45 @@ const adminAuth = (req, res, next) => {
   try {
     const decoded = jwt.verify(authKey, process.env.JWT_SECRET);
     req.user = {
+      userId: decoded.userId,
       userAccount: decoded.userAccount,
       accountType: decoded.accountType,
     };
     next();
   } catch (err) {
     if (req.method !== 'GET' || req.method !== 'OPTIONS') {
+      unauthorizedLogger.warn(
+        `${req.method} [adminAuth] Unauthorized jwt.verify ${authKey} from ${req.ip}`
+      );
+    }
+    return res
+      .status(401)
+      .json({ msg: 'Unauthorized. This behaviour will be reported' });
+  }
+};
+
+const adminAuthPost = (req, res, next) => {
+  const authKey = req.headers.authorization;
+  if (!authKey) {
+    if (req.method !== 'POST' || req.method !== 'OPTIONS') {
+      unauthorizedLogger.warn(
+        `${req.method} [adminAuth] Unauthorized headers.authorization is ${req.headers.authorization} from ${req.ip}`
+      );
+    }
+    return res
+      .status(401)
+      .json({ msg: 'Unauthorized. This behaviour will be reported' });
+  }
+  try {
+    const decoded = jwt.verify(authKey, process.env.JWT_SECRET);
+    req.user = {
+      userId: decoded.userId,
+      userAccount: decoded.userAccount,
+      accountType: decoded.accountType,
+    };
+    next();
+  } catch (err) {
+    if (req.method !== 'POST' || req.method !== 'OPTIONS') {
       unauthorizedLogger.warn(
         `${req.method} [adminAuth] Unauthorized jwt.verify ${authKey} from ${req.ip}`
       );
@@ -109,4 +142,11 @@ const debugAuth = (req, res, next) => {
   }
 };
 
-module.exports = { adminAuth, adminAuthInt, etlAuth, refreshAuth, debugAuth };
+module.exports = {
+  adminAuth,
+  adminAuthPost,
+  adminAuthInt,
+  etlAuth,
+  refreshAuth,
+  debugAuth,
+};
