@@ -6114,6 +6114,21 @@ const groupPemeriksaanBiasa = {
                 },
               ],
             },
+            // ! tick ada gigi, tp x tick ada gigi susu tp sbnrnya ada gigi susu
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                {
+                  $eq: [
+                    '$yaTidakPesakitMempunyaiGigi',
+                    'ya-pesakit-mempunyai-gigi',
+                  ],
+                },
+                {
+                  $eq: ['$adaDesidusPemeriksaanUmum', false],
+                },
+              ],
+            },
             {
               $and: [
                 { $lt: ['$umur', 1] },
