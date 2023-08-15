@@ -1359,9 +1359,7 @@ const groupBaruTod = {
               // baby punya kira
               {
                 $and: [
-                  {
-                    $lt: ['$umurTahunLahir', 1],
-                  },
+                  { $lt: ['$umurTahunLahir', 1] },
                   {
                     $eq: [
                       '$yaTidakPesakitMempunyaiGigi',
@@ -1372,21 +1370,11 @@ const groupBaruTod = {
               },
               {
                 $and: [
-                  {
-                    $lt: ['$umurTahunLahir', 1],
-                  },
-                  {
-                    $eq: ['$adaDesidusPemeriksaanUmum', true],
-                  },
-                  {
-                    $eq: ['$adaKekalPemeriksaanUmum', false],
-                  },
-                  {
-                    $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
-                  },
-                  {
-                    $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0],
-                  },
+                  { $lt: ['$umurTahunLahir', 1] },
+                  { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                  { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                  { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                 ],
               },
               // 1 tahun
@@ -5892,14 +5880,7 @@ const groupSekolah = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$merged.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$merged.baruJumlahGigiKekalDiberiFv', 0],
-            },
-          ],
+          $gt: ['$merged.muridDiberiFv', true],
         },
         1,
         0,
@@ -5910,14 +5891,7 @@ const groupSekolah = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$merged.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$merged.baruJumlahGigiKekalDiberiPrrJenis1', 0],
-            },
-          ],
+          $gt: ['$merged.baruJumlahGigiKekalDiberiPrrJenis1', 0],
         },
         1,
         0,
@@ -5931,14 +5905,7 @@ const groupSekolah = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$merged.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$merged.baruJumlahGigiKekalDibuatFs', 0],
-            },
-          ],
+          $gt: ['$merged.baruJumlahGigiKekalDibuatFs', 0],
         },
         1,
         0,
@@ -6012,17 +5979,7 @@ const groupSekolah = {
     $sum: {
       $cond: [
         {
-          $or: [
-            {
-              $eq: ['$kesSelesaiIcdasPemeriksaan', 'ya-kes-selesai-icdas'],
-            },
-            {
-              $eq: [
-                '$kesSelesaiIcdasRawatan',
-                'ya-kes-selesai-icdas-penyata-akhir-2',
-              ],
-            },
-          ],
+          $eq: ['$kesSelesaiMmi', true],
         },
         1,
         0,
@@ -6033,14 +5990,7 @@ const groupSekolah = {
     $sum: {
       $cond: [
         {
-          $or: [
-            {
-              $eq: ['$kesSelesaiPemeriksaan', 'ya-kes-selesai'],
-            },
-            {
-              $eq: ['$kesSelesaiRawatan', 'ya-kes-selesai-penyata-akhir-2'],
-            },
-          ],
+          $eq: ['$statusRawatan', 'selesai'],
         },
         1,
         0,
@@ -6103,6 +6053,7 @@ const groupPemeriksaanBiasa = {
       $cond: [
         {
           $or: [
+            // ! bawah 1 tahun mula
             {
               $and: [
                 { $lt: ['$umur', 1] },
@@ -6112,6 +6063,15 @@ const groupPemeriksaanBiasa = {
                     'tidak-pesakit-mempunyai-gigi',
                   ],
                 },
+              ],
+            },
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
               ],
             },
             // ! tick ada gigi, tp x tick ada gigi susu tp sbnrnya ada gigi susu
@@ -6132,12 +6092,8 @@ const groupPemeriksaanBiasa = {
             {
               $and: [
                 { $lt: ['$umur', 1] },
-                {
-                  $eq: ['$adaDesidusPemeriksaanUmum', false],
-                },
-                {
-                  $eq: ['$adaKekalPemeriksaanUmum', false],
-                },
+                { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                { $eq: ['$adaKekalPemeriksaanUmum', false] },
               ],
             }, // ! boleh buang tahun depan
             {
@@ -6151,9 +6107,7 @@ const groupPemeriksaanBiasa = {
                         'ya-pesakit-mempunyai-gigi',
                       ],
                     },
-                    {
-                      $eq: ['$adaDesidusPemeriksaanUmum', true],
-                    },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
                   ],
                 },
                 // {
@@ -6165,6 +6119,8 @@ const groupPemeriksaanBiasa = {
                 { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
               ],
             },
+            // ! tamat 1 tahun
+            // atas 1 tahun
             {
               $and: [
                 { $gte: ['$umur', 1] },
@@ -6231,7 +6187,7 @@ const groupPemeriksaanBiasa = {
       $cond: [
         {
           $or: [
-            // baby punya kira
+            // ! bawah 1 tahun mula
             {
               $and: [
                 { $lt: ['$umur', 1] },
@@ -6252,7 +6208,51 @@ const groupPemeriksaanBiasa = {
                 { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
               ],
             },
-            // 1 tahun
+            // ! tick ada gigi, tp x tick ada gigi susu tp sbnrnya ada gigi susu
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                {
+                  $eq: [
+                    '$yaTidakPesakitMempunyaiGigi',
+                    'ya-pesakit-mempunyai-gigi',
+                  ],
+                },
+                { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+              ],
+            },
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                { $eq: ['$adaKekalPemeriksaanUmum', false] },
+              ],
+            }, // ! boleh buang tahun depan
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                {
+                  $or: [
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'ya-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                  ],
+                },
+                // {
+                //   $eq: ['$adaDesidusPemeriksaanUmum', true],
+                // },
+                // ! pakai tahun depan. pisahkan 2 yg $or tu
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+              ],
+            },
+            // ! tamat 1 tahun
+            // atas 1 tahun
             {
               $and: [
                 { $gte: ['$umur', 1] },
@@ -6868,7 +6868,166 @@ const groupRawatanBiasa = {
   },
   kesSelesai: {
     $sum: {
-      $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
+      $cond: [
+        {
+          $or: [
+            // ! ni dari kotak kes selesai
+            { $eq: ['$kesSelesaiRawatanUmum', true] },
+            // ! ni kalau diorang lupa tick kes selesai
+            // ! bawah 1 tahun mula
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                {
+                  $eq: [
+                    '$yaTidakPesakitMempunyaiGigi',
+                    'tidak-pesakit-mempunyai-gigi',
+                  ],
+                },
+              ],
+            },
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+              ],
+            },
+            // ! tick ada gigi, tp x tick ada gigi susu tp sbnrnya ada gigi susu
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                {
+                  $eq: [
+                    '$yaTidakPesakitMempunyaiGigi',
+                    'ya-pesakit-mempunyai-gigi',
+                  ],
+                },
+                { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+              ],
+            },
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                { $eq: ['$adaKekalPemeriksaanUmum', false] },
+              ],
+            }, // ! boleh buang tahun depan
+            {
+              $and: [
+                { $lt: ['$umur', 1] },
+                {
+                  $or: [
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'ya-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                  ],
+                },
+                // {
+                //   $eq: ['$adaDesidusPemeriksaanUmum', true],
+                // },
+                // ! pakai tahun depan. pisahkan 2 yg $or tu
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+              ],
+            },
+            // ! tamat 1 tahun
+            // atas 1 tahun
+            {
+              $and: [
+                { $gte: ['$umur', 1] },
+                { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+              ],
+            },
+            {
+              $and: [
+                { $gte: ['$umur', 1] },
+                { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+              ],
+            },
+            {
+              $and: [
+                { $gte: ['$umur', 1] },
+                { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+              ],
+            },
+            {
+              $and: [
+                { $gte: ['$umur', 5] },
+                { $lte: ['$umur', 14] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              $and: [
+                { $gte: ['$umur', 15] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                    { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                  ],
+                },
+              ],
+            },
+            {
+              $and: [
+                { $gte: ['$umur', 1] },
+                { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                { $eq: ['$adaKekalPemeriksaanUmum', false] },
+              ],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
     },
   },
   xrayDiambil: { $sum: '$bilanganXrayYangDiambilRawatanUmum' },
@@ -11272,9 +11431,16 @@ const groupCPPC1 = {
         ],
       },
     },
+    // ! harap maaf, tiada model untuk jumlah gigi telah di buat
     totalTeethFvRendered: {
       $sum: {
-        $add: ['$pemeriksaanSekolah.baruJumlahGigiKekalPerluFv'],
+        $cond: [
+          {
+            $eq: ['$rawatanSekolah.muridDiberiFv', true],
+          },
+          '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFv',
+          0,
+        ],
       },
     },
     // CF
