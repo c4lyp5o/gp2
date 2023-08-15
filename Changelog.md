@@ -5,6 +5,20 @@
 - Integrasi bersama MyVAS di Modul Pendaftaran bagi submodul Klinik Pergigian
 - Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
 
+### 15/8/2023 (v2.1.6)
+
+### Added
+
+- Sub Modul Baru, Agensi Luar GTod kini boleh diakses dan digunakan, di dalam Modul Pentadbir Daerah
+
+### Changed
+
+- Reten kohort tidak boleh di Hapus jika sekolah sudah di tutup
+
+### Fixed
+
+- Ruangan pengesahan rujukan ke Guru Kaunseling di reten KOTAK dibetulkan
+
 ### 3/8/2023 (v2.1.5)
 
 ### Added
