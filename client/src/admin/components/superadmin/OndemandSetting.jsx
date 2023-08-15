@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useOndemandSetting } from '../../context/useOndemandSetting';
 
 export default function OndemandSetting() {
-  const { readOndemandSetting, saveOndemandSetting, semuaJenisReten, toast } =
-    useGlobalAdminAppContext();
+  const { semuaJenisReten, toast } = useGlobalAdminAppContext();
+  const { readOndemandSetting, saveOndemandSetting } = useOndemandSetting();
 
   const [ondemandSetting, setOndemandSetting] = useState(null);
 
