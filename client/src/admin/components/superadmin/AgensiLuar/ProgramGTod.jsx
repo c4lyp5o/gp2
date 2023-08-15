@@ -18,6 +18,8 @@ export default function ProgramGTod() {
   const [singleAgensiLuarGTod, setSingleAgensiLuarGTod] = useState(null);
   const [tableGtod, setTableGtod] = useState([]);
   const [idGTod, setIdGTod] = useState('');
+  const [namaTaskaTadika, setNamaTaskaTadika] = useState('');
+  const [visitNumber, setVisitNumber] = useState(0);
   const [pemeriksaanSatu, setPemeriksaanSatu] = useState(null);
   const [pemeriksaanDua, setPemeriksaanDua] = useState(null);
 
@@ -28,7 +30,7 @@ export default function ProgramGTod() {
       try {
         const { data } = await readData('gtod');
         setTableGtod(data);
-        // console.log(data);
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -57,13 +59,19 @@ export default function ProgramGTod() {
         <div className='hidden lg:block'>
           <div
             onClick={() => {
-              setShowForm(true);
-              setShowTable(false);
-              setShowFormPemeriksaan(false);
-              setIdGTod('');
-              setSingleAgensiLuarGTod(null);
+              if (showTable) {
+                setShowForm(true);
+                setShowTable(false);
+                setShowFormPemeriksaan(false);
+                setIdGTod('');
+                setSingleAgensiLuarGTod(null);
+              }
             }}
-            className='py-6 px-3 bg-admin3 shadow-md rounded-md flex justify-center cursor-pointer'
+            className={`${
+              showTable
+                ? 'bg-admin3 cursor-pointer'
+                : 'bg-user1 bg-opacity-50 cursor-not-allowed'
+            } py-6 px-3 shadow-md rounded-md flex justify-center`}
           >
             <span className='outline-none focus:outline-none flex items-center flex-col'>
               <BsPlusCircleDotted className='text-8xl text-adminWhite font-semibold' />
@@ -74,11 +82,17 @@ export default function ProgramGTod() {
           </div>
           <div
             onClick={() => {
-              setShowTable(true);
-              setShowForm(false);
-              setShowFormPemeriksaan(false);
+              if (showForm) {
+                setShowTable(true);
+                setShowForm(false);
+                setShowFormPemeriksaan(false);
+              }
             }}
-            className='py-6 px-3 bg-admin3 shadow-md rounded-md flex justify-center mt-5 cursor-pointer'
+            className={`${
+              showForm
+                ? 'bg-admin3 cursor-pointer'
+                : 'bg-user1 bg-opacity-50 cursor-not-allowed'
+            } py-6 px-3 shadow-md rounded-md flex justify-center mt-5`}
           >
             <span className='outline-none focus:outline-none flex items-center flex-col'>
               <BsTable className='text-8xl text-adminWhite font-semibold' />
@@ -165,52 +179,66 @@ export default function ProgramGTod() {
                             </span>
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 '>
-                            <span className='flex items-center justify-center space-x-1'>
-                              {agensi.pemeriksaanAgensiLuar1 && (
-                                <button
-                                  className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
-                                  onClick={() => {
-                                    setIdGTod(agensi._id);
-                                    setPemeriksaanSatu(
-                                      agensi.pemeriksaanAgensiLuar1
-                                    );
-                                    setShowFormPemeriksaan(true);
-                                    setShowTable(false);
-                                  }}
-                                >
-                                  Lawatan 1
-                                </button>
-                              )}
-                              {agensi.pemeriksaanAgensiLuar2 ? (
-                                <button
-                                  className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
-                                  onClick={() => {
-                                    setIdGTod(agensi._id);
-                                    setPemeriksaanDua(
-                                      agensi.pemeriksaanAgensiLuar2
-                                    );
-                                    setShowFormPemeriksaan(true);
-                                    setShowTable(false);
-                                  }}
-                                >
-                                  Lawatan 2
-                                </button>
-                              ) : (
-                                <button
-                                  className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs flex flex-row items-center'
-                                  onClick={() => {
-                                    setIdGTod(agensi._id);
-                                    setShowFormPemeriksaan(true);
-                                    setShowTable(false);
-                                    setPemeriksaanSatu(null);
-                                    setPemeriksaanDua(null);
-                                  }}
-                                >
-                                  <BsPlusCircleDotted className='mr-1' />{' '}
-                                  Lawatan
-                                </button>
-                              )}
-                            </span>
+                            {agensi.statusPenglibatan === 'aktif' ? (
+                              <span className='flex items-center justify-center space-x-1'>
+                                {agensi.pemeriksaanAgensiLuar1 && (
+                                  <button
+                                    className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
+                                    onClick={() => {
+                                      setIdGTod(agensi._id);
+                                      setNamaTaskaTadika(
+                                        agensi.namaTaskaTadika
+                                      );
+                                      setVisitNumber(agensi.visitNumber);
+                                      setPemeriksaanSatu(
+                                        agensi.pemeriksaanAgensiLuar1
+                                      );
+                                      setShowFormPemeriksaan(true);
+                                      setShowTable(false);
+                                    }}
+                                  >
+                                    Lawatan 1
+                                  </button>
+                                )}
+                                {agensi.pemeriksaanAgensiLuar2 ? (
+                                  <button
+                                    className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
+                                    onClick={() => {
+                                      setIdGTod(agensi._id);
+                                      setNamaTaskaTadika(
+                                        agensi.namaTaskaTadika
+                                      );
+                                      setVisitNumber(agensi.visitNumber);
+                                      setPemeriksaanDua(
+                                        agensi.pemeriksaanAgensiLuar2
+                                      );
+                                      setShowFormPemeriksaan(true);
+                                      setShowTable(false);
+                                    }}
+                                  >
+                                    Lawatan 2
+                                  </button>
+                                ) : (
+                                  <button
+                                    className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs flex flex-row items-center'
+                                    onClick={() => {
+                                      setIdGTod(agensi._id);
+                                      setNamaTaskaTadika(
+                                        agensi.namaTaskaTadika
+                                      );
+                                      setVisitNumber(agensi.visitNumber);
+                                      setShowFormPemeriksaan(true);
+                                      setShowTable(false);
+                                      setPemeriksaanSatu(null);
+                                      setPemeriksaanDua(null);
+                                    }}
+                                  >
+                                    <BsPlusCircleDotted className='mr-1' />{' '}
+                                    Lawatan
+                                  </button>
+                                )}
+                              </span>
+                            ) : null}
                           </td>
                         </tr>
                       ))
@@ -252,7 +280,10 @@ export default function ProgramGTod() {
                     ? 'Lawatan Pertama'
                     : pemeriksaanDua
                     ? 'Lawatan Kedua'
-                    : 'Tambah Lawatan'}
+                    : visitNumber === 1
+                    ? 'Tambah Lawatan Kedua'
+                    : 'Tambah Lawatan Pertama'}{' '}
+                  {namaTaskaTadika}
                 </h1>
               </div>
               <FormPemeriksaanProgramGtod
@@ -260,6 +291,7 @@ export default function ProgramGTod() {
                 idGTod={idGTod}
                 setShowFormPemeriksaan={setShowFormPemeriksaan}
                 setShowTable={setShowTable}
+                visitNumber={visitNumber}
                 pemeriksaanSatu={pemeriksaanSatu}
                 setPemeriksaanSatu={setPemeriksaanSatu}
                 pemeriksaanDua={pemeriksaanDua}

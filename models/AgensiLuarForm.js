@@ -60,6 +60,10 @@ const PemeriksaanAgensiLuarSchema = new Schema(
       type: Number,
       default: 0,
     },
+    hadirDirujuk: {
+      type: Number,
+      default: 0,
+    },
     todAbses: {
       type: Number,
       default: 0,
