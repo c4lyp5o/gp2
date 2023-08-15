@@ -2140,7 +2140,7 @@ const getData = async (req, res) => {
                       ? {
                           pemeriksaanAgensiLuar2:
                             createPemeriksaanAgensiLuar._id,
-                          visitNumber: 2,
+                          visitNumber: 1,
                         }
                       : {}),
                   },
