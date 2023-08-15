@@ -3,7 +3,11 @@ const express = require('express');
 const router = express.Router();
 
 // Middlewares
-const { adminAuth, adminAuthInt } = require('../middlewares/adminAuth');
+const {
+  adminAuth,
+  adminAuthPost,
+  adminAuthInt,
+} = require('../middlewares/adminAuth');
 
 // Controller
 const {
@@ -13,6 +17,8 @@ const {
   initialDataAdmins,
   checkUser,
   loginUser,
+  getAhqData,
+  downloadAhqData,
   getData,
   getDataRoute,
   getDataKpRoute,
@@ -67,6 +73,10 @@ router.get('/getfasiliti', adminAuth, processFasilitiQuery);
 router.get('/getoperator', adminAuth, processOperatorQuery);
 router.get('/getkkiakd', adminAuth, processKkiakdQuery);
 router.get('/getsekolahMOEIS', adminAuth, processSekolahQuery);
+
+// Ad Hoc
+router.post('/ahq', adminAuthPost, getAhqData);
+router.post('/ahq-dl', adminAuthPost, downloadAhqData);
 
 // Legacy
 router.post('/newroute', adminAuthInt, getData);

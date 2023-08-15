@@ -2,8 +2,8 @@ import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
-// import { DndProvider } from 'react-dnd';
-// import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { useOndemandSetting } from '../context/useOndemandSetting';
@@ -75,7 +75,7 @@ const OndemandSetting = lazy(() =>
 const DisabledAdminPage = lazy(() => import('../pages/AdminDisabled'));
 
 //ad hoc query
-// const AdHocQuery = lazy(() => import('../components/superadmin/AdHocQuery'));
+const AdHocQuery = lazy(() => import('../components/superadmin/AdHocQuery'));
 
 function AdminAfterLogin() {
   const { getAdminToken, setAdminToken } = useToken();
@@ -326,14 +326,27 @@ function AdminAfterLogin() {
           ) : null}
           {/* route hq superadmin sahaja */}
           {loginInfo.accountType === 'hqSuperadmin' ? (
-            <Route
-              path='ondemand'
-              element={
-                <Suspense fallback={<Loading />}>
-                  <OndemandSetting />
-                </Suspense>
-              }
-            />
+            <>
+              <Route
+                path='ondemand'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <OndemandSetting />
+                  </Suspense>
+                }
+              />
+              {/* AdHoc Query thanks myhdw! */}
+              <Route
+                path='aq'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <DndProvider backend={HTML5Backend}>
+                      <AdHocQuery />
+                    </DndProvider>
+                  </Suspense>
+                }
+              />
+            </>
           ) : null}
           {/* route negeri superadmin sahaja */}
           {loginInfo.accountType === 'negeriSuperadmin' ? (
@@ -565,17 +578,6 @@ function AdminAfterLogin() {
               />
             </>
           ) : null}
-          {/* AdHoc Query thanks myhdw! */}
-          {/* <Route
-            path='aq'
-            element={
-              <Suspense fallback={<Loading />}>
-                <DndProvider backend={HTML5Backend}>
-                  <AdHocQuery />
-                </DndProvider>
-              </Suspense>
-            }
-          /> */}
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>
