@@ -89,15 +89,15 @@ const pipelineSekolahPemeriksaan = (payload, jenis) => {
     },
     {
       $addFields: {
+        statusRawatan: '$result.statusRawatan',
+        tahunTingkatan: '$result.tahunTingkatan',
+        kelasPelajar: '$result.kelasPelajar',
+        jantina: '$result.jantina',
+        statusOku: '$result.statusOku',
         umur: '$result.umur',
         keturunan: '$result.keturunan',
         warganegara: '$result.warganegara',
-        statusOku: '$result.statusOku',
-        statusRawatan: '$result.statusRawatan',
-        tahunTingkatan: '$result.tahunTingkatan',
-        warganegara: '$result.warganegara',
-        kelasPelajar: '$result.kelasPelajar',
-        jantina: '$result.jantina',
+        kesSelesaiMmi: '$result.kesSelesaiMmi',
         pemeriksaanSekolah: '$result.pemeriksaanSekolah',
         rawatanSekolah: '$result.rawatanSekolah',
       },
@@ -158,6 +158,7 @@ const pipelineSekolahPemeriksaan = (payload, jenis) => {
         statusOku: 1,
         tahunTingkatan: 1,
         kelasPelajar: 1,
+        kesSelesaiMmi: 1,
         tarikhPemeriksaan: 1,
         operatorPemeriksaan: 1,
         tarikhRawatan: '$lastRawatan.tarikhRawatanSemasa',
@@ -270,15 +271,15 @@ const pipelineSekolahRawatan = (payload, jenis) => {
     },
     {
       $addFields: {
+        statusRawatan: '$result.statusRawatan',
+        tahunTingkatan: '$result.tahunTingkatan',
+        kelasPelajar: '$result.kelasPelajar',
+        jantina: '$result.jantina',
+        statusOku: '$result.statusOku',
         umur: '$result.umur',
         keturunan: '$result.keturunan',
         warganegara: '$result.warganegara',
-        statusOku: '$result.statusOku',
-        statusRawatan: '$result.statusRawatan',
-        tahunTingkatan: '$result.tahunTingkatan',
-        warganegara: '$result.warganegara',
-        kelasPelajar: '$result.kelasPelajar',
-        jantina: '$result.jantina',
+        kesSelesaiMmi: '$result.kesSelesaiMmi',
         rawatanSekolah: '$result.rawatanSekolah',
       },
     },
@@ -311,6 +312,7 @@ const pipelineSekolahRawatan = (payload, jenis) => {
         statusOku: 1,
         tahunTingkatan: 1,
         kelasPelajar: 1,
+        kesSelesaiMmi: 1,
         merged: {
           $mergeObjects: ['$rawatanSekolah'],
         },
@@ -9826,11 +9828,12 @@ const groupSekolahPemeriksaan = {
   //     ],
   //   },
   // },
-  kesSelesaiPemeriksaan: {
+  // ! pakai ni untuk 206 207 sekolah
+  kesSelesai: {
     $sum: {
       $cond: [
         {
-          $eq: ['$pemeriksaanSekolah.kesSelesai', 'ya-kes-selesai'],
+          $eq: ['$statusRawatan', 'selesai'],
         },
         1,
         0,
@@ -10043,6 +10046,7 @@ const groupSekolahRawatan = {
       ],
     },
   },
+  // ! ni tak pakai
   kesSelesai: {
     $sum: {
       $cond: [
@@ -10415,6 +10419,17 @@ const groupSekolahPemeriksaanOKUBW = {
   //     ],
   //   },
   // },
+  kesSelesai: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$statusRawatan', 'selesai'],
+        },
+        1,
+        0,
+      ],
+    },
+  },
 };
 
 const groupSekolahRawatanOKUBW = {
@@ -10427,14 +10442,7 @@ const groupSekolahRawatanOKUBW = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiFv', 0],
-            },
-          ],
+          $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiFv', 0],
         },
         1,
         0,
@@ -10445,14 +10453,7 @@ const groupSekolahRawatanOKUBW = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiPrrJenis1', 0],
-            },
-          ],
+          $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiPrrJenis1', 0],
         },
         1,
         0,
@@ -10466,14 +10467,7 @@ const groupSekolahRawatanOKUBW = {
     $sum: {
       $cond: [
         {
-          $and: [
-            {
-              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
-            },
-            {
-              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDibuatFs', 0],
-            },
-          ],
+          $gt: ['$rawatanSekolah.baruJumlahGigiKekalDibuatFs', 0],
         },
         1,
         0,
