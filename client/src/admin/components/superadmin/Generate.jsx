@@ -2544,7 +2544,7 @@ const Generate = () => {
     if (init.current === true) {
       readGenerateTokenData()
         .then((res) => {
-          setStatusToken(res.data);
+          setStatusToken(res);
         })
         .catch((err) => {
           console.log(err);
