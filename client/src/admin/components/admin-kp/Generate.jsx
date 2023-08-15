@@ -1839,7 +1839,6 @@ const Generate = () => {
     setPilihanFasiliti('program');
     await readSpesifikProgramDataForKp(loginInfo.kodFasiliti)
       .then((res) => {
-        console.log(res.data);
         setProgramData(res.data);
       })
       .catch((err) => {
@@ -1851,7 +1850,6 @@ const Generate = () => {
     setPilihanFasiliti('kpbmpb');
     await readSpesifikKPBMPBDataForKp(loginInfo.kodFasiliti)
       .then((res) => {
-        console.log(res.data);
         setKpbmpbData(res.data);
       })
       .catch((err) => {
@@ -1877,7 +1875,6 @@ const Generate = () => {
   const handleGetRTC = async (e) => {
     await readSpesifikRTCData(pilihanKlinik)
       .then((res) => {
-        // console.log(res.data);
         setRtcData(res.data);
       })
       .catch((err) => {
@@ -1889,7 +1886,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaTadikaDataForKp()
       .then((res) => {
-        // console.log(res.data);
         setAllTadika(res.data);
         setSedangCarianJana(false);
       })
@@ -1902,7 +1898,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaSekolahRendahDataForKp()
       .then((res) => {
-        // console.log(res.data);
         setAllSekRendah(res.data);
         setSedangCarianJana(false);
       })
@@ -1915,7 +1910,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaSekolahMenengahDataForKp()
       .then((res) => {
-        // console.log(res.data);
         setAllSekMenengah(res.data);
         setSedangCarianJana(false);
       })
@@ -1966,7 +1960,7 @@ const Generate = () => {
     if (init.current === true) {
       readGenerateTokenDataForKp()
         .then((res) => {
-          setStatusToken(res.data);
+          setStatusToken(res);
         })
         .catch((err) => {
           console.log(err);
@@ -2001,7 +1995,7 @@ const Generate = () => {
       try {
         setNamaKlinik(loginInfo.kp);
         const resToken = await readGenerateTokenDataForKp();
-        setStatusToken(resToken.data);
+        setStatusToken(resToken);
         const resReten = await readOndemandSetting();
         setStatusReten(resReten.data.currentOndemandSetting);
       } catch (err) {

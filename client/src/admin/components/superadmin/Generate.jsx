@@ -2307,7 +2307,6 @@ const Generate = () => {
     setPilihanFasiliti('program');
     await readSpesifikProgramData(klinik)
       .then((res) => {
-        console.log(res);
         setProgramData(res.data);
       })
       .catch((err) => {
@@ -2320,7 +2319,6 @@ const Generate = () => {
     await readSpesifikKPBMPBData(klinik)
       .then((res) => {
         setKpbmpbData(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -2345,7 +2343,6 @@ const Generate = () => {
   const handleGetRTC = async (e) => {
     await readSpesifikRTCData(pilihanKlinik)
       .then((res) => {
-        // console.log(res.data);
         setRtcData(res.data);
       })
       .catch((err) => {
@@ -2357,7 +2354,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaTadikaData()
       .then((res) => {
-        // console.log(res.data);
         setAllTadika(res.data);
         setSedangCarianJana(false);
       })
@@ -2370,7 +2366,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaSekolahRendahData()
       .then((res) => {
-        // console.log(res.data);
         setAllSekRendah(res.data);
         setSedangCarianJana(false);
       })
@@ -2383,7 +2378,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaSekolahMenengahData()
       .then((res) => {
-        // console.log(res.data);
         setAllSekMenengah(res.data);
         setSedangCarianJana(false);
       })
@@ -2576,7 +2570,7 @@ const Generate = () => {
           setKlinik(res.data);
         }
         const resToken = await readGenerateTokenData();
-        setStatusToken(resToken.data);
+        setStatusToken(resToken);
         const resReten = await readOndemandSetting();
         setStatusReten(resReten.data.currentOndemandSetting);
       } catch (err) {
