@@ -11,7 +11,6 @@ const AdminAppContext = createContext();
 
 function AdminAppProvider({ children }) {
   const navigate = useNavigate();
-
   const { adminToken, saveAdminToken, saveTotpToken, removeAdminToken } =
     useToken();
   const { removeLoginInfo } = useLogininfo();
@@ -400,34 +399,6 @@ function AdminAppProvider({ children }) {
     navigate('/pentadbir');
   };
 
-  // adhoc query (he he boi)
-  const adhocQuery = async (payload) => {
-    const response = await axios.post(
-      `/api/v1/superadmin/ahq`,
-      { payload: payload },
-      {
-        headers: {
-          Authorization: adminToken,
-        },
-      }
-    );
-    return response;
-  };
-
-  const downloadAdhocQuery = async (payload) => {
-    const response = await axios.post(
-      `/api/v1/superadmin/ahq-dl`,
-      { payload: payload },
-      {
-        headers: {
-          Authorization: adminToken,
-        },
-        responseType: 'blob',
-      }
-    );
-    return response;
-  };
-
   return (
     <AdminAppContext.Provider
       value={{
@@ -453,9 +424,6 @@ function AdminAppProvider({ children }) {
         getCurrentUser,
         saveCurrentUser,
         logOutUser,
-        // ad hoc query (he he boi)
-        adhocQuery,
-        downloadAdhocQuery,
       }}
     >
       {children}

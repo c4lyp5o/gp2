@@ -16,6 +16,8 @@ import moment from 'moment';
 import { FaWindowClose } from 'react-icons/fa';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useAdhocData } from '../../context/admin-hooks/useAdhocData';
+import { useUtils } from '../../context/useUtils';
 
 import { Loading } from '../Screens';
 
@@ -156,8 +158,9 @@ const Disclaimer = ({ setDisclaimer }) => {
 };
 
 const AdHocQuery = () => {
-  const { toast, adhocQuery, downloadAdhocQuery, masterDatePicker } =
-    useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { adhocQuery, downloadAdhocQuery } = useAdhocData();
+  const { masterDatePicker } = useUtils();
 
   const defaultYAxis = [
     {
