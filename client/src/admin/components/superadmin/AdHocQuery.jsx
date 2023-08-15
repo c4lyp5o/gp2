@@ -882,8 +882,14 @@ const AdHocQuery = () => {
         {data.map((key, index) => (
           <tr key={index}>
             <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-              {checkboxSelection.x.some((item) => item.text === 'Umur')
-                ? `${Dictionary[key._id]}`
+              {checkboxSelection.x.some((item) => {
+                if (item.text === 'Umur' && item.checked === true) {
+                  return true;
+                } else {
+                  return false;
+                }
+              })
+                ? Dictionary[key._id]
                 : key._id}
             </td>
             {checkboxSelection.y
