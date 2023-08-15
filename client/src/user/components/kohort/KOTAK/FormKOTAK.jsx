@@ -898,6 +898,7 @@ function UserFormKohortKOTAK() {
                                   setConfirmData({
                                     ...confirmData,
                                     adaTiadaQTarikh3: e.target.value,
+                                    rujukGuruKaunseling: '',
                                   });
                                   setThisUsernameData({
                                     ...thisUsernameData,
