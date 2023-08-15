@@ -189,6 +189,7 @@ export default function ProgramGTod() {
                                       setNamaTaskaTadika(
                                         agensi.namaTaskaTadika
                                       );
+                                      setVisitNumber(agensi.visitNumber);
                                       setPemeriksaanSatu(
                                         agensi.pemeriksaanAgensiLuar1
                                       );
@@ -207,6 +208,7 @@ export default function ProgramGTod() {
                                       setNamaTaskaTadika(
                                         agensi.namaTaskaTadika
                                       );
+                                      setVisitNumber(agensi.visitNumber);
                                       setPemeriksaanDua(
                                         agensi.pemeriksaanAgensiLuar2
                                       );
@@ -278,7 +280,9 @@ export default function ProgramGTod() {
                     ? 'Lawatan Pertama'
                     : pemeriksaanDua
                     ? 'Lawatan Kedua'
-                    : 'Tambah Lawatan'}{' '}
+                    : visitNumber === 1
+                    ? 'Tambah Lawatan Kedua'
+                    : 'Tambah Lawatan Pertama'}{' '}
                   {namaTaskaTadika}
                 </h1>
               </div>
