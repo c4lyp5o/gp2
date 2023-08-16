@@ -14,7 +14,7 @@ export function useKpData() {
         Data: data,
         token: adminToken,
       });
-      return response.data;
+      return response;
     } catch (err) {
       return err;
     }
@@ -28,7 +28,7 @@ export function useKpData() {
         },
       }
     );
-    return response.data;
+    return response;
   };
   const readOneDataForKp = async (type, id) => {
     try {
@@ -40,7 +40,7 @@ export function useKpData() {
           },
         }
       );
-      return response.data;
+      return response;
     } catch (err) {
       return err;
     }
@@ -55,7 +55,7 @@ export function useKpData() {
         Data: data,
         token: adminToken,
       });
-      return response.data;
+      return response;
     } catch (err) {
       return err;
     }

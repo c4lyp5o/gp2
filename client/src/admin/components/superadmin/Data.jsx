@@ -1,5 +1,5 @@
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useAdminData } from '../../context/admin-hooks/useAdminData';
+import { useLogininfo } from '../../context/useLogininfo';
 import { useUtils } from '../../context/useUtils';
 import { useDictionary } from '../../context/useDictionary';
 import { useState, useEffect } from 'react';
@@ -40,28 +40,28 @@ export default function Data({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
-  const { getCurrentUser } = useGlobalAdminAppContext();
-  const { encryptEmail, encryptPassword } = useUtils();
   const { readData } = useAdminData();
+  const { loginInfo } = useLogininfo();
+  const { encryptEmail, encryptPassword } = useUtils();
   const { Dictionary } = useDictionary();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const { data: userData } = await getCurrentUser();
-        setDaerah(userData.daerah);
-        setNegeri(userData.negeri);
-        setUser(userData.nama);
 
-        const data = await readData(FType);
-        setData(data);
+        setUser(loginInfo.nama);
+        setDaerah(loginInfo.daerah);
+        setNegeri(loginInfo.negeri);
+
+        const res = await readData(FType);
+        setData(res.data);
 
         switch (FType) {
           case 'kp':
             setShowPassword({
-              [data.username]: false,
-              [data.kaunterUsername]: false,
+              [res.data.username]: false,
+              [res.data.kaunterUsername]: false,
             });
             setShow({ klinik: true });
             break;
@@ -92,6 +92,7 @@ export default function Data({ FType }) {
         }
       } catch (error) {
         setData(null);
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -101,7 +102,6 @@ export default function Data({ FType }) {
 
     return () => {
       setLoading(true);
-      setShow({});
     };
   }, [FType, reload]);
 

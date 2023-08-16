@@ -2487,7 +2487,7 @@ const Generate = () => {
     setAllSekMenengah([]);
   };
 
-  // reset stuff
+  // ! reset stuff, depend dengan pilihanKlinik sbb boleh berubah, x mcm admin kp
   useEffect(() => {
     // if (pilihanFasiliti === '') {
     //   setPilihanProgram('');
@@ -2538,7 +2538,7 @@ const Generate = () => {
     if (init.current === true) {
       readGenerateTokenData()
         .then((res) => {
-          setStatusToken(res);
+          setStatusToken(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -2570,7 +2570,7 @@ const Generate = () => {
           setKlinik(res.data);
         }
         const resToken = await readGenerateTokenData();
-        setStatusToken(resToken);
+        setStatusToken(resToken.data);
         const resReten = await readOndemandSetting();
         setStatusReten(resReten.data.currentOndemandSetting);
       } catch (err) {

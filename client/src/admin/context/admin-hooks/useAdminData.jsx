@@ -14,7 +14,7 @@ export function useAdminData() {
         Data: data,
         token: adminToken,
       });
-      return response.data;
+      return response;
     } catch (err) {
       return err;
     }
@@ -29,7 +29,7 @@ export function useAdminData() {
         },
       }
     );
-    return response.data;
+    return response;
   };
   const readOneData = async (type, id) => {
     try {
@@ -41,7 +41,7 @@ export function useAdminData() {
           },
         }
       );
-      return response.data;
+      return response;
     } catch (err) {
       return err;
     }
@@ -56,7 +56,7 @@ export function useAdminData() {
         Data: data,
         token: adminToken,
       });
-      return response.data;
+      return response;
     } catch (err) {
       return err;
     }

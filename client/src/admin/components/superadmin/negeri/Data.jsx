@@ -1,7 +1,7 @@
-import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 import { useAdminData } from '../../../context/admin-hooks/useAdminData';
+import { useLogininfo } from '../../context/useLogininfo';
 import { useDictionary } from '../../../context/useDictionary';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Loading, NothingHereBoi } from '../../Screens';
 
@@ -21,23 +21,16 @@ export default function DataNegeri({ DType }) {
   // short circuit
   const [show, setShow] = useState({});
 
-  const init = useRef(false);
-
-  const { getCurrentUser } = useGlobalAdminAppContext();
   const { readData } = useAdminData();
+  const { loginInfo } = useLogininfo();
   const { Dictionary } = useDictionary();
 
   useEffect(() => {
-    if (!init.current) {
-      getCurrentUser().then((res) => {
-        setDaerah(res.data.daerah);
-        setNegeri(res.data.negeri);
-        setUser(res.data.nama);
-      });
-      init.current = true;
-    }
+    setDaerah(loginInfo.daerah);
+    setNegeri(loginInfo.negeri);
+    setUser(loginInfo.nama);
     readData(DType).then((res) => {
-      setData(res);
+      setData(res.data);
       switch (DType) {
         case 'ppspn':
           setShow({ pp: true });

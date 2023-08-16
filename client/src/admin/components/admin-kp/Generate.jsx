@@ -1942,7 +1942,7 @@ const Generate = () => {
     setAllSekMenengah([]);
   };
 
-  // reset stuff
+  // ! reset stuff, depend dengan pilihanFasiliti sbb klinik sama
   useEffect(() => {
     setPilihanProgram('');
     setPilihanKpbMpb('');
@@ -1960,16 +1960,19 @@ const Generate = () => {
     if (init.current === true) {
       readGenerateTokenDataForKp()
         .then((res) => {
-          setStatusToken(res);
+          setStatusToken(res.data);
         })
         .catch((err) => {
           console.log(err);
           setStatusToken([]);
         });
+      readOndemandSetting().then((res) => {
+        setStatusReten(res.data.currentOndemandSetting);
+      });
     }
   }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
 
-  // khusus untuk kpadmin
+  // ! khusus untuk kpadmin
   useEffect(() => {
     if (
       [
@@ -1995,7 +1998,7 @@ const Generate = () => {
       try {
         setNamaKlinik(loginInfo.kp);
         const resToken = await readGenerateTokenDataForKp();
-        setStatusToken(resToken);
+        setStatusToken(resToken.data);
         const resReten = await readOndemandSetting();
         setStatusReten(resReten.data.currentOndemandSetting);
       } catch (err) {

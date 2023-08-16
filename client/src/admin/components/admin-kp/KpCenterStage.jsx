@@ -16,8 +16,8 @@ export default function KpCenterStage() {
 
   useEffect(() => {
     const getProgramForKp = async () => {
-      const data = await readDataForKp('program');
-      setProgram(data);
+      const res = await readDataForKp('program');
+      setProgram(res.data);
     };
     try {
       getProgramForKp();

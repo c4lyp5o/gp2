@@ -283,7 +283,7 @@ const AddModal = ({
       case 'sm':
         const getSekolahAndKpData = async () => {
           const sekolah = await readSekolahData(FType);
-          const klinik = await readData('kp');
+          const { data: klinik } = await readData('kp');
           setStatusMOEIS(true);
           setIsLoadingMOEIS(false);
           setSekolah(sekolah);
@@ -300,13 +300,13 @@ const AddModal = ({
         break;
       case 'kp':
         readFasilitiData({ negeri, daerah }).then((res) => {
-          setKlinik(res);
+          setKlinik(res.data);
         });
         break;
       case 'kkiakd':
         const getKkiaAndKpData = async () => {
-          const kkia = await readKkiaData({ negeri, daerah });
-          const klinik = await readData('kp');
+          const { data: kkia } = await readKkiaData({ negeri, daerah });
+          const { data: klinik } = await readData('kp');
           setKkia(kkia);
           setKlinik(klinik);
         };
@@ -319,7 +319,7 @@ const AddModal = ({
         break;
       default:
         readData('kp').then((res) => {
-          setKlinik(res);
+          setKlinik(res.data);
         });
         break;
     }
@@ -471,7 +471,7 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
       };
     }
     try {
-      const response = await createDataForKp(FType, Data);
+      await createDataForKp(FType, Data);
       toast.info(`Data berjaya ditambah`);
     } catch (err) {
       toast.error(`Data tidak berjaya ditambah`);
@@ -532,15 +532,15 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
     switch (FType) {
       case 'kp':
         readOneData(FType, id).then((res) => {
-          setEditedEntity(res);
+          setEditedEntity(res.data);
         });
         break;
       default:
         readData('kp').then((res) => {
-          setKlinik(res);
+          setKlinik(res.data);
         });
         readOneData(FType, id).then((res) => {
-          setEditedEntity(res);
+          setEditedEntity(res.data);
         });
         break;
     }
@@ -609,7 +609,7 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
         break;
     }
     try {
-      const response = await updateData(FType, id, Data);
+      await updateData(FType, id, Data);
       toast.info(`Data berjaya dikemaskini`);
     } catch (err) {
       toast.error(`Data tidak berjaya dikemaskini`);
@@ -701,19 +701,19 @@ const EditModalForKp = ({
     if (init.current === false) {
       if (FType === 'kpb' || FType === 'mpb') {
         readDataForKp('kpallnegeri').then((res) => {
-          setAllKlinik(res);
+          setAllKlinik(res.data);
         });
         readDataForKp('kkiakdallnegeri').then((res) => {
-          setAllKkiaKd(res);
+          setAllKkiaKd(res.data);
         });
         readDataForKp('tastadallnegeri').then((res) => {
-          setAllTastad(res);
+          setAllTastad(res.data);
         });
         readDataForKp('sr').then((res) => {
-          setAllSR(res);
+          setAllSR(res.data);
         });
         readDataForKp('sm').then((res) => {
-          setAllSM(res);
+          setAllSM(res.data);
         });
       }
       readOneDataForKp(FType, id).then((res) => {
@@ -776,7 +776,7 @@ const EditModalForKp = ({
             res.data.jumlahTidakHadirTasTad = 0;
           }
         }
-        setEditedEntity(res);
+        setEditedEntity(res.data);
         res.tarikhStart
           ? setStartDateDP(new Date(res.tarikhStart))
           : setStartDateDP(null);

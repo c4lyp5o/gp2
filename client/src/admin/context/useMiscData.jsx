@@ -15,7 +15,7 @@ export function useMiscData() {
           },
         }
       );
-      return response.data;
+      return response;
     } catch (err) {
       return false;
     }
@@ -30,7 +30,7 @@ export function useMiscData() {
           },
         }
       );
-      return response.data;
+      return response;
     } catch (err) {
       return false;
     }
@@ -45,7 +45,7 @@ export function useMiscData() {
           },
         }
       );
-      return response.data;
+      return response;
     } catch (err) {
       return false;
     }
@@ -94,7 +94,7 @@ export function useMiscData() {
       Fn: 'read',
       token: adminToken,
     });
-    return response.data;
+    return response;
   };
   const readGenerateTokenData = async () => {
     try {
@@ -106,7 +106,7 @@ export function useMiscData() {
           },
         }
       );
-      return response.data;
+      return response;
     } catch (err) {
       return false;
     }
@@ -121,7 +121,7 @@ export function useMiscData() {
           },
         }
       );
-      return response.data;
+      return response;
     } catch (err) {
       return false;
     }

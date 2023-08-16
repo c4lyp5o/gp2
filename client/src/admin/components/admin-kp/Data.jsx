@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useAdminData } from '../../context/admin-hooks/useAdminData';
 import { useKpData } from '../../context/kp-hooks/useKpData';
+import { useLogininfo } from '../../context/useLogininfo';
 
 import Program from './Program';
 import Sosmed from './Sosmed';
@@ -58,27 +58,26 @@ export default function DataKp({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
-  const { getCurrentUser } = useGlobalAdminAppContext();
   const { readData } = useAdminData();
   const { readDataForKp } = useKpData();
+  const { loginInfo } = useLogininfo();
 
   useEffect(() => {
-    setLoading(true);
     const fetchData = async () => {
       try {
-        const { data: userData } = await getCurrentUser();
+        setLoading(true);
 
-        setAccountType(userData.accountType);
-        setUser(userData.nama);
-        setKp(userData.kp);
-        setDaerah(userData.daerah !== '-' ? userData.daerah : undefined);
-        setNegeri(userData.negeri);
+        setAccountType(loginInfo.accountType);
+        setUser(loginInfo.nama);
+        setNegeri(loginInfo.negeri);
+        setDaerah(loginInfo.daerah !== '-' ? loginInfo.daerah : undefined);
+        setKp(loginInfo.kp);
 
-        const { data } = await (userData.accountType === 'kpUserAdmin'
+        const res = await (loginInfo.accountType === 'kpUserAdmin'
           ? readDataForKp(FType, kp)
           : readData(FType));
 
-        setData(data);
+        setData(res.data);
 
         setShow({
           program: FType === 'program',
