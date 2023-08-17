@@ -29,7 +29,7 @@ export default function Program(props) {
                   Institusi
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                  Klinik Bertugas
+                  Klinik Bertanggungjawab
                 </th>
                 {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Kaedah Penyampaian Perkhidmatan
