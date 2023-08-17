@@ -3,6 +3,8 @@ import moment from 'moment';
 import { BiWorld } from 'react-icons/bi';
 
 import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useAdminData } from '../../../context/admin-hooks/useAdminData';
+import { useUtils } from '../../../context/useUtils';
 
 const FormPemeriksaanProgramGtod = ({
   idGTod,
@@ -16,15 +18,9 @@ const FormPemeriksaanProgramGtod = ({
   reloadState,
   setReloadState,
 }) => {
-  const {
-    loginInfo,
-    readData,
-    readOneData,
-    createData,
-    masterDatePicker,
-    updateData,
-    toast,
-  } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { createData } = useAdminData();
+  const { masterDatePicker } = useUtils();
 
   const [tarikhMulaLawatan, setTarikhMulaLawatan] = useState('');
   const [tarikhAkhirLawatan, setTarikhAkhirLawatan] = useState('');
