@@ -995,7 +995,7 @@ const DeleteModal = ({
     e.preventDefault();
     setDeletingData(true);
     switch (loginInfo.accountType) {
-      case 'kpUser':
+      case 'kpUserAdmin':
         deleteDataForKp(FType, id).then((res) => {
           if (res.status === 200) {
             toast.info(`Data berjaya dipadam`);

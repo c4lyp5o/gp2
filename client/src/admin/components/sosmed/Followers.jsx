@@ -9,7 +9,6 @@ import moment from 'moment';
 
 import { FaYoutube, FaTiktok } from 'react-icons/fa';
 
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useUtils } from '../../context/useUtils';
 
 const socmed = [
