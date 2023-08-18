@@ -1112,13 +1112,47 @@ export function InputPegawai(props) {
                           }}
                         />
                       </div>
-                      <button
-                        type='button'
-                        className='block mb-2 px-2 py-1 text-white bg-admin3 hover:bg-admin4 rounded-lg text-sm mt-2'
-                        onClick={(e) => handleSearch(e)}
-                      >
-                        Cari
-                      </button>
+                      {props.searching === false ? (
+                        <button
+                          type='button'
+                          className='block mb-2 px-2 py-1 text-white bg-admin3 hover:bg-admin4 rounded-lg text-sm mt-2'
+                          onClick={(e) => handleSearch(e)}
+                        >
+                          Cari
+                        </button>
+                      ) : (
+                        <>
+                          <button
+                            type='button'
+                            className='block mb-2 px-2 py-1 text-white bg-admin3 hover:bg-admin4 rounded-lg text-sm mt-2'
+                            disabled={true}
+                          >
+                            <span className='flex justify-center items-center'>
+                              <svg
+                                className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                                xmlns='http://www.w3.org/2000/svg'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                              >
+                                <circle
+                                  className='opacity-25'
+                                  cx='12'
+                                  cy='12'
+                                  r='10'
+                                  stroke='currentColor'
+                                  strokeWidth='4'
+                                ></circle>
+                                <path
+                                  className='opacity-75'
+                                  fill='currentColor'
+                                  d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                                ></path>
+                              </svg>
+                              Mencari...
+                            </span>
+                          </button>
+                        </>
+                      )}
                       {props.allPegawai.length > 0 ? (
                         <select
                           required
@@ -1147,30 +1181,29 @@ export function InputPegawai(props) {
                   </>
                 )}
                 {props.FType === 'jp' && (
-                  <div className='grid gap-1 mt-2'>
-                    <label
-                      className='block mb-2 text-sm font-medium text-adminBlack'
-                      htmlFor='default-search'
-                    >
-                      Cari
-                    </label>
-                    <div className='relative'>
-                      <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
-                        <BiSearchAlt />
+                  <>
+                    <div className='grid gap-1 mt-2'>
+                      <label className='block mb-2 text-sm font-medium text-adminBlack'>
+                        Cari
+                      </label>
+                      <div className='relative'>
+                        <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
+                          <BiSearchAlt />
+                        </div>
+                        <input
+                          value={props.carianNama}
+                          type='search'
+                          className='w-full rounded-md border-2 pl-8 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
+                          placeholder='Cari pegawai pergigian...'
+                          onChange={(e) => {
+                            props.setCarianNama(e.target.value);
+                          }}
+                        />
                       </div>
-                      <input
-                        value={props.carianNama}
-                        type='search'
-                        className='block w-full rounded-md border-2 pl-8 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                        placeholder='Cari juruterapi pergigian...'
-                        onChange={(e) => {
-                          props.setCarianNama(e.target.value);
-                        }}
-                      />
                       {props.searching === false ? (
                         <button
                           type='button'
-                          className='text-white absolute right-1 bottom-1 bg-admin3 hover:bg-admin4 font-medium rounded-lg text-sm px-4 py-1'
+                          className='block mb-2 px-2 py-1 text-white bg-admin3 hover:bg-admin4 rounded-lg text-sm mt-2'
                           onClick={(e) => handleSearch(e)}
                         >
                           Cari
@@ -1179,58 +1212,61 @@ export function InputPegawai(props) {
                         <>
                           <button
                             type='button'
-                            className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                            className='block mb-2 px-2 py-1 text-white bg-admin3 hover:bg-admin4 rounded-lg text-sm mt-2'
                             disabled={true}
                           >
-                            <svg
-                              className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
-                              xmlns='http://www.w3.org/2000/svg'
-                              fill='none'
-                              viewBox='0 0 24 24'
-                            >
-                              <circle
-                                className='opacity-25'
-                                cx='12'
-                                cy='12'
-                                r='10'
-                                stroke='currentColor'
-                                strokeWidth='4'
-                              ></circle>
-                              <path
-                                className='opacity-75'
-                                fill='currentColor'
-                                d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-                              ></path>
-                            </svg>
+                            <span className='flex justify-center items-center'>
+                              <svg
+                                className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                                xmlns='http://www.w3.org/2000/svg'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                              >
+                                <circle
+                                  className='opacity-25'
+                                  cx='12'
+                                  cy='12'
+                                  r='10'
+                                  stroke='currentColor'
+                                  strokeWidth='4'
+                                ></circle>
+                                <path
+                                  className='opacity-75'
+                                  fill='currentColor'
+                                  d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                                ></path>
+                              </svg>
+                              Mencari...
+                            </span>
                           </button>
                         </>
                       )}
-                    </div>
-                    {props.allJp.length > 0 ? (
-                      <select
-                        required
-                        onChange={(e) => {
-                          const selectedJp = props.allJp.find(
-                            (p) => p.mdtbNumber === e.target.value
-                          );
-                          props.setName(selectedJp.nama);
-                          props.setRegNumber(selectedJp.mdtbNumber);
-                        }}
-                        className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                      >
-                        <option key='no-value' value=''>
-                          Pilih Juruterapi Pergigian...
-                        </option>
-                        {props.allJp.map((p) => (
-                          <option className='capitalize' value={p.mdtbNumber}>
-                            {p.nama} | {p.mdtbNumber}
+                      {props.allJp.length > 0 ? (
+                        <select
+                          required
+                          onChange={(e) => {
+                            const selectedJp = props.allJp.find(
+                              (p) => p.mdtbNumber === e.target.value
+                            );
+                            props.setName(selectedJp.nama);
+                            props.setRegNumber(selectedJp.mdtbNumber);
+                          }}
+                          className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
+                        >
+                          <option key='no-value' value=''>
+                            Pilih Juruterapi Pergigian...
                           </option>
-                        ))}
-                      </select>
-                    ) : (
-                      <span>{props.noPpJp}</span>
-                    )}
-                  </div>
+                          {props.allJp.map((p) => (
+                            <option className='capitalize' value={p.mdtbNumber}>
+                              {p.nama} | {p.mdtbNumber}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <span>{props.noPpJp}</span>
+                      )}
+                    </div>
+                  </>
                 )}
               </div>
               <div className='px-3 py-1'>
