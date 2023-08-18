@@ -1,5 +1,5 @@
 import { useAdminData } from '../../../context/admin-hooks/useAdminData';
-import { useLogininfo } from '../../context/useLogininfo';
+import { useLogininfo } from '../../../context/useLogininfo';
 import { useDictionary } from '../../../context/useDictionary';
 import { useState, useEffect } from 'react';
 
@@ -10,8 +10,8 @@ import Juruterapi from './Juruterapi';
 
 export default function DataNegeri({ DType }) {
   // data
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
   const [negeri, setNegeri] = useState(null);
   const [daerah, setDaerah] = useState(null);
   const [user, setUser] = useState(null);
@@ -29,24 +29,29 @@ export default function DataNegeri({ DType }) {
     setDaerah(loginInfo.daerah);
     setNegeri(loginInfo.negeri);
     setUser(loginInfo.nama);
-    readData(DType).then((res) => {
-      setData(res.data);
-      switch (DType) {
-        case 'ppspn':
-          setShow({ pp: true });
-          break;
-        case 'jpspn':
-          setShow({ jp: true });
-          break;
-        default:
-          console.log('nope');
-          break;
-      }
-      setTimeout(() => {
+    readData(DType)
+      .then((res) => {
+        setData(res.data);
+        switch (DType) {
+          case 'ppspn':
+            setShow({ pp: true });
+            break;
+          case 'jpspn':
+            setShow({ jp: true });
+            break;
+          default:
+            console.log('nope');
+            break;
+        }
+      })
+      .catch(() => {
+        setData(null);
+      })
+      .finally(() => {
         setLoading(false);
-      }, 500);
-    });
+      });
     return () => {
+      setData(null);
       setLoading(true);
       setShow({});
     };
@@ -76,19 +81,9 @@ export default function DataNegeri({ DType }) {
     );
   };
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
-  if (!loading) {
-    return (
-      <>
-        {data && data.length === 0 ? (
-          <NothingHereBoi FType={DType} />
-        ) : (
-          <RenderSection />
-        )}
-      </>
-    );
-  }
+  if (!data) return <NothingHereBoi FType={DType} />;
+
+  return <RenderSection />;
 }
