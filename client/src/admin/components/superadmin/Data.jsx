@@ -101,6 +101,8 @@ export default function Data({ FType }) {
     fetchData();
 
     return () => {
+      setData(null);
+      setShow({});
       setLoading(true);
     };
   }, [FType, reload]);
@@ -135,20 +137,6 @@ export default function Data({ FType }) {
     setShowDeleteModal,
   };
 
-  const RenderSection = () => {
-    return (
-      <>
-        {show.klinik ? <Klinik {...props} /> : null}
-        {show.kkiakd ? <Kkiakd {...props} /> : null}
-        {show.operators ? <Operators {...props} /> : null}
-        {show.tastad ? <Tastad {...props} /> : null}
-        {show.sekolah ? <Sekolah {...props} /> : null}
-        {show.kpbmpb ? <KPBMPB {...props} /> : null}
-        {show.program ? <Program {...props} /> : null}
-      </>
-    );
-  };
-
   const RenderModal = () => {
     return (
       <>
@@ -159,30 +147,40 @@ export default function Data({ FType }) {
     );
   };
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (!loading) {
+  const RenderSection = () => {
     return (
       <>
-        <div className='h-full overflow-y-auto'>
-          <button
-            className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-md z-10'
-            onClick={() => {
-              setShowAddModal(true);
-              setShowEditModal(false);
-              setShowDeleteModal(false);
-            }}
-          >
-            <div className='text-adminWhite text-5xl'>
-              <FaPlus />
-            </div>
-          </button>
-          {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
-        </div>
-        <RenderModal />
+        {show.klinik && <Klinik {...props} />}
+        {show.kkiakd && <Kkiakd {...props} />}
+        {show.operators && <Operators {...props} />}
+        {show.tastad && <Tastad {...props} />}
+        {show.sekolah && <Sekolah {...props} />}
+        {show.kpbmpb && <KPBMPB {...props} />}
+        {show.program && <Program {...props} />}
       </>
     );
-  }
+  };
+
+  if (loading) return <Loading />;
+
+  return (
+    <>
+      <div className='h-full overflow-y-auto'>
+        <button
+          className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-md z-10'
+          onClick={() => {
+            setShowAddModal(true);
+            setShowEditModal(false);
+            setShowDeleteModal(false);
+          }}
+        >
+          <div className='text-adminWhite text-5xl'>
+            <FaPlus />
+          </div>
+        </button>
+        {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
+      </div>
+      <RenderModal />
+    </>
+  );
 }
