@@ -25,7 +25,7 @@ export default function KlinikPergigianBergerak(props) {
                 return;
               }
               readOneDataForKp('kpb', e.target.value).then((res) => {
-                setSingleKpbData(res);
+                setSingleKpbData(res.data);
                 setShow(true);
               });
             }}
@@ -47,7 +47,7 @@ export default function KlinikPergigianBergerak(props) {
             </button>
           )}
         </div>
-        {show && singleKpbData.penggunaanKPBMPB.length > 0 ? (
+        {show && singleKpbData && singleKpbData.penggunaanKPBMPB.length > 0 ? (
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
               <thead className='text-adminWhite bg-admin3'>

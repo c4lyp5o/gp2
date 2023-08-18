@@ -25,7 +25,7 @@ export default function MakmalPergigianBergerak(props) {
                 return;
               }
               readOneDataForKp('mpb', e.target.value).then((res) => {
-                setSingleMpbData(res);
+                setSingleMpbData(res.data);
                 setShow(true);
               });
             }}
@@ -47,7 +47,7 @@ export default function MakmalPergigianBergerak(props) {
             </button>
           )}
         </div>
-        {show && singleMpbData.penggunaanKPBMPB.length > 0 ? (
+        {show && singleMpbData && singleMpbData.penggunaanKPBMPB.length > 0 ? (
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
               <thead className='text-adminWhite bg-admin3'>
