@@ -6,11 +6,9 @@ import { useLogininfo } from '../context/useLogininfo';
 import { useDictionary } from '../context/useDictionary';
 import { useUtils } from '../context/useUtils';
 import { useRef, useEffect, useState } from 'react';
-import { RiCloseLine } from 'react-icons/ri';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import styles from '../Modal.module.css';
 
 import { Loading } from './Screens';
 import {
@@ -1048,42 +1046,44 @@ const DeleteModal = ({
 
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => setShowDeleteModal(false)}
+      />
       <form onSubmit={handleSubmit}>
-        <div
-          className={styles.darkBG}
-          onClick={() => setShowDeleteModal(false)}
-        />
-        <div className={styles.centered}>
-          <div className={styles.modalDelete}>
-            <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>AWAS!</h5>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>AWAS!</h5>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className='text-2xl font-medium text-adminBlack'
+              >
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
             </div>
-            <button
-              className={styles.closeBtn}
-              onClick={() => setShowDeleteModal(false)}
-            >
-              <RiCloseLine style={{ marginBottom: '-3px' }} />
-            </button>
-            <div className={styles.modalContent}>
+            <div className='mb-3'>
               Anda YAKIN untuk menghapus{' '}
               <span className='text-xl font-bold text-admin2 mt-2'>
                 {deleteCandidate}?
               </span>
             </div>
-            <div className={styles.modalActions}>
-              <div className={styles.actionsContainer}>
-                {deletingData ? (
-                  <BusyButton func='del' />
-                ) : (
-                  <SubmitButton func='del' />
-                )}
-                <button
-                  className={styles.cancelBtn}
-                  onClick={() => setShowDeleteModal(false)}
-                >
-                  Tidak
-                </button>
-              </div>
+            <div className='mt-5'>
+              {deletingData ? (
+                <BusyButton func='del' />
+              ) : (
+                <SubmitButton func='del' />
+              )}
             </div>
           </div>
         </div>
