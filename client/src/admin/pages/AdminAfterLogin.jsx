@@ -42,9 +42,12 @@ const Daerah = lazy(() => import('../components/superadmin/DaerahDetails'));
 const Klinik = lazy(() => import('../components/superadmin/KlinikDetails'));
 
 // data -----------------------------------------------------------
-const DataNegeri = lazy(() => import('../components/superadmin/negeri/Data'));
+const DataNegeri = lazy(() =>
+  import('../components/superadmin/maklumat-untuk-negeri/Data')
+);
 const Data = lazy(() => import('../components/superadmin/Data'));
 const DataKp = lazy(() => import('../components/admin-kp/Data'));
+const DataSosmed = lazy(() => import('../components/sosmed/Data'));
 
 // maklumat asas daerah
 const MaklumatAsasDaerah = lazy(() =>
