@@ -260,7 +260,7 @@ function AdminAfterLogin() {
             path='followers'
             element={
               <Suspense fallback={<Loading />}>
-                <DataKp FType='followers' />
+                <DataSosmed FType='followers' />
               </Suspense>
             }
           />
@@ -268,7 +268,7 @@ function AdminAfterLogin() {
             path='sosmed'
             element={
               <Suspense fallback={<Loading />}>
-                <DataKp FType='sosmed' />
+                <DataSosmed FType='sosmed' />
               </Suspense>
             }
           />
