@@ -118,7 +118,7 @@ const KlinikPergigianBergerakSelector = (props) => {
 
   useEffect(() => {
     readDataForKp('kpb-all').then((res) => {
-      setKpb(res);
+      setKpb(res.data);
     });
     if (props.editedEntity.penggunaanKpb !== 'NOT APPLICABLE') {
       setShowKpb(true);
@@ -163,19 +163,21 @@ const KlinikPergigianBergerakSelector = (props) => {
               }}
             >
               <option value='NOT APPLICABLE'>Pilih KPB</option>
-              {kpb
-                .filter(
-                  (k) =>
-                    ![
-                      props.editedEntity.penggunaanKpb2,
-                      props.editedEntity.penggunaanKpb3,
-                    ].includes(k.nama)
-                )
-                .map((item) => (
-                  <option value={item.nama}>
-                    {item.createdByDaerah} | {item.subJenisKPBMPB} | {item.nama}
-                  </option>
-                ))}
+              {kpb &&
+                kpb
+                  .filter(
+                    (k) =>
+                      ![
+                        props.editedEntity.penggunaanKpb2,
+                        props.editedEntity.penggunaanKpb3,
+                      ].includes(k.nama)
+                  )
+                  .map((item) => (
+                    <option value={item.nama}>
+                      {item.createdByDaerah} | {item.subJenisKPBMPB} |{' '}
+                      {item.nama}
+                    </option>
+                  ))}
             </select>
             {showKpb3 === false ? (
               <span
@@ -208,20 +210,21 @@ const KlinikPergigianBergerakSelector = (props) => {
                 }}
               >
                 <option value='NOT APPLICABLE'>Pilih KPB</option>
-                {kpb
-                  .filter(
-                    (k) =>
-                      ![
-                        props.editedEntity.penggunaanKpb,
-                        props.editedEntity.penggunaanKpb3,
-                      ].includes(k.nama)
-                  )
-                  .map((item) => (
-                    <option value={item.nama}>
-                      {item.createdByDaerah} | {item.subJenisKPBMPB} |{' '}
-                      {item.nama}
-                    </option>
-                  ))}
+                {kpb &&
+                  kpb
+                    .filter(
+                      (k) =>
+                        ![
+                          props.editedEntity.penggunaanKpb,
+                          props.editedEntity.penggunaanKpb3,
+                        ].includes(k.nama)
+                    )
+                    .map((item) => (
+                      <option value={item.nama}>
+                        {item.createdByDaerah} | {item.subJenisKPBMPB} |{' '}
+                        {item.nama}
+                      </option>
+                    ))}
               </select>
               <span
                 className={`${
@@ -249,20 +252,21 @@ const KlinikPergigianBergerakSelector = (props) => {
                 }}
               >
                 <option value='NOT APPLICABLE'>Pilih KPB</option>
-                {kpb
-                  .filter(
-                    (k) =>
-                      ![
-                        props.editedEntity.penggunaanKpb2,
-                        props.editedEntity.penggunaanKpb,
-                      ].includes(k.nama)
-                  )
-                  .map((item) => (
-                    <option value={item.nama}>
-                      {item.createdByDaerah} | {item.subJenisKPBMPB} |{' '}
-                      {item.nama}
-                    </option>
-                  ))}
+                {kpb &&
+                  kpb
+                    .filter(
+                      (k) =>
+                        ![
+                          props.editedEntity.penggunaanKpb2,
+                          props.editedEntity.penggunaanKpb,
+                        ].includes(k.nama)
+                    )
+                    .map((item) => (
+                      <option value={item.nama}>
+                        {item.createdByDaerah} | {item.subJenisKPBMPB} |{' '}
+                        {item.nama}
+                      </option>
+                    ))}
               </select>
             </div>
           ) : null}
@@ -284,7 +288,7 @@ const MakmalPergigianBergerakSelector = (props) => {
 
   useEffect(() => {
     readDataForKp('mpb-all').then((res) => {
-      setMpb(res);
+      setMpb(res.data);
     });
     if (props.editedEntity.penggunaanMpb !== 'NOT APPLICABLE') {
       setShowMpb(true);
@@ -329,19 +333,21 @@ const MakmalPergigianBergerakSelector = (props) => {
               }}
             >
               <option value='NOT APPLICABLE'>Pilih MPB</option>
-              {mpb
-                .filter(
-                  (k) =>
-                    ![
-                      props.editedEntity.penggunaanMpb2,
-                      props.editedEntity.penggunaanMpb3,
-                    ].includes(k.nama)
-                )
-                .map((item) => (
-                  <option value={item.nama}>
-                    {item.createdByDaerah} | {item.subJenisKPBMPB} | {item.nama}
-                  </option>
-                ))}
+              {mpb &&
+                mpb
+                  .filter(
+                    (k) =>
+                      ![
+                        props.editedEntity.penggunaanMpb2,
+                        props.editedEntity.penggunaanMpb3,
+                      ].includes(k.nama)
+                  )
+                  .map((item) => (
+                    <option value={item.nama}>
+                      {item.createdByDaerah} | {item.subJenisKPBMPB} |{' '}
+                      {item.nama}
+                    </option>
+                  ))}
             </select>
             {showMpb3 === false ? (
               <span
@@ -374,20 +380,21 @@ const MakmalPergigianBergerakSelector = (props) => {
                 }}
               >
                 <option value='NOT APPLICABLE'>Pilih MPB</option>
-                {mpb
-                  .filter(
-                    (k) =>
-                      ![
-                        props.editedEntity.penggunaanMpb,
-                        props.editedEntity.penggunaanMpb3,
-                      ].includes(k.nama)
-                  )
-                  .map((item) => (
-                    <option value={item.nama}>
-                      {item.createdByDaerah} | {item.subJenisKPBMPB} |{' '}
-                      {item.nama}
-                    </option>
-                  ))}
+                {mpb &&
+                  mpb
+                    .filter(
+                      (k) =>
+                        ![
+                          props.editedEntity.penggunaanMpb,
+                          props.editedEntity.penggunaanMpb3,
+                        ].includes(k.nama)
+                    )
+                    .map((item) => (
+                      <option value={item.nama}>
+                        {item.createdByDaerah} | {item.subJenisKPBMPB} |{' '}
+                        {item.nama}
+                      </option>
+                    ))}
               </select>
               <span
                 className={`${
@@ -415,20 +422,21 @@ const MakmalPergigianBergerakSelector = (props) => {
                 }}
               >
                 <option value='NOT APPLICABLE'>Pilih MPB</option>
-                {mpb
-                  .filter(
-                    (k) =>
-                      ![
-                        props.editedEntity.penggunaanKpb2,
-                        props.editedEntity.penggunaanKpb,
-                      ].includes(k.nama)
-                  )
-                  .map((item) => (
-                    <option value={item.nama}>
-                      {item.createdByDaerah} | {item.subJenisKPBMPB} |{' '}
-                      {item.nama}
-                    </option>
-                  ))}
+                {mpb &&
+                  mpb
+                    .filter(
+                      (k) =>
+                        ![
+                          props.editedEntity.penggunaanKpb2,
+                          props.editedEntity.penggunaanKpb,
+                        ].includes(k.nama)
+                    )
+                    .map((item) => (
+                      <option value={item.nama}>
+                        {item.createdByDaerah} | {item.subJenisKPBMPB} |{' '}
+                        {item.nama}
+                      </option>
+                    ))}
               </select>
             </div>
           ) : null}
