@@ -1050,14 +1050,17 @@ export function InputPegawai(props) {
     const res = await readOperatorData(props.FType, props.carianNama);
 
     if (res) {
-      if (props.FType === 'pp') {
-        props.setAllPegawai(res);
-      } else if (props.FType === 'jp') {
-        props.setAllJp(res);
+      switch (props.FType) {
+        case 'pp':
+          props.setAllPegawai(res.data);
+          break;
+        case 'jp':
+          props.setAllJp(res.data);
+          break;
+        default:
+          break;
       }
-    }
-
-    if (!res) {
+    } else {
       props.setNoPpJp(
         props.FType === 'pp'
           ? 'Tiada pegawai dijumpai'
