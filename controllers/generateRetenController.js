@@ -9828,7 +9828,7 @@ const makePPIM05 = async (payload) => {
     //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('BORANG PPIM 05-2023');
+    let worksheet = workbook.getWorksheet('BORANG PPIM 05-2023(SR)');
     //
     worksheet.getCell('I4').value = moment(new Date()).format('YYYY');
     worksheet.getCell('F4').value = moment(bulan ? bulan : tarikhMula).format(
@@ -9844,7 +9844,7 @@ const makePPIM05 = async (payload) => {
     let rowNumber = 0;
     //
     // buat identical copy untuk sm
-    if (data[0].some((obj) => ['T', 'P', 'KHAM'].includes(obj._id))) {
+    if (data[1].some((obj) => /tingkatan/.test(obj._id))) {
       const newSheet = workbook.addWorksheet('PPIM 05-2023 SM');
       newSheet.model = Object.assign(worksheet.model, {
         mergeCells: worksheet.model.merges,
@@ -9876,105 +9876,163 @@ const makePPIM05 = async (payload) => {
       worksheet.getCell('N7').value = '';
       worksheet.getCell('N8').value = '';
       worksheet.getCell('N9').value = '';
-      //
-      for (let i = 0; i < data[0].length; i++) {
-        if (data[0][i]) {
-          switch (data[0][i]._id) {
-            case 'T1':
-              rowNumber = 14;
-              break;
-            case 'T2':
-              rowNumber = 15;
-              break;
-            case 'T3':
-              rowNumber = 16;
-              break;
-            case 'T4':
-              rowNumber = 17;
-              break;
-            case 'T5':
-              rowNumber = 18;
-              break;
-            default:
-              continue;
-          }
-
-          newSheet.getRow(rowNumber).getCell(2).value =
-            data[0][i].bilPerokokSemasa;
-          newSheet.getRow(rowNumber).getCell(3).value =
-            data[0][i].bilPerokokSertaiIntervensi;
-          newSheet.getRow(rowNumber).getCell(4).value =
-            data[0][i].bilPerokokAdaQuitDate3Int;
-          // skipping cells
-          newSheet.getRow(rowNumber).getCell(6).value =
-            data[0][i].bilPerokokTiadaQuitDate3Int;
-          // skipping cells
-          newSheet.getRow(rowNumber).getCell(8).value =
-            data[0][i].bilPerokokAdaQuitDateKur3Int;
-          // skipping cells
-          newSheet.getRow(rowNumber).getCell(10).value =
-            data[0][i].bilPerokokTiadaQuitDateKur3Int;
-          //skipping cells
-          newSheet.getRow(rowNumber).getCell(12).value =
-            data[0][i].bilPerokokDirujukGuru;
-          newSheet.getRow(rowNumber).getCell(13).value =
-            data[0][i].bilPerokokBerhenti6Bulan;
-          newSheet.getRow(rowNumber).getCell(14).value =
-            data[0][i].bilPerokokTidakBerhenti6Bulan;
-        }
-      }
-    }
-    for (let i = 0; i < data[0].length; i++) {
-      if (data[0][i]) {
-        switch (data[0][i]._id) {
-          case 'D1':
+      // SM
+      // data sekolah
+      for (const item of data[0]) {
+        switch (item._id) {
+          case 'tingkatan1':
             rowNumber = 14;
             break;
-          case 'D2':
+          case 'tingkatan2':
             rowNumber = 15;
             break;
-          case 'D3':
+          case 'tingkatan3':
             rowNumber = 16;
             break;
-          case 'D4':
+          case 'tingkatan4':
             rowNumber = 17;
             break;
-          case 'D5':
+          case 'tingkatan5':
             rowNumber = 18;
             break;
-          case 'D6':
-            rowNumber = 19;
+          case 'peralihan':
+            rowNumber = 20;
+            break;
+          case 'kki-sm':
+            rowNumber = 21;
             break;
           default:
             continue;
         }
 
-        worksheet.getRow(rowNumber).getCell(2).value =
-          data[0][i].bilPerokokSemasa;
-        worksheet.getRow(rowNumber).getCell(3).value =
-          data[0][i].bilPerokokSertaiIntervensi;
-        worksheet.getRow(rowNumber).getCell(4).value =
-          data[0][i].bilPerokokAdaQuitDate3Int;
-        // skipping cells
-        worksheet.getRow(rowNumber).getCell(6).value =
-          data[0][i].bilPerokokTiadaQuitDate3Int;
-        // skipping cells
-        worksheet.getRow(rowNumber).getCell(8).value =
-          data[0][i].bilPerokokAdaQuitDateKur3Int;
-        // skipping cells
-        worksheet.getRow(rowNumber).getCell(10).value =
-          data[0][i].bilPerokokTiadaQuitDateKur3Int;
-        //skipping cells
-        worksheet.getRow(rowNumber).getCell(12).value =
-          data[0][i].bilPerokokDirujukGuru;
-        worksheet.getRow(rowNumber).getCell(13).value =
-          data[0][i].bilPerokokBerhenti6Bulan;
-        worksheet.getRow(rowNumber).getCell(14).value =
-          data[0][i].bilPerokokTidakBerhenti6Bulan;
+        const row = newSheet.getRow(rowNumber);
+
+        row.getCell(2).value = item.bilPerokokSemasa;
+        row.getCell(3).value = item.bilSertaiIntervensi;
       }
+      // data kohort
+      for (const item of data[1]) {
+        switch (item._id) {
+          case 'tingkatan1':
+            rowNumber = 14;
+            break;
+          case 'tingkatan2':
+            rowNumber = 15;
+            break;
+          case 'tingkatan3':
+            rowNumber = 16;
+            break;
+          case 'tingkatan4':
+            rowNumber = 17;
+            break;
+          case 'tingkatan5':
+            rowNumber = 18;
+            break;
+          case 'peralihan':
+            rowNumber = 20;
+            break;
+          case 'kki-sm':
+            rowNumber = 21;
+            break;
+          default:
+            continue;
+        }
+
+        const row = newSheet.getRow(rowNumber);
+
+        row.getCell(4).value = item.bilPerokokAdaQuitDate3Int;
+        // skipping cells
+        row.getCell(6).value = item.bilPerokokTiadaQuitDate3Int;
+        // skipping cells
+        row.getCell(8).value = item.bilPerokokAdaQuitDateKur3Int;
+        // skipping cells
+        row.getCell(10).value = item.bilPerokokTiadaQuitDateKur3Int;
+        //skipping cells
+        row.getCell(12).value = item.bilPerokokDirujukGuru;
+        // row.getCell(13).value = item.bilPerokokBerhenti6Bulan;
+        // row.getCell(14).value = item.bilPerokokTidakBerhenti6Bulan;
+      }
+    }
+    // SR
+    // data sekolah
+    for (const item of data[0]) {
+      switch (item._id) {
+        case 'darjah1':
+          rowNumber = 14;
+          break;
+        case 'darjah2':
+          rowNumber = 15;
+          break;
+        case 'darjah3':
+          rowNumber = 16;
+          break;
+        case 'darjah4':
+          rowNumber = 17;
+          break;
+        case 'darjah5':
+          rowNumber = 18;
+          break;
+        case 'darjah6':
+          rowNumber = 19;
+          break;
+        case 'kki-sr':
+          rowNumber = 21;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+
+      row.getCell(2).value = item.bilPerokokSemasa;
+      row.getCell(3).value = item.bilSertaiIntervensi;
+    }
+    // data kohort
+    for (const item of data[1]) {
+      switch (item._id) {
+        case 'darjah1':
+          rowNumber = 14;
+          break;
+        case 'darjah2':
+          rowNumber = 15;
+          break;
+        case 'darjah3':
+          rowNumber = 16;
+          break;
+        case 'darjah4':
+          rowNumber = 17;
+          break;
+        case 'darjah5':
+          rowNumber = 18;
+          break;
+        case 'darjah6':
+          rowNumber = 19;
+          break;
+        case 'kki-sr':
+          rowNumber = 21;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+
+      row.getCell(4).value = item.bilPerokokAdaQuitDate3Int;
+      // skipping cells
+      row.getCell(6).value = item.bilPerokokTiadaQuitDate3Int;
+      // skipping cells
+      row.getCell(8).value = item.bilPerokokAdaQuitDateKur3Int;
+      // skipping cells
+      row.getCell(10).value = item.bilPerokokTiadaQuitDateKur3Int;
+      //skipping cells
+      row.getCell(12).value = item.bilPerokokDirujukGuru;
+      // row.getCell(13).value = item.bilPerokokBerhenti6Bulan;
+      // row.getCell(14).value = item.bilPerokokTidakBerhenti6Bulan;
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.name = 'PPIM 05-2023 SR';
 
     worksheet.getCell(
       'N6'

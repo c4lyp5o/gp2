@@ -6573,73 +6573,90 @@ const countPPIM04 = async (payload) => {
   }
 };
 const countPPIM05 = async (payload) => {
-  const dataPPIM05 = await KohortKotak.aggregate([
+  const sesiTakwim = sesiTakwimSekolah();
+
+  const dataSekolah = await Fasiliti.aggregate([
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.klinik !== 'all' && {
-          createdByKodFasiliti: payload.klinik,
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
         }),
-        statusKotak: {
-          $ne: 'belum mula',
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
+        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        sesiTakwimSekolah: sesiTakwim,
+        sekolahSelesaiReten: true,
+        tarikhSekolahSelesaiReten: {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
         },
       },
     },
     {
       $lookup: {
         from: 'sekolahs',
-        localField: 'nama',
-        foreignField: 'nama',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
         pipeline: [
           {
             $match: {
-              pemeriksaanSekolah: {
-                $exists: true,
-                $ne: null,
-              },
+              deleted: false,
+              sesiTakwimPelajar: sesiTakwim,
+              pemeriksaanSekolah: { $ne: null },
             },
           },
         ],
-        as: 'data_sekolah',
       },
     },
     {
-      $unwind: '$data_sekolah',
+      $unwind: {
+        path: '$result',
+        preserveNullAndEmptyArrays: false,
+      },
     },
     {
       $lookup: {
         from: 'pemeriksaansekolahs',
-        localField: 'data_sekolah.pemeriksaanSekolah',
+        localField: 'result.pemeriksaanSekolah',
         foreignField: '_id',
-        as: 'data_pemeriksaan',
+        as: 'pemeriksaan',
       },
     },
     {
-      $unwind: '$data_pemeriksaan',
+      $unwind: {
+        path: '$pemeriksaan',
+        preserveNullAndEmptyArrays: false,
+      },
     },
     {
       $addFields: {
-        statusMerokok: '$data_pemeriksaan.statusM',
+        jantina: '$result.jantina',
+        keturunan: '$result.keturunan',
+        tahunTingkatan: '$result.tahunTingkatan',
+        statusMerokok: '$pemeriksaan.statusM',
+        bersediaDirujuk: '$pemeriksaan.bersediaDirujuk',
+      },
+    },
+    {
+      $match: {
+        statusMerokok: { $ne: '' },
       },
     },
     {
       $project: {
         _id: 0,
         tahunTingkatan: 1,
+        sekolahKki: 1,
         statusMerokok: 1,
-        statusKotak: 1,
-        tarikhIntervensi1: 1,
-        tarikhIntervensi2: 1,
-        tarikhIntervensi3: 1,
-        tarikhQ: 1,
-        rujukGuruKaunseling: 1,
-        statusSelepas6Bulan: 1,
+        bersediaDirujuk: 1,
       },
     },
     {
       $group: {
-        _id: '$tahunTingkatan',
+        ...idPPIM03All,
         bilPerokokSemasa: {
           $sum: {
             $cond: [
@@ -6651,21 +6668,64 @@ const countPPIM05 = async (payload) => {
             ],
           },
         },
-        bilPerokokSertaiIntervensi: {
+        bilSertaiIntervensi: {
           $sum: {
             $cond: [
               {
-                $and: [
-                  {
-                    $eq: ['$statusKotak', 'dalam intervensi'],
-                  },
-                ],
+                $eq: ['$bersediaDirujuk', 'ya-bersedia-dirujuk'],
               },
               1,
               0,
             ],
           },
         },
+      },
+    },
+  ]);
+
+  const dataKohort = await KohortKotak.aggregate([
+    {
+      $match: {
+        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
+        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(payload.klinik !== 'all' && {
+          createdByKodFasiliti: payload.klinik,
+        }),
+        statusKotak: { $ne: 'belum mula' },
+      },
+    },
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+      },
+    },
+    {
+      $unwind: '$result',
+    },
+    {
+      $addFields: {
+        sekolahKki: '$result.sekolahKki',
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        sekolahKki: 1,
+        tahunTingkatan: 1,
+        tarikhIntervensi1: 1,
+        tarikhIntervensi2: 1,
+        tarikhIntervensi3: 1,
+        tarikhQ: 1,
+        rujukGuruKaunseling: 1,
+        statusSelepas6Bulan: 1,
+      },
+    },
+    {
+      $group: {
+        ...idPPIM03All,
         bilPerokokAdaQuitDate3Int: {
           $sum: {
             $cond: [
@@ -6730,10 +6790,10 @@ const countPPIM05 = async (payload) => {
                   {
                     $and: [
                       {
-                        $eq: ['$tarikhIntervensi1', ''],
-                      },
-                      {
-                        $eq: ['$tarikhIntervensi2', ''],
+                        $or: [
+                          { $eq: ['$tarikhIntervensi1', ''] },
+                          { $eq: ['$tarikhIntervensi2', ''] },
+                        ],
                       },
                       {
                         $eq: ['$tarikhIntervensi3', ''],
@@ -6758,10 +6818,10 @@ const countPPIM05 = async (payload) => {
                   {
                     $and: [
                       {
-                        $eq: ['$tarikhIntervensi1', ''],
-                      },
-                      {
-                        $eq: ['$tarikhIntervensi2', ''],
+                        $or: [
+                          { $eq: ['$tarikhIntervensi1', ''] },
+                          { $eq: ['$tarikhIntervensi2', ''] },
+                        ],
                       },
                       {
                         $eq: ['$tarikhIntervensi3', ''],
@@ -6782,7 +6842,7 @@ const countPPIM05 = async (payload) => {
           $sum: {
             $cond: [
               {
-                $ne: ['$rujukGuruKaunseling', 'ya-rujuk-guru-kaunseling'],
+                $eq: ['$rujukGuruKaunseling', 'ya-rujuk-guru-kaunseling'],
               },
               1,
               0,
@@ -6793,7 +6853,7 @@ const countPPIM05 = async (payload) => {
           $sum: {
             $cond: [
               {
-                $ne: ['$statusSelepas6Bulan', 'berhenti'],
+                $eq: ['$statusSelepas6Bulan', 'berhenti'],
               },
               1,
               0,
@@ -6804,7 +6864,7 @@ const countPPIM05 = async (payload) => {
           $sum: {
             $cond: [
               {
-                $ne: ['$statusSelepas6Bulan', 'tidakberhenti'],
+                $eq: ['$statusSelepas6Bulan', 'tidakberhenti'],
               },
               1,
               0,
@@ -6818,7 +6878,7 @@ const countPPIM05 = async (payload) => {
   try {
     let bigData = [];
 
-    bigData.push(dataPPIM05);
+    bigData.push(dataSekolah, dataKohort);
 
     return bigData;
   } catch (error) {
