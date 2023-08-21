@@ -4811,20 +4811,26 @@ const groupSekolah = {
     $sum: {
       $cond: [
         {
+          // $or: [
+          //   { $ifNull: ['$tarikhRawatan', true] },
+          //   {
+          //     $and: [
+          //       { $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'] },
+          //       { $eq: ['$operatorPemeriksaan', '$operatorRawatan'] },
+          //     ],
+          //   },
+          //   {
+          //     $and: [
+          //       { $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'] },
+          //       { $ne: ['$operatorPemeriksaan', '$operatorRawatan'] },
+          //     ],
+          //   },
+          // ],
           $or: [
-            { $ifNull: ['$tarikhRawatan', true] },
-            {
-              $and: [
-                { $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'] },
-                { $eq: ['$operatorPemeriksaan', '$operatorRawatan'] },
-              ],
-            },
-            {
-              $and: [
-                { $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'] },
-                { $ne: ['$operatorPemeriksaan', '$operatorRawatan'] },
-              ],
-            },
+            { $eq: ['$statusRawatan', 'belum selesai'] },
+            { $eq: ['$statusRawatan', 'enggan rawatan'] },
+            { $eq: ['$statusRawatan', 'tidak hadir rawatan'] },
+            { $eq: ['$statusRawatan', 'selesai'] },
           ],
         },
         1,
