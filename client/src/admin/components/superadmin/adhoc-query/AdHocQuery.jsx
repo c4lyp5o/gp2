@@ -131,7 +131,7 @@ const Disclaimer = ({ setDisclaimer }) => {
           </span>
         </div>
         <div>
-          <div className='text-lg p-3'>
+          <div className='text-lg p-3 normal-case'>
             Sila berikan maklumbalas tentang kesalahan, ketidakakuran dan
             anomali data ke helpdesk untuk membantu kami memperbaiki fungsi ini.
             Segala kerjasama yang di berikan kami ucapkan dengan jutaan terima

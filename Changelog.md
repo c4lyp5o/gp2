@@ -5,6 +5,21 @@
 - Integrasi bersama MyVAS di Modul Pendaftaran bagi submodul Klinik Pergigian
 - Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
 
+### 15/8/2023 (v2.1.6)
+
+### Added
+
+- Mewujudkan submodul Agensi Luar Program G-Tod untuk digunakan di modul Pentadbir bagi peringkat Pentadbir Daerah
+
+### Changed
+
+- Email penghantar pas masuk ketika memohon OTP ditukar kepada "giret_admin@moh.gov.my"
+- Reten pelajar kohort KOTAK tidak boleh dihapus jika reten sekolahnya sudah di tutup
+
+### Fixed
+
+- Konfirmasi sekiranya memilih rujukan ke Guru Kaunseling ketika menghantar reten kohort KOTAK dibetulkan
+
 ### 3/8/2023 (v2.1.5)
 
 ### Added

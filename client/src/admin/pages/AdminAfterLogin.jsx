@@ -481,17 +481,14 @@ function AdminAfterLogin() {
                   }
                 />
               ) : null}
-              {import.meta.env.VITE_ENV === 'UNSTABLE' ||
-              import.meta.env.VITE_ENV === 'DEV' ? (
-                <Route
-                  path='program-gtod'
-                  element={
-                    <Suspense fallback={<Loading />}>
-                      <ProgramGTodDaerah />
-                    </Suspense>
-                  }
-                />
-              ) : null}
+              <Route
+                path='program-gtod'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <ProgramGTodDaerah />
+                  </Suspense>
+                }
+              />
               {import.meta.env.VITE_ENV === 'UNSTABLE' ||
               import.meta.env.VITE_ENV === 'DEV' ? (
                 <Route
