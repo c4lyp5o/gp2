@@ -87,9 +87,23 @@ async function getAppointmentList(req, res) {
   const branchCode = currentFasilitiKp[0].kodFasiliti;
   const dateFilter = moment().format('YYYY-MM-DD');
 
-  const encodedUri = encodeURI(
-    `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|${branchCode}&date=${dateFilter}`
-  );
+  let encodedUri = '';
+
+  {
+    process.env.BUILD_ENV === 'dev' &&
+      (encodedUri = encodeURI(
+        `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|12-345678&date=2023-04-13`
+      ));
+  }
+
+  {
+    process.env.BUILD_ENV === 'production' ||
+      process.env.BUILD_ENV === 'training' ||
+      (process.env.BUILD_ENV === 'unstable' &&
+        (encodedUri = encodeURI(
+          `${process.env.MYVAS_API_APPOINTMENT_LISTS}?actor:identifier=https://myvas.moh.gov.my/System/location|${branchCode}&date=${dateFilter}`
+        )));
+  }
 
   const config = {
     withCredentials: true,
@@ -129,7 +143,7 @@ async function getPatientDetails(req, res) {
   const identifier = req.query.identifier;
 
   const encodedUri = encodeURI(
-    `${process.env.MYVAS_API_PATIENT_DETAILS}?identifier=https://myvas.moh.gov.my/System/licence|${identifier}`
+    `${process.env.MYVAS_API_PATIENT_DETAILS}?identifier=https://myvas.moh.gov.my/System.licence|${identifier}`
   );
 
   const config = {

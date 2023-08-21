@@ -9,7 +9,7 @@ import moment from 'moment';
 
 import { FaYoutube, FaTiktok } from 'react-icons/fa';
 
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useUtils } from '../../context/useUtils';
 
 const socmed = [
   { name: 'facebook', img: Facebook },
@@ -21,7 +21,7 @@ const socmed = [
 ];
 
 function Followers(props) {
-  const { percentageCalc } = useGlobalAdminAppContext();
+  const { percentageCalc } = useUtils();
   return (
     <>
       <div className='flex flex-col items-center'>

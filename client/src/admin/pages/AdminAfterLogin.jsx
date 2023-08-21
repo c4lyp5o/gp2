@@ -2,10 +2,14 @@ import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
-// import { DndProvider } from 'react-dnd';
-// import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useOndemandSetting } from '../context/useOndemandSetting';
+import { useLogininfo } from '../context/useLogininfo';
+// ! belum digunakan setakat 16/08/2023
+// import { useToken } from '../context/useToken';
 
 // component -----------------------------------------------------------
 // header & navbar
@@ -13,7 +17,7 @@ import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
 // screen
-import { Loading, LoadingSuperDark } from '../components/Screens';
+import { Loading } from '../components/Screens';
 
 // logged in not found
 import AdminLoggedInNotFound from './AdminLoggedInNotFound';
@@ -30,30 +34,39 @@ const KpCenterStage = lazy(() =>
 );
 
 // negeri details
-const Negeri = lazy(() => import('../components/superadmin/NegeriDetails'));
+const Negeri = lazy(() =>
+  import('../components/superadmin/detailed-data/NegeriDetails')
+);
 
 // daerah details
-const Daerah = lazy(() => import('../components/superadmin/DaerahDetails'));
+const Daerah = lazy(() =>
+  import('../components/superadmin/detailed-data/DaerahDetails')
+);
 
 // klinik details
-const Klinik = lazy(() => import('../components/superadmin/KlinikDetails'));
+const Klinik = lazy(() =>
+  import('../components/superadmin/detailed-data/KlinikDetails')
+);
 
 // data -----------------------------------------------------------
-const DataNegeri = lazy(() => import('../components/superadmin/negeri/Data'));
+const DataNegeri = lazy(() =>
+  import('../components/superadmin/maklumat-untuk-negeri/Data')
+);
 const Data = lazy(() => import('../components/superadmin/Data'));
 const DataKp = lazy(() => import('../components/admin-kp/Data'));
+const DataSosmed = lazy(() => import('../components/sosmed/Data'));
 
 // maklumat asas daerah
 const MaklumatAsasDaerah = lazy(() =>
-  import('../components/superadmin/MaklumatAsasDaerah')
+  import('../components/superadmin/maklumat-asas-daerah/MaklumatAsasDaerah')
 );
 
 // agensi luar
 const ProgramGTodDaerah = lazy(() =>
-  import('../components/superadmin/AgensiLuar/ProgramGTod')
+  import('../components/superadmin/agensi-luar/ProgramGTod')
 );
 const ProgramWargaEmasDaerah = lazy(() =>
-  import('../components/superadmin/AgensiLuar/ProgramWargaEmas')
+  import('../components/superadmin/agensi-luar/ProgramWargaEmas')
 );
 
 // settings
@@ -65,38 +78,35 @@ const GenerateKp = lazy(() => import('../components/admin-kp/Generate'));
 
 // ondemand setting
 const OndemandSetting = lazy(() =>
-  import('../components/superadmin/OndemandSetting')
+  import('../components/superadmin/ondemand/OndemandSetting')
 );
 
 // disabled admin page
 const DisabledAdminPage = lazy(() => import('../pages/AdminDisabled'));
 
 //ad hoc query
-// const AdHocQuery = lazy(() => import('../components/superadmin/AdHocQuery'));
+const AdHocQuery = lazy(() =>
+  import('../components/superadmin/adhoc-query/AdHocQuery')
+);
 
 function AdminAfterLogin() {
+  // ! belum digunakan setakat 16/08/2023
+  // const { getAdminToken, setAdminToken } = useToken();
   const {
-    getAdminToken,
-    adminToken,
-    setAdminToken,
-    getCurrentUser,
-    logOutUser,
-    // getLoginInfo,
-    saveLoginInfo,
-    loginInfo,
-    // getCurrentOndemandSetting,
     saveCurrentondemandSetting,
     currentOndemandSetting,
     readOndemandSetting,
-  } = useGlobalAdminAppContext();
+  } = useOndemandSetting();
+  const { saveLoginInfo, loginInfo } = useLogininfo();
+  const { getCurrentUser, logOutUser } = useGlobalAdminAppContext();
 
   const [kickerNoti, setKickerNoti] = useState(null);
   const [kicker, setKicker] = useState(null);
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  const [refetchState, setRefetchState] = useState(false);
+  // ! belum digunakan setakat 16/08/2023
+  // const [refetchState, setRefetchState] = useState(false);
 
   const init = useRef(false);
 
@@ -187,18 +197,19 @@ function AdminAfterLogin() {
   // }, [adminToken]);
 
   // refetch identity
-  useEffect(() => {
-    const refetchIdentity = () => {
-      setAdminToken(getAdminToken());
-      {
-        import.meta.env.VITE_ENV === 'DEV' &&
-          console.log('refetch identity admin');
-      }
-    };
-    if (init.current === true) {
-      refetchIdentity();
-    }
-  }, [refetchState]);
+  // ! belum digunakan setakat 16/8/2023
+  // useEffect(() => {
+  //   const refetchIdentity = () => {
+  //     setAdminToken(getAdminToken());
+  //     {
+  //       import.meta.env.VITE_ENV === 'DEV' &&
+  //         console.log('refetch identity admin');
+  //     }
+  //   };
+  //   if (init.current === true) {
+  //     refetchIdentity();
+  //   }
+  // }, [refetchState]);
 
   // refresh logOutNotiSystem and currentOndemandSetting on path change
   useEffect(() => {
@@ -213,15 +224,14 @@ function AdminAfterLogin() {
   // page init and activate event listener refetch indentity on tab focus
   useEffect(() => {
     if (init.current === false) {
-      adminPageInit()
-        .catch((err) => {
-          console.log(err);
-          logOutUser();
-        })
-        .finally(() => {
-          setLoading(false);
+      try {
+        adminPageInit().then(() => {
           logOutNotiSystem();
         });
+      } catch (err) {
+        logOutUser();
+        console.error(err);
+      }
       // window.addEventListener('focus', setRefetchState);
       // setRefetchState(!refetchState);
       init.current = true;
@@ -232,14 +242,11 @@ function AdminAfterLogin() {
     };
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (!loginInfo && !currentOndemandSetting) return <Loading />;
 
   if (
-    !loading &&
     loginInfo.accountType !== 'hqSuperadmin' &&
-    !currentOndemandSetting.adminPage
+    currentOndemandSetting.adminPage !== true
   ) {
     return (
       <Suspense fallback={<Loading />}>
@@ -260,7 +267,7 @@ function AdminAfterLogin() {
             path='followers'
             element={
               <Suspense fallback={<Loading />}>
-                <DataKp FType='followers' />
+                <DataSosmed FType='followers' />
               </Suspense>
             }
           />
@@ -268,7 +275,7 @@ function AdminAfterLogin() {
             path='sosmed'
             element={
               <Suspense fallback={<Loading />}>
-                <DataKp FType='sosmed' />
+                <DataSosmed FType='sosmed' />
               </Suspense>
             }
           />
@@ -329,14 +336,27 @@ function AdminAfterLogin() {
           ) : null}
           {/* route hq superadmin sahaja */}
           {loginInfo.accountType === 'hqSuperadmin' ? (
-            <Route
-              path='ondemand'
-              element={
-                <Suspense fallback={<Loading />}>
-                  <OndemandSetting />
-                </Suspense>
-              }
-            />
+            <>
+              <Route
+                path='ondemand'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <OndemandSetting />
+                  </Suspense>
+                }
+              />
+              {/* AdHoc Query thanks myhdw! */}
+              <Route
+                path='aq'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <DndProvider backend={HTML5Backend}>
+                      <AdHocQuery />
+                    </DndProvider>
+                  </Suspense>
+                }
+              />
+            </>
           ) : null}
           {/* route negeri superadmin sahaja */}
           {loginInfo.accountType === 'negeriSuperadmin' ? (
@@ -461,17 +481,14 @@ function AdminAfterLogin() {
                   }
                 />
               ) : null}
-              {import.meta.env.VITE_ENV === 'UNSTABLE' ||
-              import.meta.env.VITE_ENV === 'DEV' ? (
-                <Route
-                  path='program-gtod'
-                  element={
-                    <Suspense fallback={<Loading />}>
-                      <ProgramGTodDaerah />
-                    </Suspense>
-                  }
-                />
-              ) : null}
+              <Route
+                path='program-gtod'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <ProgramGTodDaerah />
+                  </Suspense>
+                }
+              />
               {import.meta.env.VITE_ENV === 'UNSTABLE' ||
               import.meta.env.VITE_ENV === 'DEV' ? (
                 <Route
@@ -486,7 +503,8 @@ function AdminAfterLogin() {
             </>
           ) : null}
           {/* route kp superadmin sahaja */}
-          {loginInfo.accountType === 'kpUser' && loginInfo.role === 'admin' ? (
+          {loginInfo.accountType === 'kpUserAdmin' &&
+          loginInfo.role === 'admin' ? (
             <>
               <Route
                 index
@@ -567,17 +585,6 @@ function AdminAfterLogin() {
               />
             </>
           ) : null}
-          {/* AdHoc Query thanks myhdw! */}
-          {/* <Route
-            path='aq'
-            element={
-              <Suspense fallback={<Loading />}>
-                <DndProvider backend={HTML5Backend}>
-                  <AdHocQuery />
-                </DndProvider>
-              </Suspense>
-            }
-          /> */}
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>

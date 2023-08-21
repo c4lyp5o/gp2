@@ -21,8 +21,11 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
-import { Loading } from '../Screens';
+import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useHqUtils } from '../../../context/admin-hooks/useHqUtils';
+import { useToken } from '../../../context/useToken';
+
+import { Loading } from '../../Screens';
 
 ChartJS.register(
   CategoryScale,
@@ -153,7 +156,8 @@ function Statistik({ data }) {
 }
 
 function JanaReten({ data, id }) {
-  const { toast, navigate, adminToken } = useGlobalAdminAppContext();
+  const { toast, navigate } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
 
   const saveFile = (blob, reten) => {
     const link = document.createElement('a');
@@ -257,7 +261,9 @@ function JanaReten({ data, id }) {
 export default function Klinik() {
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
-  const { toast, getDetailedData } = useGlobalAdminAppContext();
+
+  const { toast } = useGlobalAdminAppContext();
+  const { getDetailedData } = useHqUtils();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);

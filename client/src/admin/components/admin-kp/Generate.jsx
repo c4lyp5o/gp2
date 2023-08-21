@@ -3,17 +3,26 @@ import axios from 'axios';
 import moment from 'moment';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useSpesifikKpData } from '../../context/kp-hooks/useSpesifikKpData';
+import { useMiscData } from '../../context/useMiscData';
+import { useLogininfo } from '../../context/useLogininfo';
+import { useOndemandSetting } from '../../context/useOndemandSetting';
+import { useToken } from '../../context/useToken';
+import { useUtils } from '../../context/useUtils';
+import { useSemuaJenisReten } from '../../context/useSemuaJenisReten';
 
 import { RiCloseLine } from 'react-icons/ri';
 import { AiOutlineStop, AiFillCloseCircle } from 'react-icons/ai';
 
-import styles from '../../Modal.module.css';
+import { Loading } from '../../components/Screens';
 
 const ModalGenerateAdHoc = (props) => {
-  const { toast, adminToken, loginInfo, masterDatePicker } =
-    useGlobalAdminAppContext();
-
-  // the date value in YYYY-MM-DD
+  const { toast } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
+  const { loginInfo } = useLogininfo();
+  const { masterDatePicker } = useUtils();
+  // const [startDate, setStartDate] = useState('');
+  // const [endDate, setEndDate] = useState('');
   const startDateRef = useRef('');
   const endDateRef = useRef('');
 
@@ -1158,7 +1167,9 @@ const ModalGenerateAdHoc = (props) => {
 };
 
 const ModalGenerateBulanan = (props) => {
-  const { toast, adminToken, loginInfo } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
+  const { loginInfo } = useLogininfo();
 
   const [bulan, setBulan] = useState('');
 
@@ -1775,17 +1786,17 @@ const ModalGenerateBulanan = (props) => {
 
 const Generate = () => {
   const {
-    loginInfo,
     readSpesifikProgramDataForKp,
     readSpesifikKPBMPBDataForKp,
     readSpesifikIndividuDataForKp,
     readSpesifikJanaTadikaDataForKp,
     readSpesifikJanaSekolahRendahDataForKp,
     readSpesifikJanaSekolahMenengahDataForKp,
-    readGenerateTokenDataForKp,
-    readOndemandSetting,
-    semuaJenisReten,
-  } = useGlobalAdminAppContext();
+  } = useSpesifikKpData();
+  const { readGenerateTokenDataForKp } = useMiscData();
+  const { loginInfo } = useLogininfo();
+  const { readOndemandSetting } = useOndemandSetting();
+  const { semuaJenisReten } = useSemuaJenisReten();
 
   const init = useRef(false);
 
@@ -1801,8 +1812,8 @@ const Generate = () => {
   const [individuData, setIndividuData] = useState([]);
   const [rtcData, setRtcData] = useState([]);
 
-  const [statusToken, setStatusToken] = useState([]);
-  const [statusReten, setStatusReten] = useState([]);
+  const [statusToken, setStatusToken] = useState(null);
+  const [statusReten, setStatusReten] = useState(null);
 
   // khusus sekolah
   const [jenisFasiliti, setJenisFasiliti] = useState('');
@@ -1829,7 +1840,6 @@ const Generate = () => {
     setPilihanFasiliti('program');
     await readSpesifikProgramDataForKp(loginInfo.kodFasiliti)
       .then((res) => {
-        console.log(res.data);
         setProgramData(res.data);
       })
       .catch((err) => {
@@ -1841,7 +1851,6 @@ const Generate = () => {
     setPilihanFasiliti('kpbmpb');
     await readSpesifikKPBMPBDataForKp(loginInfo.kodFasiliti)
       .then((res) => {
-        console.log(res.data);
         setKpbmpbData(res.data);
       })
       .catch((err) => {
@@ -1867,7 +1876,6 @@ const Generate = () => {
   const handleGetRTC = async (e) => {
     await readSpesifikRTCData(pilihanKlinik)
       .then((res) => {
-        // console.log(res.data);
         setRtcData(res.data);
       })
       .catch((err) => {
@@ -1879,7 +1887,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaTadikaDataForKp()
       .then((res) => {
-        // console.log(res.data);
         setAllTadika(res.data);
         setSedangCarianJana(false);
       })
@@ -1892,7 +1899,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaSekolahRendahDataForKp()
       .then((res) => {
-        // console.log(res.data);
         setAllSekRendah(res.data);
         setSedangCarianJana(false);
       })
@@ -1905,7 +1911,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaSekolahMenengahDataForKp()
       .then((res) => {
-        // console.log(res.data);
         setAllSekMenengah(res.data);
         setSedangCarianJana(false);
       })
@@ -1937,74 +1942,6 @@ const Generate = () => {
     setAllSekRendah([]);
     setAllSekMenengah([]);
   };
-
-  // reset stuff
-  useEffect(() => {
-    setPilihanProgram('');
-    setPilihanKpbMpb('');
-    setPilihanIndividu('');
-  }, [pilihanFasiliti]);
-
-  useEffect(() => {
-    // setPilihanFasiliti('');
-    // setPilihanKkia('');
-    // setPilihanProgram('');
-    // setPilihanKpbMpb('');
-    // setPilihanIndividu('');
-    fullReset();
-    // refetch token after init.current = true
-    if (init.current === true) {
-      readGenerateTokenDataForKp()
-        .then((res) => {
-          setStatusToken(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-          setStatusToken([]);
-        });
-    }
-  }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
-
-  // khusus untuk kpadmin
-  useEffect(() => {
-    if (
-      [
-        'DEWASAMUDA',
-        'KOM-OAP',
-        'KOM-OKU-PDK',
-        'KOM-Komuniti',
-        'KOM-Penjara',
-        'KOM-WE',
-        'OAP',
-        'PPR',
-        'PPKPS',
-        'PKAP2',
-      ].includes(jenisReten)
-    ) {
-      setPilihanFasiliti('program');
-      handleGetProgram();
-    }
-  }, [jenisReten]);
-
-  useEffect(() => {
-    async function initialize() {
-      try {
-        setNamaKlinik(loginInfo.kp);
-        const resToken = await readGenerateTokenDataForKp();
-        setStatusToken(resToken.data);
-        const resReten = await readOndemandSetting();
-        setStatusReten(resReten.data.currentOndemandSetting);
-      } catch (err) {
-        console.log(err);
-        setStatusToken([]);
-      }
-    }
-
-    if (!init.current) {
-      initialize();
-      init.current = true;
-    }
-  }, []);
 
   const propsGenerate = {
     openModalGenerateAdHoc,
@@ -2061,6 +1998,77 @@ const Generate = () => {
     individuData,
     rtcData,
   };
+
+  // ! reset stuff, depend dengan pilihanFasiliti sbb klinik sama
+  useEffect(() => {
+    setPilihanProgram('');
+    setPilihanKpbMpb('');
+    setPilihanIndividu('');
+  }, [pilihanFasiliti]);
+
+  useEffect(() => {
+    // setPilihanFasiliti('');
+    // setPilihanKkia('');
+    // setPilihanProgram('');
+    // setPilihanKpbMpb('');
+    // setPilihanIndividu('');
+    fullReset();
+    // refetch token after init.current = true
+    if (init.current === true) {
+      readGenerateTokenDataForKp()
+        .then((res) => {
+          setStatusToken(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      readOndemandSetting().then((res) => {
+        setStatusReten(res.data.currentOndemandSetting);
+      });
+    }
+  }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
+
+  // ! khusus untuk kpadmin
+  useEffect(() => {
+    if (
+      [
+        'DEWASAMUDA',
+        'KOM-OAP',
+        'KOM-OKU-PDK',
+        'KOM-Komuniti',
+        'KOM-Penjara',
+        'KOM-WE',
+        'OAP',
+        'PPR',
+        'PPKPS',
+        'PKAP2',
+      ].includes(jenisReten)
+    ) {
+      setPilihanFasiliti('program');
+      handleGetProgram();
+    }
+  }, [jenisReten]);
+
+  useEffect(() => {
+    async function initialize() {
+      try {
+        setNamaKlinik(loginInfo.kp);
+        const resToken = await readGenerateTokenDataForKp();
+        setStatusToken(resToken.data);
+        const resReten = await readOndemandSetting();
+        setStatusReten(resReten.data.currentOndemandSetting);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    if (!init.current) {
+      initialize();
+      init.current = true;
+    }
+  }, []);
+
+  if (!statusReten || !statusToken) return <Loading />;
 
   return (
     <>

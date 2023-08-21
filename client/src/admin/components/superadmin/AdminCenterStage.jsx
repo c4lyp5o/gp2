@@ -13,6 +13,8 @@ import {
 import { Line } from 'react-chartjs-2';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useHqUtils } from '../../context/admin-hooks/useHqUtils';
+import { useLogininfo } from '../../context/useLogininfo';
 
 import { Loading } from '../Screens';
 
@@ -112,8 +114,10 @@ function MainChart({ data, accountType }) {
 }
 
 export default function AdminCenterStage(props) {
-  const { toast, loginInfo, getAllNegeriAndDaerah, navigate } =
-    useGlobalAdminAppContext();
+  const { toast, navigate } = useGlobalAdminAppContext();
+  const { getAllNegeriAndDaerah } = useHqUtils();
+  const { loginInfo } = useLogininfo();
+
   const [data, setData] = useState(null);
 
   const init = useRef(false);

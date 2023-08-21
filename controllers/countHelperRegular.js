@@ -8895,102 +8895,1557 @@ const countTOD = async (payload) => {
 };
 
 // Ad Hoc Query
-const countAdHocQuery = async (
-  negeri,
-  daerah,
-  x,
-  y,
-  mengandung,
-  oku,
-  bersekolah,
-  pesara
-) => {
-  const Dictionary = {
-    '': false,
-    Pegawai: '$createdByUsername',
-    Masa: '$tarikhKedatangan',
-    Klinik: '$createdByKp',
-    'Jumlah Semua Pesakit': '',
-    'Jumlah Pesakit Baru': 'baru-kedatangan',
-    'Jumlah Pesakit Ulangan': 'ulangan-kedatangan',
-    'Jumlah Ibu Mengandung': true,
-    'Jumlah OKU': true,
-    'Jumlah Bersekolah': true,
-    'Jumlah Pesara': true,
-  };
+const countAdHocQuery = async (payload) => {
+  const {
+    negeri,
+    daerah,
+    tarikhMula,
+    tarikhAkhir,
+    searchOptionsSelection,
+    checkboxSelection,
+  } = payload;
 
-  let match_stage = [
-    {
-      $match: {
-        $and: [
-          { createdByNegeri: negeri },
-          { createdByDaerah: daerah },
-          // { createdByKp: klinik },
-          { createdByUsername: { $not: { $eq: 'kaunter' } } },
-          { kedatangan: Dictionary[y] },
-          // { ibuMengandung: Dictionary[mengandung] },
-          // { orangKurangUpaya: Dictionary[oku] },
-          // { bersekolah: Dictionary[bersekolah] },
-          // { statusPesara: Dictionary[pesara] },
-        ],
-      },
-    },
-  ];
-
-  if (y === 'Jumlah Semua Pesakit') {
-    match_stage = [
-      {
-        $match: {
-          $and: [
-            { createdByNegeri: negeri },
-            { createdByDaerah: daerah },
-            // { createdByKp: klinik },
-            { createdByUsername: { $not: { $eq: 'kaunter' } } },
-            // { kedatangan: Dictionary[y] },
-            // { ibuMengandung: Dictionary[mengandung] },
-            // { orangKurangUpaya: Dictionary[oku] },
-            // { bersekolah: Dictionary[bersekolah] },
-            // { statusPesara: Dictionary[pesara] },
-          ],
-        },
-      },
-    ];
-  }
-
-  let project_stage = {
-    $project: {
-      _id: 0,
-      negeri: '$_id.negeri',
-      daerah: '$_id.daerah',
-      klinik: '$_id.klinik',
-      pegawai: '$_id.pegawai',
-      tahun: '$_id.tahun',
-      jumlah: 1,
-    },
-  };
-  let group_stage = {
-    $group: {
-      // _id:
-      // negeri: '$createdByNegeri',
-      // daerah: '$createdByDaerah',
-      // klinik: '$createdByKp',
-      // pegawai: '$createdByUsername'
-      // tahun: '$tahun',
-      // ,
-      _id: Dictionary[x],
-      jumlah: { $sum: 1 },
-    },
-  };
+  process.env.BUILD_ENV === 'dev' && console.table(searchOptionsSelection);
 
   try {
-    const pipeline = [match_stage[0], group_stage];
+    const extractCheckboxY = checkboxSelection['y']
+      .map((i) => {
+        if (i.checked) {
+          return i;
+        }
+      })
+      .filter((i) => i !== undefined);
+
+    const extractCheckboxX = checkboxSelection['x']
+      .map((i) => {
+        if (i.checked) {
+          return i;
+        }
+      })
+      .filter((i) => i !== undefined);
+
+    const xSelection = extractCheckboxX[0].text.toLowerCase();
+
+    const placeModifierAdhoc = (x) => {
+      switch (x) {
+        case 'masa':
+          return {
+            $dateToString: {
+              format: '%Y-%m',
+              date: { $toDate: '$tarikhKedatangan' },
+            },
+          };
+        // umur x perlu case
+        case 'jantina':
+          return '$jantina';
+        case 'kumpulan etnik':
+          return '$kumpulanEtnik';
+        case 'pegawai':
+          return '$createdByMdcMdtb';
+        case 'klinik':
+          return '$createdByKp';
+        case 'daerah':
+          return '$createdByDaerah';
+        case 'negeri':
+          return '$createdByNegeri';
+        case 'malaysia':
+          return null;
+        default:
+          break;
+      }
+    };
+
+    const outputAdhoc = {
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahPesakit') && {
+        jumlahPesakit: { $sum: 1 },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahPesakitBaru') && {
+        jumlahPesakitBaru: {
+          $sum: {
+            $cond: [
+              {
+                $and: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahPesakitUlangan') && {
+        jumlahPesakitUlangan: {
+          $sum: {
+            $cond: [
+              {
+                $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      //
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahLelaki') && {
+        jumlahLelaki: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  { $eq: ['$jantina', 'lelaki'] },
+                  { $eq: ['$jantina', null] }, // sementara waktu
+                  { $eq: ['$jantina', ''] }, // sementara waktu
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahPerempuan') && {
+        jumlahPerempuan: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$jantina', 'perempuan'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahMelayu') && {
+        jumlahMelayu: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  { $eq: ['$kumpulanEtnik', 'melayu'] },
+                  { $eq: ['$kumpulanEtnik', null] }, // sementara waktu
+                  { $eq: ['$kumpulanEtnik', ''] }, // sementara waktu
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahCina') && {
+        jumlahCina: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'cina'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahIndia') && {
+        jumlahIndia: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'india'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahBajau') && {
+        jumlahBajau: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'bajau'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahDusun') && {
+        jumlahDusun: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'dusun'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahKadazan') && {
+        jumlahKadazan: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'kadazan'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahMurut') && {
+        jumlahMurut: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'murut'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahBMSL') && {
+        jumlahBMSL: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'bumiputera sabah lain'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahMelanau') && {
+        jumlahMelanau: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'melanau'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahKedayan') && {
+        jumlahKedayan: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'kedayan'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahIban') && {
+        jumlahIban: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'iban'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahBidayuh') && {
+        jumlahBidayuh: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'bidayuh'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahPenan') && {
+        jumlahPenan: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'penan'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahBMSwL') && {
+        jumlahBMSwL: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'bumiputera sarawak lain'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahOA') && {
+        jumlahOA: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'orang asli semenanjung'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahLainlain') && {
+        jumlahLainlain: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'lain-lain'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'jumlahBukanWarganegara'
+      ) && {
+        jumlahBukanWarganegara: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$kumpulanEtnik', 'bukan warganegara'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahIbuMengandung') && {
+        jumlahIbuMengandung: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$ibuMengandung', true],
+                  },
+                  {
+                    $gte: ['$umur', 7],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahBersekolah') && {
+        jumlahBersekolah: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$bersekolah', true],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahOKU') && {
+        jumlahOKU: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$orangKurangUpaya', true],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahPesaraKerajaan') && {
+        jumlahPesaraKerajaan: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$statusPesara', 'pesara-kerajaan'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahPesaraATM') && {
+        jumlahPesaraATM: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$statusPesara', 'pesara-atm'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahRujukanDalaman') && {
+        jumlahRujukanDalaman: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$rujukDaripada', 'dalaman'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahRujukanKP') && {
+        jumlahRujukanKP: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$rujukDaripada', 'kp'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahRujukanKK') && {
+        jumlahRujukanKK: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$rujukDaripada', 'kk'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahRujukanHospital') && {
+        jumlahRujukanHospital: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$rujukDaripada', 'hospital/institusi-kerajaan'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahRujukanSwasta') && {
+        jumlahRujukanSwasta: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$rujukDaripada', 'swasta'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahRujukanLainlain') && {
+        jumlahRujukanLainlain: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$rujukDaripada', 'lain-lain'],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahd') && {
+        jumlahd: { $sum: '$dAdaGigiDesidusPemeriksaanUmum' },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahf') && {
+        jumlahf: { $sum: '$fAdaGigiDesidusPemeriksaanUmum' },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahx') && {
+        jumlahx: { $sum: '$xAdaGigiDesidusPemeriksaanUmum' },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahdfx') && {
+        jumlahdfx: {
+          $sum: {
+            $add: [
+              '$dAdaGigiDesidusPemeriksaanUmum',
+              '$fAdaGigiDesidusPemeriksaanUmum',
+              '$xAdaGigiDesidusPemeriksaanUmum',
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahD') && {
+        jumlahD: { $sum: '$dAdaGigiKekalPemeriksaanUmum' },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahM') && {
+        jumlahM: { $sum: '$mAdaGigiKekalPemeriksaanUmum' },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahF') && {
+        jumlahF: { $sum: '$fAdaGigiKekalPemeriksaanUmum' },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahX') && {
+        jumlahX: { $sum: '$xAdaGigiKekalPemeriksaanUmum' },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahDMFX') && {
+        jumlahDMFX: {
+          $sum: {
+            $add: [
+              '$dAdaGigiKekalPemeriksaanUmum',
+              '$mAdaGigiKekalPemeriksaanUmum',
+              '$fAdaGigiKekalPemeriksaanUmum',
+              '$xAdaGigiKekalPemeriksaanUmum',
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahMBK') && {
+        jumlahMBK: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $and: [
+                      { $lt: ['$umur', 1] },
+                      {
+                        $eq: [
+                          '$yaTidakPesakitMempunyaiGigi',
+                          'tidak-pesakit-mempunyai-gigi',
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $lt: ['$umur', 1] },
+                      {
+                        $eq: ['$adaDesidusPemeriksaanUmum', false],
+                      },
+                      {
+                        $eq: ['$adaKekalPemeriksaanUmum', false],
+                      },
+                    ],
+                  }, // ! boleh buang tahun depan
+                  {
+                    $and: [
+                      { $lt: ['$umur', 1] },
+                      {
+                        $or: [
+                          {
+                            $eq: [
+                              '$yaTidakPesakitMempunyaiGigi',
+                              'ya-pesakit-mempunyai-gigi',
+                            ],
+                          },
+                          {
+                            $eq: ['$adaDesidusPemeriksaanUmum', true],
+                          },
+                        ],
+                      },
+                      // {
+                      //   $eq: ['$adaDesidusPemeriksaanUmum', true],
+                      // },
+                      // ! pakai tahun depan. pisahkan 2 yg $or tu
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umur', 1] },
+                      { $lte: ['$umur', 17] },
+                      { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umur', 1] },
+                      { $lte: ['$umur', 17] },
+                      { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'statusBebasKaries') && {
+        statusBebasKaries: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $and: [
+                      { $gte: ['$umur', 5] },
+                      {
+                        $eq: [
+                          '$yaTidakPesakitMempunyaiGigi',
+                          'ya-pesakit-mempunyai-gigi',
+                        ],
+                      },
+                      { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'TPR') && {
+        TPR: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  // baby punya kira
+                  {
+                    $and: [
+                      { $lt: ['$umur', 1] },
+                      {
+                        $eq: [
+                          '$yaTidakPesakitMempunyaiGigi',
+                          'tidak-pesakit-mempunyai-gigi',
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $lt: ['$umur', 1] },
+                      { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    ],
+                  },
+                  // 1 tahun
+                  {
+                    $and: [
+                      { $gte: ['$umur', 1] },
+                      { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umur', 1] },
+                      { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umur', 1] },
+                      { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umur', 5] },
+                      { $lte: ['$umur', 14] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                      {
+                        $or: [
+                          {
+                            $eq: [
+                              '$skorGisMulutOralHygienePemeriksaanUmum',
+                              '0',
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$skorGisMulutOralHygienePemeriksaanUmum',
+                              '2',
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umur', 15] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                      {
+                        $or: [
+                          {
+                            $eq: [
+                              '$skorGisMulutOralHygienePemeriksaanUmum',
+                              '0',
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$skorGisMulutOralHygienePemeriksaanUmum',
+                              '2',
+                            ],
+                          },
+                          { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umur', 1] },
+                      { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'skorGISZero') && {
+        skorGISZero: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $or: [
+                      { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                    ],
+                  },
+                  {
+                    $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'skorGISMoreThanZero') && {
+        skorGISMoreThanZero: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $or: [
+                      { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                    ],
+                  },
+                  {
+                    $ne: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'skorBPEZero') && {
+        skorBPEZero: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                  {
+                    $eq: [
+                      '$yaTidakPesakitMempunyaiGigi',
+                      'ya-pesakit-mempunyai-gigi',
+                    ],
+                  },
+                  {
+                    $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'],
+                  },
+                  {
+                    $ne: ['$skorBpeOralHygienePemeriksaanUmum', ''],
+                  },
+                  {
+                    $ne: ['$skorBpeOralHygienePemeriksaanUmum', null],
+                  },
+                  { $ne: ['$engganBpeImplan', true] },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'skorBPEMoreThanZero') && {
+        skorBPEMoreThanZero: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  { $ne: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                  {
+                    $eq: [
+                      '$yaTidakPesakitMempunyaiGigi',
+                      'ya-pesakit-mempunyai-gigi',
+                    ],
+                  },
+                  { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                  {
+                    $ne: ['$skorBpeOralHygienePemeriksaanUmum', ''],
+                  },
+                  {
+                    $ne: ['$skorBpeOralHygienePemeriksaanUmum', null],
+                  },
+                  { $ne: ['$engganBpeImplan', true] },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'adaTSL') && {
+        adaTSL: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$toothSurfaceLossTraumaPemeriksaanUmum', true],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'perluSapuanFluorida') && {
+        perluSapuanFluorida: {
+          $sum: {
+            $cond: [
+              {
+                $eq: [
+                  '$fvPerluSapuanPemeriksaanUmum',
+                  'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'perluJumlahPesakitPrrJenis1'
+      ) && {
+        perluJumlahPesakitPrrJenis1: {
+          $sum: {
+            $cond: [
+              {
+                $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'perluJumlahGigiPrrJenis1'
+      ) && {
+        perluJumlahGigiPrrJenis1: {
+          $sum: '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'perluJumlahPesakitFS') && {
+        perluJumlahPesakitFS: {
+          $sum: {
+            $cond: [
+              {
+                $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'perluJumlahGigiFS') && {
+        perluJumlahGigiFS: {
+          $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'perluPenskaleran') && {
+        perluPenskaleran: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$perluPenskaleranPemeriksaanUmum', true],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'perluEndoAnterior') && {
+        perluEndoAnterior: {
+          $sum: '$jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'perluEndoPremolar') && {
+        perluEndoPremolar: {
+          $sum: '$jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'perluEndoMolar') && {
+        perluEndoMolar: {
+          $sum: '$jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'jumlahPerluDenturPenuh'
+      ) && {
+        jumlahPerluDenturPenuh: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: [
+                      '$separaPenuhAtasPerluDenturePemeriksaanUmum',
+                      'penuh-atas-perlu-denture-pemeriksaan-umum',
+                    ],
+                  },
+                  {
+                    $eq: [
+                      '$separaPenuhBawahPerluDenturePemeriksaanUmum',
+                      'penuh-bawah-perlu-denture-pemeriksaan-umum',
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'jumlahPerluDenturSepara'
+      ) && {
+        jumlahPerluDenturSepara: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: [
+                      '$separaPenuhAtasPerluDenturePemeriksaanUmum',
+                      'separa-atas-perlu-denture-pemeriksaan-umum',
+                    ],
+                  },
+                  {
+                    $eq: [
+                      '$separaPenuhBawahPerluDenturePemeriksaanUmum',
+                      'separa-bawah-perlu-denture-pemeriksaan-umum',
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'pesakitDisaringOC') && {
+        pesakitDisaringOC: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: [
+                      '$disaringProgramKanserMulutPemeriksaanUmum',
+                      'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                    ],
+                  },
+                  {
+                    $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'sapuanFluorida') && {
+        sapuanFluorida: {
+          //fvMuridB
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$pesakitDibuatFluorideVarnish', true],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'jumlahPesakitPrrJenis1'
+      ) && {
+        jumlahPesakitPrrJenis1: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $gt: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', 0],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahGigiPrrJenis1') && {
+        jumlahGigiPrrJenis1: {
+          $sum: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahPesakitDiBuatFs') && {
+        jumlahPesakitDiBuatFs: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $gt: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', 0],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'jumlahGigiDibuatFs') && {
+        jumlahGigiDibuatFs: {
+          $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanAntGdBaru') && {
+        tampalanAntGdBaru: {
+          $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanAntGdSemula') && {
+        tampalanAntGdSemula: {
+          $sum: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanAntGkBaru') && {
+        tampalanAntGkBaru: {
+          $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanAntGkSemula') && {
+        tampalanAntGkSemula: {
+          $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanPostGdBaru') && {
+        tampalanPostGdBaru: {
+          $sum: '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanPostGdSemula') && {
+        tampalanPostGdSemula: {
+          $sum: '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanPostGkBaru') && {
+        tampalanPostGkBaru: {
+          $sum: '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanPostGkSemula') && {
+        tampalanPostGkSemula: {
+          $sum: '$gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanPostAmgGdBaru') && {
+        tampalanPostAmgGdBaru: {
+          $sum: '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'tampalanPostAmgGdSemula'
+      ) && {
+        tampalanPostAmgGdSemula: {
+          $sum: '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanPostAmgGkBaru') && {
+        tampalanPostAmgGkBaru: {
+          $sum: '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'tampalanPostAmgGkSemula'
+      ) && {
+        tampalanPostAmgGkSemula: {
+          $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'inlayOnlayBaru') && {
+        inlayOnlayBaru: {
+          $sum: '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'inlayOnlaySemula') && {
+        inlayOnlaySemula: {
+          $sum: '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'tampalanSementara') && {
+        tampalanSementara: {
+          $sum: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'cabutanGd') && {
+        cabutanGd: { $sum: '$cabutDesidusRawatanUmum' },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'cabutanGk') && {
+        cabutanGk: { $sum: '$cabutKekalRawatanUmum' },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'komplikasiSelepasCabutan'
+      ) && {
+        komplikasiSelepasCabutan: {
+          $sum: '$komplikasiSelepasCabutanRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'penskaleran') && {
+        penskaleran: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$penskaleranRawatanUmum', true],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'rawatanPerioLain') && {
+        rawatanPerioLain: {
+          $sum: '$rawatanLainPeriodontikRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'rawatanEndoAnterior') && {
+        rawatanEndoAnterior: {
+          $sum: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'rawatanEndoPremolar') && {
+        rawatanEndoPremolar: {
+          $sum: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'rawatanEndoMolar') && {
+        rawatanEndoMolar: {
+          $sum: '$jumlahMolarKesEndodontikSelesaiRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'rawatanOrtho') && {
+        rawatanOrtho: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$rawatanOrtodontikRawatanUmum', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'kesPerubatan') && {
+        kesPerubatan: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$kesPerubatanMulutRawatanUmum', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'abses') && {
+        abses: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'kecederaanTulangMuka') && {
+        kecederaanTulangMuka: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$kecederaanTulangMukaUmum', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'kecederaanGigi') && {
+        kecederaanGigi: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$kecederaanGigiUmum', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'kecederaanTisuLembut') && {
+        kecederaanTisuLembut: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$kecederaanTisuLembutUmum', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'cabutanSurgical') && {
+        cabutanSurgical: {
+          $sum: '$cabutanSurgikalPembedahanMulutRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'pembedahanKecilMulut') && {
+        pembedahanKecilMulut: {
+          $sum: {
+            $cond: [
+              {
+                $eq: [
+                  '$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',
+                  true,
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'crownBridgeBaru') && {
+        crownBridgeBaru: {
+          $sum: '$baruJumlahCrownBridgeRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'crownBridgeSemula') && {
+        crownBridgeSemula: {
+          $sum: '$semulaJumlahCrownBridgeRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'postCoreBaru') && {
+        postCoreBaru: { $sum: '$baruJumlahPostCoreRawatanUmum' },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'postCoreSemula') && {
+        postCoreSemula: { $sum: '$semulaJumlahPostCoreRawatanUmum' },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'prosthodontikPenuhDenturBaru'
+      ) && {
+        prosthodontikPenuhDenturBaru: {
+          $sum: '$baruPenuhJumlahDenturProstodontikRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'prosthodontikPenuhDenturSemula'
+      ) && {
+        prosthodontikPenuhDenturSemula: {
+          $sum: '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'jumlahPesakitBuatDenturPenuh'
+      ) && {
+        jumlahPesakitBuatDenturPenuh: {
+          $sum: {
+            $add: [
+              '$baruPenuhJumlahDenturProstodontikRawatanUmum',
+              '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'prosthodontikSeparaDenturBaru'
+      ) && {
+        prosthodontikSeparaDenturBaru: {
+          $sum: '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'prosthodontikSeparaDenturSemula'
+      ) && {
+        prosthodontikSeparaDenturSemula: {
+          $sum: '$semulaSeparaJumlahDenturProstodontikRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some(
+        (i) => i.value === 'jumlahPesakitBuatDenturSepara'
+      ) && {
+        jumlahPesakitBuatDenturSepara: {
+          $sum: {
+            $add: [
+              '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+              '$semulaSeparaJumlahDenturProstodontikRawatanUmum',
+            ],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'immediateDenture') && {
+        immediateDenture: {
+          $sum: '$immediateDenturProstodontikRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'pembaikanDenture') && {
+        pembaikanDenture: {
+          $sum: '$pembaikanDenturProstodontikRawatanUmum',
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'kesSelesai') && {
+        kesSelesai: {
+          $sum: {
+            $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
+          },
+        },
+      }),
+      ...(extractCheckboxY.some((i) => i.value === 'xrayDiambil') && {
+        xrayDiambil: { $sum: '$bilanganXrayYangDiambilRawatanUmum' },
+      }),
+    };
+
+    const statusRetenValues = [
+      ...(searchOptionsSelection[2]?.checked !== undefined &&
+      searchOptionsSelection[2]?.checked
+        ? ['belum diisi']
+        : []),
+      ...(searchOptionsSelection[3]?.checked !== undefined &&
+      searchOptionsSelection[3]?.checked
+        ? ['telah diisi']
+        : []),
+      ...(searchOptionsSelection[4]?.checked !== undefined &&
+      searchOptionsSelection[4]?.checked
+        ? ['reten salah']
+        : []),
+    ].filter(Boolean);
+
+    const queryStatusReten =
+      statusRetenValues.length > 0
+        ? { statusReten: { $in: statusRetenValues } }
+        : {};
+
+    const match_stage = {
+      $match: {
+        ...(searchOptionsSelection[0]?.checked ? ultimateCutoff(payload) : []),
+        ...(searchOptionsSelection[1]?.checked ? {} : { deleted: false }),
+        ...queryStatusReten,
+        ...(!searchOptionsSelection[5]?.checked
+          ? {
+              onCall: { $in: [null, false] },
+            }
+          : {}),
+        ...(!searchOptionsSelection[6]?.checked && {
+          jenisFasiliti: { $nin: ['incremental'] },
+        }),
+        tarikhKedatangan: { $gte: tarikhMula, $lte: tarikhAkhir },
+        createdByNegeri: negeri === '-' ? { $exists: true } : negeri,
+        createdByDaerah: daerah === '-' ? { $exists: true } : daerah,
+        // { createdByKp: klinik },
+        // createdByUsername: { $nin: ['kaunter'] },
+      },
+    };
+
+    const bucket_template = {
+      $bucket: {
+        groupBy: '$umur',
+        boundaries: [
+          0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 40, 50, 60, 61, 65, 66, 70, 75,
+          150,
+        ],
+        default: 'Other',
+        output: {
+          ...outputAdhoc,
+        },
+      },
+    };
+
+    const group_template = {
+      $group: {
+        _id: placeModifierAdhoc(xSelection),
+        ...outputAdhoc,
+      },
+    };
+
+    process.env.BUILD_ENV === 'dev' && console.log(match_stage);
+
+    const pipeline = [
+      ...(xSelection === 'umur'
+        ? [match_stage, bucket_template]
+        : [match_stage, group_template]),
+    ];
+
+    process.env.BUILD_ENV === 'dev' && console.log(pipeline);
+
     const query = await Umum.aggregate(pipeline);
-    // sort by date
-    if (x === 'Masa') {
+
+    // sort by date if xSelection is masa
+    if (xSelection === 'masa') {
       query.sort((a, b) => {
         return new Date(a._id) - new Date(b._id);
       });
     }
+
     return query;
   } catch (error) {
     errorRetenLogger.error(
