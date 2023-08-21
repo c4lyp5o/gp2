@@ -9,15 +9,16 @@
 
 ### Added
 
-- Sub Modul Baru, Agensi Luar GTod kini boleh diakses dan digunakan, di dalam Modul Pentadbir Daerah
+- Mewujudkan submodul Agensi Luar Program G-Tod untuk digunakan di modul Pentadbir bagi peringkat Pentadbir Daerah
 
 ### Changed
 
-- Reten kohort tidak boleh di Hapus jika sekolah sudah di tutup
+- Email penghantar pas masuk ketika memohon OTP ditukar kepada "giret_admin@moh.gov.my"
+- Reten pelajar kohort KOTAK tidak boleh dihapus jika reten sekolahnya sudah di tutup
 
 ### Fixed
 
-- Ruangan pengesahan rujukan ke Guru Kaunseling di reten KOTAK dibetulkan
+- Konfirmasi sekiranya memilih rujukan ke Guru Kaunseling ketika menghantar reten kohort KOTAK dibetulkan
 
 ### 3/8/2023 (v2.1.5)
 
