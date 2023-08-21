@@ -4,7 +4,7 @@ import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 import { useAdminData } from '../../../context/admin-hooks/useAdminData';
 import { useLogininfo } from '../../../context/useLogininfo';
 
-import { Loading } from '../../components/Screens';
+import { Loading } from '../../Screens';
 import { SubmitButton, BusyButton } from '../../Buttons';
 
 export default function MaklumatAsasDaerah() {
