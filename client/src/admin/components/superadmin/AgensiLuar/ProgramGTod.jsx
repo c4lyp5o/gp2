@@ -24,6 +24,7 @@ export default function ProgramGTod() {
   const [pemeriksaanDua, setPemeriksaanDua] = useState(null);
 
   const [isLoadingTable, setIsLoadingTable] = useState(false);
+  const [isLoadingForm, setIsLoadingForm] = useState(false);
   const [reloadState, setReloadState] = useState(false);
 
   useEffect(() => {
@@ -42,11 +43,13 @@ export default function ProgramGTod() {
 
   useEffect(() => {
     if (idGTod) {
+      setIsLoadingForm(true);
       const fetchSingleGtod = async () => {
         try {
           const { data } = await readOneData('gtod', idGTod);
 
           setSingleAgensiLuarGTod(data);
+          setIsLoadingForm(false);
         } catch (error) {
           console.log(error);
         }
@@ -340,6 +343,7 @@ export default function ProgramGTod() {
               <FormTambahProgramGtod
                 singleAgensiLuarGTod={singleAgensiLuarGTod}
                 setSingleAgensiLuarGTod={setSingleAgensiLuarGTod}
+                isLoadingForm={isLoadingForm}
                 setShowForm={setShowForm}
                 setShowTable={setShowTable}
                 idGTod={idGTod}
