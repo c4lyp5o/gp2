@@ -1,10 +1,14 @@
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useAdminData } from '../context/admin-hooks/useAdminData';
+import { useKpData } from '../context/kp-hooks/useKpData';
+import { useMiscData } from '../context/useMiscData';
+import { useLogininfo } from '../context/useLogininfo';
+import { useDictionary } from '../context/useDictionary';
+import { useUtils } from '../context/useUtils';
 import { useRef, useEffect, useState } from 'react';
-import { RiCloseLine } from 'react-icons/ri';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import styles from '../Modal.module.css';
 
 import { Loading } from './Screens';
 import {
@@ -36,17 +40,11 @@ const AddModal = ({
   reload,
   setReload,
 }) => {
-  const {
-    toast,
-    createData,
-    readData,
-    // pingMOEISServer,
-    readSekolahData,
-    readFasilitiData,
-    readKkiaData,
-    DictionaryHurufNegeri,
-    EmailValidator,
-  } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { createData, readData } = useAdminData();
+  const { readSekolahData, readFasilitiData, readKkiaData } = useMiscData();
+  const { DictionaryHurufNegeri } = useDictionary();
+  const { EmailValidator } = useUtils();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -252,55 +250,76 @@ const AddModal = ({
       default:
         break;
     }
-    createData(FType, Data).then((res) => {
-      if (res.status === 200) {
-        toast.info(`Data berjaya ditambah`);
-        setReload(!reload);
-      } else {
-        if (FType === 'taska' || FType === 'tadika') {
-          toast.error(res.response.data.message);
-          return;
-        } else {
-          if (FType === 'kpb' || FType === 'mpb') {
-            toast.error(res.response.data.message);
-            return;
-          }
-        }
-        toast.error(`Data tidak berjaya ditambah`);
+    // save data
+    try {
+      await createData(FType, Data);
+      toast.info(`Data berjaya ditambah`);
+    } catch (err) {
+      switch (FType) {
+        case 'taska':
+        case 'tadika':
+          toast.error(err.response.data.message);
+          break;
+        case 'kpb':
+        case 'mpb':
+          toast.error(err.response.data.message);
+          break;
+        default:
+          toast.error(`Data tidak berjaya ditambah`);
+          break;
       }
+    } finally {
       setShowAddModal(false);
       setAddingData(false);
-    });
+      setReload(!reload);
+    }
   };
 
   useEffect(() => {
-    if (FType === 'sr' || FType === 'sm') {
-      readSekolahData(FType)
-        .then((res) => {
+    switch (FType) {
+      case 'sr':
+      case 'sm':
+        const getSekolahAndKpData = async () => {
+          const sekolah = await readSekolahData(FType);
+          const { data: klinik } = await readData('kp');
           setStatusMOEIS(true);
           setIsLoadingMOEIS(false);
-          setSekolah(res);
-        })
-        .catch((err) => {
+          setSekolah(sekolah);
+          setKlinik(klinik);
+        };
+        try {
+          getSekolahAndKpData();
+        } catch (err) {
           setStatusMOEIS(false);
           setIsLoadingMOEIS(false);
-          console.log(err);
+          setSekolah([]);
+          setKlinik([]);
+        }
+        break;
+      case 'kp':
+        readFasilitiData({ negeri, daerah }).then((res) => {
+          setKlinik(res.data);
         });
-    }
-    if (FType === 'kp') {
-      readFasilitiData({ negeri, daerah }).then((res) => {
-        setKlinik(res.data);
-      });
-    }
-    if (FType === 'kkiakd') {
-      readKkiaData({ negeri, daerah }).then((res) => {
-        setKkia(res.data);
-      });
-    }
-    if (FType !== 'kp') {
-      readData('kp').then((res) => {
-        setKlinik(res.data);
-      });
+        break;
+      case 'kkiakd':
+        const getKkiaAndKpData = async () => {
+          const { data: kkia } = await readKkiaData({ negeri, daerah });
+          const { data: klinik } = await readData('kp');
+          setKkia(kkia);
+          setKlinik(klinik);
+        };
+        try {
+          getKkiaAndKpData();
+        } catch (err) {
+          setKkia([]);
+          setKlinik([]);
+        }
+        break;
+      default:
+        readData('kp').then((res) => {
+          setKlinik(res.data);
+        });
+        break;
     }
     setTimeout(() => {
       setLoading(false);
@@ -428,7 +447,8 @@ const AddModal = ({
 };
 
 const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
-  const { toast, createDataForKp } = useGlobalAdminAppContext();
+  const { createDataForKp } = useKpData();
+  const { toast } = useGlobalAdminAppContext();
 
   const [name, setName] = useState('');
   // event
@@ -448,16 +468,16 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
         tempat: tempat,
       };
     }
-    createDataForKp(FType, Data).then((res) => {
-      if (res.status === 200) {
-        toast.info(`Data berjaya ditambah`);
-        setReload(!reload);
-      } else {
-        toast.error(`Data tidak berjaya ditambah`);
-      }
-      setShowAddModal(false);
+    try {
+      await createDataForKp(FType, Data);
+      toast.info(`Data berjaya ditambah`);
+    } catch (err) {
+      toast.error(`Data tidak berjaya ditambah`);
+    } finally {
       setAddingData(false);
-    });
+      setShowAddModal(false);
+      setReload(!reload);
+    }
   };
 
   const props = {
@@ -496,8 +516,8 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
 };
 
 const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
-  const { toast, readData, readOneData, updateData } =
-    useGlobalAdminAppContext();
+  const { readData, readOneData, updateData } = useAdminData();
+  const { toast } = useGlobalAdminAppContext();
 
   const [editedEntity, setEditedEntity] = useState([]);
   const currentRolePromosiKlinik = useRef();
@@ -507,18 +527,20 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (FType === 'kp') {
-      readOneData(FType, id).then((res) => {
-        setEditedEntity(res.data);
-      });
-    }
-    if (FType !== 'kp') {
-      readData('kp').then((res) => {
-        setKlinik(res.data);
-      });
-      readOneData(FType, id).then((res) => {
-        setEditedEntity(res.data);
-      });
+    switch (FType) {
+      case 'kp':
+        readOneData(FType, id).then((res) => {
+          setEditedEntity(res.data);
+        });
+        break;
+      default:
+        readData('kp').then((res) => {
+          setKlinik(res.data);
+        });
+        readOneData(FType, id).then((res) => {
+          setEditedEntity(res.data);
+        });
+        break;
     }
     setTimeout(() => {
       setLoading(false);
@@ -584,11 +606,15 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
       default:
         break;
     }
-    updateData(FType, id, Data).then((res) => {
+    try {
+      await updateData(FType, id, Data);
       toast.info(`Data berjaya dikemaskini`);
+    } catch (err) {
+      toast.error(`Data tidak berjaya dikemaskini`);
+    } finally {
       setShowEditModal(false);
       setReload(!reload);
-    });
+    }
   };
 
   const props = {
@@ -650,8 +676,8 @@ const EditModalForKp = ({
   reload,
   setReload,
 }) => {
-  const { toast, readDataForKp, readOneDataForKp, updateDataForKp } =
-    useGlobalAdminAppContext();
+  const { readDataForKp, readOneDataForKp, updateDataForKp } = useKpData();
+  const { toast } = useGlobalAdminAppContext();
 
   const [tempatPenggunaan, setTempatPenggunaan] = useState('');
   const [allKlinik, setAllKlinik] = useState([]);
@@ -748,13 +774,12 @@ const EditModalForKp = ({
             res.data.jumlahTidakHadirTasTad = 0;
           }
         }
-        // console.log(res.data);
         setEditedEntity(res.data);
-        res.data.tarikhStart
-          ? setStartDateDP(new Date(res.data.tarikhStart))
+        res.tarikhStart
+          ? setStartDateDP(new Date(res.tarikhStart))
           : setStartDateDP(null);
-        res.data.tarikhEnd
-          ? setEndDateDP(new Date(res.data.tarikhEnd))
+        res.tarikhEnd
+          ? setEndDateDP(new Date(res.tarikhEnd))
           : setEndDateDP(null);
       });
       setTimeout(() => {
@@ -958,109 +983,107 @@ const DeleteModal = ({
   reload,
   setReload,
 }) => {
-  const { toast, getCurrentUser, deleteData, deleteDataForKp } =
-    useGlobalAdminAppContext();
+  const { deleteData } = useAdminData();
+  const { deleteDataForKp } = useKpData();
+  const { loginInfo } = useLogininfo();
+  const { toast } = useGlobalAdminAppContext();
   const [deletingData, setDeletingData] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    getCurrentUser().then((user) => {
-      switch (user.data.accountType) {
-        case 'kpUserAdmin':
-          deleteDataForKp(FType, id).then((res) => {
-            if (res.status === 200) {
-              toast.info(`Data berjaya dipadam`);
-              setShowDeleteModal(false);
-              setDeletingData(false);
-              setReload(!reload);
-              return;
+    setDeletingData(true);
+    switch (loginInfo.accountType) {
+      case 'kpUserAdmin':
+        deleteDataForKp(FType, id).then((res) => {
+          if (res.status === 200) {
+            toast.info(`Data berjaya dipadam`);
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            setReload(!reload);
+            return;
+          }
+          if (res.response.status !== 200) {
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            toast.error(`${res.response.data.msg}`);
+          }
+        });
+        break;
+      case 'negeriSuperadmin':
+      case 'daerahSuperadmin':
+        deleteData(FType, id).then((res) => {
+          if (res.status === 200) {
+            toast.info(`Data berjaya dipadam`);
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            setReload(!reload);
+            return;
+          }
+          if (res.response.status !== 200) {
+            switch (FType) {
+              case 'program':
+              case 'sm':
+              case 'sr':
+                toast.error(`${res.response.data.msg}`);
+                break;
+              case 'kp':
+                toast.error(
+                  `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
+                );
+                break;
+              default:
+                break;
             }
-            if (res.response.status !== 200) {
-              setShowDeleteModal(false);
-              setDeletingData(false);
-              toast.error(`${res.response.data.msg}`);
-            }
-          });
-          break;
-        case 'negeriSuperadmin':
-        case 'daerahSuperadmin':
-          setDeletingData(true);
-          deleteData(FType, id).then((res) => {
-            if (res.status === 200) {
-              toast.info(`Data berjaya dipadam`);
-              setShowDeleteModal(false);
-              setDeletingData(false);
-              setReload(!reload);
-              return;
-            }
-            if (res.response.status !== 200) {
-              switch (FType) {
-                case 'program':
-                  toast.error(`${res.response.data.msg}`);
-                  break;
-
-                case 'sm':
-                case 'sr':
-                  toast.error(`${res.response.data.msg}`);
-                  break;
-
-                case 'kp':
-                  toast.error(
-                    `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
-                  );
-                  break;
-                default:
-                  console.log('Nope');
-              }
-              setShowDeleteModal(false);
-              setDeletingData(false);
-            }
-          });
-          break;
-        default:
-          break;
-      }
-    });
+            setShowDeleteModal(false);
+            setDeletingData(false);
+          }
+        });
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => setShowDeleteModal(false)}
+      />
       <form onSubmit={handleSubmit}>
-        <div
-          className={styles.darkBG}
-          onClick={() => setShowDeleteModal(false)}
-        />
-        <div className={styles.centered}>
-          <div className={styles.modalDelete}>
-            <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>AWAS!</h5>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>AWAS!</h5>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className='text-2xl font-medium text-adminBlack'
+              >
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
             </div>
-            <button
-              className={styles.closeBtn}
-              onClick={() => setShowDeleteModal(false)}
-            >
-              <RiCloseLine style={{ marginBottom: '-3px' }} />
-            </button>
-            <div className={styles.modalContent}>
+            <div className='mb-3'>
               Anda YAKIN untuk menghapus{' '}
               <span className='text-xl font-bold text-admin2 mt-2'>
                 {deleteCandidate}?
               </span>
             </div>
-            <div className={styles.modalActions}>
-              <div className={styles.actionsContainer}>
-                {deletingData ? (
-                  <BusyButton func='del' />
-                ) : (
-                  <SubmitButton func='del' />
-                )}
-                <button
-                  className={styles.cancelBtn}
-                  onClick={() => setShowDeleteModal(false)}
-                >
-                  Tidak
-                </button>
-              </div>
+            <div className='mt-5'>
+              {deletingData ? (
+                <BusyButton func='del' />
+              ) : (
+                <SubmitButton func='del' />
+              )}
             </div>
           </div>
         </div>

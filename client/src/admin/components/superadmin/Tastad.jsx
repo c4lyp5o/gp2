@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useDictionary } from '../../context/useDictionary';
 
 export default function Tastad(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   const [pilihanKlinik, setPilihanKlinik] = useState('');
 
   const namaKliniks = props.data.reduce(

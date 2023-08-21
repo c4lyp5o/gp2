@@ -3,9 +3,10 @@ import { NavLink } from 'react-router-dom';
 import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useLogininfo } from '../context/useLogininfo';
 
 export default function Navbar(props) {
-  const { loginInfo } = useGlobalAdminAppContext();
+  const { loginInfo } = useLogininfo();
 
   const [showLinks, setShowLinks] = useState(false);
 

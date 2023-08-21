@@ -1,5 +1,9 @@
 import { NavLink } from 'react-router-dom';
+
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useLogininfo } from '../context/useLogininfo';
+import { useOndemandSetting } from '../context/useOndemandSetting';
+
 import { FaAddressCard, FaRegSun, FaCreativeCommonsBy } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
 
@@ -7,8 +11,10 @@ import { ConfirmModalForLogOut } from './Confirmation';
 import CountdownTimer from '../context/countdownTimer';
 import jatanegara from '../../../src/assets/Jata_MalaysiaV2.svg';
 export default function Header(props) {
-  const { loginInfo, currentOndemandSetting, logOutUser } =
-    useGlobalAdminAppContext();
+  const { loginInfo } = useLogininfo();
+  const { currentOndemandSetting } = useOndemandSetting();
+  const { logOutUser } = useGlobalAdminAppContext();
+
   const [showProfile, setShowProfile] = useState(false);
 
   // dropdown profil

@@ -20,9 +20,10 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useHqUtils } from '../../../context/admin-hooks/useHqUtils';
 
-import { Loading } from '../Screens';
+import { Loading } from '../../Screens';
 
 ChartJS.register(
   CategoryScale,
@@ -34,7 +35,7 @@ ChartJS.register(
   Legend
 );
 
-function DataDaerah({ data }) {
+function DataNegeri({ data }) {
   const options = {
     responsive: true,
     scales: {
@@ -49,7 +50,7 @@ function DataDaerah({ data }) {
       },
       title: {
         display: true,
-        text: `Kedatangan Pesakit di daerah ${data.nama}`,
+        text: `Kedatangan Pesakit di negeri ${data.nama}`,
       },
     },
   };
@@ -73,18 +74,6 @@ function DataDaerah({ data }) {
       <div className='max-w rounded overflow-hidden shadow-lg'>
         <div className='px-6 py-4'>
           <Line data={chartData} options={options} />
-          {/* <p className='underline'>Statistik</p>
-          <p className='text-xs'>
-            Jumlah Pesakit sehingga {new Date().toLocaleDateString()}:{' '}
-            {data.jumlahPt}
-          </p>
-          <p className='text-xs'>Jumlah Pesakit Hari Ini: {data.ptHariIni}</p>
-          <p className='text-xs'>
-            Jumlah Pesakit Minggu Ini: {data.ptMingguIni}
-          </p>
-          <p className='text-xs'>Jumlah Pesakit Bulan Ini: {data.ptBulanIni}</p>
-          <p className='text-xs'>Jumlah Pesakit Baru: {data.ptBaru}</p>
-          <p className='text-xs'>Jumlah Pesakit Ulangan: {data.ptUlangan}</p> */}
         </div>
       </div>
     </div>
@@ -246,17 +235,18 @@ function JanaReten({ data }) {
   );
 }
 
-export default function Daerah() {
+export default function Negeri() {
   const [searchParams] = useSearchParams();
   const negeri = searchParams.get('idn');
-  const daerah = searchParams.get('idd');
-  const { toast, getDetailedData } = useGlobalAdminAppContext();
+
+  const { toast } = useGlobalAdminAppContext();
+  const { getDetailedData } = useHqUtils();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getDetailedData({ type: 'daerah', idd: daerah, idn: negeri })
+    getDetailedData({ type: 'negeri', idn: negeri })
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -276,11 +266,10 @@ export default function Daerah() {
   return (
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
-        <h1 className='text-2xl font-bold underline'>{daerah}</h1>
+        <h1 className='text-2xl font-bold underline'>{negeri}</h1>
         <div className='grid grid-cols-3 gap-2'>
-          {/* <JanaReten data={data} /> */}
           <Statistik data={data} />
-          <DataDaerah data={data} />
+          <DataNegeri data={data} />
         </div>
       </div>
     </>

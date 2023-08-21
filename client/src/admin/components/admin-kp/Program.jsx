@@ -1,4 +1,4 @@
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useDictionary } from '../../context/useDictionary';
 import moment from 'moment';
 import { BsArrowLeftSquare } from 'react-icons/bs';
 
@@ -10,7 +10,7 @@ const subProgramColors = {
 };
 
 export default function Program(props) {
-  const { Dictionary, DictionarySubProgram } = useGlobalAdminAppContext();
+  const { Dictionary, DictionarySubProgram } = useDictionary();
   if (props.data.length > 0) {
     return (
       <div className='flex flex-col items-center gap-5'>

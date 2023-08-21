@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useToken } from '../../context/useToken';
 
 import { Loading } from '../Screens';
 import TotpConfirmation from './TotpConfirmation';
@@ -12,11 +13,12 @@ export default function Settings({ update }) {
     getCurrentUser,
     saveCurrentUser,
     generateSecret,
-    removeTotpToken,
     // resizeImage,
     masterDatePicker,
     toast,
   } = useGlobalAdminAppContext();
+  const { removeTotpToken } = useToken();
+
   const [loginInfo, setLoginInfo] = useState({});
   const [loading, setLoading] = useState(true);
   const [profileImageData, setProfileImageData] = useState(null);
@@ -133,7 +135,7 @@ export default function Settings({ update }) {
         <div>
           <div className='w-1/3 mx-auto mt-10'>
             <form onSubmit={handleSubmit}>
-              {/* {loginInfo.accountType !== 'kpSuperadmin' ? (
+              {/* {loginInfo.accountType !== 'kpUserAdmin' ? (
                 <>
                   <label
                     htmlFor={uploadImage}

@@ -1,4 +1,7 @@
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useAdminData } from '../../context/admin-hooks/useAdminData';
+import { useLogininfo } from '../../context/useLogininfo';
+import { useUtils } from '../../context/useUtils';
+import { useDictionary } from '../../context/useDictionary';
 import { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
@@ -37,31 +40,28 @@ export default function Data({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
-  const {
-    Dictionary,
-    getCurrentUser,
-    readData,
-    encryptEmail,
-    encryptPassword,
-  } = useGlobalAdminAppContext();
+  const { readData } = useAdminData();
+  const { loginInfo } = useLogininfo();
+  const { encryptEmail, encryptPassword } = useUtils();
+  const { Dictionary } = useDictionary();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const { data: userData } = await getCurrentUser();
-        setDaerah(userData.daerah);
-        setNegeri(userData.negeri);
-        setUser(userData.nama);
 
-        const { data } = await readData(FType);
-        setData(data);
+        setUser(loginInfo.nama);
+        setDaerah(loginInfo.daerah);
+        setNegeri(loginInfo.negeri);
+
+        const res = await readData(FType);
+        setData(res.data);
 
         switch (FType) {
           case 'kp':
             setShowPassword({
-              [data.username]: false,
-              [data.kaunterUsername]: false,
+              [res.data.username]: false,
+              [res.data.kaunterUsername]: false,
             });
             setShow({ klinik: true });
             break;
@@ -88,12 +88,11 @@ export default function Data({ FType }) {
             setShow({ kpbmpb: true });
             break;
           default:
-            console.log('nope');
             break;
         }
       } catch (error) {
         setData(null);
-        console.log(error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -102,8 +101,9 @@ export default function Data({ FType }) {
     fetchData();
 
     return () => {
-      setLoading(true);
+      setData(null);
       setShow({});
+      setLoading(true);
     };
   }, [FType, reload]);
 
@@ -137,20 +137,6 @@ export default function Data({ FType }) {
     setShowDeleteModal,
   };
 
-  const RenderSection = () => {
-    return (
-      <>
-        {show.klinik ? <Klinik {...props} /> : null}
-        {show.kkiakd ? <Kkiakd {...props} /> : null}
-        {show.operators ? <Operators {...props} /> : null}
-        {show.tastad ? <Tastad {...props} /> : null}
-        {show.sekolah ? <Sekolah {...props} /> : null}
-        {show.kpbmpb ? <KPBMPB {...props} /> : null}
-        {show.program ? <Program {...props} /> : null}
-      </>
-    );
-  };
-
   const RenderModal = () => {
     return (
       <>
@@ -161,30 +147,40 @@ export default function Data({ FType }) {
     );
   };
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (!loading) {
+  const RenderSection = () => {
     return (
       <>
-        <div className='h-full overflow-y-auto'>
-          <button
-            className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-md z-10'
-            onClick={() => {
-              setShowAddModal(true);
-              setShowEditModal(false);
-              setShowDeleteModal(false);
-            }}
-          >
-            <div className='text-adminWhite text-5xl'>
-              <FaPlus />
-            </div>
-          </button>
-          {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
-        </div>
-        <RenderModal />
+        {show.klinik && <Klinik {...props} />}
+        {show.kkiakd && <Kkiakd {...props} />}
+        {show.operators && <Operators {...props} />}
+        {show.tastad && <Tastad {...props} />}
+        {show.sekolah && <Sekolah {...props} />}
+        {show.kpbmpb && <KPBMPB {...props} />}
+        {show.program && <Program {...props} />}
       </>
     );
-  }
+  };
+
+  if (loading) return <Loading />;
+
+  return (
+    <>
+      <div className='h-full overflow-y-auto'>
+        <button
+          className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-md z-10'
+          onClick={() => {
+            setShowAddModal(true);
+            setShowEditModal(false);
+            setShowDeleteModal(false);
+          }}
+        >
+          <div className='text-adminWhite text-5xl'>
+            <FaPlus />
+          </div>
+        </button>
+        {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
+      </div>
+      <RenderModal />
+    </>
+  );
 }

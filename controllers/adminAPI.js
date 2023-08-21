@@ -251,7 +251,7 @@ const checkUser = async (req, res) => {
     return res.status(200).json({
       status: 'success',
       email: kpemail,
-      accountType: 'kpSuperadmin',
+      accountType: 'kpUserAdmin',
     });
   }
   // if yes superadmin
@@ -523,21 +523,19 @@ const getDataRoute = async (req, res) => {
       }).select('nama jenisEvent tarikhStart tarikhEnd');
       break;
     case 'sosmed':
-      countedData = [];
-      owner = '';
-      if (daerah === '-') {
-        owner = negeri;
-      }
-      if (daerah !== '-') {
-        owner = daerah;
-      }
-      sosMeddata = await Sosmed.find({
-        belongsTo: owner,
-      });
-      countedData = sosmedDataCompactor(sosMeddata);
-      data = countedData;
-      break;
-    case 'sosmedByKodProgram':
+      // countedData = [];
+      // owner = '';
+      // if (daerah === '-') {
+      //   owner = negeri;
+      // }
+      // if (daerah !== '-') {
+      //   owner = daerah;
+      // }
+      // sosMeddata = await Sosmed.find({
+      //   belongsTo: owner,
+      // });
+      // countedData = sosmedDataCompactor(sosMeddata);
+      // data = countedData;
       owner = '';
       if (daerah === '-') {
         owner = negeri;
@@ -549,6 +547,19 @@ const getDataRoute = async (req, res) => {
         belongsTo: owner,
       });
       break;
+    // ! xpakai dah, pindah jadi 'sosmed'
+    // case 'sosmedByKodProgram':
+    //   owner = '';
+    //   if (daerah === '-') {
+    //     owner = negeri;
+    //   }
+    //   if (daerah !== '-') {
+    //     owner = daerah;
+    //   }
+    //   data = await Sosmed.find({
+    //     belongsTo: owner,
+    //   });
+    //   break;
     case 'followers':
       owner = '';
       if (daerah === '-') {
@@ -659,15 +670,6 @@ const getDataKpRoute = async (req, res) => {
   let data, countedData;
 
   switch (type) {
-    // ? tak pakai kan ni
-    // case 'klinik':
-    //   data = await User.find({
-    //     accountType: 'kpUser',
-    //     negeri,
-    //     daerah,
-    //     statusPerkhidmatan: 'active',
-    //   });
-    //   break;
     case 'klinik-all-negeri':
       data = await User.find({
         accountType: 'kpUser',
@@ -685,21 +687,25 @@ const getDataKpRoute = async (req, res) => {
       });
       break;
     case 'sosmed':
-      countedData = [];
-      data = await Sosmed.find({
-        belongsTo: kp,
-      });
-      if (data.length === 0) {
-        return res.status(200).json(data);
-      }
-      countedData = sosmedDataCompactor(data);
-      data = countedData;
-      break;
-    case 'sosmedByKodProgram':
+      // countedData = [];
+      // data = await Sosmed.find({
+      //   belongsTo: kp,
+      // });
+      // if (data.length === 0) {
+      //   return res.status(200).json(data);
+      // }
+      // countedData = sosmedDataCompactor(data);
+      // data = countedData;
       data = await Sosmed.find({
         belongsTo: kp,
       });
       break;
+    // ! xpakai dah, pindah pg atas
+    // case 'sosmedByKodProgram':
+    //   data = await Sosmed.find({
+    //     belongsTo: kp,
+    //   });
+    //   break;
     case 'followers':
       data = await Followers.find({
         belongsTo: kp,
@@ -2784,7 +2790,7 @@ const getData = async (req, res) => {
             }
             return res.status(200).json({
               status: 'success',
-              accountType: 'kpSuperadmin',
+              accountType: 'kpUserAdmin',
             });
           }
           // if yes superadmin

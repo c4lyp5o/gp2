@@ -3,6 +3,9 @@ import moment from 'moment';
 import { BiWorld } from 'react-icons/bi';
 
 import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useAdminData } from '../../../context/admin-hooks/useAdminData';
+import { useLogininfo } from '../../../context/useLogininfo';
+import { useUtils } from '../../../context/useUtils';
 
 const FormTambahProgramGtod = ({
   singleAgensiLuarGTod,
@@ -14,15 +17,11 @@ const FormTambahProgramGtod = ({
   reloadState,
   setReloadState,
 }) => {
-  const {
-    loginInfo,
-    readData,
-    readOneData,
-    createData,
-    masterDatePicker,
-    updateData,
-    toast,
-  } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+
+  const { readData, createData, updateData } = useAdminData();
+  const { loginInfo } = useLogininfo();
+  const { masterDatePicker } = useUtils();
 
   const [jenisAgensiLuar, setJenisAgensiLuar] = useState('');
   const [namaAgensiLuar, setNamaAgensiLuar] = useState('');
