@@ -140,7 +140,7 @@ function ConfirmationDeleteKotak({
                   className='appearance-none text-sm uppercase w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                 >
                   <option value=''></option>
-                  {/* <option value='perokok-semasa'>Perokok Semasa</option> */}
+                  <option value='perokok-semasa'>Perokok Semasa</option>
                   <option value='bekas-perokok'>Bekas Perokok</option>
                   <option value='perokok-pasif'>Perokok Pasif</option>
                   <option value='bukan-perokok'>Bukan Perokok</option>
