@@ -135,7 +135,7 @@ export default function Settings({ update }) {
         <div>
           <div className='w-1/3 mx-auto mt-10'>
             <form onSubmit={handleSubmit}>
-              {/* {loginInfo.accountType !== 'kpSuperadmin' ? (
+              {/* {loginInfo.accountType !== 'kpUserAdmin' ? (
                 <>
                   <label
                     htmlFor={uploadImage}

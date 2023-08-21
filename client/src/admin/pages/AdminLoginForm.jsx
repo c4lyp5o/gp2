@@ -309,7 +309,7 @@ export default function AdminLoginForm() {
         const response = await checkUser(currentUser.current);
         setLoggingIn(false);
         // if kp superadmin
-        if (response.data.accountType === 'kpSuperadmin') {
+        if (response.data.accountType === 'kpUserAdmin') {
           toast.info(
             `Key Verifikasi telah dihantar ke email yang didaftar. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
           );
@@ -318,10 +318,7 @@ export default function AdminLoginForm() {
         }
         // if superadmin biasa
         // if using TOTP
-        if (
-          response.data.accountType !== 'kpSuperadmin' &&
-          response.data.totp
-        ) {
+        if (response.data.accountType !== 'kpUserAdmin' && response.data.totp) {
           toast.info(`Sila isi TOTP dari aplikasi yang anda gunakan`);
           setShowPasswordBox(true);
           return;

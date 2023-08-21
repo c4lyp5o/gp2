@@ -251,7 +251,7 @@ const checkUser = async (req, res) => {
     return res.status(200).json({
       status: 'success',
       email: kpemail,
-      accountType: 'kpSuperadmin',
+      accountType: 'kpUserAdmin',
     });
   }
   // if yes superadmin
@@ -2790,7 +2790,7 @@ const getData = async (req, res) => {
             }
             return res.status(200).json({
               status: 'success',
-              accountType: 'kpSuperadmin',
+              accountType: 'kpUserAdmin',
             });
           }
           // if yes superadmin
