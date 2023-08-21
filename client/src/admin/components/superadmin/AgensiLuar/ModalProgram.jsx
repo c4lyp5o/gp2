@@ -9,6 +9,7 @@ export default function ModalDeleteGtod({
   idGTod,
   setIdGTod,
   singleAgensiLuarGTod,
+  setSingleAgensiLuarGTod,
   reloadState,
   setReloadState,
 }) {
@@ -53,22 +54,21 @@ export default function ModalDeleteGtod({
         }
       )
       .then((result) => {
-        // reload page
-        // window.location.reload();
         setReloadState(!reloadState);
+        setIdGTod('');
+        setSingleAgensiLuarGTod(null);
         setShowModalDelete(false);
-        // if (captchaValue.toUpperCase() === generatedCaptcha) {
-        //   setShowModalDelete(false);
-        // }
       })
       .catch((err) => {
         console.log(err);
+        setSingleAgensiLuarGTod(null);
       });
   };
 
   const handleCancel = () => {
     setReloadState(!reloadState);
     setIdGTod('');
+    setSingleAgensiLuarGTod(null);
     setShowModalDelete(false);
     setShowTable(true);
   };

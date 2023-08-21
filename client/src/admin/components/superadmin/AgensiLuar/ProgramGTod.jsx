@@ -23,14 +23,16 @@ export default function ProgramGTod() {
   const [pemeriksaanSatu, setPemeriksaanSatu] = useState(null);
   const [pemeriksaanDua, setPemeriksaanDua] = useState(null);
 
+  const [isLoadingTable, setIsLoadingTable] = useState(false);
   const [reloadState, setReloadState] = useState(false);
 
   useEffect(() => {
+    setIsLoadingTable(true);
     const fetchGtod = async () => {
       try {
         const { data } = await readData('gtod');
         setTableGtod(data);
-        console.log(data);
+        setIsLoadingTable(false);
       } catch (error) {
         console.log(error);
       }
@@ -135,121 +137,195 @@ export default function ProgramGTod() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className='bg-admin4'>
-                    {tableGtod ? (
-                      tableGtod.map((agensi, idx) => (
-                        <tr key={agensi._id}>
-                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {idx + 1}
-                          </td>
-                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {agensi.jenisAgensiLuar}
-                          </td>
-                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {agensi.namaAgensiLuar}
-                          </td>
-                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {agensi.namaTaskaTadika}
-                          </td>
-                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            {agensi.alamatTaskaTadika}
-                          </td>
-                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                            <span className='flex items-center justify-center space-x-1'>
-                              <button
-                                className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
-                                onClick={() => {
-                                  setIdGTod(agensi._id);
-                                  setShowForm(true);
-                                  setShowTable(false);
-                                }}
-                              >
-                                Kemaskini
-                              </button>
-                              <button
-                                id={agensi._id}
-                                className='px-2 py-1 bg-user9 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
-                                onClick={() => {
-                                  setShowModalDelete(true);
-                                  setIdGTod(agensi._id);
-                                }}
-                              >
-                                Hapus
-                              </button>
-                            </span>
-                          </td>
-                          <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 '>
-                            {agensi.statusPenglibatan === 'aktif' ? (
-                              <span className='flex items-center justify-center space-x-1'>
-                                {agensi.pemeriksaanAgensiLuar1 && (
-                                  <button
-                                    className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
-                                    onClick={() => {
-                                      setIdGTod(agensi._id);
-                                      setNamaTaskaTadika(
-                                        agensi.namaTaskaTadika
-                                      );
-                                      setVisitNumber(agensi.visitNumber);
-                                      setPemeriksaanSatu(
-                                        agensi.pemeriksaanAgensiLuar1
-                                      );
-                                      setShowFormPemeriksaan(true);
-                                      setShowTable(false);
-                                    }}
-                                  >
-                                    Lawatan 1
-                                  </button>
-                                )}
-                                {agensi.pemeriksaanAgensiLuar2 ? (
-                                  <button
-                                    className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
-                                    onClick={() => {
-                                      setIdGTod(agensi._id);
-                                      setNamaTaskaTadika(
-                                        agensi.namaTaskaTadika
-                                      );
-                                      setVisitNumber(agensi.visitNumber);
-                                      setPemeriksaanDua(
-                                        agensi.pemeriksaanAgensiLuar2
-                                      );
-                                      setShowFormPemeriksaan(true);
-                                      setShowTable(false);
-                                    }}
-                                  >
-                                    Lawatan 2
-                                  </button>
-                                ) : (
-                                  <button
-                                    className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs flex flex-row items-center'
-                                    onClick={() => {
-                                      setIdGTod(agensi._id);
-                                      setNamaTaskaTadika(
-                                        agensi.namaTaskaTadika
-                                      );
-                                      setVisitNumber(agensi.visitNumber);
-                                      setShowFormPemeriksaan(true);
-                                      setShowTable(false);
-                                      setPemeriksaanSatu(null);
-                                      setPemeriksaanDua(null);
-                                    }}
-                                  >
-                                    <BsPlusCircleDotted className='mr-1' />{' '}
-                                    Lawatan
-                                  </button>
-                                )}
-                              </span>
-                            ) : null}
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
+                  {isLoadingTable ? (
+                    <tbody className='bg-admin4'>
                       <tr>
-                        <td colSpan='7' className='text-center py-2'>
-                          Tiada Data
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                         </td>
                       </tr>
-                    )}
-                  </tbody>
+                      <tr>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-20 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                        </td>
+                        <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          <span className='h-2 text-admin1 bg-admin1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  ) : (
+                    <tbody className='bg-admin4'>
+                      {tableGtod ? (
+                        tableGtod.map((agensi, idx) => (
+                          <tr key={agensi._id}>
+                            <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                              {idx + 1}
+                            </td>
+                            <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                              {agensi.jenisAgensiLuar}
+                            </td>
+                            <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                              {agensi.namaAgensiLuar}
+                            </td>
+                            <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                              {agensi.namaTaskaTadika}
+                            </td>
+                            <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                              {agensi.alamatTaskaTadika}
+                            </td>
+                            <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                              <span className='flex items-center justify-center space-x-1'>
+                                <button
+                                  className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
+                                  onClick={() => {
+                                    setIdGTod(agensi._id);
+                                    setShowForm(true);
+                                    setShowTable(false);
+                                  }}
+                                >
+                                  Kemaskini
+                                </button>
+                                <button
+                                  id={agensi._id}
+                                  className='px-2 py-1 bg-user9 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
+                                  onClick={() => {
+                                    setIdGTod(agensi._id);
+                                    setShowModalDelete(true);
+                                  }}
+                                >
+                                  Hapus
+                                </button>
+                              </span>
+                            </td>
+                            <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 '>
+                              {agensi.statusPenglibatan === 'aktif' ? (
+                                <span className='flex items-center justify-center space-x-1'>
+                                  {agensi.pemeriksaanAgensiLuar1 && (
+                                    <button
+                                      className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
+                                      onClick={() => {
+                                        setIdGTod(agensi._id);
+                                        setNamaTaskaTadika(
+                                          agensi.namaTaskaTadika
+                                        );
+                                        setVisitNumber(agensi.visitNumber);
+                                        setPemeriksaanSatu(
+                                          agensi.pemeriksaanAgensiLuar1
+                                        );
+                                        setShowFormPemeriksaan(true);
+                                        setShowTable(false);
+                                      }}
+                                    >
+                                      Lawatan 1
+                                    </button>
+                                  )}
+                                  {agensi.pemeriksaanAgensiLuar2 ? (
+                                    <button
+                                      className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
+                                      onClick={() => {
+                                        setIdGTod(agensi._id);
+                                        setNamaTaskaTadika(
+                                          agensi.namaTaskaTadika
+                                        );
+                                        setVisitNumber(agensi.visitNumber);
+                                        setPemeriksaanDua(
+                                          agensi.pemeriksaanAgensiLuar2
+                                        );
+                                        setShowFormPemeriksaan(true);
+                                        setShowTable(false);
+                                      }}
+                                    >
+                                      Lawatan 2
+                                    </button>
+                                  ) : (
+                                    <button
+                                      className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs flex flex-row items-center'
+                                      onClick={() => {
+                                        setIdGTod(agensi._id);
+                                        setNamaTaskaTadika(
+                                          agensi.namaTaskaTadika
+                                        );
+                                        setVisitNumber(agensi.visitNumber);
+                                        setShowFormPemeriksaan(true);
+                                        setShowTable(false);
+                                        setPemeriksaanSatu(null);
+                                        setPemeriksaanDua(null);
+                                      }}
+                                    >
+                                      <BsPlusCircleDotted className='mr-1' />{' '}
+                                      Lawatan
+                                    </button>
+                                  )}
+                                </span>
+                              ) : null}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan='7' className='text-center py-2'>
+                            Tiada Data
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  )}
                 </table>
               </div>
             </>
@@ -311,6 +387,7 @@ export default function ProgramGTod() {
             idGTod={idGTod}
             setIdGTod={setIdGTod}
             singleAgensiLuarGTod={singleAgensiLuarGTod}
+            setSingleAgensiLuarGTod={setSingleAgensiLuarGTod}
             reloadState={reloadState}
             setReloadState={setReloadState}
           />
