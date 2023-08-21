@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import moment from 'moment';
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useKpData } from '../../context/kp-hooks/useKpData';
 
 export default function KlinikPergigianBergerak(props) {
-  const { readOneDataForKp } = useGlobalAdminAppContext();
+  const { readOneDataForKp } = useKpData();
   const [show, setShow] = useState(false);
   const [singleKpbData, setSingleKpbData] = useState(null);
 
@@ -47,7 +47,7 @@ export default function KlinikPergigianBergerak(props) {
             </button>
           )}
         </div>
-        {show && singleKpbData.penggunaanKPBMPB.length > 0 ? (
+        {show && singleKpbData && singleKpbData.penggunaanKPBMPB.length > 0 ? (
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
               <thead className='text-adminWhite bg-admin3'>

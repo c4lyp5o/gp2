@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import { BsPlusCircleDotted, BsTable } from 'react-icons/bs';
 
-import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useAdminData } from '../../../context/admin-hooks/useAdminData';
 
 import FormTambahProgramGtod from './FormTambahProgram';
 import FormPemeriksaanProgramGtod from './FormPemeriksaanProgram';
 import ModalDeleteGtod from './ModalProgram';
 
 export default function ProgramGTod() {
-  const { loginInfo, readData, readOneData, createData, toast } =
-    useGlobalAdminAppContext();
+  const { readData, readOneData } = useAdminData();
 
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);

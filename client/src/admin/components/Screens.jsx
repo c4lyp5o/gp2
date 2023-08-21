@@ -1,11 +1,11 @@
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useDictionary } from '../context/useDictionary';
 import { Ring } from 'react-awesome-spinners';
 import styles from '../Modal.module.css';
 
 import nothinghere from '../assets/nothinghere.png';
 
 export function NothingHereBoi({ FType }) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
   return (
     <div className='flex justify-center text-center h-full w-full'>
       <div className='m-auto rounded-md grid'>

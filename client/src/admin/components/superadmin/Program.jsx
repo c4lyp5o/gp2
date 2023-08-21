@@ -1,7 +1,7 @@
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useDictionary } from '../../context/useDictionary';
 
 export default function Program(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
 
   if (props.data.length > 0) {
     return (

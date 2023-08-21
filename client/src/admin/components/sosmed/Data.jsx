@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
+import { useAdminData } from '../../context/admin-hooks/useAdminData';
 import { useKpData } from '../../context/kp-hooks/useKpData';
 import { useLogininfo } from '../../context/useLogininfo';
 
-import Tastad from './Tastad';
-import Pegawai from './Pegawai';
-import Program from './Program';
-import KlinikPergigianBergerak from './KPB';
-import MakmalPergigianBergerak from './MPB';
+import Sosmed from './Sosmed';
+import Followers from './Followers';
 
-import { AddModalForKp, EditModalForKp, DeleteModal } from '../Modal';
+import { ModalSosMed, ModalAddFollowers } from './Modal';
+import { DeleteModal } from '../../components/Modal';
+
 import { Loading, NothingHereBoi } from '../Screens';
 
-export default function DataKp({ FType }) {
+export default function DataSosmed({ FType }) {
   // modal
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [showSosMedModal, setShowSosMedModal] = useState(false);
+  const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteCandidate, setDeleteCandidate] = useState(null);
   const [id, setId] = useState(null);
@@ -30,9 +30,10 @@ export default function DataKp({ FType }) {
   const [user, setUser] = useState(null);
   const [accountType, setAccountType] = useState(null);
 
-  // pp jp last place
-  const [showInfo, setShowInfo] = useState(false);
-  const [dataIndex, setDataIndex] = useState(null);
+  // follower
+  const [namaPlatform, setNamaPlatform] = useState(null);
+  const [jumlahBulanTerdahulu, setJumlahBulanTerdahulu] = useState(null);
+  const [jumlahBulanIni, setJumlahBulanIni] = useState(null);
 
   // shower
   const [show, setShow] = useState({});
@@ -41,6 +42,7 @@ export default function DataKp({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
+  const { readData } = useAdminData();
   const { readDataForKp } = useKpData();
   const { loginInfo } = useLogininfo();
 
@@ -55,29 +57,23 @@ export default function DataKp({ FType }) {
         setDaerah(loginInfo.daerah !== '-' ? loginInfo.daerah : undefined);
         setKp(loginInfo.kp);
 
-        const res = await readDataForKp(FType, kp);
+        const res = await (loginInfo.accountType === 'kpUserAdmin'
+          ? readDataForKp(FType, kp)
+          : readData(FType));
         setData(res.data);
 
         switch (FType) {
-          case 'program':
-            setShow({ program: true });
+          case 'sosmed':
+            setShow({ sosmed: true });
             break;
-          case 'tastad':
-            setShow({ tastad: true });
-            break;
-          case 'pp':
-          case 'jp':
-            setShow({ operators: true });
-            break;
-          case 'kpb':
-            setShow({ kpb: true });
-            break;
-          case 'mpb':
-            setShow({ mpb: true });
+          case 'followers':
+            setShow({ followers: true });
             break;
           default:
             break;
         }
+        setShowFollowersModal(false);
+        setShowSosMedModal(false);
       } catch (error) {
         setData(null);
         console.error(error);
@@ -96,20 +92,20 @@ export default function DataKp({ FType }) {
   }, [FType, reload]);
 
   const props = {
-    showInfo,
-    setShowInfo,
-    dataIndex,
-    setDataIndex,
-    showModal,
-    setShowModal,
-    showAddModal,
-    setShowAddModal,
-    showEditModal,
-    setShowEditModal,
+    showSosMedModal,
+    setShowSosMedModal,
+    showFollowersModal,
+    setShowFollowersModal,
     showDeleteModal,
     setShowDeleteModal,
     deleteCandidate,
     setDeleteCandidate,
+    namaPlatform,
+    setNamaPlatform,
+    jumlahBulanTerdahulu,
+    setJumlahBulanTerdahulu,
+    jumlahBulanIni,
+    setJumlahBulanIni,
     id,
     setId,
     data,
@@ -124,6 +120,8 @@ export default function DataKp({ FType }) {
     setUser,
     accountType,
     setAccountType,
+    showModal,
+    setShowModal,
     reload,
     setReload,
     FType,
@@ -132,8 +130,8 @@ export default function DataKp({ FType }) {
   const RenderModal = () => {
     return (
       <>
-        {showAddModal && <AddModalForKp {...props} />}
-        {showEditModal && <EditModalForKp {...props} />}
+        {showSosMedModal && <ModalSosMed {...props} />}
+        {showFollowersModal && <ModalAddFollowers {...props} />}
         {showDeleteModal && <DeleteModal {...props} />}
       </>
     );
@@ -142,11 +140,8 @@ export default function DataKp({ FType }) {
   const RenderSection = () => {
     return (
       <>
-        {show.program && <Program {...props} />}
-        {show.tastad && <Tastad {...props} />}
-        {show.operators && <Pegawai {...props} />}
-        {show.kpb && <KlinikPergigianBergerak {...props} />}
-        {show.mpb && <MakmalPergigianBergerak {...props} />}
+        {show.sosmed && <Sosmed {...props} />}
+        {show.followers && <Followers {...props} />}
       </>
     );
   };
@@ -156,18 +151,25 @@ export default function DataKp({ FType }) {
   return (
     <>
       <div className='h-full overflow-y-auto'>
-        {FType === 'program' && (
-          <button
-            className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-md z-10'
-            onClick={() => {
-              setShowAddModal(true);
-            }}
-          >
-            <div className='text-adminWhite text-5xl'>
-              <FaPlus />
-            </div>
-          </button>
-        )}
+        <button
+          className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-md z-10'
+          onClick={() => {
+            switch (FType) {
+              case 'sosmed':
+                setShowSosMedModal(true);
+                break;
+              case 'followers':
+                setShowFollowersModal(true);
+                break;
+              default:
+                break;
+            }
+          }}
+        >
+          <div className='text-adminWhite text-5xl'>
+            <FaPlus />
+          </div>
+        </button>
         {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
       </div>
       <RenderModal />

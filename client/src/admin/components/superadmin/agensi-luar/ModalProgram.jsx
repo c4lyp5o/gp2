@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import moment from 'moment';
 
 import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useAdminData } from '../../../context/admin-hooks/useAdminData';
 
 export default function ModalDeleteGtod({
   setShowModalDelete,
@@ -13,7 +13,8 @@ export default function ModalDeleteGtod({
   reloadState,
   setReloadState,
 }) {
-  const { deleteData, toast } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { deleteData } = useAdminData();
 
   const [captchaValue, setCaptchaValue] = useState('');
   const [generatedNamaAgensiLuar, setGeneratedNamaAgensiLuar] = useState('');

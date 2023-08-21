@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useDictionary } from '../../context/useDictionary';
 
 import { FaInfoCircle } from 'react-icons/fa';
 
 export default function Operators(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary } = useDictionary();
+
   const [pilihanKlinik, setPilihanKlinik] = useState('');
   const [pilihanRole, setPilihanRole] = useState('');
 

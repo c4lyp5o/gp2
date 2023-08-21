@@ -15,9 +15,11 @@ import moment from 'moment';
 
 import { FaWindowClose } from 'react-icons/fa';
 
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useAdhocData } from '../../../context/admin-hooks/useAdhocData';
+import { useUtils } from '../../../context/useUtils';
 
-import { Loading } from '../Screens';
+import { Loading } from '../../Screens';
 
 // ChartJS.register(
 //   CategoryScale,
@@ -156,8 +158,9 @@ const Disclaimer = ({ setDisclaimer }) => {
 };
 
 const AdHocQuery = () => {
-  const { toast, adhocQuery, downloadAdhocQuery, masterDatePicker } =
-    useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { adhocQuery, downloadAdhocQuery } = useAdhocData();
+  const { masterDatePicker } = useUtils();
 
   const defaultYAxis = [
     {
@@ -689,7 +692,7 @@ const AdHocQuery = () => {
 
   const [disclaimer, setDisclaimer] = useState(true);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [bigData, setBigData] = useState(null);
 
@@ -926,12 +929,14 @@ const AdHocQuery = () => {
   };
 
   useEffect(() => {
+    // buat2 ada loading page
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
     return () => resetter();
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   if (disclaimer) {
     return <Disclaimer setDisclaimer={setDisclaimer} />;

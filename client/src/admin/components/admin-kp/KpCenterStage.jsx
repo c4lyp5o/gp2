@@ -1,27 +1,32 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useLogininfo } from '../../context/useLogininfo';
+import { useKpData } from '../../context/kp-hooks/useKpData';
 
 import { Loading } from '../Screens';
 
-export default function KpCenterStage(props) {
-  const { toast, loginInfo, readDataForKp } = useGlobalAdminAppContext();
+export default function KpCenterStage() {
+  const { toast } = useGlobalAdminAppContext();
+  const { loginInfo } = useLogininfo();
+  const { readDataForKp } = useKpData();
 
   const [loading, setLoading] = useState(true);
   const [program, setProgram] = useState([]);
 
   useEffect(() => {
     const getProgramForKp = async () => {
-      const { data } = await readDataForKp('program');
-      setProgram(data);
+      const res = await readDataForKp('program');
+      setProgram(res.data);
     };
-    getProgramForKp()
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message);
-      });
+    try {
+      getProgramForKp();
+    } catch (err) {
+      toast.error(err.response.data.message);
+      setProgram([]);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   if (loading) {
