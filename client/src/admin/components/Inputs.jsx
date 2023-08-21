@@ -2203,7 +2203,7 @@ export function InputEvent(props) {
                 className='block mb-2 text-sm font-medium text-adminBlack'
                 htmlFor='nama'
               >
-                Klinik Bertugas{' '}
+                Klinik Bertanggungjawab{' '}
                 <span className='font-semibold text-lg text-user6'>*</span>
               </label>
               <select
