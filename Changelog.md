@@ -3,7 +3,6 @@
 ### Unreleased
 
 - Integrasi bersama MyVAS di Modul Pendaftaran bagi submodul Klinik Pergigian
-- Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
 
 ### 15/8/2023 (v2.1.6)
 
