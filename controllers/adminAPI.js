@@ -1,8 +1,11 @@
 const _ = require('lodash');
+const fs = require('fs');
+const path = require('path');
 const https = require('https');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
+const Excel = require('exceljs');
 const mailer = require('nodemailer');
 const moment = require('moment');
 const speakeasy = require('speakeasy');
@@ -25,6 +28,7 @@ const emailGen = require('../lib/emailgen');
 const sesiTakwimSekolah = require('./helpers/sesiTakwimSekolah');
 const insertToSekolah = require('./helpers/insertToSekolah');
 const { logger } = require('../logs/logger');
+const { reten_engine_version } = require('./countHelperFuser');
 
 // helper
 const Helper = require('./countHelperRegular');
@@ -106,9 +110,8 @@ const socmed = [
 ];
 
 const transporter = mailer.createTransport({
-  host: process.env.EMAILER_HOST,
-  port: process.env.EMAILER_PORT,
   secure: true,
+  service: process.env.EMAILER_SERVICE,
   auth: {
     user: process.env.EMAILER_ACCT,
     pass: process.env.EMAILER_PASS,
@@ -248,7 +251,7 @@ const checkUser = async (req, res) => {
     return res.status(200).json({
       status: 'success',
       email: kpemail,
-      accountType: 'kpSuperadmin',
+      accountType: 'kpUserAdmin',
     });
   }
   // if yes superadmin
@@ -304,11 +307,11 @@ const loginUser = async (req, res) => {
       userId: kpUser._id,
       username: kpUser.username,
       officername: superOperator.nama,
-      kodFasiliti: kpUser.kodFasiliti,
-      accountType: 'kpUser',
-      negeri: kpUser.negeri,
-      daerah: kpUser.daerah,
       kp: kpUser.kp,
+      kodFasiliti: kpUser.kodFasiliti,
+      daerah: kpUser.daerah,
+      negeri: kpUser.negeri,
+      accountType: 'kpUserAdmin',
     };
     const token = jwt.sign(userData, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_LIFETIME,
@@ -520,21 +523,19 @@ const getDataRoute = async (req, res) => {
       }).select('nama jenisEvent tarikhStart tarikhEnd');
       break;
     case 'sosmed':
-      countedData = [];
-      owner = '';
-      if (daerah === '-') {
-        owner = negeri;
-      }
-      if (daerah !== '-') {
-        owner = daerah;
-      }
-      sosMeddata = await Sosmed.find({
-        belongsTo: owner,
-      });
-      countedData = sosmedDataCompactor(sosMeddata);
-      data = countedData;
-      break;
-    case 'sosmedByKodProgram':
+      // countedData = [];
+      // owner = '';
+      // if (daerah === '-') {
+      //   owner = negeri;
+      // }
+      // if (daerah !== '-') {
+      //   owner = daerah;
+      // }
+      // sosMeddata = await Sosmed.find({
+      //   belongsTo: owner,
+      // });
+      // countedData = sosmedDataCompactor(sosMeddata);
+      // data = countedData;
       owner = '';
       if (daerah === '-') {
         owner = negeri;
@@ -546,6 +547,19 @@ const getDataRoute = async (req, res) => {
         belongsTo: owner,
       });
       break;
+    // ! xpakai dah, pindah jadi 'sosmed'
+    // case 'sosmedByKodProgram':
+    //   owner = '';
+    //   if (daerah === '-') {
+    //     owner = negeri;
+    //   }
+    //   if (daerah !== '-') {
+    //     owner = daerah;
+    //   }
+    //   data = await Sosmed.find({
+    //     belongsTo: owner,
+    //   });
+    //   break;
     case 'followers':
       owner = '';
       if (daerah === '-') {
@@ -656,14 +670,6 @@ const getDataKpRoute = async (req, res) => {
   let data, countedData;
 
   switch (type) {
-    case 'klinik':
-      data = await User.find({
-        accountType: 'kpUser',
-        negeri,
-        daerah,
-        statusPerkhidmatan: 'active',
-      });
-      break;
     case 'klinik-all-negeri':
       data = await User.find({
         accountType: 'kpUser',
@@ -681,21 +687,25 @@ const getDataKpRoute = async (req, res) => {
       });
       break;
     case 'sosmed':
-      countedData = [];
-      data = await Sosmed.find({
-        belongsTo: kp,
-      });
-      if (data.length === 0) {
-        return res.status(200).json(data);
-      }
-      countedData = sosmedDataCompactor(data);
-      data = countedData;
-      break;
-    case 'sosmedByKodProgram':
+      // countedData = [];
+      // data = await Sosmed.find({
+      //   belongsTo: kp,
+      // });
+      // if (data.length === 0) {
+      //   return res.status(200).json(data);
+      // }
+      // countedData = sosmedDataCompactor(data);
+      // data = countedData;
       data = await Sosmed.find({
         belongsTo: kp,
       });
       break;
+    // ! xpakai dah, pindah pg atas
+    // case 'sosmedByKodProgram':
+    //   data = await Sosmed.find({
+    //     belongsTo: kp,
+    //   });
+    //   break;
     case 'followers':
       data = await Followers.find({
         belongsTo: kp,
@@ -1626,6 +1636,162 @@ const deleteRouteKp = async (req, res) => {
   res.status(200).json(data);
 };
 
+const getAhqData = async (req, res) => {
+  if (req.user.accountType !== 'hqSuperadmin') {
+    return res.status(401).json({ msg: 'Not authorized' });
+  }
+
+  const { daerah, negeri } = await Superadmin.findOne({
+    _id: req.user.userId,
+  });
+  // console.log(req.body.payload);
+  const { tarikhMula, tarikhAkhir, searchOptionsSelection, checkboxSelection } =
+    req.body.payload;
+  let payload = {};
+  payload = {
+    negeri,
+    daerah,
+    tarikhMula,
+    tarikhAkhir,
+    searchOptionsSelection,
+    checkboxSelection,
+  };
+  // console.log(payload);
+  try {
+    const query = await Helper.countAdHocQuery(payload);
+    res.status(200).json(query);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+const downloadAhqData = async (req, res) => {
+  if (req.user.accountType !== 'hqSuperadmin') {
+    return res.status(401).json({ msg: 'Not authorized' });
+  }
+
+  const { tarikhMula, tarikhAkhir, lastQuery, checkboxSelection } =
+    req.body.payload;
+  //
+  try {
+    const Dictionary = {
+      0: 'Bawah 1 Tahun',
+      1: '1 - 4 Tahun',
+      5: '5 - 6 Tahun',
+      7: '7 - 9 Tahun',
+      10: '10 - 12 Tahun',
+      13: '13 - 14 Tahun',
+      15: '15 - 17 Tahun',
+      18: '18 - 19 Tahun',
+      20: '20 - 29 Tahun',
+      30: '30 - 39 Tahun',
+      40: '40 - 49 Tahun',
+      50: '50 - 59 Tahun',
+      60: '60 Tahun',
+      61: '61 - 64 Tahun',
+      65: '65 Tahun',
+      66: '66 - 69 Tahun',
+      70: '70 - 74 Tahun',
+      75: '75 Tahun Keatas',
+    };
+
+    const extractCheckboxY = checkboxSelection['y']
+      .map((i) => {
+        if (i.checked) {
+          return i;
+        }
+      })
+      .filter((i) => i !== undefined);
+
+    const extractCheckboxX = checkboxSelection['x']
+      .map((i) => {
+        if (i.checked) {
+          return i;
+        }
+      })
+      .filter((i) => i !== undefined);
+    //
+    const workbook = new Excel.Workbook();
+    const worksheet = workbook.addWorksheet('Ad Hoc Query');
+    for (let i = 0; i < extractCheckboxX.length; i++) {
+      const row = worksheet.getRow(6);
+      row.getCell(i + 1).value = extractCheckboxX[i].text;
+    }
+    for (let i = 0; i < extractCheckboxY.length; i++) {
+      const row = worksheet.getRow(6);
+      row.getCell(i + 2).value = extractCheckboxY[i].text;
+    }
+    for (let i = 0; i < lastQuery.length; i++) {
+      const row = worksheet.getRow(i + 7);
+      if (typeof lastQuery[i]['_id'] === 'number') {
+        row.getCell(1).value = Dictionary[lastQuery[i]['_id']];
+      } else {
+        row.getCell(1).value = lastQuery[i]['_id'].toUpperCase();
+      }
+      for (let j = 0; j < extractCheckboxY.length; j++) {
+        row.getCell(j + 2).value = lastQuery[i][extractCheckboxY[j].value];
+      }
+    }
+    // styling
+    worksheet.getCell('A1').value = 'GI-RET 2.0 AD-HOC QUERY (BETA)';
+    worksheet.mergeCells('A1:E1');
+    worksheet.getCell('A3').value = `Tarikh Kedatangan: ${moment(
+      tarikhMula
+    ).format('DD-MM-YYYY')} - ${moment(tarikhAkhir).format('DD-MM-YYYY')}`;
+    worksheet.mergeCells('A3:E3');
+    worksheet.getCell(
+      'S1'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
+    worksheet.getCell('S2').value = `Dijana oleh: PKP HQ (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+    worksheet.columns.forEach((column) => {
+      let maxLength = 0;
+      column.eachCell((cell, rowNumber) => {
+        if (rowNumber >= 6) {
+          const length = cell.value ? cell.value.toString().length : 0;
+          if (length > maxLength) {
+            maxLength = length;
+          }
+        }
+      });
+      column.width = maxLength < 12 ? 12 : maxLength;
+    });
+    worksheet.eachRow((row, rowNumber) => {
+      if (rowNumber >= 6) {
+        row.eachCell((cell) => {
+          if (cell.value) {
+            cell.border = {
+              top: { style: 'thin', color: { argb: '000000' } },
+              left: { style: 'thin', color: { argb: '000000' } },
+              bottom: { style: 'thin', color: { argb: '000000' } },
+              right: { style: 'thin', color: { argb: '000000' } },
+            };
+          }
+        });
+      }
+    });
+    // end styling
+    const fileName = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      `${new Date().toISOString()}.xlsx`
+    );
+    await workbook.xlsx.writeFile(fileName);
+    setTimeout(() => {
+      fs.unlinkSync(fileName);
+    }, 1000);
+    const file = fs.readFileSync(path.resolve(process.cwd(), fileName));
+
+    res.status(200).send(file);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error.message });
+  }
+};
+
 const getData = async (req, res) => {
   let { main, Fn, token, FType, Id } = req.body;
   let { Data } = req.body;
@@ -1741,6 +1907,7 @@ const getData = async (req, res) => {
           if (theType === 'klinik') {
             Data = {
               ...Data,
+              accountType: 'kpUser',
               daerah,
               negeri,
             };
@@ -1979,7 +2146,7 @@ const getData = async (req, res) => {
                       ? {
                           pemeriksaanAgensiLuar2:
                             createPemeriksaanAgensiLuar._id,
-                          visitNumber: 2,
+                          visitNumber: 1,
                         }
                       : {}),
                   },
@@ -2623,7 +2790,7 @@ const getData = async (req, res) => {
             }
             return res.status(200).json({
               status: 'success',
-              accountType: 'kpSuperadmin',
+              accountType: 'kpUserAdmin',
             });
           }
           // if yes superadmin
@@ -2725,25 +2892,25 @@ const getData = async (req, res) => {
           logger.info(
             `[adminAPI/HqCenter] (${accountType})/${username} accessed read`
           );
-          if (accountType === 'kpUser') {
-            return res.status(200).json({
-              status: 'success',
-              message: 'kpuser',
-            });
-          }
-          let kpSelectionPayload = { accountType: 'kpUser' };
+          // ? tak pakai kan route if block ni
+          // if (accountType === 'kpUser') {
+          //   return res.status(200).json({
+          //     status: 'success',
+          //     message: 'kpuser',
+          //   });
+          // }
+          const kpSelectionPayload = {};
           if (accountType === 'negeriSuperadmin') {
+            kpSelectionPayload.accountType = 'kpUser';
             kpSelectionPayload.negeri = (
               await Superadmin.findById(userId)
             ).negeri;
           }
           if (accountType === 'daerahSuperadmin') {
             const superadmin = await Superadmin.findById(userId);
-            kpSelectionPayload = {
-              accountType: 'kpUser',
-              negeri: superadmin.negeri,
-              daerah: superadmin.daerah,
-            };
+            kpSelectionPayload.accountType = 'kpUser';
+            kpSelectionPayload.negeri = superadmin.negeri;
+            kpSelectionPayload.daerah = superadmin.daerah;
           }
           const kpData = await User.find(kpSelectionPayload);
           const data = kpData.reduce((result, user) => {
@@ -3056,21 +3223,22 @@ const getData = async (req, res) => {
           console.log('create for aq');
           break;
         case 'read':
-          const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+          console.log('read for aq');
           const { daerah, negeri } = await Superadmin.findOne({
-            _id: userId,
+            _id: req.user.userId,
           });
-          const { x, y, mengandung, oku, bersekolah, pesara } = req.body;
-          const query = await Helper.countAdHocQuery(
+          const { tarikhMula, tarikhAkhir, checkboxSelection } =
+            req.body.payload;
+          let payload = {};
+          payload = {
             negeri,
             daerah,
-            x,
-            y,
-            mengandung,
-            oku,
-            bersekolah,
-            pesara
-          );
+            tarikhMula,
+            tarikhAkhir,
+            checkboxSelection,
+          };
+          // console.log(payload);
+          const query = await Helper.countAdHocQuery(payload);
           res.status(200).json(query);
           break;
         case 'update':
@@ -3189,21 +3357,36 @@ const sendVerificationEmail = async (userId) => {
 const readUserData = async (token) => {
   let userData;
   const { userId, accountType } = jwt.verify(token, process.env.JWT_SECRET);
-  if (accountType !== 'kpUser') {
+  if (
+    accountType === 'daerahSuperadmin' ||
+    accountType === 'negeriSuperadmin' ||
+    accountType === 'hqSuperadmin'
+  ) {
     const user = await Superadmin.findById(userId);
     userData = user.getProfile();
   }
-  if (accountType === 'kpUser') {
+  if (accountType === 'kpUserAdmin') {
+    const {
+      userId,
+      username,
+      officername,
+      role,
+      kp,
+      kodFasiliti,
+      daerah,
+      negeri,
+      accountType,
+    } = jwt.verify(token, process.env.JWT_SECRET);
     userData = {
-      userId: jwt.verify(token, process.env.JWT_SECRET).userId,
-      username: jwt.verify(token, process.env.JWT_SECRET).username,
-      officername: jwt.verify(token, process.env.JWT_SECRET).officername,
-      role: jwt.verify(token, process.env.JWT_SECRET).role,
-      kodFasiliti: jwt.verify(token, process.env.JWT_SECRET).kodFasiliti,
-      kp: jwt.verify(token, process.env.JWT_SECRET).kp,
-      daerah: jwt.verify(token, process.env.JWT_SECRET).daerah,
-      negeri: jwt.verify(token, process.env.JWT_SECRET).negeri,
-      accountType: jwt.verify(token, process.env.JWT_SECRET).accountType,
+      userId: userId,
+      username: username,
+      officername: officername,
+      role: role,
+      kp: kp,
+      kodFasiliti: kodFasiliti,
+      daerah: daerah,
+      negeri: negeri,
+      accountType: accountType,
     };
   }
   return userData;
@@ -3834,7 +4017,7 @@ const otpForLogin = (nama, key) =>
                     </tr>
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;padding-right:25px;padding-left:25px;word-break:break-word;">
-                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:15px;line-height:1;text-align:left;color:#ffffff;">Terima kasih, <br /> Team Gi-Ret 2.0</div>
+                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:15px;line-height:1;text-align:left;color:#ffffff;">Terima kasih, <br /> Admin Gi-Ret 2.0</div>
                       </td>
                     </tr>
                   </tbody>
@@ -3860,6 +4043,8 @@ module.exports = {
   checkUser,
   loginUser,
   readUserData,
+  getAhqData,
+  downloadAhqData,
   getData,
   getDataRoute,
   getDataKpRoute,

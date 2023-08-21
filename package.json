@@ -1,13 +1,13 @@
 {
   "name": "giret-2.0",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "An attempt at a mountain.",
   "main": "server.js",
   "scripts": {
     "install-server": "npm install",
     "install-client": "cd client && npm install",
     "install-prod": "npm ci && cd client && npm ci",
-    "prune-prod": "npm prune --omit=dev && cd client && npm prune --omit=dev",
+    "prune-prod": "npm ci --omit=dev && cd client && npm ci --omit=dev",
     "server": "nodemon server.js",
     "client": "cd client && npm run dev",
     "dev": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\"",

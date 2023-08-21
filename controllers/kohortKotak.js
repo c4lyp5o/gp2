@@ -1,7 +1,7 @@
-const moment = require('moment');
 const KohortKotak = require('../models/KohortKotak');
 const Sekolah = require('../models/Sekolah');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
+const Fasiliti = require('../models/Fasiliti');
 const { logger, unauthorizedLogger } = require('../logs/logger');
 
 // GET /:personKohortKotakId
@@ -113,7 +113,20 @@ const softDeletePersonKOTAK = async (req, res) => {
     });
   }
 
-  // delete pelajar kohort tu
+  // cari dulu sekolah pelajar kohort ni
+  const fasilitPelajarKohort = await Fasiliti.findOne({
+    handler: singlePersonKotak.createdByKp,
+    kodFasilitiHandler: singlePersonKotak.createdByKodFasiliti,
+    kodSekolah: singlePersonKotak.kodSekolah,
+    sesiTakwimSekolah: singlePersonKotak.sesiTakwimPelajar,
+  });
+  // jangan bagi delete kalau sekolah pelajar kohort ni dah ditutup
+  if (fasilitPelajarKohort.sekolahSelesaiReten === true) {
+    return res.status(409).json({
+      msg: `Anda tidak boleh menghapuskan pelajar kohort KOTAK ini kerana RETEN SEKOLAH pelajar ini telah DITUTUP`,
+    });
+  }
+  // kalau semua pass, barulah delete pelajar kohort kotak tu
   const singlePersonKotakToDelete = await KohortKotak.findOneAndUpdate(
     {
       _id: req.params.personKohortKotakId,
@@ -129,8 +142,8 @@ const softDeletePersonKOTAK = async (req, res) => {
   // search pelajar tu di sekolah
   const pelajarSekolah = await Sekolah.findOne({
     nama: singlePersonKotak.nama,
-    sesiTakwimPelajar: singlePersonKotak.sesiTakwimPelajar,
     kodSekolah: singlePersonKotak.kodSekolah,
+    sesiTakwimPelajar: singlePersonKotak.sesiTakwimPelajar,
     tahunTingkatan: singlePersonKotak.tahunTingkatan,
     deleted: false,
   });
@@ -175,7 +188,7 @@ const deletePersonKohortKotak = async (req, res) => {
   });
 };
 
-// query /
+// GET /
 const queryPersonKohortKotak = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -194,6 +207,7 @@ const queryPersonKohortKotak = async (req, res) => {
   } = req;
 
   const queryObject = {};
+  queryObject.deleted = false;
   queryObject.createdByNegeri = negeri;
   queryObject.createdByDaerah = daerah;
   queryObject.createdByKp = kp;

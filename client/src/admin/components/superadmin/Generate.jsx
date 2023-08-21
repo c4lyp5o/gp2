@@ -3,17 +3,27 @@ import axios from 'axios';
 import moment from 'moment';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useSpesifikData } from '../../context/admin-hooks/useSpesifikData';
+import { useDictionary } from '../../context/useDictionary';
+import { useLogininfo } from '../../context/useLogininfo';
+import { useOndemandSetting } from '../../context/useOndemandSetting';
+import { useToken } from '../../context/useToken';
+import { useMiscData } from '../../context/useMiscData';
+import { useUtils } from '../../context/useUtils';
+import { useSemuaJenisReten } from '../../context/useSemuaJenisReten';
 
 import { RiCloseLine } from 'react-icons/ri';
 import { AiOutlineStop, AiFillCloseCircle } from 'react-icons/ai';
 
-import styles from '../../Modal.module.css';
+import { Loading } from '../../components/Screens';
 
 const ModalGenerateAdHoc = (props) => {
-  const { toast, adminToken, loginInfo, masterDatePicker, Dictionary } =
-    useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
+  const { loginInfo } = useLogininfo();
+  const { Dictionary } = useDictionary();
+  const { masterDatePicker } = useUtils();
 
-  // the date value in YYYY-MM-DD
   const startDateRef = useRef('');
   const endDateRef = useRef('');
 
@@ -167,13 +177,7 @@ const ModalGenerateAdHoc = (props) => {
           negeri = pilihanRetenTasTadSekolah
             ? 'all'
             : Dictionary[props.pilihanNegeri];
-          daerah = pilihanRetenTasTadSekolah
-            ? props.jenisFasiliti === 'semua'
-              ? 'all'
-              : props.pilihanDaerah
-            : props.pilihanDaerah
-            ? props.pilihanDaerah
-            : 'all';
+          daerah = pilihanRetenTasTadSekolah ? 'all' : props.pilihanDaerah;
           klinik = props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik;
           break;
         case 'negeriSuperadmin':
@@ -1461,8 +1465,10 @@ const ModalGenerateAdHoc = (props) => {
 };
 
 const ModalGenerateBulanan = (props) => {
-  const { toast, adminToken, loginInfo, Dictionary } =
-    useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
+  const { loginInfo } = useLogininfo();
+  const { Dictionary } = useDictionary();
 
   const [bulan, setBulan] = useState('');
 
@@ -2222,11 +2228,8 @@ const ModalGenerateBulanan = (props) => {
 };
 
 const Generate = () => {
+  const { readNegeri, readDaerah, readKlinik } = useGlobalAdminAppContext();
   const {
-    loginInfo,
-    readNegeri,
-    readDaerah,
-    readKlinik,
     readSpesifikProgramData,
     readSpesifikKPBMPBData,
     readSpesifikIndividuData,
@@ -2234,10 +2237,11 @@ const Generate = () => {
     readSpesifikJanaTadikaData,
     readSpesifikJanaSekolahRendahData,
     readSpesifikJanaSekolahMenengahData,
-    readGenerateTokenData,
-    readOndemandSetting,
-    semuaJenisReten,
-  } = useGlobalAdminAppContext();
+  } = useSpesifikData();
+  const { loginInfo } = useLogininfo();
+  const { readOndemandSetting } = useOndemandSetting();
+  const { readGenerateTokenData } = useMiscData();
+  const { semuaJenisReten } = useSemuaJenisReten();
 
   const init = useRef(false);
 
@@ -2255,8 +2259,8 @@ const Generate = () => {
   const [individuData, setIndividuData] = useState([]);
   const [rtcData, setRtcData] = useState([]);
 
-  const [statusToken, setStatusToken] = useState([]);
-  const [statusReten, setStatusReten] = useState('');
+  const [statusToken, setStatusToken] = useState(null);
+  const [statusReten, setStatusReten] = useState(null);
 
   // khusus sekolah
   const [jenisFasiliti, setJenisFasiliti] = useState('');
@@ -2304,7 +2308,6 @@ const Generate = () => {
     setPilihanFasiliti('program');
     await readSpesifikProgramData(klinik)
       .then((res) => {
-        console.log(res);
         setProgramData(res.data);
       })
       .catch((err) => {
@@ -2317,7 +2320,6 @@ const Generate = () => {
     await readSpesifikKPBMPBData(klinik)
       .then((res) => {
         setKpbmpbData(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -2342,7 +2344,6 @@ const Generate = () => {
   const handleGetRTC = async (e) => {
     await readSpesifikRTCData(pilihanKlinik)
       .then((res) => {
-        // console.log(res.data);
         setRtcData(res.data);
       })
       .catch((err) => {
@@ -2354,7 +2355,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaTadikaData()
       .then((res) => {
-        // console.log(res.data);
         setAllTadika(res.data);
         setSedangCarianJana(false);
       })
@@ -2367,7 +2367,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaSekolahRendahData()
       .then((res) => {
-        // console.log(res.data);
         setAllSekRendah(res.data);
         setSedangCarianJana(false);
       })
@@ -2380,7 +2379,6 @@ const Generate = () => {
     setSedangCarianJana(true);
     await readSpesifikJanaSekolahMenengahData()
       .then((res) => {
-        // console.log(res.data);
         setAllSekMenengah(res.data);
         setSedangCarianJana(false);
       })
@@ -2456,11 +2454,12 @@ const Generate = () => {
     resetPilihanBiasa();
   };
 
-  const handlePilihSekolah = (e) => {
-    setPilihanJanaSpesifikFasiliti(
-      e.target.options[e.target.selectedIndex].getAttribute('data-key')
-    );
-  };
+  // ! belum digunakan setakat 16/8/2023
+  // const handlePilihSekolah = (e) => {
+  //   setPilihanJanaSpesifikFasiliti(
+  //     e.target.options[e.target.selectedIndex].getAttribute('data-key')
+  //   );
+  // };
 
   // reset the usual suspects
   const resetPilihanBiasa = () => {
@@ -2489,104 +2488,6 @@ const Generate = () => {
     setAllSekRendah([]);
     setAllSekMenengah([]);
   };
-
-  // reset stuff
-  useEffect(() => {
-    // if (pilihanFasiliti === '') {
-    //   setPilihanProgram('');
-    //   setPilihanKpbMpb('');
-    //   setPilihanIndividu('');
-    // }
-    if (pilihanKlinik === '') {
-      setPilihanFasiliti('');
-      setPilihanProgram('');
-      setPilihanKpbMpb('');
-      setPilihanIndividu('');
-    }
-    // if (pilihanDaerah === '') {
-    //   setPilihanKlinik('');
-    //   setPilihanFasiliti('');
-    //   setPilihanProgram('');
-    //   setPilihanKpbMpb('');
-    //   setPilihanIndividu('');
-    // }
-    // if (pilihanNegeri === '') {
-    //   setPilihanDaerah('');
-    //   setPilihanKlinik('');
-    //   setPilihanFasiliti('');
-    //   setPilihanProgram('');
-    //   setPilihanKpbMpb('');
-    //   setPilihanIndividu('');
-    // }
-  }, [pilihanKlinik]);
-
-  useEffect(() => {
-    // if (loginInfo.accountType === 'hqSuperadmin') {
-    //   setPilihanNegeri('');
-    // }
-    // if (
-    //   loginInfo.accountType === 'hqSuperadmin' ||
-    //   loginInfo.accountType === 'negeriSuperadmin'
-    // ) {
-    //   setPilihanDaerah('');
-    // }
-    // setPilihanKlinik('');
-    // setNamaKlinik('');
-    // setPilihanFasiliti('');
-    // setPilihanProgram('');
-    // setPilihanKpbMpb('');
-    // setPilihanIndividu('');
-    fullReset();
-    // refetch token after init.current = true
-    if (init.current === true) {
-      readGenerateTokenData()
-        .then((res) => {
-          setStatusToken(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-          setStatusToken([]);
-        });
-      readOndemandSetting().then((res) => {
-        setStatusReten(res.data.currentOndemandSetting);
-      });
-    }
-  }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
-
-  useEffect(() => {
-    async function initialize() {
-      try {
-        if (loginInfo.accountType === 'hqSuperadmin') {
-          setCurrentUser('PKP KKM');
-          const res = await readNegeri();
-          setNegeri(res.data);
-        }
-        if (loginInfo.accountType === 'negeriSuperadmin') {
-          setCurrentUser(`Negeri ${loginInfo.negeri}`);
-          const res = await readDaerah(loginInfo.nama);
-          setDaerah(res.data);
-        }
-        if (loginInfo.accountType === 'daerahSuperadmin') {
-          setPilihanDaerah(loginInfo.daerah);
-          setCurrentUser(`Daerah ${loginInfo.daerah}`);
-          const res = await readKlinik(loginInfo.daerah);
-          setKlinik(res.data);
-        }
-        const resToken = await readGenerateTokenData();
-        setStatusToken(resToken.data);
-        const resReten = await readOndemandSetting();
-        setStatusReten(resReten.data.currentOndemandSetting);
-      } catch (err) {
-        console.log(err);
-        setStatusToken([]);
-      }
-    }
-
-    if (!init.current) {
-      initialize();
-      init.current = true;
-    }
-  }, []);
 
   const propsGenerate = {
     openModalGenerateAdHoc,
@@ -2658,6 +2559,104 @@ const Generate = () => {
     individuData,
     rtcData,
   };
+
+  // ! reset stuff, depend dengan pilihanKlinik sbb boleh berubah, x mcm admin kp
+  useEffect(() => {
+    // if (pilihanFasiliti === '') {
+    //   setPilihanProgram('');
+    //   setPilihanKpbMpb('');
+    //   setPilihanIndividu('');
+    // }
+    if (pilihanKlinik === '') {
+      setPilihanFasiliti('');
+      setPilihanProgram('');
+      setPilihanKpbMpb('');
+      setPilihanIndividu('');
+    }
+    // if (pilihanDaerah === '') {
+    //   setPilihanKlinik('');
+    //   setPilihanFasiliti('');
+    //   setPilihanProgram('');
+    //   setPilihanKpbMpb('');
+    //   setPilihanIndividu('');
+    // }
+    // if (pilihanNegeri === '') {
+    //   setPilihanDaerah('');
+    //   setPilihanKlinik('');
+    //   setPilihanFasiliti('');
+    //   setPilihanProgram('');
+    //   setPilihanKpbMpb('');
+    //   setPilihanIndividu('');
+    // }
+  }, [pilihanKlinik]);
+
+  useEffect(() => {
+    // if (loginInfo.accountType === 'hqSuperadmin') {
+    //   setPilihanNegeri('');
+    // }
+    // if (
+    //   loginInfo.accountType === 'hqSuperadmin' ||
+    //   loginInfo.accountType === 'negeriSuperadmin'
+    // ) {
+    //   setPilihanDaerah('');
+    // }
+    // setPilihanKlinik('');
+    // setNamaKlinik('');
+    // setPilihanFasiliti('');
+    // setPilihanProgram('');
+    // setPilihanKpbMpb('');
+    // setPilihanIndividu('');
+    fullReset();
+    // refetch token after init.current = true
+    if (init.current === true) {
+      readGenerateTokenData()
+        .then((res) => {
+          setStatusToken(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      readOndemandSetting().then((res) => {
+        setStatusReten(res.data.currentOndemandSetting);
+      });
+    }
+  }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
+
+  useEffect(() => {
+    async function initialize() {
+      try {
+        if (loginInfo.accountType === 'hqSuperadmin') {
+          setCurrentUser('PKP KKM');
+          const res = await readNegeri();
+          setNegeri(res.data);
+        }
+        if (loginInfo.accountType === 'negeriSuperadmin') {
+          setCurrentUser(`Negeri ${loginInfo.negeri}`);
+          const res = await readDaerah(loginInfo.nama);
+          setDaerah(res.data);
+        }
+        if (loginInfo.accountType === 'daerahSuperadmin') {
+          setPilihanDaerah(loginInfo.daerah);
+          setCurrentUser(`Daerah ${loginInfo.daerah}`);
+          const res = await readKlinik(loginInfo.daerah);
+          setKlinik(res.data);
+        }
+        const resToken = await readGenerateTokenData();
+        setStatusToken(resToken.data);
+        const resReten = await readOndemandSetting();
+        setStatusReten(resReten.data.currentOndemandSetting);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    if (!init.current) {
+      initialize();
+      init.current = true;
+    }
+  }, []);
+
+  if (!statusReten || !statusToken) return <Loading />;
 
   return (
     <>
