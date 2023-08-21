@@ -9,32 +9,34 @@ export default function ModalDeleteGtod({
   idGTod,
   setIdGTod,
   singleAgensiLuarGTod,
+  setSingleAgensiLuarGTod,
   reloadState,
   setReloadState,
 }) {
   const { deleteData, toast } = useGlobalAdminAppContext();
 
   const [captchaValue, setCaptchaValue] = useState('');
-  const [generatedCaptcha, setGeneratedCaptcha] = useState('');
+  const [generatedNamaAgensiLuar, setGeneratedNamaAgensiLuar] = useState('');
 
   useEffect(() => {
-    generateCaptcha();
+    generateNamaAgensiLuar();
   }, [singleAgensiLuarGTod]);
 
-  const generateCaptcha = () => {
+  const generateNamaAgensiLuar = () => {
     const captcha =
       singleAgensiLuarGTod &&
-      singleAgensiLuarGTod.namaTaskaTadika
+      // only take first 3 sentence
+      singleAgensiLuarGTod.namaAgensiLuar
         .split(' ')
         .slice(0, 3)
         .map((word) => word)
         .join('');
-    setGeneratedCaptcha(captcha);
+    setGeneratedNamaAgensiLuar(captcha);
   };
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    if (captchaValue.toLowerCase() !== generatedCaptcha.toLowerCase()) {
+    if (captchaValue.toLowerCase() !== generatedNamaAgensiLuar.toLowerCase()) {
       toast.error('Captcha tidak sah');
       setShowModalDelete(true);
       return;
@@ -53,22 +55,21 @@ export default function ModalDeleteGtod({
         }
       )
       .then((result) => {
-        // reload page
-        // window.location.reload();
         setReloadState(!reloadState);
+        setIdGTod('');
+        setSingleAgensiLuarGTod(null);
         setShowModalDelete(false);
-        // if (captchaValue.toUpperCase() === generatedCaptcha) {
-        //   setShowModalDelete(false);
-        // }
       })
       .catch((err) => {
         console.log(err);
+        setSingleAgensiLuarGTod(null);
       });
   };
 
   const handleCancel = () => {
     setReloadState(!reloadState);
     setIdGTod('');
+    setSingleAgensiLuarGTod(null);
     setShowModalDelete(false);
     setShowTable(true);
   };
@@ -95,10 +96,10 @@ export default function ModalDeleteGtod({
             </p>
             <div className='flex flex-col items-center my-4 space-y-2'>
               <p className='text-xs'>
-                Sila isi semula nama taska/tadika di bawah
+                Sila isi semula nama Agensi Luar di bawah
               </p>
               <span className=' bg-admin4 bg-opacity-60 text-xl font-mono oldstyle-nums px-7 py-2 text-opacity-75 lowercase'>
-                {generatedCaptcha}
+                {generatedNamaAgensiLuar}
               </span>
               <input
                 type='text'
