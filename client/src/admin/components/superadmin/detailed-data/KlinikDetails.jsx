@@ -8,6 +8,7 @@ import {
   MdRunCircle,
 } from 'react-icons/md';
 import axios from 'axios';
+import moment from 'moment/moment';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,10 +21,11 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
-import { useHqUtils } from '../../context/admin-hooks/useHqUtils';
+import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useHqUtils } from '../../../context/admin-hooks/useHqUtils';
+import { useToken } from '../../../context/useToken';
 
-import { Loading } from '../Screens';
+import { Loading } from '../../Screens';
 
 ChartJS.register(
   CategoryScale,
@@ -35,7 +37,7 @@ ChartJS.register(
   Legend
 );
 
-function DataNegeri({ data }) {
+function DataKlinik({ data }) {
   const options = {
     responsive: true,
     scales: {
@@ -50,12 +52,12 @@ function DataNegeri({ data }) {
       },
       title: {
         display: true,
-        text: `Kedatangan Pesakit di negeri ${data.nama}`,
+        text: `Kedatangan Pesakit ke ${data.nama}`,
       },
     },
   };
   const labels = data.kedatanganPt.map((item) => {
-    return item.tarikh;
+    return moment(item.tarikh).format('DD/MM/YYYY');
   });
   const chartData = {
     labels,
@@ -153,8 +155,9 @@ function Statistik({ data }) {
   );
 }
 
-function JanaReten({ data }) {
+function JanaReten({ data, id }) {
   const { toast, navigate } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
 
   const saveFile = (blob, reten) => {
     const link = document.createElement('a');
@@ -173,13 +176,15 @@ function JanaReten({ data }) {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/download?jenisReten=${reten}&tarikhMula=2022-01-01&tarikhAkhir=${dateInISO}&bulan=${dateInISO}&formatFile=xlsx`,
+          `/api/v1/generate/download?jenisReten=${reten}&klinik=${id}&tarikhMula=2023-01-01&tarikhAkhir=${
+            dateInISO.split('T')[0]
+          }&bulan=${dateInISO.split('T')[0]}&formatFile=xlsx`,
           {
             headers: {
-              klinikid: `${data.kp}`,
-              klinikdaerah: `${data.daerah}`,
-              kliniknegeri: `${data.negeri}`,
+              Authorization: adminToken,
             },
+          },
+          {
             responseType: 'blob',
           }
         ),
@@ -212,22 +217,40 @@ function JanaReten({ data }) {
           {/* <div className='font-bold text-xl mb-2 underline'>Pusat Kawalan</div> */}
           <div>Jana Reten</div>
           <button
-            value='PG101'
+            value='PG101A'
             onClick={(e) => {
               handleJana(e.target.value);
             }}
             className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
           >
-            PG101
+            PG101A
           </button>
           <button
-            value='PG211'
+            value='PG101C'
             onClick={(e) => {
               handleJana(e.target.value);
             }}
-            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'
+            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
           >
-            PG211
+            PG101C
+          </button>
+          <button
+            value='PG211A'
+            onClick={(e) => {
+              handleJana(e.target.value);
+            }}
+            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
+          >
+            PG211A
+          </button>
+          <button
+            value='PG211C'
+            onClick={(e) => {
+              handleJana(e.target.value);
+            }}
+            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
+          >
+            PG211C
           </button>
         </div>
       </div>
@@ -235,9 +258,9 @@ function JanaReten({ data }) {
   );
 }
 
-export default function Negeri() {
+export default function Klinik() {
   const [searchParams] = useSearchParams();
-  const negeri = searchParams.get('idn');
+  const id = searchParams.get('id');
 
   const { toast } = useGlobalAdminAppContext();
   const { getDetailedData } = useHqUtils();
@@ -246,7 +269,7 @@ export default function Negeri() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getDetailedData({ type: 'negeri', idn: negeri })
+    getDetailedData({ type: 'klinik', id })
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -254,9 +277,6 @@ export default function Negeri() {
       .catch((err) => {
         toast.error(err.response.data.message);
       });
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
   }, []);
 
   if (loading) {
@@ -266,10 +286,11 @@ export default function Negeri() {
   return (
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
-        <h1 className='text-2xl font-bold underline'>{negeri}</h1>
+        <h1 className='text-2xl font-bold underline'>{data.nama}</h1>
         <div className='grid grid-cols-3 gap-2'>
+          {/* <JanaReten data={data} id={id} /> */}
           <Statistik data={data} />
-          <DataNegeri data={data} />
+          <DataKlinik data={data} />
         </div>
       </div>
     </>

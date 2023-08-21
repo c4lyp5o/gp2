@@ -8,7 +8,6 @@ import {
   MdRunCircle,
 } from 'react-icons/md';
 import axios from 'axios';
-import moment from 'moment/moment';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -21,11 +20,10 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
-import { useHqUtils } from '../../context/admin-hooks/useHqUtils';
-import { useToken } from '../../context/useToken';
+import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useHqUtils } from '../../../context/admin-hooks/useHqUtils';
 
-import { Loading } from '../Screens';
+import { Loading } from '../../Screens';
 
 ChartJS.register(
   CategoryScale,
@@ -37,7 +35,7 @@ ChartJS.register(
   Legend
 );
 
-function DataKlinik({ data }) {
+function DataDaerah({ data }) {
   const options = {
     responsive: true,
     scales: {
@@ -52,12 +50,12 @@ function DataKlinik({ data }) {
       },
       title: {
         display: true,
-        text: `Kedatangan Pesakit ke ${data.nama}`,
+        text: `Kedatangan Pesakit di daerah ${data.nama}`,
       },
     },
   };
   const labels = data.kedatanganPt.map((item) => {
-    return moment(item.tarikh).format('DD/MM/YYYY');
+    return item.tarikh;
   });
   const chartData = {
     labels,
@@ -76,6 +74,18 @@ function DataKlinik({ data }) {
       <div className='max-w rounded overflow-hidden shadow-lg'>
         <div className='px-6 py-4'>
           <Line data={chartData} options={options} />
+          {/* <p className='underline'>Statistik</p>
+          <p className='text-xs'>
+            Jumlah Pesakit sehingga {new Date().toLocaleDateString()}:{' '}
+            {data.jumlahPt}
+          </p>
+          <p className='text-xs'>Jumlah Pesakit Hari Ini: {data.ptHariIni}</p>
+          <p className='text-xs'>
+            Jumlah Pesakit Minggu Ini: {data.ptMingguIni}
+          </p>
+          <p className='text-xs'>Jumlah Pesakit Bulan Ini: {data.ptBulanIni}</p>
+          <p className='text-xs'>Jumlah Pesakit Baru: {data.ptBaru}</p>
+          <p className='text-xs'>Jumlah Pesakit Ulangan: {data.ptUlangan}</p> */}
         </div>
       </div>
     </div>
@@ -155,9 +165,8 @@ function Statistik({ data }) {
   );
 }
 
-function JanaReten({ data, id }) {
+function JanaReten({ data }) {
   const { toast, navigate } = useGlobalAdminAppContext();
-  const { adminToken } = useToken();
 
   const saveFile = (blob, reten) => {
     const link = document.createElement('a');
@@ -176,15 +185,13 @@ function JanaReten({ data, id }) {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/download?jenisReten=${reten}&klinik=${id}&tarikhMula=2023-01-01&tarikhAkhir=${
-            dateInISO.split('T')[0]
-          }&bulan=${dateInISO.split('T')[0]}&formatFile=xlsx`,
+          `/api/v1/generate/download?jenisReten=${reten}&tarikhMula=2022-01-01&tarikhAkhir=${dateInISO}&bulan=${dateInISO}&formatFile=xlsx`,
           {
             headers: {
-              Authorization: adminToken,
+              klinikid: `${data.kp}`,
+              klinikdaerah: `${data.daerah}`,
+              kliniknegeri: `${data.negeri}`,
             },
-          },
-          {
             responseType: 'blob',
           }
         ),
@@ -217,40 +224,22 @@ function JanaReten({ data, id }) {
           {/* <div className='font-bold text-xl mb-2 underline'>Pusat Kawalan</div> */}
           <div>Jana Reten</div>
           <button
-            value='PG101A'
+            value='PG101'
             onClick={(e) => {
               handleJana(e.target.value);
             }}
             className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
           >
-            PG101A
+            PG101
           </button>
           <button
-            value='PG101C'
+            value='PG211'
             onClick={(e) => {
               handleJana(e.target.value);
             }}
-            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
+            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'
           >
-            PG101C
-          </button>
-          <button
-            value='PG211A'
-            onClick={(e) => {
-              handleJana(e.target.value);
-            }}
-            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
-          >
-            PG211A
-          </button>
-          <button
-            value='PG211C'
-            onClick={(e) => {
-              handleJana(e.target.value);
-            }}
-            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
-          >
-            PG211C
+            PG211
           </button>
         </div>
       </div>
@@ -258,9 +247,10 @@ function JanaReten({ data, id }) {
   );
 }
 
-export default function Klinik() {
+export default function Daerah() {
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('id');
+  const negeri = searchParams.get('idn');
+  const daerah = searchParams.get('idd');
 
   const { toast } = useGlobalAdminAppContext();
   const { getDetailedData } = useHqUtils();
@@ -269,7 +259,7 @@ export default function Klinik() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getDetailedData({ type: 'klinik', id })
+    getDetailedData({ type: 'daerah', idd: daerah, idn: negeri })
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -277,6 +267,9 @@ export default function Klinik() {
       .catch((err) => {
         toast.error(err.response.data.message);
       });
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, []);
 
   if (loading) {
@@ -286,11 +279,11 @@ export default function Klinik() {
   return (
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
-        <h1 className='text-2xl font-bold underline'>{data.nama}</h1>
+        <h1 className='text-2xl font-bold underline'>{daerah}</h1>
         <div className='grid grid-cols-3 gap-2'>
-          {/* <JanaReten data={data} id={id} /> */}
+          {/* <JanaReten data={data} /> */}
           <Statistik data={data} />
-          <DataKlinik data={data} />
+          <DataDaerah data={data} />
         </div>
       </div>
     </>
