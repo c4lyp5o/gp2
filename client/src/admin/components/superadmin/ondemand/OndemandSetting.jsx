@@ -1,23 +1,27 @@
 import { useState, useEffect } from 'react';
 
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
-import { useOndemandSetting } from '../../context/useOndemandSetting';
+import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useOndemandSetting } from '../../../context/useOndemandSetting';
+import { useSemuaJenisReten } from '../../../context/useSemuaJenisReten';
+
+import { Loading } from '../../Screens';
 
 export default function OndemandSetting() {
-  const { semuaJenisReten, toast } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
   const { readOndemandSetting, saveOndemandSetting } = useOndemandSetting();
+  const { semuaJenisReten } = useSemuaJenisReten();
 
   const [ondemandSetting, setOndemandSetting] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     saveOndemandSetting(ondemandSetting)
-      .then((res) => {
+      .then(() => {
         toast.success('Berjaya mengemaskini status laman pentadbir');
       })
       .catch((err) => {
         toast.error('Gagal mengemaskini status laman pentadbir');
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -26,6 +30,8 @@ export default function OndemandSetting() {
       setOndemandSetting(res.data.currentOndemandSetting);
     });
   }, []);
+
+  if (!ondemandSetting) return <Loading />;
 
   return (
     <div className='flex flex-col items-center gap-5'>
