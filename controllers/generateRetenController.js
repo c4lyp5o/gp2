@@ -9279,7 +9279,7 @@ const makePPIM03 = async (payload) => {
     //
     const workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    const worksheet = workbook.getWorksheet('BORANG PPIM 03-2023');
+    const worksheet = workbook.getWorksheet('BORANG PPIM 03-2023 (SR)');
     //
     const newSheet = workbook.addWorksheet('PPIM 05-2023 SM');
     newSheet.model = Object.assign(worksheet.model, {
