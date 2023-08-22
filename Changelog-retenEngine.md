@@ -1,5 +1,52 @@
 # Changelog
 
+### 22/8/2023 (v1.7.2)
+
+[Excel Template]
+PPIM03 buang formula lama
+PGS201 tukar column jadi percentage
+Tukar nama KPB MPB Harian
+Buang excel lama
+
+[generateRetenController]
+BPE betulkan masuk negeri, daerah dan kp
+
+## 15/8/2023 (v1.7.0)
+
+[General]
+Semua reten pakai cutoff. SEMUA!
+
+[countHelperRegular]
+Ubah cara kira kes kelesai. Samakan dengan FE
+
+### 13/7/2023 (v1.6.8) - Ultimate Cutoff Edition
+
+[General]
+Semua reten pakai cutoff kecuali 101, 211
+
+[countHelperRegular]
+Penambahbaikan yang sangat banyak sehingga saya pun tak pasti apa yang saya ubah
+
+[countHelperPipeline]
+Tambah pipeline untuk enrolmen sekolah, tutup sekolah, toddler
+
+[countHelperKomuniti]
+Masukkan CPPC1 & CPPC2
+
+[generateRetenController]
+Masukkan CPPC1 & CPPC2
+
+### 9/7/2023 (v1.6.6) - Cool Story Bro Edition
+
+[countHelperPipeline]
+Buat pipeline untuk membantu pengiraan sekolah dan lain lain
+
+[countHelperKomuniti]
+Masukkan CPPC1 & CPPC2
+
+[generateRetenController]
+Masukkan CPPC1 & CPPC2
+
 ### 9/6/2023 (v1.6.4)
 
 [countHelperRegular]
