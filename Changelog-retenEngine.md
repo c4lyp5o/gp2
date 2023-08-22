@@ -1,9 +1,15 @@
 # Changelog
 
-### 21/8/2023 (v1.7.2)
+### 22/8/2023 (v1.7.2)
 
 [Excel Template]
 PPIM03 buang formula lama
+PGS201 tukar column jadi percentage
+Tukar nama KPB MPB Harian
+Buang excel lama
+
+[generateRetenController]
+BPE betulkan masuk negeri, daerah dan kp
 
 ## 15/8/2023 (v1.7.0)
 

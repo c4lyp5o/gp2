@@ -7900,21 +7900,16 @@ const makeBPE = async (payload) => {
       klinik = currentKlinik.kp;
     }
     //
-    let filename = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'Reten BPE Perio.xlsx'
-    );
+    let filename = path.join(__dirname, '..', 'public', 'exports', 'BPE.xlsx');
     //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('Reten BPE');
+    let worksheet = workbook.getWorksheet('BPE');
 
-    worksheet.getCell('C9').value = negeri.toUpperCase();
-    worksheet.getCell('C10').value = daerah.toUpperCase();
-    worksheet.getCell('C11').value = klinik.toUpperCase();
+    worksheet.getCell('B8').value = `(1) KP / DAERAH: ${
+      klinik ? `${klinik.toUpperCase()} /` : null
+    } ${daerah.toUpperCase()}`;
+    worksheet.getCell('B9').value = `(2) NEGERI: ${negeri.toUpperCase()}`;
 
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
