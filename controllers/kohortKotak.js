@@ -188,7 +188,7 @@ const deletePersonKohortKotak = async (req, res) => {
   });
 };
 
-// query /
+// GET /
 const queryPersonKohortKotak = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });

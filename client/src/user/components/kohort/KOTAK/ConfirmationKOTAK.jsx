@@ -165,10 +165,15 @@ const ConfirmModal = ({ children, data }) => {
                       Dirujuk Kepada Guru Kaunseling:{' '}
                     </p>
                     <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                      {data.rujukGuruKaunseling ? (
-                        <FaCheckCircle className='text-user7 text-center mx-1' />
+                      {data.rujukGuruKaunseling ===
+                      'ya-rujuk-guru-kaunseling' ? (
+                        <>
+                          <FaCheckCircle className='text-user7 text-center mx-1' />
+                        </>
                       ) : (
-                        <FaTimesCircle className='text-user9 text-center mx-1' />
+                        <>
+                          <FaTimesCircle className='text-user9 text-center mx-1' />
+                        </>
                       )}
                     </p>
                   </div>

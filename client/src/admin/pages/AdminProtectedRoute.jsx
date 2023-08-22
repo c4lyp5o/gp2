@@ -1,9 +1,9 @@
 import { Navigate } from 'react-router-dom';
 
-import { useGlobalAdminAppContext } from '../context/adminAppContext';
+import { useToken } from '../context/useToken';
 
 function AdminProtectedRoute({ children }) {
-  const { adminToken } = useGlobalAdminAppContext();
+  const { adminToken } = useToken();
 
   if (!adminToken) {
     return <Navigate to='/pentadbir' />;

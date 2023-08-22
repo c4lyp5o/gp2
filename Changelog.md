@@ -3,7 +3,21 @@
 ### Unreleased
 
 - Integrasi bersama MyVAS di Modul Pendaftaran bagi submodul Klinik Pergigian
-- Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
+
+### 21/8/2023 (v2.1.6)
+
+### Added
+
+- Mewujudkan submodul Agensi Luar Program G-Tod untuk digunakan di modul Pentadbir bagi peringkat Pentadbir Daerah
+
+### Changed
+
+- Email penghantar pas masuk ketika memohon OTP ditukar kepada "giret_admin@moh.gov.my"
+- Reten pelajar kohort KOTAK tidak boleh dihapus sekiranya reten sekolah tersebut sudah ditutup
+
+### Fixed
+
+- Pengesahan sekiranya memilih rujukan ke Guru Kaunseling ketika menghantar reten kohort KOTAK dibetulkan
 
 ### 3/8/2023 (v2.1.5)
 
@@ -42,7 +56,7 @@
 
 - Reten yang dijana menggunakan pilihan token, hanya akan keluar sehingga 11.59 pm 6hb bulan berikutnya.
 - Memperkemas dan membaikpulih semua reten-reten yang terdapat di semua peringkat Pentadbir
-- Membetulkan semua konfirmasi sebelum menghantar pemeriksaan & rawatan sekolah
+- Membetulkan semua pengesahan sebelum menghantar pemeriksaan & rawatan sekolah
 - Membetulkan paparan lihat semula rawatan sekolah
 - Pembetulan kiraan peratus liputan & peratus selesai di laman rumusan status sekolah
 
@@ -314,7 +328,7 @@
 #### Changed
 
 - Borang pesakit umum disusun dengan lebih kemas
-- Konfirmasi kedua semasa mendaftarkan pesakit diubah warna latar kepada warna yang berlainan
+- Pengesahan kedua semasa mendaftarkan pesakit diubah warna latar kepada warna yang berlainan
 - Enrolmen bagi institusi semasa mengemaskini program komuniti di modul Pentadbir bagi Pentadbir Klinik ditukar kepada tidak wajib
 - Boleh memilih jenis fasiliti ketika membuat penetapan tarikh penggunaan KPB/MPB di modul Pentadbir bagi Pentadbir Klinik
 - Pilihan jenis fasiliti untuk tarikh penggunaan KPB/MPB adalah fasiliti daripada seluruh negeri tersebut

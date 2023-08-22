@@ -1,20 +1,16 @@
 import { useState, useEffect } from 'react';
 
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useAdminData } from '../../../context/admin-hooks/useAdminData';
+import { useLogininfo } from '../../../context/useLogininfo';
 
-import { SubmitButton, BusyButton } from '../Buttons';
+import { Loading } from '../../Screens';
+import { SubmitButton, BusyButton } from '../../Buttons';
 
 export default function MaklumatAsasDaerah() {
-  const {
-    loginInfo,
-    readData,
-    createData,
-    updateData,
-    newRouteCreateData,
-    newRouteUpdateData,
-    newRouteDeleteData,
-    toast,
-  } = useGlobalAdminAppContext();
+  const { toast } = useGlobalAdminAppContext();
+  const { readData, createData, updateData } = useAdminData();
+  const { loginInfo } = useLogininfo();
 
   const [maklumatAsasDaerah, setMaklumatAsasDaerah] = useState(null);
   const [initialNoData, setInitialNoData] = useState(false);
@@ -46,22 +42,20 @@ export default function MaklumatAsasDaerah() {
         setSavingData(false);
       }, 2000);
     } catch (err) {
-      console.log(err);
       setSavingData(false);
+      console.log(err);
     }
   };
 
   useEffect(() => {
     async function fetchMaklumatAsasDaerah() {
       try {
-        const {
-          data: [maklumatAsasDaerah],
-        } = await readData('mad');
-        setMaklumatAsasDaerah({ ...maklumatAsasDaerah });
+        const { data: MaklumatAsasDaerah } = await readData('mad');
+        setMaklumatAsasDaerah(...MaklumatAsasDaerah);
         setInitialNoData(false);
       } catch (error) {
-        console.log(error);
         setInitialNoData(true);
+        console.error(error);
       }
     }
 
@@ -72,6 +66,8 @@ export default function MaklumatAsasDaerah() {
       setMaklumatAsasDaerah(null);
     };
   }, [savingData]);
+
+  if (!maklumatAsasDaerah) return <Loading />;
 
   return (
     <>

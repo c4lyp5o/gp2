@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import moment from 'moment';
-import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import { useKpData } from '../../context/kp-hooks/useKpData';
 
 export default function MakmalPergigianBergerak(props) {
-  const { readOneDataForKp } = useGlobalAdminAppContext();
+  const { readOneDataForKp } = useKpData();
   const [show, setShow] = useState(false);
   const [singleMpbData, setSingleMpbData] = useState(null);
 
@@ -47,7 +47,7 @@ export default function MakmalPergigianBergerak(props) {
             </button>
           )}
         </div>
-        {show && singleMpbData.penggunaanKPBMPB.length > 0 ? (
+        {show && singleMpbData && singleMpbData.penggunaanKPBMPB.length > 0 ? (
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
               <thead className='text-adminWhite bg-admin3'>

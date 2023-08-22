@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 
 // Without it dynamic require is not possible in config file
@@ -25,6 +25,18 @@ export default defineConfig({
       },
     },
     target: ['es2015'],
-    chunkSizeWarningLimit: 750,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react'],
+          axios: ['axios'],
+          'react-router-dom': ['react-router-dom'],
+          'react-toastify': ['react-toastify'],
+          'react-datepicker': ['react-datepicker'],
+          'react-datetime': ['react-datetime'],
+        },
+      },
+    },
+    plugins: [splitVendorChunkPlugin()],
   },
 });
