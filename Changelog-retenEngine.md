@@ -13,6 +13,9 @@ BPE betulkan masuk negeri, daerah dan kp
 
 ## 15/8/2023 (v1.7.0)
 
+[General]
+Semua reten pakai cutoff. SEMUA!
+
 [countHelperRegular]
 Ubah cara kira kes kelesai. Samakan dengan FE
 
