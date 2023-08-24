@@ -1,5 +1,31 @@
 # Changelog
 
+### 22/8/2023 (v1.7.3)
+
+[Excel Template]
+LIPUTAN OA: baru
+LIPUTAN PENAN: baru
+TOD: baru
+
+[countHelperParams]
+Improvement readability dan signboard
+
+[countHelperRegular]
+Pembersihan 207 dan 206 kes selesai sekolah (tak pakai dah)
+
+[countHelperKomuniti]
+OAP masukkan data sekolah
+Liputan OA dan P nak di semua fasiliti
+
+[countHelperPipeline]
+KEPP hardcode kan fasiliti
+PGS201 5 tahun dan 6 tahun jangan kira OKU
+Pembersihan outputpgpr201
+
+[generateRetenController]
+BPE betulkan masuk negeri, daerah dan kp
+Masukkan data sekolah untuk OAP
+
 ### 22/8/2023 (v1.7.2)
 
 [Excel Template]
