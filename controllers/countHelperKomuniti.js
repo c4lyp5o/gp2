@@ -870,7 +870,9 @@ const countOAP = async (payload) => {
   };
 
   try {
-    const OAP = await Umum.aggregate([
+    let bigData = [];
+
+    const dataOAP = await Umum.aggregate([
       main_switch,
       {
         $facet: {
@@ -1011,7 +1013,282 @@ const countOAP = async (payload) => {
       },
     ]);
 
-    return OAP;
+    const dataSekolah = await Fasiliti.aggregate([
+      {
+        $match: {
+          ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
+          ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+          ...(payload.klinik !== 'all' && {
+            kodFasilitiHandler: payload.klinik,
+          }),
+          sekolahSelesaiReten: true,
+          jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          jenisFasiliti: 1,
+          jenisPerkhidmatanSekolah: 1,
+          kodSekolah: 1,
+          sesiTakwimSekolah: 1,
+          sekolahMmi: 1,
+          sekolahKki: 1,
+        },
+      },
+      {
+        $facet: {
+          pemeriksaan: [
+            {
+              $lookup: {
+                from: 'sekolahs',
+                localField: 'kodSekolah',
+                foreignField: 'kodSekolah',
+                as: 'result',
+                pipeline: [
+                  {
+                    $match: {
+                      deleted: false,
+                      keturunan: {
+                        $in: [
+                          'PENAN',
+                          'ORANG ASLI (SEMENANJUNG)',
+                          'JAKUN',
+                          'NEGRITO',
+                          'SAKAI',
+                          'SEMAI',
+                          'SEMALAI',
+                          'TEMIAR',
+                          'SENOI',
+                        ],
+                      },
+                      pemeriksaanSekolah: { $ne: null },
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              $unwind: {
+                path: '$result',
+              },
+            },
+            {
+              $addFields: {
+                statusRawatan: '$result.statusRawatan',
+                umur: '$result.umur',
+                keturunan: '$result.keturunan',
+                warganegara: '$result.warganegara',
+                statusOku: '$result.statusOku',
+                statusRawatan: '$result.statusRawatan',
+                tahunTingkatan: '$result.tahunTingkatan',
+                warganegara: '$result.warganegara',
+                kelasPelajar: '$result.kelasPelajar',
+                jantina: '$result.jantina',
+                pemeriksaanSekolah: '$result.pemeriksaanSekolah',
+                rawatanSekolah: '$result.rawatanSekolah',
+              },
+            },
+            {
+              $lookup: {
+                from: 'pemeriksaansekolahs',
+                localField: 'pemeriksaanSekolah',
+                foreignField: '_id',
+                as: 'pemeriksaanSekolah',
+              },
+            },
+            {
+              $unwind: {
+                path: '$pemeriksaanSekolah',
+                preserveNullAndEmptyArrays: false,
+              },
+            },
+            {
+              $lookup: {
+                from: 'rawatansekolahs',
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawatanSekolah',
+              },
+            },
+            {
+              $addFields: {
+                tarikhPemeriksaan:
+                  '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+                operatorPemeriksaan: '$pemeriksaanSekolah.createdByMdcMdtb',
+                lastRawatan: {
+                  $arrayElemAt: [
+                    '$rawatanSekolah',
+                    {
+                      $subtract: [
+                        {
+                          $size: '$rawatanSekolah',
+                        },
+                        1,
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              $project: {
+                statusRawatan: 1,
+                kodSekolah: 1,
+                sekolahMmi: 1,
+                sekolahKki: 1,
+                jenisFasiliti: 1,
+                jenisPerkhidmatanSekolah: 1,
+                jantina: 1,
+                umur: 1,
+                keturunan: 1,
+                warganegara: 1,
+                statusOku: 1,
+                tahunTingkatan: 1,
+                kelasPelajar: 1,
+                tarikhPemeriksaan: 1,
+                operatorPemeriksaan: 1,
+                tarikhRawatan: '$lastRawatan.tarikhRawatanSemasa',
+                operatorRawatan: '$lastRawatan.createdByMdcMdtb',
+                kesSelesaiPemeriksaan: '$pemeriksaanSekolah.kesSelesai',
+                kesSelesaiIcdasPemeriksaan:
+                  '$pemeriksaanSekolah.kesSelesaiIcdas',
+                kesSelesaiRawatan: '$rawatanSekolah.kesSelesaiSekolahRawatan',
+                kesSelesaiIcdasRawatan:
+                  '$rawatanSekolah.kesSelesaiIcdasSekolahRawatan',
+                merged: {
+                  $mergeObjects: ['$pemeriksaanSekolah'],
+                },
+              },
+            },
+            {
+              $match: {
+                'merged.tarikhPemeriksaanSemasa': {
+                  $gte: payload.tarikhMula,
+                  $lte: payload.tarikhAkhir,
+                },
+              },
+            },
+            {
+              $bucket: {
+                groupBy: '$umur',
+                boundaries: [0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 50, 60, 150],
+                default: 'Other',
+                output: {
+                  ...groupSekolah,
+                },
+              },
+            },
+          ],
+          rawatan: [
+            {
+              $lookup: {
+                from: 'sekolahs',
+                localField: 'kodSekolah',
+                foreignField: 'kodSekolah',
+                as: 'result',
+                pipeline: [
+                  {
+                    $match: {
+                      deleted: false,
+                      keturunan: {
+                        $in: [
+                          'PENAN',
+                          'ORANG ASLI (SEMENANJUNG)',
+                          'JAKUN',
+                          'NEGRITO',
+                          'SAKAI',
+                          'SEMAI',
+                          'SEMALAI',
+                          'TEMIAR',
+                          'SENOI',
+                        ],
+                      },
+                      rawatanSekolah: { $ne: [] },
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              $unwind: {
+                path: '$result',
+              },
+            },
+            {
+              $addFields: {
+                statusRawatan: '$result.statusRawatan',
+                umur: '$result.umur',
+                keturunan: '$result.keturunan',
+                warganegara: '$result.warganegara',
+                statusOku: '$result.statusOku',
+                statusRawatan: '$result.statusRawatan',
+                tahunTingkatan: '$result.tahunTingkatan',
+                kelasPelajar: '$result.kelasPelajar',
+                jantina: '$result.jantina',
+                rawatanSekolah: '$result.rawatanSekolah',
+              },
+            },
+            {
+              $lookup: {
+                from: 'rawatansekolahs',
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawatanSekolah',
+              },
+            },
+            {
+              $unwind: {
+                path: '$rawatanSekolah',
+                preserveNullAndEmptyArrays: false,
+              },
+            },
+            {
+              $project: {
+                statusRawatan: 1,
+                kodSekolah: 1,
+                sekolahMmi: 1,
+                sekolahKki: 1,
+                jenisFasiliti: 1,
+                jenisPerkhidmatanSekolah: 1,
+                jantina: 1,
+                umur: 1,
+                keturunan: 1,
+                warganegara: 1,
+                statusOku: 1,
+                tahunTingkatan: 1,
+                kelasPelajar: 1,
+                merged: {
+                  $mergeObjects: ['$rawatanSekolah'],
+                },
+              },
+            },
+            {
+              $match: {
+                'merged.tarikhRawatanSemasa': {
+                  $gte: payload.tarikhMula,
+                  $lte: payload.tarikhAkhir,
+                },
+              },
+            },
+            {
+              $bucket: {
+                groupBy: '$umur',
+                boundaries: [0, 1, 5, 7, 10, 13, 15, 18, 20, 30, 50, 60, 150],
+                default: 'Other',
+                output: {
+                  ...groupSekolah,
+                },
+              },
+            },
+          ],
+        },
+      },
+    ]);
+
+    bigData.push(dataOAP, dataSekolah);
+
+    return bigData;
   } catch (error) {
     errorRetenLogger.error(
       `Error mengira reten: ${payload.jenisReten}. ${error}`
