@@ -2879,33 +2879,21 @@ const id201KhasKham = {
         {
           case: {
             $and: [
-              {
-                $eq: ['$statusOku', 'OKU'],
-              },
-              {
-                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
-              },
+              { $eq: ['$statusOku', 'OKU'] },
+              { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
             ],
           },
           then: 'prasek-oku',
         },
         {
           case: {
-            $or: [
-              {
-                $eq: ['$tahunTingkatan', 'KHAS'],
-              },
-            ],
+            $or: [{ $eq: ['$tahunTingkatan', 'KHAS'] }],
           },
           then: 'darjah-khas',
         },
         {
           case: {
-            $or: [
-              {
-                $eq: ['$tahunTingkatan', 'KHAM'],
-              },
-            ],
+            $or: [{ $eq: ['$tahunTingkatan', 'KHAM'] }],
           },
           then: 'tingkatan-khas',
         },
@@ -3141,15 +3129,9 @@ const id201AllOKU = {
         {
           case: {
             $or: [
-              {
-                $eq: ['$tahunTingkatan', 'KHAS'],
-              },
-              {
-                $eq: ['$tahunTingkatan', 'KHAM'],
-              },
-              {
-                $eq: ['$sekolahKki', 'ya-sekolah-kki'],
-              },
+              { $eq: ['$tahunTingkatan', 'KHAS'] },
+              { $eq: ['$tahunTingkatan', 'KHAM'] },
+              { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
             ],
           },
           then: 'all-oku',
@@ -4781,7 +4763,7 @@ const groupPG214 = {
   },
 };
 
-// ni untuk 201, 203, DEWASAMUDA
+// ni untuk 201, 203, DEWASAMUDA, OAP
 const groupSekolah = {
   jumlahPelajar: {
     $sum: 1,
