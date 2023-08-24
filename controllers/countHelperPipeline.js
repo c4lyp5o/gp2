@@ -4082,41 +4082,6 @@ const outputReqPgpr201 = {
     },
   },
   //
-  jumlahKedayan: {
-    $sum: {
-      $cond: [
-        {
-          $eq: ['$kumpulanEtnik', 'kedayan'],
-        },
-        1,
-        0,
-      ],
-    },
-  },
-  //
-  jumlahIban: {
-    $sum: {
-      $cond: [
-        {
-          $eq: ['$kumpulanEtnik', 'iban'],
-        },
-        1,
-        0,
-      ],
-    },
-  },
-  //
-  jumlahBidayuh: {
-    $sum: {
-      $cond: [
-        {
-          $eq: ['$kumpulanEtnik', 'bidayuh'],
-        },
-        1,
-        0,
-      ],
-    },
-  },
 };
 
 // ni untuk 211
