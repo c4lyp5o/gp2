@@ -11428,7 +11428,7 @@ const makeOAP = async (payload) => {
     };
 
     // umum
-    for (const item of data[0].umumPemeriksaan) {
+    for (const item of data[0][0].umumPemeriksaan) {
       switch (item._id) {
         case 0:
           rowNumber = 20;
@@ -11515,7 +11515,7 @@ const makeOAP = async (payload) => {
         row.getCell(30).value = item.jumlahPerluDenturSepara;
       }
     }
-    for (const item of data[0].umumRawatan) {
+    for (const item of data[0][0].umumRawatan) {
       switch (item._id) {
         case 0:
           rowNumber = 20;
@@ -11629,27 +11629,27 @@ const makeOAP = async (payload) => {
     }
 
     // pemeriksaan selain umum
-    for (const item of data[0].imPemeriksaan) {
+    for (const item of data[0][0].imPemeriksaan) {
       const row = worksheet.getRow(33);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
-    for (const item of data[0].okuPemeriksaan) {
+    for (const item of data[0][0].okuPemeriksaan) {
       const row = worksheet.getRow(34);
       writePemeriksaan(row, item, jumlahReten, jumlahRetenSalah);
     }
 
     // rawatan selain umum
-    for (const item of data[0].imRawatan) {
+    for (const item of data[0][0].imRawatan) {
       const row = worksheet.getRow(33);
       writeRawatan(row, item);
     }
-    for (const item of data[0].okuRawatan) {
+    for (const item of data[0][0].okuRawatan) {
       const row = worksheet.getRow(34);
       writeRawatan(row, item);
     }
 
     // op lain
-    for (const item of data[0].umumOplain) {
+    for (const item of data[0][0].umumOplain) {
       switch (item._id) {
         case 0:
           rowNumber = 20;
@@ -11760,13 +11760,106 @@ const makeOAP = async (payload) => {
       row.getCell(81).value = item.kesSelesai;
       row.getCell(82).value = item.xrayDiambil;
     }
-    for (const item of data[0].imOplain) {
+    for (const item of data[0][0].imOplain) {
       const row = worksheet.getRow(33);
       writeRawatan(row, item, 'opl');
     }
-    for (const item of data[0].okuOplain) {
+    for (const item of data[0][0].okuOplain) {
       const row = worksheet.getRow(34);
       writeRawatan(row, item, 'opl');
+    }
+
+    // data sekolah
+    for (const item of data[1][0].pemeriksaan) {
+      switch (item._id) {
+        case 7:
+          rowNumber = 23;
+          break;
+        case 10:
+          rowNumber = 24;
+          break;
+        case 13:
+          rowNumber = 25;
+          break;
+        case 15:
+          rowNumber = 26;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlahPelajar;
+      // skipping cells
+      row.getCell(5).value += item.jumlahd;
+      row.getCell(6).value += item.jumlahf;
+      row.getCell(7).value += item.jumlahx;
+      // skipping cells
+      row.getCell(9).value += item.jumlahD;
+      row.getCell(10).value += item.jumlahM;
+      row.getCell(11).value += item.jumlahF;
+      row.getCell(12).value += item.jumlahX;
+      // skipping cells
+      row.getCell(14).value += item.jumlahMBK;
+      row.getCell(15).value += item.statusBebasKaries;
+      row.getCell(16).value += item.jumlahTPRbiasa;
+      row.getCell(17).value += item.skorBPE0;
+      row.getCell(18).value +=
+        item.skorBPE1 + item.skorBPE2 + item.skorBPE3 + item.skorBPE4;
+      row.getCell(19).value += item.jumlahTSL;
+      row.getCell(20).value += item.perluSapuanFluorida;
+      row.getCell(21).value += item.perluJumlahPesakitPrrJenis1;
+      row.getCell(22).value += item.perluJumlahGigiPrrJenis1;
+      row.getCell(23).value += item.perluJumlahPesakitFS;
+      row.getCell(24).value += item.perluJumlahGigiFS;
+      row.getCell(25).value += item.perluPenskaleran;
+      // skipping cells
+      row.getCell(81).value += item.kesSelesai;
+    }
+    for (const item of data[1][0].rawatan) {
+      switch (item._id) {
+        case 7:
+          rowNumber = 23;
+          break;
+        case 10:
+          rowNumber = 24;
+          break;
+        case 13:
+          rowNumber = 25;
+          break;
+        case 15:
+          rowNumber = 26;
+          break;
+        default:
+          continue;
+      }
+
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(3).value += item.jumlahPelajar;
+      // skipping cells
+      row.getCell(31).value += item.sapuanFluorida;
+      row.getCell(32).value += item.jumlahPesakitPrrJenis1;
+      row.getCell(33).value += item.jumlahGigiPrrJenis1;
+      row.getCell(34).value += item.jumlahPesakitDiBuatFs;
+      row.getCell(35).value += item.jumlahGigiDibuatFs;
+      row.getCell(36).value += item.tampalanAntGdBaru;
+      row.getCell(37).value += item.tampalanAntGdSemula;
+      row.getCell(38).value += item.tampalanAntGkBaru;
+      row.getCell(39).value += item.tampalanAntGkSemula;
+      row.getCell(40).value += item.tampalanPostGdBaru;
+      row.getCell(41).value += item.tampalanPostGdSemula;
+      row.getCell(42).value += item.tampalanPostGkBaru;
+      row.getCell(43).value += item.tampalanPostGkSemula;
+      row.getCell(44).value += item.tampalanPostAmgGdBaru;
+      row.getCell(45).value += item.tampalanPostAmgGdSemula;
+      row.getCell(46).value += item.tampalanPostAmgGkBaru;
+      row.getCell(47).value += item.tampalanPostAmgGkSemula;
+      // skipping cells
+      row.getCell(52).value += item.tampalanSementara;
+      row.getCell(53).value += item.cabutanGd;
+      row.getCell(54).value += item.cabutanGk;
+      // skipping cells
+      row.getCell(56).value += item.penskaleran;
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
