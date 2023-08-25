@@ -1042,6 +1042,67 @@ const pipelineKepp = (payload) => {
         statusReten: {
           $in: ['telah diisi', 'reten salah'],
         },
+        // yeehaa
+        kodFasiliti: {
+          $in: [
+            'J01-001-02',
+            'J02-008-03',
+            'J07-004-02',
+            'K03-005-02',
+            'K04-002-01',
+            'K05-009-02',
+            'K06-001-02',
+            'D04-011-02',
+            'D07-007-02',
+            'M01-003-02',
+            'M02-007-02',
+            'M03-007-02',
+            'N06-003-02',
+            'N06-002-02',
+            'N06-012-02',
+            'N06-008-02',
+            'C01-003-03',
+            'C02-004-02',
+            'C03-001-03',
+            'C04-004-01',
+            'C05-004-01',
+            'C06-011-02',
+            'C07-006-02',
+            'C09-001-02',
+            'C10-002-03',
+            'C11-002-02',
+            'A06-004-01',
+            'A06-010-02',
+            'A08-004-02',
+            'A09-001-01',
+            'R02-003-02',
+            'P03-001-02',
+            'P05-003-02',
+            'S01-001-01',
+            'S04-005-02',
+            'S09-003-02',
+            'Q02-001-02',
+            'Q04-003-02',
+            'Q06-002-02',
+            'Q10-003-02',
+            'B02-007-02',
+            'B04-008-02',
+            'B09-003-02',
+            'T05-004-02',
+            'T06-002-02',
+            'T06-006-02',
+            'T07-002-02',
+            'T08-002-02',
+            'T08-001-02',
+            'W01-004-02',
+            'L01-002-02',
+            'T04-006-02',
+            'C08-001-02',
+            'W04-001-02',
+            'B07-007-02',
+            'J08-003-01',
+          ],
+        },
         kepp: true,
         deleted: false,
         statusKehadiran: false,
@@ -2709,6 +2770,7 @@ const id201Biasa = {
             $and: [
               { $eq: ['$umur', 5] },
               { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
+              { $eq: ['$statusOku', ':'] },
             ],
           },
           then: 'prasek-5tahun',
@@ -2718,6 +2780,7 @@ const id201Biasa = {
             $and: [
               { $eq: ['$umur', 6] },
               { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
+              { $eq: ['$statusOku', ':'] },
             ],
           },
           then: 'prasek-6tahun',
@@ -2727,6 +2790,7 @@ const id201Biasa = {
             $and: [
               { $eq: ['$umur', 7] },
               { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
+              { $eq: ['$statusOku', ':'] },
             ],
           },
           then: 'prasek-7tahun',
@@ -2815,33 +2879,21 @@ const id201KhasKham = {
         {
           case: {
             $and: [
-              {
-                $eq: ['$statusOku', 'OKU'],
-              },
-              {
-                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
-              },
+              { $ne: ['$statusOku', ':'] },
+              { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
             ],
           },
           then: 'prasek-oku',
         },
         {
           case: {
-            $or: [
-              {
-                $eq: ['$tahunTingkatan', 'KHAS'],
-              },
-            ],
+            $or: [{ $eq: ['$tahunTingkatan', 'KHAS'] }],
           },
           then: 'darjah-khas',
         },
         {
           case: {
-            $or: [
-              {
-                $eq: ['$tahunTingkatan', 'KHAM'],
-              },
-            ],
+            $or: [{ $eq: ['$tahunTingkatan', 'KHAM'] }],
           },
           then: 'tingkatan-khas',
         },
@@ -3077,15 +3129,9 @@ const id201AllOKU = {
         {
           case: {
             $or: [
-              {
-                $eq: ['$tahunTingkatan', 'KHAS'],
-              },
-              {
-                $eq: ['$tahunTingkatan', 'KHAM'],
-              },
-              {
-                $eq: ['$sekolahKki', 'ya-sekolah-kki'],
-              },
+              { $eq: ['$tahunTingkatan', 'KHAS'] },
+              { $eq: ['$tahunTingkatan', 'KHAM'] },
+              { $eq: ['$sekolahKki', 'ya-sekolah-kki'] },
             ],
           },
           then: 'all-oku',
@@ -4018,41 +4064,6 @@ const outputReqPgpr201 = {
     },
   },
   //
-  jumlahKedayan: {
-    $sum: {
-      $cond: [
-        {
-          $eq: ['$kumpulanEtnik', 'kedayan'],
-        },
-        1,
-        0,
-      ],
-    },
-  },
-  //
-  jumlahIban: {
-    $sum: {
-      $cond: [
-        {
-          $eq: ['$kumpulanEtnik', 'iban'],
-        },
-        1,
-        0,
-      ],
-    },
-  },
-  //
-  jumlahBidayuh: {
-    $sum: {
-      $cond: [
-        {
-          $eq: ['$kumpulanEtnik', 'bidayuh'],
-        },
-        1,
-        0,
-      ],
-    },
-  },
 };
 
 // ni untuk 211
@@ -4752,7 +4763,7 @@ const groupPG214 = {
   },
 };
 
-// ni untuk 201, 203, DEWASAMUDA
+// ni untuk 201, 203, DEWASAMUDA, OAP
 const groupSekolah = {
   jumlahPelajar: {
     $sum: 1,
