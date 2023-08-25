@@ -2770,7 +2770,7 @@ const id201Biasa = {
             $and: [
               { $eq: ['$umur', 5] },
               { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
-              { $ne: ['$statusOku', 'OKU'] },
+              { $eq: ['$statusOku', ':'] },
             ],
           },
           then: 'prasek-5tahun',
@@ -2780,7 +2780,7 @@ const id201Biasa = {
             $and: [
               { $eq: ['$umur', 6] },
               { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
-              { $ne: ['$statusOku', 'OKU'] },
+              { $eq: ['$statusOku', ':'] },
             ],
           },
           then: 'prasek-6tahun',
@@ -2790,7 +2790,7 @@ const id201Biasa = {
             $and: [
               { $eq: ['$umur', 7] },
               { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
-              { $ne: ['$statusOku', 'OKU'] },
+              { $eq: ['$statusOku', ':'] },
             ],
           },
           then: 'prasek-7tahun',
@@ -2879,8 +2879,8 @@ const id201KhasKham = {
         {
           case: {
             $and: [
-              { $eq: ['$statusOku', 'OKU'] },
-              { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
+              { $eq: ['$statusOku', ':'] },
+              { $eq: ['ne$tahunTingkatan', 'PRASEKOLAH'] },
             ],
           },
           then: 'prasek-oku',
