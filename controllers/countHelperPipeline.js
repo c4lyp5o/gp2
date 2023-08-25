@@ -2879,8 +2879,8 @@ const id201KhasKham = {
         {
           case: {
             $and: [
-              { $eq: ['$statusOku', ':'] },
-              { $eq: ['ne$tahunTingkatan', 'PRASEKOLAH'] },
+              { $ne: ['$statusOku', ':'] },
+              { $eq: ['$tahunTingkatan', 'PRASEKOLAH'] },
             ],
           },
           then: 'prasek-oku',
