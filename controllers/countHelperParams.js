@@ -493,7 +493,6 @@ const getParams214 = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -531,7 +530,6 @@ const getParams206 = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -577,7 +575,6 @@ const getParams207 = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -610,7 +607,6 @@ const getParams206207sekolah = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -643,7 +639,6 @@ const getParamsPgpr201 = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -705,7 +700,6 @@ const getParamsPGS203 = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -729,7 +723,6 @@ const getParamsPgPro = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -766,7 +759,6 @@ const getParamsGender = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -794,7 +786,6 @@ const getParamsPiagamMasa = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -857,7 +848,6 @@ const getParamsBp = (payload, kaum, jantina) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -872,7 +862,6 @@ const getParamsBPE = (payload) => {
 
   const params = {
     tarikhKedatangan: dateModifier(payload),
-    //   jenisFasiliti: { $eq: 'kp' },
     statusKehadiran: false,
     deleted: false,
     statusReten: { $in: ['telah diisi', 'reten salah'] },
@@ -888,7 +877,6 @@ const getParamsBPE = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -925,7 +913,6 @@ const getParamsTOD = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -964,7 +951,6 @@ const getParamsKOM = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -1001,7 +987,6 @@ const getParamsOAP = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -1035,7 +1020,6 @@ const getParamsUTCRTC = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -1065,7 +1049,6 @@ const getParamsPKAP = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 
@@ -1100,7 +1083,6 @@ const getParamsOplainP1 = (payload) => {
   }
 
   if (daerah !== 'all') {
-    params.createdByNegeri = negeri;
     params.createdByDaerah = daerah;
   }
 

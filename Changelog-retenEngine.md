@@ -8,6 +8,7 @@ LIPUTAN PENAN: baru
 TOD: baru
 
 [countHelperParams]
+Buang 'Program Sekolah Menengah SMK Benut' bagi kebanyakan reten (-\_-)
 Improvement readability dan signboard
 
 [countHelperRegular]
