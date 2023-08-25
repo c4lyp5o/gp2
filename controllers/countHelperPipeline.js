@@ -1036,14 +1036,14 @@ const pipelineKepp = (payload) => {
       $match: {
         ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
         ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.klinik !== 'all' && {
-          createdByKodFasiliti: payload.klinik,
-        }),
+        // ...(payload.klinik !== 'all' && {
+        //   createdByKodFasiliti: payload.klinik,
+        // }),
         statusReten: {
           $in: ['telah diisi', 'reten salah'],
         },
         // yeehaa
-        kodFasiliti: {
+        createdByKodFasiliti: {
           $in: [
             'J01-001-02',
             'J02-008-03',
