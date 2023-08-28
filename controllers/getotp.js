@@ -3,9 +3,21 @@ const { generateRandomString } = require('./adminAPI');
 const mailer = require('nodemailer');
 const { logger } = require('../logs/logger');
 
+// kalau guna yg ori
+// const transporter = mailer.createTransport({
+//   secure: true,
+//   service: process.env.EMAILER_SERVICE,
+//   auth: {
+//     user: process.env.EMAILER_ACCT,
+//     pass: process.env.EMAILER_PASS,
+//   },
+// });
+
+// kalau guna yg yarr
 const transporter = mailer.createTransport({
   secure: true,
-  service: process.env.EMAILER_SERVICE,
+  host: process.env.EMAILER_HOST,
+  port: process.env.EMAILER_PORT,
   auth: {
     user: process.env.EMAILER_ACCT,
     pass: process.env.EMAILER_PASS,
