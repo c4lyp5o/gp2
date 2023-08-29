@@ -57,6 +57,14 @@ const countDEWASAMUDA = async (payload) => {
         localField: 'namaProgram',
         foreignField: 'nama',
         as: 'event_data',
+        pipeline: [
+          {
+            $match: {
+              tahunDibuat: new Date().getFullYear(),
+              jenisEvent: 'programDewasaMuda',
+            },
+          },
+        ],
       },
     },
     {
